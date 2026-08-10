@@ -1,1 +1,5 @@
 .DS_Store
+
+# Private working notes: emails, internal briefs, WordPress access details.
+# Never commit — these aren't meant for a repo that may go public.
+notes/
