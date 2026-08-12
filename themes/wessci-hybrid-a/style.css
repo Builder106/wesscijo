@@ -24,8 +24,7 @@ Text Domain: wessci-hybrid-a
 	--font-display: "Libre Franklin", system-ui, sans-serif;
 	--font-body:    "Libre Franklin", system-ui, sans-serif;
 
-	/* condensed caps set tall — ceilings held down so a long headline wraps
-	   to a sane number of lines instead of blowing out the grid */
+	/* type scale uses Libre Franklin throughout */
 	--text-display: clamp(2.75rem, 8vw, 7rem);
 	--text-4xl:     clamp(2rem, 5vw, 3.75rem);
 	--text-2xl:     clamp(1.1rem, 1.7vw, 1.35rem);
@@ -209,6 +208,8 @@ h1, h2, h3 {
 	align-items: center;
 	padding-block: var(--space-16);
 }
+
+.lead--no-figure { grid-template-columns: minmax(0, 1fr); }
 
 .lead__text { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-4); }
 

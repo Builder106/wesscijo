@@ -16,7 +16,7 @@ add_action( 'after_setup_theme', 'wessci_brutal_setup' );
 function wessci_brutal_assets() {
 	wp_enqueue_style(
 		'wessci-fonts',
-		'https://fonts.googleapis.com/css2?family=Anton&family=Libre+Franklin:wght@400;500;600;700;900&display=swap',
+		'https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;900&display=swap',
 		array(),
 		null
 	);

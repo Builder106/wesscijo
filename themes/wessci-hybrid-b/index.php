@@ -23,7 +23,7 @@
 			$lead_id = get_the_ID();
 			$type    = wessci_article_type( $lead_id );
 			?>
-			<article class="lead">
+			<article class="lead <?php echo has_post_thumbnail() ? '' : 'lead--no-figure'; ?>">
 				<div class="lead__text">
 					<?php if ( $type ) : ?>
 						<a class="slab" href="<?php echo esc_url( get_term_link( $type ) ); ?>"><?php echo wessci_term_name( $type ); ?></a>
