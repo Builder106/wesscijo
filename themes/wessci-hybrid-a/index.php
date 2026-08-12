@@ -24,22 +24,23 @@
 			$type    = wessci_article_type( $lead_id );
 			?>
 			<article class="lead">
-				<?php if ( $type ) : ?>
-					<a class="slab" href="<?php echo esc_url( get_term_link( $type ) ); ?>"><?php echo wessci_term_name( $type ); ?></a>
-				<?php endif; ?>
+				<div class="lead__text">
+					<?php if ( $type ) : ?>
+						<a class="slab" href="<?php echo esc_url( get_term_link( $type ) ); ?>"><?php echo wessci_term_name( $type ); ?></a>
+					<?php endif; ?>
 
-				<h1 class="lead__title">
-					<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-				</h1>
+					<h1 class="lead__title">
+						<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+					</h1>
 
-				<div class="lead__strip">
 					<p class="lead__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
-					<div class="lead__actions">
-						<p class="meta">
-							<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></time>
-						</p>
-						<a class="btn" href="<?php the_permalink(); ?>">Read the article</a>
-					</div>
+
+					<p class="meta">
+						<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></time>
+						<span><?php echo esc_html( wessci_read_time( $lead_id ) ); ?> min read</span>
+					</p>
+
+					<a class="btn" href="<?php the_permalink(); ?>">Read the article</a>
 				</div>
 
 				<?php if ( has_post_thumbnail() ) : ?>
