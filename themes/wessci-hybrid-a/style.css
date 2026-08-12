@@ -386,15 +386,19 @@ h1, h2, h3 {
 /* ---------- colophon ---------- */
 .colophon { background: var(--color-ink); color: var(--color-invert); padding-inline: var(--space-6); }
 
-.colophon__top {
+/* one grid for the whole footer: brand in a wider first track, the three
+   index groups across equal tracks, so every column shares an alignment */
+.colophon__main {
 	max-width: var(--shell);
 	margin: 0 auto;
 	padding-block: var(--space-16) var(--space-12);
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-	gap: var(--space-8);
-	align-items: end;
+	grid-template-columns: minmax(0, 1.3fr) minmax(0, 2.7fr);
+	gap: var(--space-12);
+	align-items: start;
 }
+
+.colophon__brand { display: flex; flex-direction: column; gap: var(--space-6); }
 .colophon__name {
 	font-family: var(--font-display);
 	font-size: clamp(2rem, 5vw, 3.6rem);
@@ -404,13 +408,10 @@ h1, h2, h3 {
 .colophon__tag { color: var(--color-ink-3); max-width: 34ch; }
 
 .colophon__index {
-	max-width: var(--shell);
-	margin: 0 auto;
-	display: flex;
-	gap: var(--space-12);
-	flex-wrap: wrap;
-	padding-block: var(--space-8);
-	border-top: var(--rule-hair) solid var(--color-ink-2);
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: var(--space-8);
+	align-items: start;
 }
 .colophon__index .index-group__list { flex-direction: column; gap: var(--space-2); }
 
@@ -434,6 +435,7 @@ h1, h2, h3 {
 	.lead { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
 	.hero__index { gap: var(--space-8); }
 	.search { margin-inline-start: 0; }
+	.colophon__main { grid-template-columns: minmax(0, 1fr); gap: var(--space-12); }
 }
 
 @media (max-width: 720px) {
@@ -442,6 +444,7 @@ h1, h2, h3 {
 	.hero__index { flex-direction: column; gap: var(--space-6); }
 	.issuebar__link { margin-inline-start: 0; }
 	.division { padding-block: var(--space-12); }
+	.colophon__index { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
 	.hero__title {
 		white-space: normal;
 		font-size: clamp(2.75rem, 12vw, 4rem);
