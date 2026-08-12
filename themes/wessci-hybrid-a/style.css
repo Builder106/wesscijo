@@ -284,6 +284,36 @@ h1, h2, h3 {
 	margin-bottom: var(--space-8);
 }
 
+.empty {
+	color: var(--color-ink-2);
+	padding-block: var(--space-16);
+	font-size: var(--text-lg);
+}
+
+.navigation.pagination {
+	border-top: var(--rule-slab) solid var(--color-ink);
+	padding-top: var(--space-6);
+	margin-top: var(--space-8);
+}
+.navigation.pagination .nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-3);
+}
+.navigation.pagination .page-numbers {
+	display: inline-block;
+	padding: var(--space-2) var(--space-4);
+	font-weight: 700;
+	text-decoration: none;
+	color: var(--color-ink);
+}
+.navigation.pagination .page-numbers:hover { color: var(--color-accent); }
+.navigation.pagination .page-numbers.current {
+	background: var(--color-ink);
+	color: var(--color-invert);
+}
+.navigation.pagination .page-numbers.dots { color: var(--color-ink-3); }
+
 /* Brutalist's asymmetric spans: the first article in each division runs wide */
 .cards {
 	display: grid;

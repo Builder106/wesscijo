@@ -314,6 +314,37 @@ h1, h2, h3 {
 	margin-bottom: var(--space-8);
 }
 
+.empty {
+	color: var(--color-ink-2);
+	padding-block: var(--space-16);
+	font-size: var(--text-lg);
+}
+
+.navigation.pagination {
+	border-top: var(--rule-hair) solid var(--color-rule);
+	padding-top: var(--space-6);
+	margin-top: var(--space-8);
+}
+.navigation.pagination .nav-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+	font-family: var(--font-mono);
+	font-size: var(--text-xs);
+}
+.navigation.pagination .page-numbers {
+	display: inline-block;
+	padding: var(--space-2) var(--space-3);
+	text-decoration: none;
+	color: var(--color-ink-2);
+}
+.navigation.pagination .page-numbers:hover { color: var(--color-accent); }
+.navigation.pagination .page-numbers.current {
+	color: var(--color-accent);
+	border-bottom: var(--rule-hair) solid var(--color-accent);
+}
+.navigation.pagination .page-numbers.dots { color: var(--color-ink-3); }
+
 /* even grid, divided by column rules rather than gaps alone */
 .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
 
