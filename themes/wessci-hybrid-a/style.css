@@ -21,7 +21,7 @@ Text Domain: wessci-hybrid-a
 	--color-gold:     oklch(70% 0.10 78);
 	--color-focus:    oklch(55% 0.21 28);
 
-	--font-display: "Anton", "Arial Narrow", sans-serif;
+	--font-display: "Libre Franklin", system-ui, sans-serif;
 	--font-body:    "Libre Franklin", system-ui, sans-serif;
 
 	/* condensed caps set tall — ceilings held down so a long headline wraps
@@ -99,34 +99,30 @@ h1, h2, h3 {
 }
 .skip-link:focus { left: 0; }
 
-/* ---------- masthead · N7 slab + permanent index ---------- */
-.masthead { border-bottom: var(--rule-slab) solid var(--color-accent); }
-
-.bar { padding-inline: var(--space-6); }
-
-.bar--top {
+/* ---------- hero: black band + white index ---------- */
+.hero__top {
 	background: var(--color-ink);
 	color: var(--color-invert);
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: center;
 	gap: var(--space-6);
-	padding-block: var(--space-4);
-	flex-wrap: wrap;
+	padding-block: var(--space-24);
+	text-align: center;
 }
 
-.wordmark { display: flex; align-items: center; gap: var(--space-3); text-decoration: none; }
-.wordmark__mark { width: 14px; height: 14px; background: var(--color-accent); flex-shrink: 0; }
-.wordmark__text {
+.hero__wordmark {
 	font-family: var(--font-display);
-	font-size: clamp(1.1rem, 2.2vw, 1.6rem);
-	letter-spacing: 0.02em;
-	text-transform: uppercase;
-	white-space: nowrap;
+	font-weight: 600;
+	font-size: var(--text-display);
+	letter-spacing: -0.01em;
+	color: var(--color-invert);
+	text-decoration: none;
 }
 
-.search { display: flex; align-items: stretch; }
-.search__input {
+.hero__search { display: flex; align-items: stretch; }
+.hero__search-input {
 	background: none;
 	border: var(--rule-hair) solid var(--color-ink-3);
 	border-right: 0;
@@ -135,11 +131,11 @@ h1, h2, h3 {
 	font-size: var(--text-xs);
 	letter-spacing: 0.08em;
 	padding: var(--space-2) var(--space-3);
-	width: 12ch;
+	width: 14ch;
 }
-.search__input::placeholder { color: var(--color-ink-3); }
-.search__input:focus { outline: none; border-color: var(--color-accent); }
-.search__submit {
+.hero__search-input::placeholder { color: var(--color-ink-3); }
+.hero__search-input:focus { outline: none; border-color: var(--color-accent); }
+.hero__search-submit {
 	background: var(--color-accent);
 	color: var(--color-invert);
 	border: 0;
@@ -147,20 +143,22 @@ h1, h2, h3 {
 	font-weight: 700;
 	font-size: var(--text-xs);
 	letter-spacing: 0.08em;
-	text-transform: uppercase;
 	padding-inline: var(--space-4);
 	cursor: pointer;
 }
-.search__submit:hover { background: var(--color-accent-2); }
+.hero__search-submit:hover { background: var(--color-accent-2); }
 
-.bar--index {
-	background: var(--color-ink);
-	color: var(--color-invert);
+/* transition: black band above, white index below — no gradient, a hard cut
+   reads cleaner at this contrast level and matches the brief's "background
+   transitions to white" instruction literally */
+.hero__index {
+	background: var(--color-paper);
+	color: var(--color-ink);
 	display: flex;
 	gap: var(--space-12);
 	flex-wrap: wrap;
-	padding-block: var(--space-4) var(--space-6);
-	border-top: var(--rule-hair) solid var(--color-ink-2);
+	padding: var(--space-8) var(--space-6);
+	border-bottom: var(--rule-slab) solid var(--color-accent);
 }
 
 .index-group { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
@@ -177,6 +175,7 @@ h1, h2, h3 {
 .index-group__list a {
 	font-size: var(--text-sm);
 	text-decoration: none;
+	color: var(--color-ink);
 	border-bottom: var(--rule-hair) solid transparent;
 	transition: border-color var(--dur-fast) var(--ease-out);
 }
@@ -222,8 +221,7 @@ h1, h2, h3 {
 .lead__title {
 	font-family: var(--font-display);
 	font-size: var(--text-display);
-	font-weight: 400;
-	text-transform: uppercase;
+	font-weight: 600;
 	letter-spacing: -0.005em;
 	margin-bottom: var(--space-8);
 }
@@ -283,8 +281,7 @@ h1, h2, h3 {
 .division__title {
 	font-family: var(--font-display);
 	font-size: var(--text-4xl);
-	font-weight: 400;
-	text-transform: uppercase;
+	font-weight: 600;
 	border-bottom: var(--rule-slab) solid var(--color-ink);
 	padding-bottom: var(--space-4);
 	margin-bottom: var(--space-8);
@@ -314,8 +311,7 @@ h1, h2, h3 {
 .card__title {
 	font-family: var(--font-display);
 	font-size: var(--text-2xl);
-	font-weight: 400;
-	text-transform: uppercase;
+	font-weight: 600;
 	line-height: 1.04;
 	letter-spacing: 0.005em;
 }
@@ -331,8 +327,7 @@ h1, h2, h3 {
 .article__title {
 	font-family: var(--font-display);
 	font-size: var(--text-4xl);
-	font-weight: 400;
-	text-transform: uppercase;
+	font-weight: 600;
 	margin-block: var(--space-6) var(--space-4);
 	max-width: 20ch;
 }
@@ -353,8 +348,7 @@ h1, h2, h3 {
 .prose h2 {
 	font-family: var(--font-display);
 	font-size: var(--text-4xl);
-	font-weight: 400;
-	text-transform: uppercase;
+	font-weight: 600;
 	color: var(--color-ink);
 	margin-top: var(--space-12) !important;
 }
@@ -391,8 +385,7 @@ h1, h2, h3 {
 .submit__title {
 	font-family: var(--font-display);
 	font-size: var(--text-4xl);
-	font-weight: 400;
-	text-transform: uppercase;
+	font-weight: 600;
 	margin-block: var(--space-8) var(--space-4);
 }
 .submit__copy { color: var(--color-ink-2); max-width: var(--measure); }
@@ -412,7 +405,7 @@ h1, h2, h3 {
 .colophon__name {
 	font-family: var(--font-display);
 	font-size: clamp(2rem, 5vw, 3.6rem);
-	text-transform: uppercase;
+	font-weight: 600;
 	line-height: 0.92;
 }
 .colophon__tag { color: var(--color-ink-3); max-width: 34ch; }
@@ -446,15 +439,15 @@ h1, h2, h3 {
 	.card { grid-column: auto; }
 	.card--wide { grid-column: span 2; }
 	.lead__strip { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
-	.bar--index { gap: var(--space-8); }
+	.hero__index { gap: var(--space-8); }
 }
 
 @media (max-width: 720px) {
-	.site-main, .bar, .colophon { padding-inline: var(--space-4); }
+	.site-main, .hero__top, .hero__index, .colophon { padding-inline: var(--space-4); }
 	.cards { grid-template-columns: minmax(0, 1fr); }
 	.card, .card--wide { grid-column: auto; }
 	.colophon__top { grid-template-columns: minmax(0, 1fr); align-items: start; }
-	.bar--index { flex-direction: column; gap: var(--space-6); }
+	.hero__index { flex-direction: column; gap: var(--space-6); }
 	.issuebar__link { margin-inline-start: 0; }
 	.division { padding-block: var(--space-12); }
 }
