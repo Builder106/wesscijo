@@ -20,7 +20,12 @@ function wessci_hybrid_a_assets() {
 		array(),
 		null
 	);
-	wp_enqueue_style( 'wessci-hybrid-a', get_stylesheet_uri(), array( 'wessci-fonts' ), '1.0.0' );
+	wp_enqueue_style(
+		'wessci-hybrid-a',
+		get_stylesheet_uri(),
+		array( 'wessci-fonts' ),
+		(string) filemtime( get_stylesheet_directory() . '/style.css' )
+	);
 }
 add_action( 'wp_enqueue_scripts', 'wessci_hybrid_a_assets' );
 
