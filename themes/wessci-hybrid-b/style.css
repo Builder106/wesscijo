@@ -119,15 +119,6 @@ h1, h2, h3 {
 	text-decoration: none;
 }
 
-.hero__descriptor {
-	margin-top: var(--space-4);
-	color: var(--color-ink-3);
-	font-family: var(--font-mono);
-	font-size: var(--text-xs);
-	letter-spacing: 0.14em;
-	text-transform: uppercase;
-}
-
 .hero__index { padding-inline: var(--space-6); }
 
 .hero__index-inner {

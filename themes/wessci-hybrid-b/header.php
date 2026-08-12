@@ -13,7 +13,6 @@
 <header class="hero">
 	<div class="hero__band">
 		<a class="hero__title" href="<?php echo esc_url( home_url( '/' ) ); ?>">Wesleyan Science Journal</a>
-		<p class="hero__descriptor">A hybrid journal and science magazine for the Wesleyan community</p>
 	</div>
 
 	<nav class="hero__index" aria-label="Sections">
