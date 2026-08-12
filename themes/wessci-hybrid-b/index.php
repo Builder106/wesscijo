@@ -67,7 +67,6 @@
 		if ( ! $q->have_posts() ) {
 			continue;
 		}
-		$i = 0;
 		?>
 		<section class="division">
 			<h2 class="division__title"><?php echo wessci_term_name( $div['term'] ); ?></h2>
@@ -76,7 +75,6 @@
 				<?php
 				while ( $q->have_posts() ) :
 					$q->the_post();
-					$i++;
 					$type = wessci_article_type( get_the_ID() );
 					?>
 					<article class="card">
