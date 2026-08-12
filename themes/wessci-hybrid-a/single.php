@@ -8,6 +8,9 @@
 		$post_id  = get_the_ID();
 		$type     = wessci_article_type( $post_id );
 		$division = $type && $type->parent ? get_term( $type->parent, 'category' ) : null;
+		if ( is_wp_error( $division ) ) {
+			$division = null;
+		}
 		?>
 
 		<article class="article">

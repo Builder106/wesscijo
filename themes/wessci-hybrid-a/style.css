@@ -11,7 +11,6 @@ Text Domain: wessci-hybrid-a
 /* ---------- tokens ---------- */
 :root {
 	--color-paper:    oklch(97% 0.003 70);
-	--color-paper-2:  oklch(93% 0.005 70);
 	--color-ink:      oklch(12% 0 0);
 	--color-ink-2:    oklch(40% 0 0);
 	--color-ink-3:    oklch(58% 0 0);
@@ -24,10 +23,7 @@ Text Domain: wessci-hybrid-a
 	--font-display: "Libre Franklin", system-ui, sans-serif;
 	--font-body:    "Libre Franklin", system-ui, sans-serif;
 
-	/* poster scale — the title is meant to fill its field and wrap to a block */
-	--text-display: clamp(3rem, 9vw, 8.5rem);
 	--text-4xl:     clamp(2rem, 4.5vw, 3.5rem);
-	--text-3xl:     clamp(1.5rem, 3vw, 2.25rem);
 	--text-2xl:     clamp(1.15rem, 1.8vw, 1.4rem);
 	--text-lg:      1.125rem;
 	--text-base:    1rem;
@@ -105,16 +101,17 @@ h1, h2, h3 {
 	padding: clamp(2rem, 3.5vw, 3.5rem) var(--space-6);
 	/* the red slab IS the transition between the black and white fields */
 	border-bottom: var(--rule-slab) solid var(--color-accent);
+	container-type: inline-size;
 }
 
 .hero__title {
 	display: block;
 	color: var(--color-invert);
 	font-family: var(--font-display);
-	/* Sized to span the full content width on one line. At weight 800 with
-	   -0.035em tracking the string measures ~11.66em wide, so dividing the
-	   available width by 11.75 fills the measure with a hair of slack. */
-	font-size: min(calc((100vw - 3rem) / 11.75), 10rem);
+	/* Sized to span the band's own content box on one line. The string
+	   measures ~11.66em at this weight and tracking; 11.75 leaves slack.
+	   Container units rather than vw so a classic scrollbar cannot clip it. */
+	font-size: min(calc(100cqi / 11.75), 10rem);
 	font-weight: 800;
 	line-height: 1.02;
 	letter-spacing: -0.035em;

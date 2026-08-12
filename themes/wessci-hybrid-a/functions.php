@@ -75,6 +75,7 @@ function wessci_article_type( $post_id ) {
 
 /** Reading time from word count — real number, not invented. */
 function wessci_read_time( $post_id ) {
-	$words = str_word_count( wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ) );
+	preg_match_all( '/\p{L}+/u', wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), $m );
+	$words = count( $m[0] );
 	return max( 1, (int) round( $words / 200 ) );
 }

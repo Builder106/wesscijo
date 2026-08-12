@@ -48,7 +48,12 @@
 				<?php if ( $has_cover ) : ?>
 					<figure class="lead__figure">
 						<?php the_post_thumbnail( 'wessci-lead', array( 'alt' => '' ) ); ?>
-						<figcaption>Cover art commissioned for this article.</figcaption>
+						<?php
+						$cover_caption = wp_get_attachment_caption( get_post_thumbnail_id( $lead_id ) );
+						if ( $cover_caption ) :
+							?>
+							<figcaption><?php echo esc_html( $cover_caption ); ?></figcaption>
+						<?php endif; ?>
 					</figure>
 				<?php endif; ?>
 			</article>
