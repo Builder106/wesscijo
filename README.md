@@ -2,7 +2,7 @@
 
 Five custom WordPress themes built for [The Wesleyan Science Journal](https://wesleyan.edu), a new hybrid peer-reviewed journal / science magazine at Wesleyan University. Built as Lead Web Designer to pitch structurally distinct directions for the journal's launch site: three initial concepts, then two hybrids recombining the parts the editors picked out of them.
 
-Each theme is a from-scratch WordPress build: custom `header.php`, `index.php`, `single.php`, `footer.php`, `functions.php`, and `style.css`, no page builder, no purchased theme. The brand palette (`#D72121`red, black,`#CB9A3B` gold) was measured directly from wesleyan.edu's live stylesheet instead of guessed. The university's actual display and serif faces, Replica Pro and Copernicus, are commercially licensed and unavailable here, so Libre Franklin stands in. It's also part of Wesleyan's own font stack and free on Google Fonts.
+Each theme is a from-scratch WordPress build: custom `header.php`, `index.php`, `single.php`, `footer.php`, `functions.php`, and `style.css`, no page builder, no purchased theme. The brand palette (`#D72121` red, black, `#CB9A3B` gold) was measured directly from wesleyan.edu's live stylesheet instead of guessed. The university's actual display and serif faces, Replica Pro and Copernicus, are commercially licensed and unavailable here, so Libre Franklin stands in. It's also part of Wesleyan's own font stack and free on Google Fonts.
 
 ## The five concepts
 
