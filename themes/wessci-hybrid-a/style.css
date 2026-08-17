@@ -22,6 +22,7 @@ Text Domain: wessci-hybrid-a
 
 	--font-display: "Libre Franklin", system-ui, sans-serif;
 	--font-body:    "Libre Franklin", system-ui, sans-serif;
+	--font-hero:    "Cormorant Garamond", Georgia, "Times New Roman", serif;
 
 	--text-4xl:     clamp(2rem, 4.5vw, 3.5rem);
 	--text-2xl:     clamp(1.15rem, 1.8vw, 1.4rem);
@@ -107,22 +108,22 @@ h1, h2, h3 {
 .hero__title {
 	display: block;
 	color: var(--color-invert);
-	font-family: var(--font-display);
-	/* Sized to span the band's own content box on one line. The string
-	   measures ~11.66em at this weight and tracking; 11.75 leaves slack.
-	   Container units rather than vw so a classic scrollbar cannot clip it. */
-	font-size: min(calc(100cqi / 11.75), 10rem);
-	font-weight: 800;
-	line-height: 1.02;
-	letter-spacing: -0.035em;
-	white-space: nowrap;
+	font-family: var(--font-hero);
+	/* Serif at a lighter weight has different metrics than the old 800
+	   Libre Franklin, so this scales with the container instead of a
+	   divisor tuned to one exact string width — it wraps if it must
+	   rather than risk clipping. */
+	font-size: clamp(2.25rem, 5.2cqi, 5.5rem);
+	font-weight: 600;
+	line-height: 1.1;
+	letter-spacing: -0.005em;
 	text-align: center;
 	text-decoration: none;
 }
 
 .hero__index {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
 	gap: var(--space-12);
 	flex-wrap: wrap;
 	max-width: var(--shell);
@@ -130,6 +131,69 @@ h1, h2, h3 {
 	padding: var(--space-6);
 	border-bottom: var(--rule-hair) solid var(--color-rule);
 }
+
+/* ---------- header nav: flat links, panels on hover/focus ---------- */
+.hero__nav-list {
+	display: flex;
+	align-items: center;
+	gap: var(--space-6);
+	flex-wrap: wrap;
+}
+
+.hero__nav-item { position: relative; }
+
+.hero__nav-link {
+	display: inline-block;
+	padding-block: var(--space-2);
+	color: var(--color-ink);
+	font-size: var(--text-sm);
+	font-weight: 600;
+	text-decoration: none;
+	border-bottom: var(--rule-hair) solid transparent;
+	transition: border-color var(--dur-fast) var(--ease-out);
+}
+.hero__nav-link:hover { border-bottom-color: var(--color-accent); }
+
+/* adapted from wessci-dark's hover/focus panel reveal */
+.panel {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	margin-top: var(--space-2);
+	min-width: 200px;
+	background: var(--color-paper);
+	border: var(--rule-hair) solid var(--color-rule);
+	border-top: var(--rule-thick) solid var(--color-accent);
+	padding: var(--space-3);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(-4px);
+	transition:
+		opacity var(--dur-fast) var(--ease-out),
+		transform var(--dur-fast) var(--ease-out),
+		visibility var(--dur-fast);
+	z-index: 10;
+}
+
+.hero__nav-item--has-panel:hover .panel,
+.hero__nav-item--has-panel:focus-within .panel {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+
+.panel__list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.panel__link {
+	display: block;
+	padding: var(--space-2) var(--space-3);
+	font-size: var(--text-sm);
+	color: var(--color-ink-2);
+	text-decoration: none;
+	white-space: nowrap;
+	transition: color var(--dur-fast) var(--ease-out);
+}
+.panel__link:hover { color: var(--color-accent); }
 
 .index-group { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
 
@@ -290,6 +354,33 @@ h1, h2, h3 {
 	font-size: var(--text-lg);
 }
 
+/* ---------- masthead (About page) ---------- */
+.masthead-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+	gap: var(--space-8);
+	padding-bottom: var(--space-8);
+}
+
+.person { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); min-width: 0; }
+
+.person__avatar {
+	width: 64px;
+	height: 64px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: var(--color-ink);
+	color: var(--color-invert);
+	font-family: var(--font-hero);
+	font-size: var(--text-lg);
+	font-weight: 600;
+	flex-shrink: 0;
+}
+
+.person__name { font-weight: 700; font-size: var(--text-sm); }
+.person__role { color: var(--color-ink-2); font-size: var(--text-xs); }
+
 .navigation.pagination {
 	border-top: var(--rule-slab) solid var(--color-ink);
 	padding-top: var(--space-6);
@@ -372,7 +463,15 @@ h1, h2, h3 {
 .article .meta { margin-bottom: var(--space-8); }
 
 .article__figure { margin: 0 0 var(--space-12); border-top: var(--rule-slab) solid var(--color-ink); padding-top: var(--space-8); }
-.article__figure img { width: 100%; }
+.article__figure img {
+	width: 100%;
+	/* wessci-lead thumbnails are hard-cropped to 4:3 (functions.php), so
+	   capping height here can't distort them — it just stops a lead image
+	   from outrunning the headline and meta above the fold. */
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	max-height: min(38vh, 420px);
+}
 
 .prose {
 	max-width: var(--measure);
@@ -471,12 +570,26 @@ h1, h2, h3 {
 @media (max-width: 720px) {
 	.site-main, .hero__band, .hero__index, .colophon { padding-inline: var(--space-4); }
 	.cards { grid-template-columns: minmax(0, 1fr); }
-	.hero__index { flex-direction: column; gap: var(--space-6); }
+	.hero__index { flex-direction: column; align-items: stretch; gap: var(--space-6); }
+	.hero__nav-list { flex-direction: column; align-items: flex-start; gap: var(--space-4); }
+	.panel {
+		position: static;
+		transform: none;
+		opacity: 1;
+		visibility: visible;
+		border: 0;
+		background: none;
+		padding: var(--space-2) 0 0 var(--space-4);
+		margin-top: 0;
+		min-width: 0;
+	}
+	.hero__nav-item--has-panel { width: 100%; }
+	.panel__list { gap: var(--space-2); }
+	.panel__link { padding: var(--space-2) 0; }
 	.issuebar__link { margin-inline-start: 0; }
 	.division { padding-block: var(--space-12); }
 	.colophon__index { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
 	.hero__title {
-		white-space: normal;
 		font-size: clamp(2.75rem, 12vw, 4rem);
 		line-height: 0.95;
 		max-width: 11ch;
