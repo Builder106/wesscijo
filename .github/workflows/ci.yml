@@ -21,10 +21,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          tools: php-parallel-lint
 
       - name: Lint PHP Files
-        run: parallel-lint --exclude vendor themes/
+        run: find themes/ -type f -name "*.php" -exec php -l {} +
 
   css-lint:
     name: CSS Validation & Stylelint
