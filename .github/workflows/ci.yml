@@ -38,7 +38,7 @@ jobs:
           node-version: 20
 
       - name: Lint CSS
-        run: npx --yes stylelint "themes/**/*.css" --formatter compact || true
+        run: npx --yes stylelint "themes/**/*.css" --formatter compact --max-warnings 0
 
   security-audit:
     name: Security & Secret Scan
