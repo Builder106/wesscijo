@@ -1,2 +1,15 @@
+# Notes & Worktrees
 notes/
 .worktrees/
+
+# OS & Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs & Caches
+*.log
+.cache/
