@@ -32,7 +32,7 @@
 					<a class="hero__nav-link" href="<?php echo esc_url( get_term_link( $div['term'] ) ); ?>">
 						<?php echo wessci_term_name( $div['term'] ); ?>
 					</a>
-					<div class="panel">
+					<details class="panel"><summary class="panel__summary">Browse subsections</summary>
 						<ul class="panel__list">
 							<?php foreach ( $div['children'] as $child ) : ?>
 								<li>
@@ -40,7 +40,7 @@
 								</li>
 							<?php endforeach; ?>
 						</ul>
-					</div>
+					</details>
 				</li>
 			<?php endforeach; ?>
 

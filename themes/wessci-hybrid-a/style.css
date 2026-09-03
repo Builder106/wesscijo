@@ -198,6 +198,9 @@ h1, h2, h3 {
 	z-index: 10;
 }
 
+.panel > .panel__list { display: flex; }
+.panel__summary { display: none; }
+
 .hero__nav-item--has-panel:hover .panel,
 .hero__nav-item--has-panel:focus-within .panel {
 	opacity: 1;
@@ -607,9 +610,34 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 		margin-top: 0;
 		min-width: 0;
 	}
+	.panel > .panel__list { display: none; }
+	.panel[open] > .panel__list { display: flex; }
+	.panel__summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-3);
+		width: 100%;
+		padding: var(--space-2) 0;
+		border-bottom: var(--rule-hair) solid var(--color-rule);
+		color: var(--color-ink-2);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		cursor: pointer;
+		list-style: none;
+	}
+	.panel__summary::marker { content: ""; }
+	.panel__summary::-webkit-details-marker { display: none; }
+	.panel__summary::after {
+		content: "+";
+		color: var(--color-ink);
+		font-size: var(--text-lg);
+		line-height: 1;
+	}
+	.panel[open] > .panel__summary::after { content: "−"; }
 	.hero__nav-item--has-panel { width: 100%; }
 	.panel__list { gap: var(--space-2); }
-	.panel__link { padding: var(--space-2) 0; }
+	.panel__link { padding: var(--space-2) 0; white-space: normal; overflow-wrap: anywhere; }
 	.issuebar__link { margin-inline-start: 0; }
 	.division { padding-block: var(--space-12); }
 	.colophon__index { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
