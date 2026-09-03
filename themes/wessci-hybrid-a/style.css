@@ -22,6 +22,7 @@ Text Domain: wessci-hybrid-a
 
 	--font-display: "Libre Franklin", system-ui, sans-serif;
 	--font-body:    "Libre Franklin", system-ui, sans-serif;
+	--font-brand:   "Libre Franklin", system-ui, sans-serif;
 	--font-hero:    "Cormorant Garamond", Georgia, "Times New Roman", serif;
 
 	--text-4xl:     clamp(2rem, 4.5vw, 3.5rem);
@@ -105,17 +106,39 @@ h1, h2, h3 {
 	container-type: inline-size;
 }
 
+.hero__brand {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: clamp(1rem, 2.5vw, 2rem);
+	max-width: var(--shell);
+	margin-inline: auto;
+	min-width: 0;
+}
+
+.hero__logo-slot {
+	flex: 0 1 auto;
+	max-inline-size: min(12rem, 30vw);
+	max-block-size: 4rem;
+}
+
+.hero__logo-slot img {
+	width: auto;
+	max-width: 100%;
+	max-height: 4rem;
+	object-fit: contain;
+}
+
 .hero__title {
 	display: block;
 	color: var(--color-invert);
-	font-family: var(--font-hero);
-	/* Serif at a lighter weight has different metrics than the old 800
-	   Libre Franklin, so this scales with the container instead of a
-	   divisor tuned to one exact string width — it wraps if it must
-	   rather than risk clipping. */
+	font-family: var(--font-brand);
+	/* Scale with the container instead of tuning to one exact string width;
+	   wrap if necessary rather than risk clipping. */
 	font-size: clamp(2.25rem, 5.2cqi, 5.5rem);
-	font-weight: 600;
+	font-weight: 700;
 	line-height: 1.1;
+	font-size-adjust: from-font;
 	letter-spacing: -0.005em;
 	text-align: center;
 	text-decoration: none;
@@ -217,7 +240,7 @@ h1, h2, h3 {
 }
 .index-group__list a:hover { border-bottom-color: var(--color-accent); }
 
-.search { display: flex; align-items: stretch; margin-inline-start: auto; }
+form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 .search__input {
 	background: none;
 	border: var(--rule-hair) solid var(--color-rule);
@@ -529,10 +552,11 @@ h1, h2, h3 {
 
 .colophon__brand { display: flex; flex-direction: column; gap: var(--space-6); }
 .colophon__name {
-	font-family: var(--font-display);
+	font-family: var(--font-brand);
 	font-size: clamp(2rem, 5vw, 3.6rem);
 	font-weight: 700;
 	line-height: 0.92;
+	font-size-adjust: from-font;
 }
 .colophon__tag { color: var(--color-ink-3); max-width: 34ch; }
 
@@ -563,7 +587,7 @@ h1, h2, h3 {
 	.card, .card--wide { grid-column: auto; }
 	.lead { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
 	.hero__index { gap: var(--space-8); }
-	.search { margin-inline-start: 0; }
+	form.search { margin-inline-start: 0; }
 	.colophon__main { grid-template-columns: minmax(0, 1fr); gap: var(--space-12); }
 }
 
@@ -595,6 +619,9 @@ h1, h2, h3 {
 		max-width: 11ch;
 		margin-inline: auto;
 	}
+	.hero__brand { flex-direction: column; gap: var(--space-4); }
+	.hero__logo-slot { max-inline-size: min(12rem, 70vw); max-block-size: 3rem; }
+	.hero__logo-slot img { max-height: 3rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

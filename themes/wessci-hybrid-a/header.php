@@ -12,11 +12,21 @@
 
 <header class="hero">
 	<div class="hero__band">
-		<a class="hero__title" href="<?php echo esc_url( home_url( '/' ) ); ?>">Wesleyan Science Journal</a>
+		<div class="hero__brand">
+			<?php $custom_logo_id = (int) get_theme_mod( 'custom_logo' ); ?>
+			<?php $custom_logo = $custom_logo_id && wp_attachment_is_image( $custom_logo_id ) ? wp_get_attachment_image( $custom_logo_id, 'full', false, array( 'alt' => '' ) ) : ''; ?>
+			<?php if ( $custom_logo ) : ?>
+				<span class="hero__logo-slot">
+					<?php echo $custom_logo; ?>
+				</span>
+			<?php endif; ?>
+			<a class="hero__title" href="<?php echo esc_url( home_url( '/' ) ); ?>">Wesleyan Science Journal</a>
+		</div>
 	</div>
 
 	<nav class="hero__index" aria-label="Sections">
 		<ul class="hero__nav-list">
+			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a></li>
 			<?php foreach ( wessci_divisions() as $div ) : ?>
 				<li class="hero__nav-item hero__nav-item--has-panel">
 					<a class="hero__nav-link" href="<?php echo esc_url( get_term_link( $div['term'] ) ); ?>">

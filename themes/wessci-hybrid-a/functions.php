@@ -8,6 +8,15 @@ function wessci_hybrid_a_setup() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
+	add_theme_support(
+		'custom-logo',
+		array(
+			'height'      => 160,
+			'width'       => 320,
+			'flex-height' => true,
+			'flex-width'  => true,
+		)
+	);
 	add_image_size( 'wessci-lead', 800, 600, true );
 	add_image_size( 'wessci-card', 800, 600, true );
 }
