@@ -34,12 +34,6 @@
 			<?php the_posts_pagination(); ?>
 		<?php else : ?>
 			<p class="empty">No articles matched your search.</p>
-
-			<form class="search" role="search" method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-				<label class="u-visually-hidden" for="search-query">Search the journal</label>
-				<input class="search__input" type="search" id="search-query" name="s" placeholder="Search" value="<?php echo esc_attr( get_search_query() ); ?>">
-				<button class="search__submit" type="submit">Go</button>
-			</form>
 		<?php endif; ?>
 	</section>
 
