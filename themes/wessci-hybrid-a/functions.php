@@ -38,6 +38,78 @@ function wessci_hybrid_a_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'wessci_hybrid_a_assets' );
 
+/** Return the configurable masthead title used by the header and footer. */
+function wessci_hybrid_a_brand_title() {
+	$title = get_theme_mod( 'wessci_masthead_title', 'Wesleyan Science Journal' );
+	return '' !== trim( $title ) ? $title : 'Wesleyan Science Journal';
+}
+
+/** Keep the logo placement easy to change when the final logo is ready. */
+function wessci_hybrid_a_sanitize_logo_position( $value ) {
+	return in_array( $value, array( 'left', 'right' ), true ) ? $value : 'left';
+}
+
+function wessci_hybrid_a_customize_register( $wp_customize ) {
+	$wp_customize->add_section(
+		'wessci_masthead',
+		array(
+			'title'    => 'Journal masthead',
+			'priority' => 30,
+		)
+	);
+
+	$wp_customize->add_setting(
+		'wessci_masthead_title',
+		array(
+			'default'           => 'Wesleyan Science Journal',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'wessci_masthead_title',
+		array(
+			'label'       => 'Masthead title',
+			'description' => 'Text shown in the black banner and footer.',
+			'section'     => 'wessci_masthead',
+			'type'        => 'text',
+		)
+	);
+
+	$wp_customize->add_setting(
+		'wessci_logo_position',
+		array(
+			'default'           => 'left',
+			'sanitize_callback' => 'wessci_hybrid_a_sanitize_logo_position',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'wessci_logo_position',
+		array(
+			'label'       => 'Logo position',
+			'description' => 'Choose which side of the masthead title the custom logo uses.',
+			'section'     => 'wessci_masthead',
+			'type'        => 'select',
+			'choices'     => array(
+				'left'  => 'Left of title',
+				'right' => 'Right of title',
+			),
+		)
+	);
+}
+add_action( 'customize_register', 'wessci_hybrid_a_customize_register' );
+
+/** Keep search results on the article card system instead of mixing page types. */
+function wessci_hybrid_a_search_query( $query ) {
+	if ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) {
+		return;
+	}
+
+	$query->set( 'post_type', 'post' );
+}
+add_action( 'pre_get_posts', 'wessci_hybrid_a_search_query' );
+
 /**
  * The journal's two top-level divisions, each with its article types.
  * Returns [ term, children[] ] so nav and section heads share one source.

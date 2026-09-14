@@ -1,7 +1,7 @@
 <footer class="colophon">
 	<div class="colophon__main">
 		<div class="colophon__brand">
-			<p class="colophon__name">The Wesleyan<br>Science Journal</p>
+			<p class="colophon__name"><?php echo esc_html( wessci_hybrid_a_brand_title() ); ?></p>
 			<p class="colophon__tag"><?php bloginfo( 'description' ); ?></p>
 		</div>
 

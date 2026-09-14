@@ -2,8 +2,8 @@
 
 <main class="site-main" id="main">
 
-	<section class="division">
-		<h2 class="division__title">Search results for &ldquo;<?php echo esc_html( get_search_query() ); ?>&rdquo;</h2>
+	<section class="division division--search">
+		<h1 class="division__title">Search results for &ldquo;<?php echo esc_html( get_search_query() ); ?>&rdquo;</h1>
 
 		<?php if ( have_posts() ) : ?>
 			<div class="cards">
