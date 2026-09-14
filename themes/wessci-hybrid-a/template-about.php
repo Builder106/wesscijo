@@ -8,12 +8,12 @@
  */
 get_header();
 
-// Fall 2026 masthead, from Shriya's 2026-07-09 email. No bios yet — the
-// Argus-style "About Me" blurbs need real text from each person before
-// they can be added, so this is name + role only for now.
+// Fall 2026 masthead, from the editorial board's 2026 feedback. No bios yet
+// — the "About Me" blurbs need real text from each person before they can be
+// added, so this is name + role only for now.
 $wessci_masthead = array(
 	array(
-		'section' => 'Editorial',
+		'section' => 'Editorial Board',
 		'people'  => array(
 			array( 'name' => 'Aryia Banihashem-Ahmad', 'role' => 'Editor-in-Chief' ),
 			array( 'name' => 'Shriya Sakalkale', 'role' => 'Editor-in-Chief' ),
@@ -21,7 +21,7 @@ $wessci_masthead = array(
 		),
 	),
 	array(
-		'section' => 'Life Sciences',
+		'section' => 'Life Science',
 		'people'  => array(
 			array( 'name' => 'Lorraine Hillgen-Santa', 'role' => 'Lead Life Science Editor' ),
 			array( 'name' => 'Maia Feik Reinhart', 'role' => 'Lead Life Science Editor' ),
@@ -51,7 +51,7 @@ $wessci_masthead = array(
 		),
 	),
 	array(
-		'section' => 'Quantitative & Computational Science',
+		'section' => 'Quantitative and Computational Science',
 		'people'  => array(
 			array( 'name' => 'Shloka Bhattacharyya', 'role' => 'Lead Quantitative and Computational Editor' ),
 			array( 'name' => 'Gillian Churchland', 'role' => 'Math Editor' ),
@@ -61,31 +61,12 @@ $wessci_masthead = array(
 		),
 	),
 	array(
-		'section' => 'Science, Technology & Society',
+		'section' => 'Science, Technology and Society',
 		'people'  => array(
 			array( 'name' => 'Sangye Sherpa', 'role' => 'Lead Science, Technology & Society Editor' ),
 			array( 'name' => 'Tessa Higgins', 'role' => 'Lead Science, Technology & Society Editor' ),
-			array( 'name' => 'Maddy Marx', 'role' => 'Science, Technology & Society Editor' ),
 			array( 'name' => 'Dahlia Cedarbaum', 'role' => 'Science, Technology & Society Editor' ),
 			array( 'name' => 'Sarah Toolan', 'role' => 'Science, Technology & Society Editor' ),
-		),
-	),
-	array(
-		'section' => 'Graphic Design',
-		'people'  => array(
-			array( 'name' => 'Sorielis Paulino Polanco', 'role' => 'Graphic Designer' ),
-			array( 'name' => 'Minaal Khwaja', 'role' => 'Graphic Designer' ),
-			array( 'name' => 'Hannah Russak', 'role' => 'Graphic Designer' ),
-			array( 'name' => 'Ali Eckstein', 'role' => 'Graphic Designer' ),
-			array( 'name' => 'Olivia Oliveira', 'role' => 'Graphic Designer' ),
-			array( 'name' => 'Kitty Edwards', 'role' => 'Graphic Designer' ),
-		),
-	),
-	array(
-		'section' => 'Web Design',
-		'people'  => array(
-			array( 'name' => 'Olayinka Vaughan', 'role' => 'Lead Web Designer' ),
-			array( 'name' => 'Giancarlo Fedolfi', 'role' => 'Web Designer' ),
 		),
 	),
 );
