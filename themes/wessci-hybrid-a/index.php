@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main class="site-main" id="main">
+<main class="site-main" id="main" tabindex="-1">
 
 	<div class="issuebar">
 		<span class="issuebar__slab">Current issue</span>
@@ -47,7 +47,7 @@
 
 				<?php if ( $has_cover ) : ?>
 					<figure class="lead__figure">
-						<?php the_post_thumbnail( 'wessci-lead', array( 'alt' => '' ) ); ?>
+						<?php the_post_thumbnail( 'wessci-lead', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '(max-width: 1080px) 100vw, 50vw' ) ); ?>
 					</figure>
 				<?php endif; ?>
 			</article>
@@ -84,7 +84,7 @@
 					<article class="card<?php echo 1 === $index ? ' card--wide' : ''; ?>">
 						<?php if ( has_post_thumbnail() ) : ?>
 							<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
-								<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '' ) ); ?>
+								<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
 							</a>
 						<?php endif; ?>
 						<?php if ( $type ) : ?>

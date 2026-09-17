@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main class="site-main" id="main">
+<main class="site-main" id="main" tabindex="-1">
 
 	<section class="division division--search">
 		<h1 class="division__title">Search results for &ldquo;<?php echo esc_html( get_search_query() ); ?>&rdquo;</h1>

@@ -1,6 +1,6 @@
 <?php get_header(); ?>
 
-<main class="site-main" id="main">
+<main class="site-main" id="main" tabindex="-1">
 
 	<article class="article">
 		<h1 class="article__title">Page not found</h1>
