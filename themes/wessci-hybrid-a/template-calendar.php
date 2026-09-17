@@ -2,14 +2,13 @@
 /**
  * Template Name: Calendar
  *
- * Assign this to a "Calendar" page in wp-admin. Lists wessci_event posts
- * (registered in functions.php) if any exist, otherwise shows an empty
- * state — client asked for a place this can live, not the feature itself.
+ * Assign this to a "Calendar" page in wp-admin. Lists upcoming wessci_event
+ * posts while retaining undated fixture events until real dates are supplied.
  */
 get_header();
 ?>
 
-<main class="site-main" id="main">
+<main class="site-main" id="main" tabindex="-1">
 
 	<article class="article">
 		<h1 class="article__title"><?php the_title(); ?></h1>
@@ -29,22 +28,17 @@ get_header();
 	</article>
 
 	<?php
-	$wessci_events = new WP_Query(
-		array(
-			'post_type'      => 'wessci_event',
-			'posts_per_page' => -1,
-			'orderby'        => 'date',
-			'order'          => 'ASC',
-		)
-	);
+	$wessci_events = function_exists( 'wessci_site_get_upcoming_events' ) ? wessci_site_get_upcoming_events() : array();
 	?>
 
 	<section class="division">
-		<?php if ( $wessci_events->have_posts() ) : ?>
+		<?php if ( ! empty( $wessci_events ) ) : ?>
 			<div class="cards">
 				<?php
-				while ( $wessci_events->have_posts() ) :
-					$wessci_events->the_post();
+				foreach ( $wessci_events as $event ) :
+					setup_postdata( $event );
+					$start = wessci_site_get_event_datetime( $event->ID, 'start' );
+					$end   = wessci_site_get_event_datetime( $event->ID, 'end' );
 					?>
 					<article class="card">
 						<?php if ( has_post_thumbnail() ) : ?>
@@ -55,10 +49,26 @@ get_header();
 						<h3 class="card__title">
 							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 						</h3>
+						<?php if ( $start ) : ?>
+							<p class="meta">
+								<time datetime="<?php echo esc_attr( $start->format( DATE_ATOM ) ); ?>"><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $start->getTimestamp() ) ); ?></time>
+								<?php if ( $end ) : ?>
+									<span aria-hidden="true">–</span>
+									<time datetime="<?php echo esc_attr( $end->format( DATE_ATOM ) ); ?>"><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $end->getTimestamp() ) ); ?></time>
+								<?php endif; ?>
+							</p>
+						<?php endif; ?>
+						<?php if ( get_post_meta( $event->ID, '_wessci_event_location', true ) ) : ?>
+							<p class="card__excerpt"><?php echo esc_html( get_post_meta( $event->ID, '_wessci_event_location', true ) ); ?></p>
+						<?php endif; ?>
 						<p class="card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
+						<?php $url = get_post_meta( $event->ID, '_wessci_event_url', true ); ?>
+						<?php if ( $url ) : ?>
+							<a href="<?php echo esc_url( $url ); ?>" rel="noopener noreferrer">Event details</a>
+						<?php endif; ?>
 					</article>
 					<?php
-				endwhile;
+				endforeach;
 				wp_reset_postdata();
 				?>
 			</div>
