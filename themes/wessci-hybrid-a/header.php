@@ -13,19 +13,15 @@
 <header class="hero">
 	<div class="hero__band">
 		<?php
-		$custom_logo_id      = (int) get_theme_mod( 'custom_logo' );
-		$custom_logo         = $custom_logo_id && wp_attachment_is_image( $custom_logo_id ) ? wp_get_attachment_image( $custom_logo_id, 'full', false, array( 'alt' => '' ) ) : '';
-		$logo_position       = get_theme_mod( 'wessci_logo_position', 'left' );
-		$brand_class         = 'hero__brand';
-		$brand_title         = wessci_hybrid_a_brand_title();
-		$brand_class        .= 'right' === $logo_position ? ' hero__brand--logo-right' : '';
+		$logo_position = get_theme_mod( 'wessci_logo_position', 'left' );
+		$brand_class   = 'hero__brand';
+		$brand_title   = wessci_hybrid_a_brand_title();
+		$brand_class  .= 'right' === $logo_position ? ' hero__brand--logo-right' : '';
 		?>
 		<div class="<?php echo esc_attr( $brand_class ); ?>">
-			<?php if ( $custom_logo ) : ?>
-				<span class="hero__logo-slot">
-					<?php echo $custom_logo; ?>
-				</span>
-			<?php endif; ?>
+			<span class="hero__logo-slot">
+				<?php echo wessci_hybrid_a_logo(); ?>
+			</span>
 			<a class="hero__title" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( $brand_title ); ?></a>
 		</div>
 	</div>
@@ -53,8 +49,26 @@
 				</li>
 			<?php endforeach; ?>
 
+			<?php $fields = wessci_fields(); ?>
+			<?php if ( $fields ) : ?>
+				<li class="hero__nav-item hero__nav-item--has-panel">
+					<details class="panel">
+						<summary class="panel__summary hero__nav-link">Fields</summary>
+						<ul class="panel__list">
+							<?php foreach ( $fields as $field ) : ?>
+								<li>
+									<a class="panel__link" href="<?php echo esc_url( get_term_link( $field ) ); ?>"><?php echo wessci_term_name( $field ); ?></a>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					</details>
+				</li>
+			<?php endif; ?>
+
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">Archives</a></li>
-			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/calendar/' ) ); ?>">Calendar</a></li>
+			<?php if ( wessci_hybrid_a_calendar_enabled() ) : ?>
+				<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/calendar/' ) ); ?>">Calendar</a></li>
+			<?php endif; ?>
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submit</a></li>
 		</ul>

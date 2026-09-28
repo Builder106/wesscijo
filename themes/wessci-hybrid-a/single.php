@@ -7,6 +7,7 @@
 		the_post();
 		$post_id  = get_the_ID();
 		$type     = wessci_article_type( $post_id );
+		$field    = wessci_article_field( $post_id );
 		$division = $type && $type->parent ? get_term( $type->parent, 'category' ) : null;
 		if ( is_wp_error( $division ) ) {
 			$division = null;
@@ -14,11 +15,20 @@
 		?>
 
 		<article class="article">
-			<?php if ( $type ) : ?>
-				<a class="tag" href="<?php echo esc_url( get_term_link( $type ) ); ?>"><?php echo wessci_term_name( $type ); ?></a>
+			<?php if ( $type || $field ) : ?>
+				<p class="tags">
+					<?php if ( $type ) : ?>
+						<a class="tag" href="<?php echo esc_url( get_term_link( $type ) ); ?>"><?php echo wessci_term_name( $type ); ?></a>
+					<?php endif; ?>
+					<?php if ( $field ) : ?>
+						<a class="tag tag--field" href="<?php echo esc_url( get_term_link( $field ) ); ?>"><?php echo wessci_term_name( $field ); ?></a>
+					<?php endif; ?>
+				</p>
 			<?php endif; ?>
 
 			<h1 class="article__title"><?php the_title(); ?></h1>
+
+			<?php wessci_the_byline( $post_id ); ?>
 
 			<p class="meta">
 				<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></time>
@@ -29,6 +39,10 @@
 			<?php if ( has_post_thumbnail() ) : ?>
 				<figure class="article__figure">
 					<?php the_post_thumbnail( 'wessci-lead', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => 'min(100vw, 800px)' ) ); ?>
+					<?php $credit = wessci_photo_credit( $post_id ); ?>
+					<?php if ( $credit ) : ?>
+						<figcaption class="photo-credit"><?php echo esc_html( $credit ); ?></figcaption>
+					<?php endif; ?>
 				</figure>
 			<?php endif; ?>
 
@@ -54,7 +68,6 @@
 						<?php
 						while ( $related_q->have_posts() ) :
 							$related_q->the_post();
-							$related_type = wessci_article_type( get_the_ID() );
 							?>
 							<article class="card">
 								<?php if ( has_post_thumbnail() ) : ?>
@@ -62,8 +75,9 @@
 										<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
 									</a>
 								<?php endif; ?>
-								<?php if ( $related_type ) : ?>
-									<span class="card__type"><?php echo wessci_term_name( $related_type ); ?></span>
+								<?php $kicker = wessci_card_kicker( get_the_ID() ); ?>
+								<?php if ( $kicker ) : ?>
+									<span class="card__type"><?php echo $kicker; ?></span>
 								<?php endif; ?>
 								<h3 class="card__title">
 									<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>

@@ -10,7 +10,7 @@
 				<?php
 				while ( have_posts() ) :
 					the_post();
-					$type = wessci_article_type( get_the_ID() );
+					$kicker = wessci_card_kicker( get_the_ID() );
 					?>
 					<article class="card">
 						<?php if ( has_post_thumbnail() ) : ?>
@@ -18,8 +18,8 @@
 								<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '' ) ); ?>
 							</a>
 						<?php endif; ?>
-						<?php if ( $type ) : ?>
-							<span class="card__type"><?php echo wessci_term_name( $type ); ?></span>
+						<?php if ( $kicker ) : ?>
+							<span class="card__type"><?php echo $kicker; ?></span>
 						<?php endif; ?>
 						<h3 class="card__title">
 							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>

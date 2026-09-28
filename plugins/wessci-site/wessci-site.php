@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: WesSciJo Site Core
- * Description: Durable site content, event fields, and conservative metadata for WesSciJo.
- * Version: 1.0.0
+ * Description: Durable site content, article credits and fields, event fields, and conservative metadata for WesSciJo.
+ * Version: 1.1.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -26,6 +26,103 @@ function wessci_site_register_event_cpt() {
 	);
 }
 add_action( 'init', 'wessci_site_register_event_cpt' );
+
+/**
+ * Scientific field, mirroring the print journal's sections. Each article is
+ * also filed under a division/type category; the field runs across both.
+ */
+function wessci_site_field_slugs() {
+	return array(
+		'life-science'                       => 'Life Science',
+		'physical-science'                   => 'Physical Science',
+		'quantitative-computational-science' => 'Quantitative & Computational Science',
+		'science-technology-society'         => 'Science, Technology & Society',
+	);
+}
+
+function wessci_site_register_field_taxonomy() {
+	register_taxonomy(
+		'wessci_field',
+		'post',
+		array(
+			'labels'            => array(
+				'name'          => 'Fields',
+				'singular_name' => 'Field',
+				'all_items'     => 'All fields',
+				'edit_item'     => 'Edit field',
+				'add_new_item'  => 'Add new field',
+			),
+			'hierarchical'      => true,
+			'public'            => true,
+			'show_in_rest'      => true,
+			'show_admin_column' => true,
+			'rewrite'           => array( 'slug' => 'field' ),
+		)
+	);
+}
+add_action( 'init', 'wessci_site_register_field_taxonomy' );
+
+/** Create the four fields and refresh permalinks once, not on every request. */
+function wessci_site_seed_fields() {
+	if ( 1 <= (int) get_option( 'wessci_site_fields_version', 0 ) ) {
+		return;
+	}
+	foreach ( wessci_site_field_slugs() as $slug => $name ) {
+		if ( ! term_exists( $slug, 'wessci_field' ) ) {
+			wp_insert_term( $name, 'wessci_field', array( 'slug' => $slug ) );
+		}
+	}
+	flush_rewrite_rules( false );
+	update_option( 'wessci_site_fields_version', 1 );
+}
+add_action( 'init', 'wessci_site_seed_fields', 20 );
+
+/** Fields in print order; any extra fields added in wp-admin follow alphabetically. */
+function wessci_site_get_fields() {
+	$terms = get_terms( array( 'taxonomy' => 'wessci_field', 'hide_empty' => false ) );
+	if ( is_wp_error( $terms ) ) {
+		return array();
+	}
+	$order = array_flip( array_keys( wessci_site_field_slugs() ) );
+	usort( $terms, function ( $left, $right ) use ( $order ) {
+		$left_rank  = isset( $order[ $left->slug ] ) ? $order[ $left->slug ] : PHP_INT_MAX;
+		$right_rank = isset( $order[ $right->slug ] ) ? $order[ $right->slug ] : PHP_INT_MAX;
+		return $left_rank === $right_rank ? strcasecmp( $left->name, $right->name ) : $left_rank <=> $right_rank;
+	} );
+	return $terms;
+}
+
+/** Article credits: free text so co-writers and head writers read as the editors write them. */
+function wessci_site_credit_fields() {
+	return array(
+		'writers' => 'Written by',
+		'editors' => 'Edited by',
+	);
+}
+
+function wessci_site_add_credits_meta_box() {
+	add_meta_box( 'wessci-credits', 'Article credits', 'wessci_site_render_credits_meta_box', 'post', 'side', 'high' );
+}
+add_action( 'add_meta_boxes', 'wessci_site_add_credits_meta_box' );
+
+function wessci_site_render_credits_meta_box( $post ) {
+	wp_nonce_field( 'wessci_credits', 'wessci_credits_nonce' );
+	foreach ( wessci_site_credit_fields() as $key => $label ) {
+		printf( '<p><label for="wessci-credit-%1$s">%2$s</label><input class="widefat" id="wessci-credit-%1$s" name="wessci_credit_%1$s" type="text" value="%3$s"></p>', esc_attr( $key ), esc_html( $label ), esc_attr( get_post_meta( $post->ID, '_wessci_' . $key, true ) ) );
+	}
+	echo '<p class="description">Names as they should appear, e.g. &ldquo;Ella Stricker and Rhea Kothari&rdquo;. Leave blank to hide.</p>';
+}
+
+function wessci_site_save_credits_meta( $post_id ) {
+	if ( ! isset( $_POST['wessci_credits_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['wessci_credits_nonce'] ) ), 'wessci_credits' ) || ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) || ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	foreach ( array_keys( wessci_site_credit_fields() ) as $key ) {
+		$value = isset( $_POST[ 'wessci_credit_' . $key ] ) ? sanitize_text_field( wp_unslash( $_POST[ 'wessci_credit_' . $key ] ) ) : '';
+		'' === $value ? delete_post_meta( $post_id, '_wessci_' . $key ) : update_post_meta( $post_id, '_wessci_' . $key, $value );
+	}
+}
+add_action( 'save_post_post', 'wessci_site_save_credits_meta' );
 
 function wessci_site_add_event_meta_box() {
 	add_meta_box( 'wessci-event-details', 'Event details', 'wessci_site_render_event_meta_box', 'wessci_event', 'side' );
@@ -144,8 +241,8 @@ function wessci_site_description() {
 	if ( is_search() ) {
 		return 'Search results from The Wesleyan Science Journal.';
 	}
-	if ( is_category() ) {
-		return 'Browse ' . single_cat_title( '', false ) . ' from The Wesleyan Science Journal.';
+	if ( is_category() || is_tax( 'wessci_field' ) ) {
+		return 'Browse ' . single_term_title( '', false ) . ' from The Wesleyan Science Journal.';
 	}
 	if ( is_page( 'about' ) ) {
 		return 'Meet the editors and learn about The Wesleyan Science Journal.';
@@ -172,7 +269,7 @@ function wessci_site_metadata() {
 	$is_fixture  = wessci_site_is_fixture();
 	$description = $is_fixture ? '' : wessci_site_description();
 	$title = wp_get_document_title();
-	$url   = is_singular() ? get_permalink() : ( is_category() ? get_category_link( get_queried_object_id() ) : home_url( '/' ) );
+	$url   = is_singular() ? get_permalink() : ( is_category() || is_tax( 'wessci_field' ) ? get_term_link( get_queried_object() ) : home_url( '/' ) );
 	if ( is_search() ) {
 		$url = add_query_arg( 's', get_search_query(), home_url( '/' ) );
 	}
@@ -197,8 +294,8 @@ function wessci_site_filter_canonical_url( $canonical_url ) {
 	if ( is_search() ) {
 		return add_query_arg( 's', get_search_query(), home_url( '/' ) );
 	}
-	if ( is_category() ) {
-		return get_category_link( get_queried_object_id() );
+	if ( is_category() || is_tax( 'wessci_field' ) ) {
+		return get_term_link( get_queried_object() );
 	}
 	if ( is_singular() ) {
 		return get_permalink();

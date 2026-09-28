@@ -1,8 +1,8 @@
 const { test, expect } = require('@playwright/test');
 
-const routes = ['/', '/about/', '/calendar/', '/archives/', '/submit/'];
-const archiveRoutes = ['/category/research-reviews/', '/category/news-features-perspectives/'];
-const fixtureRoutes = new Set(['/', '/calendar/', '/archives/', '/submit/']);
+const routes = ['/', '/about/', '/archives/', '/submit/'];
+const archiveRoutes = ['/category/research-reviews/', '/category/news-features-perspectives/', '/field/life-science/'];
+const fixtureRoutes = new Set(['/', '/archives/', '/submit/']);
 
 function siteUrl(path) {
   return new URL(path, process.env.BASE_URL || 'https://wessci.yinkavaughan.me/').toString();
@@ -111,14 +111,10 @@ test.describe('WesSciJo public site smoke tests', () => {
     }
   });
 
-  test('calendar keeps existing undated entries visible', async ({ page }) => {
-    await page.goto(siteUrl('/calendar/'));
-    const events = page.locator('main article');
-    await expect(events).not.toHaveCount(0);
-    await expect(events.locator('h2, h3')).not.toHaveCount(0);
-    const times = page.locator('main time');
-    if (await times.count()) {
-      await expect(times).toHaveAttribute('datetime', /.+/);
-    }
+  test('calendar stays hidden until it is re-enabled', async ({ page }) => {
+    await page.goto(siteUrl('/'));
+    await expect(page.locator('a[href$="/calendar/"]')).toHaveCount(0);
+    const response = await page.goto(siteUrl('/calendar/'));
+    expect(response && response.status()).toBe(404);
   });
 });
