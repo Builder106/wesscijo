@@ -2,6 +2,14 @@
 
 > Dated log of design decisions, pivots, incidents, and project context for the Wesleyan Science Journal website concepts. This backfill was assembled from the repository history, current source, and committed screenshots on 2026-08-28.
 
+## 2026-09-26 - Hybrid A editorial direction documented #design #workflow
+
+The redesign work verified dated Awwwards Site of the Day references for Emergence Magazine, Atmos, and Into the Amazon. Emergence is the primary reference for separating story formats and reading paths. Extracted tokens came from the Awwwards listing page, so they are recorded for provenance and excluded from the WesSciJo token set.
+
+Implementation is blocked before the required Open Design handoff. The approved capture runner refused its SSH connection during the GPU precheck and issued no capture ID. The workflow host rejected the project directory because it is configured for the parent CS workspace. No reference recording or motion analysis was produced. Plugin listing showed the effect extractor, but this run did not verify its grants. No recording was uploaded to a provider without approval.
+
+The Biology cover paired with the Computer Science reproducibility story remains an editorial blocker. The homepage also hard-codes issue details without a confirmed issue record in its homepage query. Verify that identity before publication. No homepage files or live site content changed.
+
 ## 2026-09-14 - Client feedback was implemented in Hybrid A #feedback #milestone
 
 The Hybrid A theme now uses native disclosure controls for section navigation: each dropdown can be opened by click or keyboard, includes an explicit link to the full division, and collapses into the same disclosure pattern on small screens. Search requests are limited to article posts so result pages stay within the article-card layout. The masthead title and custom-logo side are now configurable in the WordPress Customizer, while the title uses the same sans-serif brand family as the rest of the theme. The About roster now follows the five requested section names and removes Maddy Marx; no biography copy was invented.

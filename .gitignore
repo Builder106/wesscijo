@@ -13,3 +13,6 @@ Thumbs.db
 # Logs & Caches
 *.log
 .cache/
+
+# Local design research and verification evidence
+/artifacts/design-inspiration/
