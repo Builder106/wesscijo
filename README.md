@@ -1,15 +1,34 @@
-# WesSciJo: Website Concepts
+# WesSciJo
 
-> **Design concepts and custom WordPress themes for The Wesleyan Science Journal.** A showcase of five distinct visual identities and layout designs.
+WordPress themes and a standalone browser preview for The Wesleyan Science Journal. The repository includes three themes, a site plugin, editorial review captures, and browser checks.
 
-## 💡 What is WesSciJo?
+The `wessci-cardinal` theme and its preview are a work in progress. The preview uses example article copy and concept artwork, and it does not add content to WordPress. Check [ROADMAP.md](ROADMAP.md) for current redesign scope and [JOURNAL.md](JOURNAL.md) for dated decisions.
 
-The Wesleyan Science Journal is a student-run publication at Wesleyan University publishing peer-reviewed research and science journalism. 
+## Repository map
 
-To help the editorial board decide on their visual brand and web layout, this project developed five distinct design prototypes built from scratch in custom WordPress templates. Each concept explores different typographic styles, color accents, and article layouts.
+| Path | Contents |
+| --- | --- |
+| `themes/wessci-cardinal/` | Current black and red theme concept. |
+| `themes/wessci-hybrid-a/` | Hybrid A theme, including its article, archive, About, and Calendar templates. |
+| `themes/wessci-hybrid-b/` | Alternate hybrid theme concept. |
+| `plugins/wessci-site/` | Site-specific event content and metadata. |
+| `preview/` | Standalone Cardinal preview and sample story art in `preview/assets/`. Open `index.html` in a browser. |
+| `tests/` | Playwright checks for the preview and public site. |
+| `screenshots/design-directions/` | Earlier visual direction comparisons. |
+| `screenshots/cardinal/` | Cardinal artwork and preview captures. |
+| `screenshots/client-reply/` | Screens prepared for client feedback. |
+| `artifacts/svgator/cardinal/` | Editable SVGator projects and export records. |
+| `artifacts/design-inspiration/` | Local-only design research and capture evidence, ignored by Git. |
+| `logo.pdf` | Supplied journal logo. |
 
-Full visual previews are available in `screenshots/`.
+## Browser checks
 
-## Project Status
+Install the declared dependencies and Chromium, then run the browser checks:
 
-This repository contains design prototypes and concept themes developed for the editorial board's review. Screenshots and demo pages use placeholder articles and mock covers to evaluate visual hierarchy.
+```sh
+npm ci
+npx playwright install chromium
+npm run test:browser
+```
+
+The public-site checks use `BASE_URL` when set and otherwise target the configured public site. The Cardinal preview checks run from the local `preview/index.html` file and save captures under `screenshots/cardinal/`.

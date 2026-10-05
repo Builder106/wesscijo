@@ -1,8 +1,8 @@
-# WesSciJo Hybrid A Design
+# WesSciJo Hybrid A Design Study
 
 ## Status
 
-This document records a design plan for review. Homepage implementation is blocked pending accepted live captures and Open Design handoff. It is not a content approval or launch approval.
+This document records the earlier Hybrid A exploration. It is a candidate and historical reference, not the visual baseline for the site-wide redesign in [ROADMAP.md](ROADMAP.md). Its implementation and workflow notes describe that specific exploration; they do not constrain a new direction. It is not a content approval or launch approval.
 
 ## Reference provenance
 

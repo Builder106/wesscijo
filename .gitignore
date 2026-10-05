@@ -14,5 +14,10 @@ Thumbs.db
 *.log
 .cache/
 
+# Dependencies and test output
+node_modules/
+playwright-report/
+test-results/
+
 # Local design research and verification evidence
-/artifacts/design-inspiration/
+/artifacts/

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400" fill="none">
+<rect width="600" height="400" fill="#271115"/>
+<g stroke="#74303a"><path d="M0 80h600M0 160h600M0 240h600M0 320h600M100 0v400M200 0v400M300 0v400M400 0v400M500 0v400"/><circle cx="300" cy="200" r="155"/><circle cx="300" cy="200" r="110"/></g>
+<path d="M77 273q190-292 463-117M65 294q194-265 469-111M84 312q219-227 450-99" stroke="#df7580" stroke-dasharray="4 8"/>
+<path d="m178 240 106-57-40-112 81 92 115-8-83 45 23 104-73-80-129 16Z" fill="#df2438" stroke="#ff939f" stroke-width="2"/>
+<path d="m285 184 40-21 32 37-50 24" stroke="#ffbbc2"/>
+<circle cx="331" cy="178" r="3" fill="#fff"/>
+<g font-family="monospace" font-size="11" fill="#e1a0a9"><text x="28" y="34">FIELD NOTES / FLIGHT</text><text x="28" y="374">FORM → MOTION</text></g>
+</svg>
