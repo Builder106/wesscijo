@@ -25,7 +25,7 @@ class WesSci_Meta_Boxes {
 	public static function add_meta_boxes() {
 		add_meta_box(
 			'wessci_article_academic_meta',
-			__( '🔬 Scientific Manuscript Details', 'wessci' ),
+			__( 'Manuscript details', 'wessci' ),
 			array( __CLASS__, 'render_academic_meta_box' ),
 			'post',
 			'normal',
@@ -34,7 +34,7 @@ class WesSci_Meta_Boxes {
 
 		add_meta_box(
 			'wessci_figures_meta',
-			__( '📊 Scientific Figures & Media Assets', 'wessci' ),
+			__( 'Figures and captions', 'wessci' ),
 			array( __CLASS__, 'render_figures_meta_box' ),
 			'post',
 			'normal',
@@ -43,7 +43,7 @@ class WesSci_Meta_Boxes {
 
 		add_meta_box(
 			'wessci_references_meta',
-			__( '📚 Citations & Bibliographic References', 'wessci' ),
+			__( 'References', 'wessci' ),
 			array( __CLASS__, 'render_references_meta_box' ),
 			'post',
 			'normal',
@@ -134,7 +134,7 @@ class WesSci_Meta_Boxes {
 		);
 		?>
 		<p class="description" style="margin-bottom: 12px;">
-			<?php esc_html_e( 'Attach captions, citations, and licensing for figures and charts appearing in this paper. All lead figures must be at least 1200px wide.', 'wessci' ); ?>
+			<?php esc_html_e( 'Attach captions, citations, and licensing for figures and charts appearing in this paper. Check figure quality and rights against the journal\'s editorial guidance.', 'wessci' ); ?>
 		</p>
 
 		<div id="wessci-figures-container">

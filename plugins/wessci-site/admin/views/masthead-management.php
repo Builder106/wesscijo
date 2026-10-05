@@ -14,14 +14,14 @@ $board = function_exists( 'wessci_editorial_board' ) ? wessci_editorial_board() 
 ?>
 
 <div class="wrap">
-	<h1 class="wp-heading-inline"><?php esc_html_e( 'WesSciJo Editorial Board Masthead', 'wessci' ); ?></h1>
+	<h1 class="wp-heading-inline"><?php esc_html_e( 'Editorial board', 'wessci' ); ?></h1>
 	<hr class="wp-header-end">
 
 	<p class="description" style="margin: 12px 0 20px; font-size: 14px;">
-		<?php esc_html_e( 'Active 25-student Editorial Board across 5 Divisions. These records drive the public /about/ roster and article review queues.', 'wessci' ); ?>
+		<?php esc_html_e( 'Editorial roster from the site configuration. Review names and roles with the editorial team before publication.', 'wessci' ); ?>
 	</p>
 
-	<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 20px;">
+	<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap: 20px;">
 		<?php foreach ( $board as $div_key => $section ) : ?>
 			<div class="wessci-dashboard-card" style="margin-bottom: 0;">
 				<div class="wessci-card-header" style="margin-bottom: 12px; padding-bottom: 8px;">
