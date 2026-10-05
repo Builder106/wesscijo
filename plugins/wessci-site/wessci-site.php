@@ -268,16 +268,15 @@ function wessci_site_admin_bar_deploy_node( $wp_admin_bar ) {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return;
 	}
-	$nonce = wp_create_nonce( 'wessci_deploy_vercel' );
-	$url   = admin_url( 'admin-post.php?action=wessci_trigger_deploy&_wpnonce=' . $nonce );
+	$url = admin_url( 'index.php?page=wessci-publishing' );
 
 	$wp_admin_bar->add_node(
 		array(
 			'id'    => 'wessci-vercel-deploy',
-			'title' => '🚀 Deploy to Vercel',
+			'title' => 'Publishing',
 			'href'  => $url,
 			'meta'  => array(
-				'title' => 'Trigger immediate production rebuild on Vercel',
+				'title' => 'Open publishing controls',
 			),
 		)
 	);
@@ -293,12 +292,13 @@ function wessci_site_handle_manual_deploy() {
 	}
 	check_admin_referer( 'wessci_deploy_vercel' );
 
-	$deploy_hook = defined( 'WESSCI_VERCEL_DEPLOY_HOOK' ) ? WESSCI_VERCEL_DEPLOY_HOOK : '';
-	if ( $deploy_hook ) {
-		wp_remote_post( $deploy_hook, array( 'blocking' => false, 'timeout' => 5 ) );
+	if ( 'POST' !== $_SERVER['REQUEST_METHOD'] || ! isset( $_POST['confirm_rebuild'] ) || '1' !== $_POST['confirm_rebuild'] ) {
+		wp_die( 'Confirm the rebuild on the publishing screen.' );
 	}
-
-	wp_safe_redirect( add_query_arg( 'wessci_deployed', '1', wp_get_referer() ? wp_get_referer() : admin_url() ) );
+	$deploy_hook = defined( 'WESSCI_VERCEL_DEPLOY_HOOK' ) ? WESSCI_VERCEL_DEPLOY_HOOK : '';
+	$result = $deploy_hook ? wp_remote_post( $deploy_hook, array( 'timeout' => 10 ) ) : new WP_Error( 'not_configured' );
+	$accepted = ! is_wp_error( $result ) && wp_remote_retrieve_response_code( $result ) >= 200 && wp_remote_retrieve_response_code( $result ) < 300;
+	wp_safe_redirect( add_query_arg( 'wessci_deployed', $accepted ? '1' : '0', admin_url( 'index.php?page=wessci-publishing' ) ) );
 	exit;
 }
 add_action( 'admin_post_wessci_trigger_deploy', 'wessci_site_handle_manual_deploy' );
@@ -307,9 +307,10 @@ add_action( 'admin_post_wessci_trigger_deploy', 'wessci_site_handle_manual_deplo
  * Display confirmation notice after manual deployment trigger.
  */
 function wessci_site_deploy_admin_notice() {
-	if ( isset( $_GET['wessci_deployed'] ) && '1' === $_GET['wessci_deployed'] ) {
-		echo '<div class="notice notice-success is-dismissible"><p><strong>Vercel Deployment Triggered:</strong> Production rebuild has been requested. The live journal will update in approximately 10 seconds.</p></div>';
-	}
+	if ( ! current_user_can( 'manage_options' ) || ! isset( $_GET['wessci_deployed'] ) ) { return; }
+	$accepted = '1' === $_GET['wessci_deployed'];
+	$message = $accepted ? 'Rebuild request accepted. Deployment completion has not been verified.' : 'The rebuild request failed. Check the publishing configuration and try again.';
+	echo '<div class="notice ' . ( $accepted ? 'notice-success' : 'notice-error' ) . ' is-dismissible"><p>' . esc_html( $message ) . '</p></div>';
 }
 add_action( 'admin_notices', 'wessci_site_deploy_admin_notice' );
 
