@@ -77,6 +77,7 @@ class WesSci_Meta_Boxes {
 		<div class="wessci-meta-field">
 			<label for="wessci_format"><strong><?php esc_html_e( 'Article Publication Format:', 'wessci' ); ?></strong></label>
 			<select name="wessci_format" id="wessci_format" class="widefat" style="margin-top: 4px; max-width: 400px;">
+				<option value=""><?php esc_html_e( 'Select a format', 'wessci' ); ?></option>
 				<?php foreach ( $formats as $key => $label ) : ?>
 					<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $format, $key ); ?>><?php echo esc_html( $label ); ?></option>
 				<?php endforeach; ?>
@@ -88,7 +89,7 @@ class WesSci_Meta_Boxes {
 
 		<div class="wessci-meta-field">
 			<label for="wessci_abstract"><strong><?php esc_html_e( 'Abstract / Executive Deck:', 'wessci' ); ?></strong></label>
-			<textarea name="wessci_abstract" id="wessci_abstract" rows="4" class="widefat" style="margin-top: 4px;" placeholder="<?php esc_attr_e( 'Provide the academic abstract (150–250 words) summarizing hypothesis, methodology, and key findings...', 'wessci' ); ?>"><?php echo esc_textarea( $abstract ); ?></textarea>
+			<textarea name="wessci_abstract" id="wessci_abstract" rows="4" class="widefat" style="margin-top: 4px;" placeholder="<?php esc_attr_e( 'Summarize the hypothesis, methods, and key findings.', 'wessci' ); ?>"><?php echo esc_textarea( $abstract ); ?></textarea>
 			<p class="description"><?php esc_html_e( 'Displayed prominently as the academic abstract for research or introductory deck for features.', 'wessci' ); ?></p>
 		</div>
 
