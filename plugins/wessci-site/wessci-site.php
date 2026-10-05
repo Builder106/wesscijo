@@ -219,4 +219,89 @@ function wessci_site_filter_robots( $robots ) {
 }
 add_filter( 'wp_robots', 'wessci_site_filter_robots' );
 
+/**
+ * Dispatch deployment ping to Vercel Deploy Hook when content changes.
+ */
+function wessci_site_trigger_vercel_deploy( $new_status, $old_status, $post ) {
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( wp_is_post_revision( $post->ID ) ) {
+		return;
+	}
+	if ( 'publish' !== $new_status && 'publish' !== $old_status ) {
+		return;
+	}
+	if ( ! in_array( $post->post_type, array( 'post', 'page', 'wessci_event' ), true ) ) {
+		return;
+	}
+
+	$deploy_hook = defined( 'WESSCI_VERCEL_DEPLOY_HOOK' ) ? WESSCI_VERCEL_DEPLOY_HOOK : '';
+	if ( ! $deploy_hook ) {
+		return;
+	}
+
+	wp_remote_post(
+		$deploy_hook,
+		array(
+			'blocking' => false,
+			'timeout'  => 5,
+		)
+	);
+}
+add_action( 'transition_post_status', 'wessci_site_trigger_vercel_deploy', 10, 3 );
+
+/**
+ * Admin bar quick deploy trigger for Vercel.
+ */
+function wessci_site_admin_bar_deploy_node( $wp_admin_bar ) {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+	$nonce = wp_create_nonce( 'wessci_deploy_vercel' );
+	$url   = admin_url( 'admin-post.php?action=wessci_trigger_deploy&_wpnonce=' . $nonce );
+
+	$wp_admin_bar->add_node(
+		array(
+			'id'    => 'wessci-vercel-deploy',
+			'title' => '🚀 Deploy to Vercel',
+			'href'  => $url,
+			'meta'  => array(
+				'title' => 'Trigger immediate production rebuild on Vercel',
+			),
+		)
+	);
+}
+add_action( 'admin_bar_menu', 'wessci_site_admin_bar_deploy_node', 99 );
+
+/**
+ * Handle manual deployment request from admin bar.
+ */
+function wessci_site_handle_manual_deploy() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_die( 'Unauthorized' );
+	}
+	check_admin_referer( 'wessci_deploy_vercel' );
+
+	$deploy_hook = defined( 'WESSCI_VERCEL_DEPLOY_HOOK' ) ? WESSCI_VERCEL_DEPLOY_HOOK : '';
+	if ( $deploy_hook ) {
+		wp_remote_post( $deploy_hook, array( 'blocking' => false, 'timeout' => 5 ) );
+	}
+
+	wp_safe_redirect( add_query_arg( 'wessci_deployed', '1', wp_get_referer() ? wp_get_referer() : admin_url() ) );
+	exit;
+}
+add_action( 'admin_post_wessci_trigger_deploy', 'wessci_site_handle_manual_deploy' );
+
+/**
+ * Display confirmation notice after manual deployment trigger.
+ */
+function wessci_site_deploy_admin_notice() {
+	if ( isset( $_GET['wessci_deployed'] ) && '1' === $_GET['wessci_deployed'] ) {
+		echo '<div class="notice notice-success is-dismissible"><p><strong>Vercel Deployment Triggered:</strong> Production rebuild has been requested. The live journal will update in approximately 10 seconds.</p></div>';
+	}
+}
+add_action( 'admin_notices', 'wessci_site_deploy_admin_notice' );
+
 // No favicon is fabricated here. WordPress will emit an approved Site Icon when configured.
+

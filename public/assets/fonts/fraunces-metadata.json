@@ -1,0 +1,221 @@
+{
+  "id": "fraunces",
+  "family": "Fraunces",
+  "subsets": [
+    "latin",
+    "latin-ext",
+    "vietnamese"
+  ],
+  "category": "serif",
+  "version": "v38",
+  "lastModified": "2025-09-10",
+  "popularity": 82,
+  "defSubset": "latin",
+  "defVariant": "regular",
+  "subsetMap": {
+    "latin": true,
+    "latin-ext": false,
+    "vietnamese": false
+  },
+  "storeID": "latin",
+  "variants": [
+    {
+      "id": "100",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "100",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxqTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxqTCf7V.woff",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxqTCf7T.woff2",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxqTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxqTCf7W.ttf"
+    },
+    {
+      "id": "100italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "100",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTM7RrUs&skey=a711426ad14db1be&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTM7RrUk.woff",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTM7RrUg&skey=a711426ad14db1be&v=v38#Fraunces",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTM7RrUo.ttf",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTM7RrU8.woff2"
+    },
+    {
+      "id": "200",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "200",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxuTCf7V.woff",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxuTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxuTCf7W.ttf",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxuTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxuTCf7T.woff2"
+    },
+    {
+      "id": "200italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "200",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLTc7RrUs&skey=a711426ad14db1be&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLTc7RrUk.woff",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLTc7RrU8.woff2",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLTc7RrUg&skey=a711426ad14db1be&v=v38#Fraunces",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLTc7RrUo.ttf"
+    },
+    {
+      "id": "300",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "300",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIc6RuTCf7W.ttf",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIc6RuTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIc6RuTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIc6RuTCf7V.woff",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIc6RuTCf7T.woff2"
+    },
+    {
+      "id": "300italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "300",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1gVTc7RrU8.woff2",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1gVTc7RrUg&skey=a711426ad14db1be&v=v38#Fraunces",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1gVTc7RrUk.woff",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1gVTc7RrUo.ttf",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1gVTc7RrUs&skey=a711426ad14db1be&v=v38"
+    },
+    {
+      "id": "regular",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "400",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxuTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxuTCf7V.woff",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxuTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxuTCf7W.ttf",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIctxuTCf7T.woff2"
+    },
+    {
+      "id": "italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "400",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTc7RrUs&skey=a711426ad14db1be&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTc7RrUk.woff",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTc7RrU8.woff2",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTc7RrUo.ttf",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1hLTc7RrUg&skey=a711426ad14db1be&v=v38#Fraunces"
+    },
+    {
+      "id": "500",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "500",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIchRuTCf7T.woff2",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIchRuTCf7V.woff",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIchRuTCf7W.ttf",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIchRuTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIchRuTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces"
+    },
+    {
+      "id": "500italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "500",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1h5Tc7RrUs&skey=a711426ad14db1be&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1h5Tc7RrUk.woff",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1h5Tc7RrU8.woff2",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1h5Tc7RrUg&skey=a711426ad14db1be&v=v38#Fraunces",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1h5Tc7RrUo.ttf"
+    },
+    {
+      "id": "600",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "600",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcaRyTCf7V.woff",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcaRyTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcaRyTCf7T.woff2",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcaRyTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcaRyTCf7W.ttf"
+    },
+    {
+      "id": "600italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "600",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1iVSs7RrUs&skey=a711426ad14db1be&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1iVSs7RrUk.woff",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1iVSs7RrUg&skey=a711426ad14db1be&v=v38#Fraunces",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1iVSs7RrU8.woff2",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1iVSs7RrUo.ttf"
+    },
+    {
+      "id": "700",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "700",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcUByTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcUByTCf7T.woff2",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcUByTCf7V.woff",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcUByTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcUByTCf7W.ttf"
+    },
+    {
+      "id": "700italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "700",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1isSs7RrUs&skey=a711426ad14db1be&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1isSs7RrUk.woff",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1isSs7RrUo.ttf",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1isSs7RrUg&skey=a711426ad14db1be&v=v38#Fraunces",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1isSs7RrU8.woff2"
+    },
+    {
+      "id": "800",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "800",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxyTCf7V.woff",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxyTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxyTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxyTCf7T.woff2",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcNxyTCf7W.ttf"
+    },
+    {
+      "id": "800italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "800",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLSs7RrUs&skey=a711426ad14db1be&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLSs7RrUk.woff",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLSs7RrU8.woff2",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLSs7RrUg&skey=a711426ad14db1be&v=v38#Fraunces",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jLSs7RrUo.ttf"
+    },
+    {
+      "id": "900",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "normal",
+      "fontWeight": "900",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcHhyTCf7T.woff2",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcHhyTCf7X&skey=2eca4ab215eafb9c&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcHhyTCf7V.woff",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcHhyTCf7W.ttf",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7hzFUPJH58nib1603gg7S2nfgRYIcHhyTCf7U&skey=2eca4ab215eafb9c&v=v38#Fraunces"
+    },
+    {
+      "id": "900italic",
+      "fontFamily": "'Fraunces'",
+      "fontStyle": "italic",
+      "fontWeight": "900",
+      "eot": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jiSs7RrUs&skey=a711426ad14db1be&v=v38",
+      "woff": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jiSs7RrUk.woff",
+      "woff2": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jiSs7RrU8.woff2",
+      "svg": "https://fonts.gstatic.com/l/font?kit=6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jiSs7RrUg&skey=a711426ad14db1be&v=v38#Fraunces",
+      "ttf": "https://fonts.gstatic.com/s/fraunces/v38/6NVf8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9vIVYX9G37lvd9sPEKsxx664UJf1jiSs7RrUo.ttf"
+    }
+  ]
+}
