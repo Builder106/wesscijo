@@ -11,15 +11,103 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WesSci_Admin {
 
+	public static function body_class( $classes ) {
+		$screen = get_current_screen();
+		$classes .= in_array( get_user_option( 'admin_color' ), array( false, '', 'fresh', 'modern' ), true ) ? ' wessci-branded' : '';
+		return $classes . ( $screen && in_array( $screen->id, array( 'dashboard', 'toplevel_page_wessci-masthead', 'dashboard_page_wessci-publishing' ), true ) ? ' wessci-workspace' : '' );
+	}
+
+	public static function render_publishing_page() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		echo '<div class="wrap"><h1>Publishing</h1>';
+		self::render_widget_vercel_deploy();
+		echo '</div>';
+	}
+
+	public static function selected_issue() {
+		return isset( $_GET['wessci_issue'] ) && is_scalar( $_GET['wessci_issue'] ) ? absint( $_GET['wessci_issue'] ) : 0;
+	}
+
+	public static function current_issue_id() {
+		if ( self::selected_issue() ) {
+			return self::selected_issue();
+		}
+		$latest = get_terms( array( 'taxonomy' => 'wessci_issue', 'hide_empty' => false, 'orderby' => 'id', 'order' => 'DESC', 'number' => 1, 'fields' => 'ids' ) );
+		return is_wp_error( $latest ) || ! $latest ? 0 : (int) $latest[0];
+	}
+
+	public static function division_group( $post_id ) {
+		$cats   = wp_get_post_categories( $post_id, array( 'fields' => 'slugs' ) );
+		$groups = array(
+			'life'  => array( 'biology', 'neuroscience', 'psychology', 'life-sciences' ),
+			'phys'  => array( 'astronomy', 'physics', 'chemistry', 'earth-environmental', 'physical-sciences' ),
+			'quant' => array( 'math', 'computer-science', 'quantitative-computational' ),
+			'sts'   => array( 'science-technology-society', 'sts' ),
+		);
+		foreach ( $groups as $group => $slugs ) {
+			if ( array_intersect( $cats, $slugs ) ) {
+				return $group;
+			}
+		}
+		return 'other';
+	}
+
+	public static function missing_details( $post_id ) {
+		$missing = array();
+		if ( ! get_post_meta( $post_id, '_wessci_format', true ) ) {
+			$missing[] = 'format';
+		}
+		if ( ! get_post_meta( $post_id, '_wessci_abstract', true ) ) {
+			$missing[] = 'abstract or deck';
+		}
+		if ( 'other' === self::division_group( $post_id ) ) {
+			$missing[] = 'division';
+		}
+		return $missing;
+	}
+
+	public static function next_step( $status, $missing, $has_issue ) {
+		if ( $missing ) {
+			return 'Add ' . implode( ', ', $missing );
+		}
+		$steps = array(
+			'draft'           => 'Submit for review',
+			'pending'         => 'Start review',
+			'in_review'       => 'Finish review',
+			'copyediting'     => 'Finish copyedit',
+			'ready_for_issue' => $has_issue ? 'No action needed' : 'Assign to an issue',
+			'publish'         => 'No action needed',
+		);
+		return $steps[ $status ] ?? 'Open manuscript';
+	}
+
+	public static function manuscript_args( $issue_id = null ) {
+		$issue_id = null === $issue_id ? self::selected_issue() : $issue_id;
+		$args = array( 'post_type' => 'post', 'posts_per_page' => -1, 'post_status' => array( 'draft', 'pending', 'in_review', 'copyediting', 'ready_for_issue', 'publish' ), 'orderby' => 'modified', 'order' => 'DESC' );
+		if ( ! current_user_can( 'edit_others_posts' ) ) {
+			$args['author'] = get_current_user_id();
+		}
+		if ( $issue_id ) {
+			$args['tax_query'] = array( array( 'taxonomy' => 'wessci_issue', 'field' => 'term_id', 'terms' => $issue_id, 'include_children' => false ) );
+		}
+		return $args;
+	}
+
 	/**
 	 * Initialize admin hooks.
 	 */
 	public static function init() {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_assets' ) );
 		add_action( 'wp_dashboard_setup', array( __CLASS__, 'configure_dashboard_widgets' ) );
+		add_filter( 'admin_body_class', array( __CLASS__, 'body_class' ) );
 		add_action( 'admin_menu', array( __CLASS__, 'register_admin_menus' ) );
-		add_filter( 'custom_menu_order', '__return_true' );
-		add_filter( 'menu_order', array( __CLASS__, 'custom_admin_menu_order' ) );
+		add_filter( 'gettext', array( __CLASS__, 'welcome_heading' ), 10, 2 );
+	}
+
+	public static function welcome_heading( $translation, $text ) {
+		return 'Welcome to WordPress!' === $text ? 'Welcome to The Wesleyan Science Journal' : $translation;
 	}
 
 	/**
@@ -51,42 +139,11 @@ class WesSci_Admin {
 	}
 
 	/**
-	 * Configure dashboard: remove noisy default widgets and register WesSciJo editorial widgets.
+	 * Add editorial widgets alongside the native WordPress dashboard widgets.
 	 */
 	public static function configure_dashboard_widgets() {
-		// Remove generic WordPress clutter
-		remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
-		remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
-		remove_meta_box( 'dashboard_activity', 'dashboard', 'normal' );
-		remove_meta_box( 'dashboard_right_now', 'dashboard', 'normal' );
-		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
-		remove_meta_box( 'dashboard_incoming_links', 'dashboard', 'normal' );
-		remove_meta_box( 'dashboard_plugins', 'dashboard', 'normal' );
-
-		// Register WesSciJo custom editorial widgets
-		wp_add_dashboard_widget(
-			'wessci_dashboard_issue_progress',
-			__( '📈 Volume 14 Issue Assembly & Progress', 'wessci' ),
-			array( __CLASS__, 'render_widget_issue_progress' )
-		);
-
-		wp_add_dashboard_widget(
-			'wessci_dashboard_division_queues',
-			__( '🔬 Division Editorial Queues', 'wessci' ),
-			array( __CLASS__, 'render_widget_division_queues' )
-		);
-
-		wp_add_dashboard_widget(
-			'wessci_dashboard_vercel_deploy',
-			__( '🚀 Production & Vercel Deployment', 'wessci' ),
-			array( __CLASS__, 'render_widget_vercel_deploy' )
-		);
-
-		wp_add_dashboard_widget(
-			'wessci_dashboard_authoring_guide',
-			__( '📋 Scientific Editorial & Figure Checklist', 'wessci' ),
-			array( __CLASS__, 'render_widget_authoring_guide' )
-		);
+		wp_add_dashboard_widget( 'wessci_dashboard_division_queues', __( 'Manuscripts', 'wessci' ), array( __CLASS__, 'render_widget_division_queues' ) );
+		wp_add_dashboard_widget( 'wessci_dashboard_issue_progress', __( 'Issue assembly', 'wessci' ), array( __CLASS__, 'render_widget_issue_progress' ), null, null, 'side' );
 	}
 
 	/**
@@ -121,6 +178,7 @@ class WesSci_Admin {
 	 * Register custom administrative pages and submenus.
 	 */
 	public static function register_admin_menus() {
+		add_dashboard_page( __( 'Publishing', 'wessci' ), __( 'Publishing', 'wessci' ), 'manage_options', 'wessci-publishing', array( __CLASS__, 'render_publishing_page' ) );
 		add_menu_page(
 			__( 'Editorial Board', 'wessci' ),
 			__( 'Editorial Board', 'wessci' ),
@@ -139,32 +197,4 @@ class WesSci_Admin {
 		require_once dirname( __FILE__ ) . '/views/masthead-management.php';
 	}
 
-	/**
-	 * Reorganize sidebar menu order for optimal editorial workflow.
-	 *
-	 * @param array $menu_order Default menu order.
-	 * @return array Reordered menu array.
-	 */
-	public static function custom_admin_menu_order( $menu_order ) {
-		if ( ! $menu_order ) {
-			return true;
-		}
-
-		return array(
-			'index.php',                  // Editorial Command Center (Dashboard)
-			'edit.php',                   // Articles & Manuscripts
-			'edit-tags.php?taxonomy=wessci_issue', // Volumes & Issues
-			'edit.php?post_type=wessci_event',     // Events
-			'wessci-masthead',            // Editorial Board
-			'upload.php',                 // Media
-			'edit.php?post_type=page',    // Pages
-			'separator1',
-			'themes.php',                 // Appearance
-			'plugins.php',                // Plugins
-			'users.php',                  // Users
-			'tools.php',                  // Tools
-			'options-general.php',        // Settings
-			'separator-last',
-		);
-	}
 }

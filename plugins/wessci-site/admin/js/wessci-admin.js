@@ -1,36 +1,23 @@
-/**
- * WesSciJo Admin Interactive Scripts
- * Handles Division Queue tab switching and interactive dashboard filtering.
- */
-
 document.addEventListener('DOMContentLoaded', function () {
-	// Division Queue Tab Switching
-	var tabButtons = document.querySelectorAll('.wessci-tab-btn');
-	var queueRows = document.querySelectorAll('.wessci-queue-row');
-
-	if (tabButtons.length > 0) {
-		tabButtons.forEach(function (btn) {
-			btn.addEventListener('click', function () {
-				var targetDivision = btn.getAttribute('data-tab');
-
-				// Update active state on buttons
-				tabButtons.forEach(function (b) {
-					b.classList.remove('is-active');
-					b.setAttribute('aria-selected', 'false');
-				});
-				btn.classList.add('is-active');
-				btn.setAttribute('aria-selected', 'true');
-
-				// Filter rows
-				queueRows.forEach(function (row) {
-					var rowDivision = row.getAttribute('data-division');
-					if (targetDivision === 'all' || rowDivision === targetDivision) {
-						row.style.display = '';
-					} else {
-						row.style.display = 'none';
-					}
-				});
+	const filters = document.querySelectorAll('[data-filter]');
+	const rows = document.querySelectorAll('.wessci-queue-row');
+	const count = document.querySelector('[data-queue-count]');
+	const empty = document.querySelector('[data-queue-empty]');
+	function applyFilters() {
+		let visible = 0;
+		rows.forEach(function (row) {
+			row.hidden = Array.from(filters).some(function (filter) {
+				if (filter.dataset.filter === 'search') {
+					return !row.textContent.toLowerCase().includes(filter.value.trim().toLowerCase());
+				}
+				if (filter.value === 'active') return row.dataset.stage === 'publish';
+				return filter.value !== 'all' && row.dataset[filter.dataset.filter] !== filter.value;
 			});
+			if (!row.hidden) visible += 1;
 		});
+		if (count) count.textContent = visible + ' manuscripts shown';
+		if (empty) empty.hidden = visible !== 0;
 	}
+	filters.forEach(function (filter) { filter.addEventListener('input', applyFilters); });
+	applyFilters();
 });

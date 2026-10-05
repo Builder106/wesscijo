@@ -1,295 +1,274 @@
-/**
- * WesSciJo Admin Styling & Dashboard Theme
- * Brand Colors: Wesleyan Cardinal Red (#c51230), Carbon (#100e0f), Clean White (#ffffff)
- */
-
-:root {
-	--wes-red: #c51230;
-	--wes-red-hover: #e01538;
-	--wes-red-light: rgba(197, 18, 48, 0.08);
-	--wes-carbon: #100e0f;
-	--wes-surface: #ffffff;
-	--wes-bg-subtle: #f7f7f9;
-	--wes-border: #e2e2e5;
-	--wes-text-main: #100e0f;
-	--wes-text-muted: #646063;
+.wessci-branded {
+  --wes-red: #c51230;
+  --wes-red-dark: #a50f28;
+  --wes-carbon: #100e0f;
+  --wes-carbon-raised: #211e20;
+  --wes-carbon-hover: #30292c;
+  --wes-text-muted: #555;
+  --wes-border: #e2e2e5;
+  --wp-admin-theme-color: #c51230;
+  --wp-admin-theme-color--rgb: 197, 18, 48;
+  --wp-admin-theme-color-darker-10: #a50f28;
+  --wp-admin-theme-color-darker-10--rgb: 165, 15, 40;
+  --wp-admin-theme-color-darker-20: #8a0d22;
+  --wp-admin-theme-color-darker-20--rgb: 138, 13, 34;
 }
 
-/* Custom Admin Bar Polish */
-#wpadminbar {
-	background: var(--wes-carbon) !important;
-	border-bottom: 2px solid var(--wes-red) !important;
+/* The cardinal head replaces the WordPress logo in the admin bar. */
+.wessci-branded #wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: url("../images/cardinal-field.svg") -88px -28px / 150px 127px no-repeat;
 }
 
-#wpadminbar .ab-item,
-#wpadminbar .ab-label {
-	color: #f5f5f7 !important;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+/* Shell recolor: same WordPress structure, WesSciJo colors. */
+.wessci-branded #wpadminbar,
+.wessci-branded #adminmenu,
+.wessci-branded #adminmenuback,
+.wessci-branded #adminmenuwrap {
+  background: var(--wes-carbon);
+}
+.wessci-branded #wpadminbar .menupop .ab-sub-wrapper,
+.wessci-branded #adminmenu .wp-submenu {
+  background: var(--wes-carbon-raised);
+}
+.wessci-branded #wpadminbar .ab-top-menu > li:hover > .ab-item,
+.wessci-branded #wpadminbar .ab-top-menu > li > .ab-item:focus,
+.wessci-branded #wpadminbar .ab-top-menu > li.hover > .ab-item,
+.wessci-branded #adminmenu li.menu-top:hover,
+.wessci-branded #adminmenu li.opensub > a.menu-top {
+  background: var(--wes-carbon-hover);
+  color: #fff;
+}
+.wessci-branded #adminmenu li.current > a.menu-top,
+.wessci-branded #adminmenu li.wp-has-current-submenu > a.wp-has-current-submenu,
+.wessci-branded #adminmenu li.wp-has-current-submenu .wp-submenu .wp-submenu-head {
+  background: var(--wes-red);
+  color: #fff;
+}
+.wessci-branded #adminmenu li.wp-has-current-submenu > a.wp-has-current-submenu:after,
+.wessci-branded #adminmenu li.current > a.menu-top:after {
+  border-right-color: #f0f0f1;
+}
+.wessci-branded #adminmenu a:hover,
+.wessci-branded #adminmenu a:focus,
+.wessci-branded #adminmenu .wp-submenu a:hover,
+.wessci-branded #adminmenu .wp-submenu a:focus,
+.wessci-branded #adminmenu .wp-submenu li.current a {
+  color: #fff;
+}
+.wessci-branded #adminmenu li.menu-top:hover div.wp-menu-image:before,
+.wessci-branded #adminmenu li.menu-top > a:focus div.wp-menu-image:before,
+.wessci-branded #adminmenu li.opensub div.wp-menu-image:before,
+.wessci-branded #wpadminbar .ab-top-menu > li:hover > .ab-item .ab-icon:before {
+  color: #fff;
+}
+.wessci-branded #adminmenu .wp-submenu a:hover,
+.wessci-branded #adminmenu .wp-submenu a:focus {
+  background: transparent;
 }
 
-#wpadminbar .quicklinks .menupop ul li a:hover,
-#wpadminbar .quicklinks .ab-sub-wrapper .ab-item:hover,
-#wpadminbar .quicklinks .ab-top-menu > li:hover > .ab-item {
-	background-color: var(--wes-red) !important;
-	color: #ffffff !important;
+/* Controls and links. */
+.wessci-branded #wpbody-content a {
+  color: var(--wes-red);
+}
+.wessci-branded #wpbody-content a:hover {
+  color: var(--wes-red-dark);
+}
+body.wessci-branded .button,
+body.wessci-branded .button:hover,
+body.wessci-branded .button:focus {
+  color: var(--wes-red);
+  border-color: var(--wes-red);
+}
+body.wessci-branded .button-primary,
+body.wessci-branded #wpbody-content .button-primary {
+  background: var(--wes-red);
+  border-color: var(--wes-red);
+  color: #fff;
+}
+body.wessci-branded .button-primary:hover,
+body.wessci-branded .button-primary:focus,
+body.wessci-branded #wpbody-content .button-primary:hover,
+body.wessci-branded #wpbody-content .button-primary:focus {
+  background: var(--wes-red-dark);
+  border-color: var(--wes-red-dark);
+  color: #fff;
+}
+.wessci-branded input:focus,
+.wessci-branded select:focus,
+.wessci-branded textarea:focus,
+.wessci-branded .button:focus {
+  border-color: var(--wes-red);
+  box-shadow: 0 0 0 1px var(--wes-red);
+}
+.wessci-branded :focus-visible {
+  outline: 2px solid var(--wes-red);
+  outline-offset: 2px;
+}
+.wessci-branded .wessci-status-badge {
+  font-weight: 500;
 }
 
-#wpadminbar #wp-admin-bar-wessci-vercel-deploy .ab-item {
-	background: var(--wes-red) !important;
-	color: #ffffff !important;
-	font-weight: 600;
-	border-radius: 3px;
-	margin-top: 3px;
-	height: 26px;
-	line-height: 26px;
-	padding: 0 10px !important;
+/* Dashboard and editorial screens. */
+.wessci-workspace {
+  color: var(--wes-carbon);
 }
-
-#wpadminbar #wp-admin-bar-wessci-vercel-deploy .ab-item:hover {
-	background: var(--wes-red-hover) !important;
+.wessci-workspace #wpcontent {
+  background: #f7f7f9;
 }
-
-/* Sidebar Menu Branding */
-#adminmenu,
-#adminmenuback,
-#adminmenuwrap {
-	background-color: var(--wes-carbon) !important;
+.wessci-workspace .welcome-panel {
+  border-color: var(--wes-border);
 }
-
-#adminmenu li.menu-top:hover,
-#adminmenu li.opensub > a.menu-top,
-#adminmenu li > a.menu-top:focus {
-	background-color: #1a1718 !important;
-	color: #ffffff !important;
+.wessci-workspace .welcome-panel-header {
+  min-height: 220px;
+  background: var(--wes-carbon) url("../images/cardinal-field.svg") no-repeat right 40px center / auto 170%;
+  border-bottom: 4px solid var(--wes-red);
 }
-
-#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
-#adminmenu li.current a.menu-top {
-	background: var(--wes-red) !important;
-	color: #ffffff !important;
-	font-weight: 600;
+.wessci-workspace .welcome-panel-header-image {
+  display: none;
 }
-
-#adminmenu .wp-submenu {
-	background-color: #1a1718 !important;
+.wessci-workspace .welcome-panel-header h2,
+.wessci-workspace .welcome-panel-header p {
+  max-width: 58%;
 }
-
-/* Post Status Badges */
-.wessci-status-badge {
-	display: inline-block;
-	padding: 2px 8px;
-	border-radius: 3px;
-	font-size: 11px;
-	font-weight: 600;
-	text-transform: uppercase;
-	letter-spacing: 0.05em;
-	line-height: 1.4;
+.wessci-workspace .welcome-panel-header a,
+.wessci-workspace #wpbody-content .welcome-panel-header a,
+.wessci-workspace #wpbody-content .welcome-panel .welcome-panel-close {
+  color: #fff;
 }
-
-.wessci-status-badge.status-review {
-	background: #fff8e6;
-	color: #b45309;
-	border: 1px solid #fde68a;
+.wessci-workspace .welcome-panel-header h2,
+.wessci-workspace .welcome-panel-header p {
+  color: #fff;
 }
-
-.wessci-status-badge.status-copyedit {
-	background: #f3e8ff;
-	color: #6b21a8;
-	border: 1px solid #e9d5ff;
+.wessci-workspace #dashboard-widgets .postbox {
+  border: 1px solid var(--wes-border);
+  box-shadow: none;
 }
-
-.wessci-status-badge.status-ready {
-	background: #ecfdf5;
-	color: #047857;
-	border: 1px solid #a7f3d0;
+.wessci-workspace #dashboard-widgets .postbox .postbox-header {
+  background: var(--wes-carbon);
+  border-bottom: 3px solid var(--wes-red);
 }
-
-/* WesSciJo Dashboard Widgets */
-.wessci-dashboard-card {
-	background: var(--wes-surface);
-	border: 1px solid var(--wes-border);
-	border-radius: 6px;
-	padding: 18px;
-	margin-bottom: 16px;
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+.wessci-workspace #dashboard-widgets .postbox .postbox-header h2,
+.wessci-workspace #dashboard-widgets .postbox .handle-actions button,
+.wessci-workspace #dashboard-widgets .postbox .postbox-header .handlediv,
+.wessci-workspace #dashboard-widgets .postbox .handle-actions .toggle-indicator:before {
+  color: #fff;
 }
-
-.wessci-card-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid var(--wes-border);
-	padding-bottom: 12px;
-	margin-bottom: 16px;
+.wessci-workspace #dashboard-widgets .postbox .inside {
+  padding: 0 12px 12px;
 }
-
-.wessci-card-title {
-	font-size: 16px;
-	font-weight: 700;
-	color: var(--wes-text-main);
-	margin: 0;
-	display: flex;
-	align-items: center;
-	gap: 8px;
+.wessci-workspace .wessci-intro {
+  font-size: 13px;
+  line-height: 1.6;
 }
-
-.wessci-volume-pill {
-	display: inline-block;
-	background: var(--wes-red-light);
-	color: var(--wes-red);
-	font-size: 11px;
-	font-weight: 700;
-	padding: 3px 8px;
-	border-radius: 4px;
-	letter-spacing: 0.04em;
-	text-transform: uppercase;
+.wessci-workspace .wessci-filters,
+.wessci-workspace .wessci-issue-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+  margin: 12px 0;
 }
-
-/* Issue Progress Bar */
-.wessci-progress-track {
-	height: 14px;
-	background: #e9ecef;
-	border-radius: 7px;
-	overflow: hidden;
-	display: flex;
-	margin: 12px 0 16px;
+.wessci-workspace .wessci-filters label {
+  display: grid;
+  gap: 6px;
 }
-
-.wessci-progress-segment {
-	height: 100%;
-	transition: width 0.3s ease;
+.wessci-workspace input,
+.wessci-workspace select {
+  max-width: 100%;
 }
-
-.wessci-seg-life { background-color: #059669; }
-.wessci-seg-phys { background-color: #2563eb; }
-.wessci-seg-quant { background-color: #7c3aed; }
-.wessci-seg-sts { background-color: #d97706; }
-
-.wessci-progress-legend {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	font-size: 12px;
-	color: var(--wes-text-muted);
+.wessci-workspace .wessci-table-scroll {
+  overflow: auto;
+  max-width: 100%;
 }
-
-.wessci-legend-item {
-	display: flex;
-	align-items: center;
-	gap: 6px;
+.wessci-workspace .wessci-queue-table {
+  width: 100%;
+  min-width: 440px;
+  border-collapse: collapse;
+  font-size: 13px;
 }
-
-.wessci-legend-dot {
-	width: 10px;
-	height: 10px;
-	border-radius: 50%;
-	display: inline-block;
+.wessci-workspace .wessci-queue-table th,
+.wessci-workspace .wessci-queue-table td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--wes-border);
+  vertical-align: top;
 }
-
-/* Division Queue Tabs */
-.wessci-tabs-nav {
-	display: flex;
-	border-bottom: 1px solid var(--wes-border);
-	margin-bottom: 16px;
-	gap: 4px;
+.wessci-workspace .wessci-queue-table th {
+  background: #f7f7f9;
+  border-bottom: 2px solid var(--wes-carbon);
+  font-weight: 600;
 }
-
-.wessci-tab-btn {
-	background: none;
-	border: none;
-	border-bottom: 2px solid transparent;
-	padding: 8px 14px;
-	font-size: 13px;
-	font-weight: 500;
-	color: var(--wes-text-muted);
-	cursor: pointer;
-	transition: color 0.15s ease, border-color 0.15s ease;
+.wessci-workspace #wpbody-content .wessci-queue-table td > strong a {
+  color: var(--wes-carbon);
+  text-decoration: none;
 }
-
-.wessci-tab-btn:hover {
-	color: var(--wes-text-main);
+.wessci-workspace #wpbody-content .wessci-queue-table td > strong a:hover {
+  color: var(--wes-red);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
-
-.wessci-tab-btn.is-active {
-	color: var(--wes-red);
-	border-bottom-color: var(--wes-red);
-	font-weight: 600;
+.wessci-workspace .wessci-queue-table .wessci-secondary {
+  display: block;
 }
-
-/* Queue Table */
-.wessci-queue-table {
-	width: 100%;
-	border-collapse: collapse;
-	font-size: 13px;
+.wessci-workspace #wpbody-content .wessci-secondary,
+.wessci-workspace #wpbody-content a.wessci-secondary {
+  color: var(--wes-text-muted);
 }
-
-.wessci-queue-table th {
-	text-align: left;
-	padding: 8px 12px;
-	background: var(--wes-bg-subtle);
-	color: var(--wes-text-muted);
-	font-weight: 600;
-	border-bottom: 1px solid var(--wes-border);
+.wessci-workspace .wessci-open-items {
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
 }
-
-.wessci-queue-table td {
-	padding: 10px 12px;
-	border-bottom: 1px solid var(--wes-border);
-	vertical-align: middle;
+.wessci-workspace .wessci-open-items li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--wes-border);
 }
-
-.wessci-queue-table tr:hover td {
-	background-color: #fdfdfd;
+.wessci-workspace .wessci-open-items .wessci-secondary {
+  display: block;
 }
-
-.wessci-btn-action {
-	display: inline-block;
-	padding: 3px 8px;
-	background: #f1f3f5;
-	border: 1px solid #ced4da;
-	border-radius: 3px;
-	color: #495057;
-	text-decoration: none;
-	font-size: 12px;
-	font-weight: 500;
+.wessci-workspace .wessci-issue-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
 }
-
-.wessci-btn-action:hover {
-	background: var(--wes-red);
-	border-color: var(--wes-red);
-	color: #ffffff;
+.wessci-workspace .wessci-issue-counts div {
+  min-width: 110px;
 }
-
-/* Checklist Items */
-.wessci-checklist {
-	list-style: none;
-	padding: 0;
-	margin: 0;
+.wessci-workspace .wessci-issue-counts dt {
+  color: var(--wes-text-muted);
 }
-
-.wessci-checklist li {
-	padding: 6px 0;
-	border-bottom: 1px solid var(--wes-border);
-	font-size: 13px;
-	display: flex;
-	align-items: center;
-	gap: 8px;
+.wessci-workspace .wessci-issue-counts dd {
+  margin: 8px 0;
+  font-size: 24px;
+  font-weight: 600;
 }
-
-.wessci-checklist li:last-child {
-	border-bottom: none;
+.wessci-workspace [hidden] {
+  display: none !important;
 }
-
-.wessci-check-icon {
-	color: var(--wes-red);
-	font-weight: bold;
-}
-
-/* Reduced Motion Compliance */
-@media (prefers-reduced-motion: reduce) {
-	.wessci-progress-segment,
-	.wessci-tab-btn,
-	.wessci-btn-action {
-		transition: none !important;
-	}
+@media (max-width: 600px) {
+  .wessci-workspace .welcome-panel-header {
+    background-image: none;
+    min-height: 0;
+  }
+  .wessci-workspace .welcome-panel-header h2,
+  .wessci-workspace .welcome-panel-header p {
+    max-width: none;
+  }
+  .wessci-workspace #dashboard-widgets .postbox .inside {
+    padding: 12px;
+  }
+  .wessci-workspace .wessci-filters label {
+    width: 100%;
+  }
+  .wessci-workspace .wessci-queue-table {
+    min-width: 0;
+  }
+  .wessci-workspace .wessci-queue-table th:nth-child(4),
+  .wessci-workspace .wessci-queue-table td:nth-child(4) {
+    display: none;
+  }
 }

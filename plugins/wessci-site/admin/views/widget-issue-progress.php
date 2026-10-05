@@ -1,75 +1,38 @@
 <?php
-/**
- * Widget View: Volume & Issue Progress
- *
- * @package WesSciJo_Site
- */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+/** Issue totals for the selected issue, or the newest issue when none is selected. */
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+$issue_id = WesSci_Admin::current_issue_id();
+$issue = $issue_id ? get_term( $issue_id, 'wessci_issue' ) : null;
+if ( ! $issue || is_wp_error( $issue ) ) {
+	echo '<p>No issues yet. <a href="' . esc_url( admin_url( 'edit-tags.php?taxonomy=wessci_issue' ) ) . '">Create an issue</a> to start assembling articles.</p>';
+	return;
 }
-
-// Query post counts across the 4 major divisions
-$divisions = array(
-	'life'  => array( 'label' => 'Life Sciences', 'slugs' => array( 'biology', 'neuroscience', 'psychology' ), 'color' => '#059669', 'count' => 0 ),
-	'phys'  => array( 'label' => 'Physical Sciences', 'slugs' => array( 'astronomy', 'physics', 'chemistry', 'earth-environmental' ), 'color' => '#2563eb', 'count' => 0 ),
-	'quant' => array( 'label' => 'Quantitative & Comp', 'slugs' => array( 'math', 'computer-science' ), 'color' => '#7c3aed', 'count' => 0 ),
-	'sts'   => array( 'label' => 'Science, Tech & Society', 'slugs' => array( 'science-technology-society', 'sts' ), 'color' => '#d97706', 'count' => 0 ),
-);
-
-$total_articles = 0;
-foreach ( $divisions as $key => &$div ) {
-	$posts = get_posts( array(
-		'post_type'      => 'post',
-		'posts_per_page' => -1,
-		'post_status'    => array( 'publish', 'ready_for_issue', 'copyediting', 'in_review' ),
-		'category_name'  => implode( ',', $div['slugs'] ),
-		'fields'         => 'ids',
-	) );
-	$div['count'] = count( $posts );
-	$total_articles += $div['count'];
+$posts = array_filter( get_posts( WesSci_Admin::manuscript_args( $issue_id ) ), function ( $manuscript ) { return current_user_can( 'edit_post', $manuscript->ID ); } );
+$counts = array();
+$open = array();
+foreach ( $posts as $manuscript ) {
+	$counts[ $manuscript->post_status ] = ( $counts[ $manuscript->post_status ] ?? 0 ) + 1;
+	$missing = WesSci_Admin::missing_details( $manuscript->ID );
+	if ( $missing ) {
+		$open[] = array( $manuscript, $missing );
+	}
 }
-unset( $div );
-
-// Fallback baseline if no posts exist in development
-$display_total = max( $total_articles, 1 );
-$target_issue_size = 14;
-$progress_pct = min( 100, round( ( $total_articles / $target_issue_size ) * 100 ) );
+$ready = ( $counts['ready_for_issue'] ?? 0 ) + ( $counts['publish'] ?? 0 );
 ?>
-
-<div class="wessci-card-header">
-	<h3 class="wessci-card-title">
-		<span>Volume 14 Issue Assembly</span>
-		<span class="wessci-volume-pill">Target: Fall 2026</span>
-	</h3>
-	<div style="font-size: 13px; color: var(--wes-text-muted);">
-		<strong><?php echo (int) $total_articles; ?></strong> / <?php echo (int) $target_issue_size; ?> Manuscripts Active (<?php echo (int) $progress_pct; ?>%)
-	</div>
-</div>
-
-<p style="font-size: 13px; color: var(--wes-text-muted); margin: 0 0 8px;">
-	Visual distribution of accepted and reviewing manuscripts across the four scientific divisions:
-</p>
-
-<div class="wessci-progress-track">
-	<?php foreach ( $divisions as $key => $div ) : 
-		$pct = round( ( $div['count'] / $display_total ) * 100 );
-		if ( $pct > 0 ) :
-	?>
-		<div class="wessci-progress-segment wessci-seg-<?php echo esc_attr( $key ); ?>" style="width: <?php echo (int) $pct; ?>%;" title="<?php echo esc_attr( $div['label'] . ': ' . $div['count'] ); ?>"></div>
-	<?php 
-		endif;
-	endforeach; 
-	if ( 0 === $total_articles ) : ?>
-		<div class="wessci-progress-segment" style="width: 100%; background: #e2e2e5;" title="No manuscripts active yet"></div>
-	<?php endif; ?>
-</div>
-
-<div class="wessci-progress-legend">
-	<?php foreach ( $divisions as $key => $div ) : ?>
-		<div class="wessci-legend-item">
-			<span class="wessci-legend-dot" style="background-color: <?php echo esc_attr( $div['color'] ); ?>;"></span>
-			<span><strong><?php echo esc_html( $div['label'] ); ?>:</strong> <?php echo (int) $div['count']; ?></span>
-		</div>
-	<?php endforeach; ?>
-</div>
+<h3><?php echo esc_html( $issue->name ); ?></h3>
+<p><?php echo (int) $ready; ?> of <?php echo (int) count( $posts ); ?> articles ready for issue or published<?php echo current_user_can( 'edit_others_posts' ) ? '' : ' (your manuscripts)'; ?>.</p>
+<dl class="wessci-issue-counts">
+<?php foreach ( array( 'draft', 'pending', 'in_review', 'copyediting', 'ready_for_issue', 'publish' ) as $stage ) : if ( empty( $counts[ $stage ] ) ) { continue; } $status = get_post_status_object( $stage ); ?>
+<div><dt><?php echo esc_html( $status ? $status->label : $stage ); ?></dt><dd><?php echo (int) $counts[ $stage ]; ?></dd></div>
+<?php endforeach; ?>
+</dl>
+<?php if ( $open ) : ?>
+<h4>Missing details</h4>
+<ul class="wessci-open-items">
+<?php foreach ( array_slice( $open, 0, 5 ) as $item ) : ?>
+<li><a href="<?php echo esc_url( get_edit_post_link( $item[0]->ID ) ); ?>"><?php echo esc_html( get_the_title( $item[0]->ID ) ? get_the_title( $item[0]->ID ) : __( '(Untitled manuscript)', 'wessci' ) ); ?></a> <span class="wessci-secondary"><?php echo esc_html( implode( ', ', $item[1] ) ); ?></span></li>
+<?php endforeach; ?>
+</ul>
+<?php if ( count( $open ) > 5 ) : ?><p class="wessci-secondary"><?php echo (int) ( count( $open ) - 5 ); ?> more in the manuscript queue.</p><?php endif; ?>
+<?php endif; ?>
+<p><a href="<?php echo esc_url( admin_url( 'edit.php?wessci_issue=' . $issue->slug ) ); ?>">Open issue manuscripts</a></p>
