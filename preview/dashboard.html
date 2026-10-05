@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Dashboard | The Wesleyan Science Journal</title>
+    <link rel="stylesheet" href="assets/wordpress-dashicons.css" />
+    <link
+      rel="stylesheet"
+      href="../plugins/wessci-site/admin/css/wessci-admin.css"
+    />
+    <link rel="stylesheet" href="dashboard-preview.css" />
+  </head>
+  <body class="wp-admin wessci-branded wessci-workspace">
+    <div id="wpadminbar">
+      <div class="adminbar-left">
+        <button
+          id="menu-toggle"
+          aria-label="Toggle admin menu"
+          aria-expanded="false"
+        >
+          <span
+            class="dashicons dashicons-menu"
+            aria-hidden="true"
+          ></span></button
+        ><span id="wp-admin-bar-wp-logo"><span class="ab-item"><span class="ab-icon" aria-hidden="true"></span></span></span
+        ><a href="https://thewesleyansciencejournal.com/"
+          >The Wesleyan Science Journal</a
+        ><a
+          class="adminbar-extra"
+          href="https://wessci.yinkavaughan.me/wp-admin/post-new.php"
+          >+ New</a
+        ><a
+          class="adminbar-extra"
+          href="https://wessci.yinkavaughan.me/wp-admin/index.php?page=wessci-publishing"
+          >Publishing</a
+        ><span class="adminbar-extra">Simply Static</span>
+      </div>
+      <span class="adminbar-extra">Howdy, editor</span>
+    </div>
+    <div id="adminmenuback"></div>
+    <nav id="adminmenuwrap" aria-label="Main admin navigation">
+      <ul id="adminmenu">
+        <li class="current">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/index.php"
+            ><span
+              class="dashicons dashicons-dashboard"
+              aria-hidden="true"
+            ></span
+            >Dashboard</a
+          >
+          <ul class="wp-submenu">
+            <li><a href="#wpbody-content">Home</a></li>
+            <li>
+              <a href="https://wessci.yinkavaughan.me/wp-admin/update-core.php"
+                >Updates</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li class="">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/edit.php"
+            ><span
+              class="dashicons dashicons-admin-post"
+              aria-hidden="true"
+            ></span
+            >Posts</a
+          >
+        </li>
+        <li class="">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/upload.php"
+            ><span
+              class="dashicons dashicons-admin-media"
+              aria-hidden="true"
+            ></span
+            >Media</a
+          >
+        </li>
+        <li class="">
+          <a
+            href="https://wessci.yinkavaughan.me/wp-admin/edit.php?post_type=page"
+            ><span
+              class="dashicons dashicons-admin-page"
+              aria-hidden="true"
+            ></span
+            >Pages</a
+          >
+        </li>
+        <li class="">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/edit-comments.php"
+            ><span
+              class="dashicons dashicons-admin-comments"
+              aria-hidden="true"
+            ></span
+            >Comments</a
+          >
+        </li>
+        <li class="">
+          <a
+            href="https://wessci.yinkavaughan.me/wp-admin/edit.php?post_type=wessci_event"
+            ><span
+              class="dashicons dashicons-calendar-alt"
+              aria-hidden="true"
+            ></span
+            >Events</a
+          >
+        </li>
+        <li class="">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/themes.php"
+            ><span
+              class="dashicons dashicons-admin-appearance"
+              aria-hidden="true"
+            ></span
+            >Appearance</a
+          >
+        </li>
+        <li class="">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/plugins.php"
+            ><span
+              class="dashicons dashicons-admin-plugins"
+              aria-hidden="true"
+            ></span
+            >Plugins</a
+          >
+        </li>
+        <li class="">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/users.php"
+            ><span
+              class="dashicons dashicons-admin-users"
+              aria-hidden="true"
+            ></span
+            >Users</a
+          >
+        </li>
+        <li class="">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/tools.php"
+            ><span
+              class="dashicons dashicons-admin-tools"
+              aria-hidden="true"
+            ></span
+            >Tools</a
+          >
+        </li>
+        <li class="">
+          <a href="https://wessci.yinkavaughan.me/wp-admin/options-general.php"
+            ><span
+              class="dashicons dashicons-admin-settings"
+              aria-hidden="true"
+            ></span
+            >Settings</a
+          >
+        </li>
+        <li class="">
+          <a
+            href="https://wessci.yinkavaughan.me/wp-admin/admin.php?page=wp-mail-smtp"
+            ><span class="dashicons dashicons-email" aria-hidden="true"></span
+            >WP Mail SMTP</a
+          >
+        </li>
+        <li class="">
+          <a
+            href="https://wessci.yinkavaughan.me/wp-admin/admin.php?page=simply-static"
+            ><span class="dashicons dashicons-update" aria-hidden="true"></span
+            >Simply Static</a
+          >
+        </li>
+      </ul>
+      <button id="collapse-menu">
+        <span
+          class="dashicons dashicons-arrow-left-alt2"
+          aria-hidden="true"
+        ></span
+        >Collapse Menu
+      </button>
+    </nav>
+    <main id="wpcontent">
+      <div id="wpbody-content">
+        <div class="screen-meta-links">
+          <button
+            class="button"
+            id="screen-options-toggle"
+            aria-expanded="false"
+            aria-controls="screen-options"
+          >
+            Screen Options
+            <span
+              class="dashicons dashicons-arrow-down-alt2"
+              aria-hidden="true"
+            ></span></button
+          ><button
+            class="button"
+            id="help-toggle"
+            aria-expanded="false"
+            aria-controls="help-panel"
+          >
+            Help
+          </button>
+        </div>
+        <div id="screen-options" class="screen-panel" hidden>
+          <p>Show on screen</p>
+          <label
+            ><input
+              type="checkbox"
+              data-widget="welcome-panel"
+              checked
+            />Welcome</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              data-widget="wessci_dashboard_division_queues"
+              checked
+            />Manuscripts</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              data-widget="wessci_dashboard_issue_progress"
+              checked
+            />Issue assembly</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              data-widget="dashboard_quick_press"
+              checked
+            />Quick Draft</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              data-widget="dashboard_activity"
+              checked
+            />Activity</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              data-widget="dashboard_right_now"
+              checked
+            />At a Glance</label
+          >
+          <label
+            ><input
+              type="checkbox"
+              data-widget="dashboard_primary"
+              checked
+            />WordPress Events and News</label
+          >
+        </div>
+        <div id="help-panel" class="screen-panel" hidden>
+          <p>
+            Use Screen Options to choose widgets. Each widget can be collapsed.
+            The installed dashboard retains WordPress's drag-and-drop
+            arrangement.
+          </p>
+        </div>
+        <h1>Dashboard</h1>
+        <p class="preview-note">
+          Static preview with sample content. WordPress menus link to the
+          existing CMS.
+        </p>
+        <section class="welcome-panel" id="welcome-panel">
+          <div class="welcome-panel-header">
+            <button type="button" id="dismiss-welcome">Dismiss</button>
+            <h2>Welcome to The Wesleyan Science Journal</h2>
+            <p>Manage The Wesleyan Science Journal.</p>
+          </div>
+          <div class="welcome-panel-content">
+            <div>
+              <span class="dashicons dashicons-edit" aria-hidden="true"></span>
+              <h3>Author rich content with blocks and patterns</h3>
+              <p>Create and edit articles using the WordPress block editor.</p>
+              <a href="https://wessci.yinkavaughan.me/wp-admin/post-new.php"
+                >Add a new post</a
+              >
+            </div>
+            <div>
+              <span
+                class="dashicons dashicons-admin-appearance"
+                aria-hidden="true"
+              ></span>
+              <h3>Start Customizing</h3>
+              <p>Configure the journal's logo, header, and menus.</p>
+              <a href="https://wessci.yinkavaughan.me/wp-admin/customize.php"
+                >Open the Customizer</a
+              >
+            </div>
+            <div>
+              <span
+                class="dashicons dashicons-welcome-learn-more"
+                aria-hidden="true"
+              ></span>
+              <h3>Discover a new way to build your site</h3>
+              <p>Explore WordPress themes and site editing.</p>
+              <a href="https://wordpress.org/documentation/article/site-editor/"
+                >Learn about block themes</a
+              >
+            </div>
+          </div>
+        </section>
+        <div id="dashboard-widgets" class="metabox-holder">
+          <div class="postbox-container" id="normal-sortables">
+            <section id="wessci_dashboard_division_queues" class="postbox">
+              <div class="postbox-header">
+                <h2>Manuscripts</h2>
+                <button
+                  type="button"
+                  class="handlediv"
+                  aria-expanded="true"
+                  aria-controls="wessci_dashboard_division_queues-inside"
+                  aria-label="Collapse Manuscripts"
+                >
+                  <span
+                    class="dashicons dashicons-arrow-up-alt2"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </div>
+              <div class="inside" id="wessci_dashboard_division_queues-inside">
+                <div class="wessci-filters">
+                  <label
+                    >Division<select data-filter="division">
+                      <option value="all">All divisions</option>
+                      <option value="life">Life Sciences</option>
+                      <option value="phys">Physical Sciences</option>
+                      <option value="quant">
+                        Quantitative &amp; Computational
+                      </option>
+                      <option value="sts">
+                        Science, Technology &amp; Society
+                      </option>
+                    </select></label
+                  ><label
+                    >Stage<select data-filter="stage">
+                      <option value="active">Active (not published)</option>
+                      <option value="all">All stages</option>
+                      <option value="in_review">In review</option>
+                      <option value="copyediting">Copyediting</option>
+                      <option value="ready_for_issue">Ready for issue</option>
+                    </select></label
+                  ><label
+                    >Search manuscripts<input
+                      type="search"
+                      data-filter="search"
+                  /></label>
+                </div>
+                <p data-queue-count aria-live="polite"></p>
+                <p data-queue-empty hidden>
+                  No manuscripts match these filters.
+                </p>
+                <div
+                  class="wessci-table-scroll"
+                  tabindex="0"
+                  role="region"
+                  aria-label="Manuscript queue"
+                >
+                  <table class="wessci-queue-table">
+                    <caption class="screen-reader-text">
+                      Sample editorial queue
+                    </caption>
+                    <thead>
+<tr><th scope="col">Manuscript</th><th scope="col">Stage</th><th scope="col">Next step</th><th scope="col">Updated</th></tr>
+</thead>
+<tbody>
+<tr class="wessci-queue-row" data-division="quant" data-stage="in_review">
+<td><strong><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Quantum error mitigation</a></strong><span class="wessci-secondary">Sample author</span><span class="wessci-secondary">Quantitative &amp; Computational</span></td>
+<td>In review</td>
+<td><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Add abstract or deck</a><a class="wessci-secondary" href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Preview</a></td>
+<td>Oct 3, 2026</td>
+</tr>
+<tr class="wessci-queue-row" data-division="life" data-stage="copyediting">
+<td><strong><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Avian neurobiology in Connecticut</a></strong><span class="wessci-secondary">Sample author</span><span class="wessci-secondary">Life Sciences</span></td>
+<td>Copyediting</td>
+<td><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Add format</a><a class="wessci-secondary" href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Preview</a></td>
+<td>Oct 2, 2026</td>
+</tr>
+<tr class="wessci-queue-row" data-division="phys" data-stage="ready_for_issue">
+<td><strong><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Microplastics in Long Island Sound</a></strong><span class="wessci-secondary">Sample author</span><span class="wessci-secondary">Physical Sciences</span></td>
+<td>Ready for Issue</td>
+<td><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">No action needed</a><a class="wessci-secondary" href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Preview</a></td>
+<td>Sep 29, 2026</td>
+</tr>
+<tr class="wessci-queue-row" data-division="sts" data-stage="in_review">
+<td><strong><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Algorithmic bias in healthcare</a></strong><span class="wessci-secondary">Sample author</span><span class="wessci-secondary">Science, Technology &amp; Society</span></td>
+<td>In review</td>
+<td><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Add abstract or deck</a><a class="wessci-secondary" href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Preview</a></td>
+<td>Sep 28, 2026</td>
+</tr>
+</tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+            <section id="dashboard_right_now" class="postbox">
+              <div class="postbox-header">
+                <h2>At a Glance</h2>
+                <button
+                  type="button"
+                  class="handlediv"
+                  aria-expanded="true"
+                  aria-controls="dashboard_right_now-inside"
+                  aria-label="Collapse At a Glance"
+                >
+                  <span
+                    class="dashicons dashicons-arrow-up-alt2"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </div>
+              <div class="inside" id="dashboard_right_now-inside">
+                <p>Sample content: 4 posts</p>
+                <p>WordPress site information remains here.</p>
+              </div>
+            </section>
+            <section id="dashboard_activity" class="postbox">
+              <div class="postbox-header">
+                <h2>Activity</h2>
+                <button
+                  type="button"
+                  class="handlediv"
+                  aria-expanded="true"
+                  aria-controls="dashboard_activity-inside"
+                  aria-label="Collapse Activity"
+                >
+                  <span
+                    class="dashicons dashicons-arrow-up-alt2"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </div>
+              <div class="inside" id="dashboard_activity-inside">
+                <h3>Recently published</h3>
+                <p>No publication activity in this sample.</p>
+              </div>
+            </section>
+          </div>
+          <div class="postbox-container" id="side-sortables">
+            <section id="wessci_dashboard_issue_progress" class="postbox">
+              <div class="postbox-header">
+                <h2>Issue assembly</h2>
+                <button
+                  type="button"
+                  class="handlediv"
+                  aria-expanded="true"
+                  aria-controls="wessci_dashboard_issue_progress-inside"
+                  aria-label="Collapse Issue assembly"
+                >
+                  <span
+                    class="dashicons dashicons-arrow-up-alt2"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </div>
+              <div class="inside" id="wessci_dashboard_issue_progress-inside">
+                <h3>Sample issue</h3>
+                <p>1 of 4 articles ready for issue or published.</p>
+                <dl class="wessci-issue-counts">
+                  <div><dt>In review</dt><dd>2</dd></div>
+                  <div><dt>Copyediting</dt><dd>1</dd></div>
+                  <div><dt>Ready for Issue</dt><dd>1</dd></div>
+                </dl>
+                <h4>Missing details</h4>
+                <ul class="wessci-open-items">
+                  <li><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Quantum error mitigation</a> <span class="wessci-secondary">abstract or deck</span></li>
+                  <li><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Avian neurobiology in Connecticut</a> <span class="wessci-secondary">format</span></li>
+                  <li><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Algorithmic bias in healthcare</a> <span class="wessci-secondary">abstract or deck</span></li>
+                </ul>
+                <p><a href="https://wessci.yinkavaughan.me/wp-admin/edit.php">Open issue manuscripts</a></p>
+              </div>
+            </section>
+            <section id="dashboard_quick_press" class="postbox">
+              <div class="postbox-header">
+                <h2>Quick Draft</h2>
+                <button
+                  type="button"
+                  class="handlediv"
+                  aria-expanded="true"
+                  aria-controls="dashboard_quick_press-inside"
+                  aria-label="Collapse Quick Draft"
+                >
+                  <span
+                    class="dashicons dashicons-arrow-up-alt2"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </div>
+              <div class="inside" id="dashboard_quick_press-inside">
+                <form id="quick-draft">
+                  <label for="draft-title">Title</label
+                  ><input id="draft-title" type="text" /><label
+                    for="draft-content"
+                    >Content</label
+                  ><textarea
+                    id="draft-content"
+                    rows="4"
+                    placeholder="What's on your mind?"
+                  ></textarea>
+                  <p>
+                    <button class="button button-primary">Save Draft</button>
+                  </p>
+                  <p id="draft-feedback" role="status"></p>
+                </form>
+              </div>
+            </section>
+            <section id="dashboard_primary" class="postbox">
+              <div class="postbox-header">
+                <h2>WordPress Events and News</h2>
+                <button
+                  type="button"
+                  class="handlediv"
+                  aria-expanded="true"
+                  aria-controls="dashboard_primary-inside"
+                  aria-label="Collapse WordPress Events and News"
+                >
+                  <span
+                    class="dashicons dashicons-arrow-up-alt2"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+              </div>
+              <div class="inside" id="dashboard_primary-inside">
+                <p>
+                  WordPress community updates remain available in the installed
+                  dashboard.
+                </p>
+                <a href="https://wordpress.org/news/">WordPress News</a>
+              </div>
+            </section>
+          </div>
+        </div>
+        <footer>Thank you for creating with WordPress.</footer>
+      </div>
+    </main>
+    <script src="../plugins/wessci-site/admin/js/wessci-admin.js"></script>
+    <script src="dashboard-preview.js"></script>
+  </body>
+</html>

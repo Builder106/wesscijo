@@ -1,5 +1,42 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-05 - Restyle the native WordPress dashboard #cms #decision
+
+The owner clarified that the redesign must retain WordPress's admin bar, full sidebar, welcome panel, default widgets, Screen Options, and movable/collapsible widget layout. Removed the replacement preview shell, custom sidebar ordering, and forced full-width widget layout. The admin styling uses cardinal red and carbon without changing WordPress's navigation or widget structure. Manuscripts and issue assembly remain additional native dashboard widgets.
+
+Issue totals count only posts assigned to the selected issue and visible to the current editor. Missing format, abstract/deck, and division values appear beside each manuscript; these checks do not establish editorial approval. Publishing uses an administrator-only WordPress submenu, confirmed POST, nonce, and HTTP acceptance feedback. Deployment health and completion remain unavailable.
+
+The queue widget now has four columns (manuscript with author and division, stage, next step, updated) so it fits a half-width native column, and it defaults to active manuscripts. The next step comes from the stage and from missing format, abstract or deck, and division values; no responsible-editor field exists yet, so the queue omits one. Issue assembly shows the selected issue or the newest issue, lists readiness by stage, and links manuscripts with missing details. The admin bar, sidebar, buttons, and links take the cardinal and carbon colors on every admin screen for users on the default color scheme; queue and issue layouts stay scoped to WesSciJo screens. The native welcome panel is unchanged apart from color.
+
+WordPress 7.1 ships a blue "modern" admin color scheme, so the first live check showed none of the WesSciJo colors. The plugin now overrides `--wp-admin-theme-color` and its darker variants, which recolors links, buttons, focus rings, and the current menu item without touching WordPress's own selectors. Dashboard widget headers are carbon with a cardinal red rule, the welcome panel header is carbon with the cardinal and nest illustration (`admin/images/cardinal-field.svg`, a copy of the theme asset so the plugin stays self-contained), and a crop of the cardinal replaces the WordPress logo in the admin bar. The welcome heading is changed through the `gettext` filter, so the native panel and its dismiss control remain. A running server started with `verify-on-vm` serves a snapshot; run `verify-on-vm server sync` after editing the plugin.
+
+Verification covers query scoping, rebuild authorization and HTTP responses with a stubbed network boundary, and the static preview at phone and desktop widths. The preview uses sample content. WordPress integration, real role transitions, and deployment completion require a running WordPress environment.
+
+## 2026-10-05 - Architect and build custom WordPress CMS editorial dashboard #cms #editorial #architecture #ux
+
+Following approval of the CMS dashboard plan, the WordPress admin interface was transformed from the generic WordPress blogging screen into a specialized Editorial Command Center tailored for the 25-student Editorial Board across its 5 academic divisions:
+
+1. Editorial Command Center Widgets (`admin/views/`):
+   - Volume 14 Issue Assembly & Progress: Visual distribution progress bar mapping active manuscripts across Life Sciences, Physical Sciences, Quantitative & Computational Science, and STS against the target issue size (14 papers).
+   - Division Editorial Queues: Interactive tabbed dashboard widget allowing section heads (e.g., Lead Life Science Editor) to filter and review manuscripts in their specific discipline, showing editorial stage badges and quick review links.
+   - Vercel Production & Deployment Monitor: Real-time edge production health status, live journal link, and 1-click manual rebuild trigger with cache-busting.
+   - Scientific Editorial & Figure Checklist: Standards reference for student editors covering >= 1200px figure requirements, licensing/attribution, formal abstracts, author graduation year, and DOI citations.
+
+2. Editorial Workflow Pipeline & Post Statuses (`includes/class-wessci-editorial.php`):
+   - Registered custom editorial post statuses: In Review (`in_review`), Copyediting (`copyediting`), and Ready for Issue (`ready_for_issue`).
+   - Integrated custom statuses into edit list tables, quick-edit dropdowns, and post publish panels with high-contrast, accessible status badges.
+   - Registered hierarchical Volumes & Issues taxonomy (`wessci_issue`) for formal volume release bundling.
+
+3. Scientific Manuscript Authoring & Meta Boxes (`includes/class-wessci-meta-boxes.php`):
+   - Academic Details: Article format selector (Research Article, Review, Feature, Perspective, Interview) and structured academic abstract/deck.
+   - Author Credentials: Multi-author repeater capturing student graduation year (e.g., '26), Wesleyan laboratory/department, and institutional affiliation.
+   - Scientific Figures & Data Assets: Up to 4 structured figure slots capturing high-res image attribution, figure label, descriptive caption, and explicit license (Author Original, CC BY 4.0, Public Domain, Fair Use).
+   - References & Citations: Bibliographic reference editor with automated DOI hyperlinking.
+
+4. Branded Admin Shell & Masthead Governance (`admin/css/` & `admin/views/`):
+   - Custom admin theme styling adhering to Wesleyan Cardinal Red (`#c51230`) and Carbon Black (`#100e0f`), with streamlined admin bar branding and decluttered sidebar navigation.
+   - Masthead Management screen (`admin.php?page=wessci-masthead`) rendering the 25-student editorial roster across Executive Leadership, Life Sciences, Physical Sciences, Quantitative, and STS divisions.
+
 ## 2026-10-05 - Suppress underlines under arrows on button hover animations #design #microinteractions #css
 
 Following review of the hybrid navigation controls, the owner flagged an awkward visual artifact on button hover animations: "Modify the hover animation for all buttons to not add an underline under arrows. It looks weird." A shared screenshot demonstrated that on hover over the header Search button (`Search ↗`), the text "Search" was underlined in Cardinal Red, but a disconnected, floating red dash was also drawn directly beneath the trailing diagonal arrow (`↗`).

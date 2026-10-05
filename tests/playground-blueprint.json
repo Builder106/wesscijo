@@ -1,0 +1,22 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/wp-admin/index.php",
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "latest"
+  },
+  "steps": [
+    {
+      "step": "login",
+      "username": "admin"
+    },
+    {
+      "step": "activatePlugin",
+      "pluginPath": "wessci-site/wessci-site.php"
+    },
+    {
+      "step": "runPHP",
+      "code": "<?php\nrequire '/wordpress/wp-load.php';\n$cats = array( 'life-sciences' => 'Life Sciences', 'neuroscience' => 'Neuroscience', 'physical-sciences' => 'Physical Sciences', 'earth-environmental' => 'Earth & Environmental', 'quantitative-computational' => 'Quantitative & Computational', 'sts' => 'Science, Technology & Society' );\n$ids = array();\nforeach ( $cats as $slug => $name ) {\n\t$t = wp_insert_term( $name, 'category', array( 'slug' => $slug ) );\n\t$ids[ $slug ] = is_wp_error( $t ) ? get_category_by_slug( $slug )->term_id : $t['term_id'];\n}\n$old = wp_insert_term( 'Volume 13, Issue 2', 'wessci_issue' );\n$new = wp_insert_term( 'Volume 14, Issue 1', 'wessci_issue' );\n$rows = array(\n\tarray( 'Quantum error mitigation in near-term devices', 'in_review', 'quantitative-computational', 'research', '', 'Maya Okafor', $new ),\n\tarray( 'Avian neurobiology in Connecticut', 'copyediting', 'neuroscience', '', 'Songbird navigation under urban light.', 'Daniel Reyes', $new ),\n\tarray( 'Microplastics in Long Island Sound', 'ready_for_issue', 'earth-environmental', 'research', 'Sediment cores show rising particle counts.', 'Priya Shah', $new ),\n\tarray( 'Algorithmic bias in healthcare triage', 'in_review', 'sts', 'feature', '', 'Jordan Lee', $new ),\n\tarray( 'Why the tree of life keeps changing', 'draft', 'life-sciences', 'feature', 'A short history of phylogenetics.', 'Amara Nwosu', 0 ),\n\tarray( 'Untitled pitch on dark matter', 'draft', '', '', '', 'Sam Ortiz', 0 ),\n\tarray( 'Coral bleaching, two decades on', 'publish', 'earth-environmental', 'research', 'A review of reef survey data.', 'Priya Shah', $old ),\n);\nforeach ( $rows as $r ) {\n\t$id = wp_insert_post( array( 'post_title' => $r[0], 'post_status' => $r[1], 'post_content' => 'Sample manuscript text.', 'post_category' => $r[2] ? array( $ids[ $r[2] ] ) : array() ) );\n\tif ( $r[3] ) { update_post_meta( $id, '_wessci_format', $r[3] ); }\n\tif ( $r[4] ) { update_post_meta( $id, '_wessci_abstract', $r[4] ); }\n\tupdate_post_meta( $id, '_wessci_authors', array( array( 'name' => $r[5] ) ) );\n\tif ( $r[6] ) { wp_set_object_terms( $id, (int) ( is_array( $r[6] ) ? $r[6]['term_id'] : $r[6] ), 'wessci_issue' ); }\n}\n"
+    }
+  ]
+}
