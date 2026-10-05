@@ -1,0 +1,32 @@
+{
+  "id": "archivo-black",
+  "family": "Archivo Black",
+  "subsets": [
+    "latin",
+    "latin-ext"
+  ],
+  "category": "sans-serif",
+  "version": "v23",
+  "lastModified": "2025-09-11",
+  "popularity": 28,
+  "defSubset": "latin",
+  "defVariant": "regular",
+  "subsetMap": {
+    "latin": true,
+    "latin-ext": false
+  },
+  "storeID": "latin",
+  "variants": [
+    {
+      "id": "regular",
+      "fontFamily": "'Archivo Black'",
+      "fontStyle": "normal",
+      "fontWeight": "400",
+      "eot": "https://fonts.gstatic.com/l/font?kit=HTxqL289NzCGg4MzN6KJ7eW6CYyF-g&skey=f0fab067ca5e2347&v=v23",
+      "svg": "https://fonts.gstatic.com/l/font?kit=HTxqL289NzCGg4MzN6KJ7eW6CYyF-Q&skey=f0fab067ca5e2347&v=v23#ArchivoBlack",
+      "ttf": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYyF-w.ttf",
+      "woff2": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYyF_g.woff2",
+      "woff": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYyF-A.woff"
+    }
+  ]
+}
