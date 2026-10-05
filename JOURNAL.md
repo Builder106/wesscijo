@@ -1,5 +1,17 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-05 - Restyle the native WordPress dashboard #cms #decision
+
+The owner clarified that the redesign must retain WordPress's admin bar, full sidebar, welcome panel, default widgets, Screen Options, and movable/collapsible widget layout. Removed the replacement preview shell, custom sidebar ordering, and forced full-width widget layout. The admin styling uses cardinal red and carbon without changing WordPress's navigation or widget structure. Manuscripts and issue assembly remain additional native dashboard widgets.
+
+Issue totals count only posts assigned to the selected issue and visible to the current editor. Missing format, abstract/deck, and division values appear beside each manuscript; these checks do not establish editorial approval. Publishing uses an administrator-only WordPress submenu, confirmed POST, nonce, and HTTP acceptance feedback. Deployment health and completion remain unavailable.
+
+The queue widget now has four columns (manuscript with author and division, stage, next step, updated) so it fits a half-width native column, and it defaults to active manuscripts. The next step comes from the stage and from missing format, abstract or deck, and division values; no responsible-editor field exists yet, so the queue omits one. Issue assembly shows the selected issue or the newest issue, lists readiness by stage, and links manuscripts with missing details. The admin bar, sidebar, buttons, and links take the cardinal and carbon colors on every admin screen for users on the default color scheme; queue and issue layouts stay scoped to WesSciJo screens. The native welcome panel is unchanged apart from color.
+
+WordPress 7.1 ships a blue "modern" admin color scheme, so the first live check showed none of the WesSciJo colors. The plugin now overrides `--wp-admin-theme-color` and its darker variants, which recolors links, buttons, focus rings, and the current menu item without touching WordPress's own selectors. Dashboard widget headers are carbon with a cardinal red rule, the welcome panel header is carbon with the cardinal and nest illustration (`admin/images/cardinal-field.svg`, a copy of the theme asset so the plugin stays self-contained), and a crop of the cardinal replaces the WordPress logo in the admin bar. The welcome heading is changed through the `gettext` filter, so the native panel and its dismiss control remain. A running server started with `verify-on-vm` serves a snapshot; run `verify-on-vm server sync` after editing the plugin.
+
+Verification covers query scoping, rebuild authorization and HTTP responses with a stubbed network boundary, and the static preview at phone and desktop widths. The preview uses sample content. WordPress integration, real role transitions, and deployment completion require a running WordPress environment.
+
 ## 2026-10-05 - Architect and build custom WordPress CMS editorial dashboard #cms #editorial #architecture #ux
 
 Following approval of the CMS dashboard plan, the WordPress admin interface was transformed from the generic WordPress blogging screen into a specialized Editorial Command Center tailored for the 25-student Editorial Board across its 5 academic divisions:
