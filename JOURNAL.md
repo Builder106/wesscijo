@@ -1,5 +1,30 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-05 - Architect and build custom WordPress CMS editorial dashboard #cms #editorial #architecture #ux
+
+Following approval of the CMS dashboard plan, the WordPress admin interface was transformed from the generic WordPress blogging screen into a specialized Editorial Command Center tailored for the 25-student Editorial Board across its 5 academic divisions:
+
+1. Editorial Command Center Widgets (`admin/views/`):
+   - Volume 14 Issue Assembly & Progress: Visual distribution progress bar mapping active manuscripts across Life Sciences, Physical Sciences, Quantitative & Computational Science, and STS against the target issue size (14 papers).
+   - Division Editorial Queues: Interactive tabbed dashboard widget allowing section heads (e.g., Lead Life Science Editor) to filter and review manuscripts in their specific discipline, showing editorial stage badges and quick review links.
+   - Vercel Production & Deployment Monitor: Real-time edge production health status, live journal link, and 1-click manual rebuild trigger with cache-busting.
+   - Scientific Editorial & Figure Checklist: Standards reference for student editors covering >= 1200px figure requirements, licensing/attribution, formal abstracts, author graduation year, and DOI citations.
+
+2. Editorial Workflow Pipeline & Post Statuses (`includes/class-wessci-editorial.php`):
+   - Registered custom editorial post statuses: In Review (`in_review`), Copyediting (`copyediting`), and Ready for Issue (`ready_for_issue`).
+   - Integrated custom statuses into edit list tables, quick-edit dropdowns, and post publish panels with high-contrast, accessible status badges.
+   - Registered hierarchical Volumes & Issues taxonomy (`wessci_issue`) for formal volume release bundling.
+
+3. Scientific Manuscript Authoring & Meta Boxes (`includes/class-wessci-meta-boxes.php`):
+   - Academic Details: Article format selector (Research Article, Review, Feature, Perspective, Interview) and structured academic abstract/deck.
+   - Author Credentials: Multi-author repeater capturing student graduation year (e.g., '26), Wesleyan laboratory/department, and institutional affiliation.
+   - Scientific Figures & Data Assets: Up to 4 structured figure slots capturing high-res image attribution, figure label, descriptive caption, and explicit license (Author Original, CC BY 4.0, Public Domain, Fair Use).
+   - References & Citations: Bibliographic reference editor with automated DOI hyperlinking.
+
+4. Branded Admin Shell & Masthead Governance (`admin/css/` & `admin/views/`):
+   - Custom admin theme styling adhering to Wesleyan Cardinal Red (`#c51230`) and Carbon Black (`#100e0f`), with streamlined admin bar branding and decluttered sidebar navigation.
+   - Masthead Management screen (`admin.php?page=wessci-masthead`) rendering the 25-student editorial roster across Executive Leadership, Life Sciences, Physical Sciences, Quantitative, and STS divisions.
+
 ## 2026-10-05 - Suppress underlines under arrows on button hover animations #design #microinteractions #css
 
 Following review of the hybrid navigation controls, the owner flagged an awkward visual artifact on button hover animations: "Modify the hover animation for all buttons to not add an underline under arrows. It looks weird." A shared screenshot demonstrated that on hover over the header Search button (`Search ↗`), the text "Search" was underlined in Cardinal Red, but a disconnected, floating red dash was also drawn directly beneath the trailing diagonal arrow (`↗`).
