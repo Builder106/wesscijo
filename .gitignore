@@ -21,3 +21,5 @@ test-results/
 
 # Local design research and verification evidence
 /artifacts/
+.vercel
+.env*
