@@ -1,0 +1,295 @@
+/**
+ * WesSciJo Admin Styling & Dashboard Theme
+ * Brand Colors: Wesleyan Cardinal Red (#c51230), Carbon (#100e0f), Clean White (#ffffff)
+ */
+
+:root {
+	--wes-red: #c51230;
+	--wes-red-hover: #e01538;
+	--wes-red-light: rgba(197, 18, 48, 0.08);
+	--wes-carbon: #100e0f;
+	--wes-surface: #ffffff;
+	--wes-bg-subtle: #f7f7f9;
+	--wes-border: #e2e2e5;
+	--wes-text-main: #100e0f;
+	--wes-text-muted: #646063;
+}
+
+/* Custom Admin Bar Polish */
+#wpadminbar {
+	background: var(--wes-carbon) !important;
+	border-bottom: 2px solid var(--wes-red) !important;
+}
+
+#wpadminbar .ab-item,
+#wpadminbar .ab-label {
+	color: #f5f5f7 !important;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
+#wpadminbar .quicklinks .menupop ul li a:hover,
+#wpadminbar .quicklinks .ab-sub-wrapper .ab-item:hover,
+#wpadminbar .quicklinks .ab-top-menu > li:hover > .ab-item {
+	background-color: var(--wes-red) !important;
+	color: #ffffff !important;
+}
+
+#wpadminbar #wp-admin-bar-wessci-vercel-deploy .ab-item {
+	background: var(--wes-red) !important;
+	color: #ffffff !important;
+	font-weight: 600;
+	border-radius: 3px;
+	margin-top: 3px;
+	height: 26px;
+	line-height: 26px;
+	padding: 0 10px !important;
+}
+
+#wpadminbar #wp-admin-bar-wessci-vercel-deploy .ab-item:hover {
+	background: var(--wes-red-hover) !important;
+}
+
+/* Sidebar Menu Branding */
+#adminmenu,
+#adminmenuback,
+#adminmenuwrap {
+	background-color: var(--wes-carbon) !important;
+}
+
+#adminmenu li.menu-top:hover,
+#adminmenu li.opensub > a.menu-top,
+#adminmenu li > a.menu-top:focus {
+	background-color: #1a1718 !important;
+	color: #ffffff !important;
+}
+
+#adminmenu li.wp-has-current-submenu a.wp-has-current-submenu,
+#adminmenu li.current a.menu-top {
+	background: var(--wes-red) !important;
+	color: #ffffff !important;
+	font-weight: 600;
+}
+
+#adminmenu .wp-submenu {
+	background-color: #1a1718 !important;
+}
+
+/* Post Status Badges */
+.wessci-status-badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 3px;
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	line-height: 1.4;
+}
+
+.wessci-status-badge.status-review {
+	background: #fff8e6;
+	color: #b45309;
+	border: 1px solid #fde68a;
+}
+
+.wessci-status-badge.status-copyedit {
+	background: #f3e8ff;
+	color: #6b21a8;
+	border: 1px solid #e9d5ff;
+}
+
+.wessci-status-badge.status-ready {
+	background: #ecfdf5;
+	color: #047857;
+	border: 1px solid #a7f3d0;
+}
+
+/* WesSciJo Dashboard Widgets */
+.wessci-dashboard-card {
+	background: var(--wes-surface);
+	border: 1px solid var(--wes-border);
+	border-radius: 6px;
+	padding: 18px;
+	margin-bottom: 16px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.wessci-card-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 1px solid var(--wes-border);
+	padding-bottom: 12px;
+	margin-bottom: 16px;
+}
+
+.wessci-card-title {
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--wes-text-main);
+	margin: 0;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.wessci-volume-pill {
+	display: inline-block;
+	background: var(--wes-red-light);
+	color: var(--wes-red);
+	font-size: 11px;
+	font-weight: 700;
+	padding: 3px 8px;
+	border-radius: 4px;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+/* Issue Progress Bar */
+.wessci-progress-track {
+	height: 14px;
+	background: #e9ecef;
+	border-radius: 7px;
+	overflow: hidden;
+	display: flex;
+	margin: 12px 0 16px;
+}
+
+.wessci-progress-segment {
+	height: 100%;
+	transition: width 0.3s ease;
+}
+
+.wessci-seg-life { background-color: #059669; }
+.wessci-seg-phys { background-color: #2563eb; }
+.wessci-seg-quant { background-color: #7c3aed; }
+.wessci-seg-sts { background-color: #d97706; }
+
+.wessci-progress-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	font-size: 12px;
+	color: var(--wes-text-muted);
+}
+
+.wessci-legend-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.wessci-legend-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+/* Division Queue Tabs */
+.wessci-tabs-nav {
+	display: flex;
+	border-bottom: 1px solid var(--wes-border);
+	margin-bottom: 16px;
+	gap: 4px;
+}
+
+.wessci-tab-btn {
+	background: none;
+	border: none;
+	border-bottom: 2px solid transparent;
+	padding: 8px 14px;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--wes-text-muted);
+	cursor: pointer;
+	transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.wessci-tab-btn:hover {
+	color: var(--wes-text-main);
+}
+
+.wessci-tab-btn.is-active {
+	color: var(--wes-red);
+	border-bottom-color: var(--wes-red);
+	font-weight: 600;
+}
+
+/* Queue Table */
+.wessci-queue-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+.wessci-queue-table th {
+	text-align: left;
+	padding: 8px 12px;
+	background: var(--wes-bg-subtle);
+	color: var(--wes-text-muted);
+	font-weight: 600;
+	border-bottom: 1px solid var(--wes-border);
+}
+
+.wessci-queue-table td {
+	padding: 10px 12px;
+	border-bottom: 1px solid var(--wes-border);
+	vertical-align: middle;
+}
+
+.wessci-queue-table tr:hover td {
+	background-color: #fdfdfd;
+}
+
+.wessci-btn-action {
+	display: inline-block;
+	padding: 3px 8px;
+	background: #f1f3f5;
+	border: 1px solid #ced4da;
+	border-radius: 3px;
+	color: #495057;
+	text-decoration: none;
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.wessci-btn-action:hover {
+	background: var(--wes-red);
+	border-color: var(--wes-red);
+	color: #ffffff;
+}
+
+/* Checklist Items */
+.wessci-checklist {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.wessci-checklist li {
+	padding: 6px 0;
+	border-bottom: 1px solid var(--wes-border);
+	font-size: 13px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.wessci-checklist li:last-child {
+	border-bottom: none;
+}
+
+.wessci-check-icon {
+	color: var(--wes-red);
+	font-weight: bold;
+}
+
+/* Reduced Motion Compliance */
+@media (prefers-reduced-motion: reduce) {
+	.wessci-progress-segment,
+	.wessci-tab-btn,
+	.wessci-btn-action {
+		transition: none !important;
+	}
+}
