@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Editorial Command Center ‹ The Wesleyan Science Journal — WordPress</title>
+	<link rel="stylesheet" href="../plugins/wessci-site/admin/css/wessci-admin.css">
+	<style>
+		/* Native WordPress Admin Core Layout Emulation */
+		*, *::before, *::after { box-sizing: border-box; }
+		body {
+			margin: 0;
+			padding: 0;
+			background: #f0f0f1;
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+			color: #3c434a;
+			font-size: 13px;
+			line-height: 1.4em;
+			min-height: 100vh;
+		}
+
+		/* Top Admin Bar */
+		#wpadminbar {
+			height: 32px;
+			position: sticky;
+			top: 0;
+			left: 0;
+			width: 100%;
+			z-index: 99999;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 0 16px;
+			background: #100e0f;
+			border-bottom: 2px solid #c51230;
+		}
+		.ab-group {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+		}
+		.ab-brand {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			color: #ffffff;
+			text-decoration: none;
+			font-weight: 700;
+			font-size: 13px;
+			letter-spacing: 0.04em;
+		}
+		.ab-brand img {
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+		}
+		.ab-item {
+			color: #c3c4c7;
+			text-decoration: none;
+			font-size: 13px;
+			display: flex;
+			align-items: center;
+			gap: 6px;
+		}
+		.ab-item:hover { color: #ffffff; }
+		.ab-issue-tag {
+			background: rgba(255, 255, 255, 0.12);
+			color: #f5f5f7;
+			padding: 2px 8px;
+			border-radius: 3px;
+			font-size: 11px;
+			font-weight: 600;
+		}
+		.ab-btn-deploy {
+			background: #c51230;
+			color: #ffffff !important;
+			padding: 3px 10px;
+			border-radius: 3px;
+			font-weight: 600;
+			font-size: 12px;
+			cursor: pointer;
+			border: none;
+			transition: background 0.15s ease;
+		}
+		.ab-btn-deploy:hover { background: #e01538; }
+
+		/* Shell */
+		#wpwrap {
+			display: flex;
+			min-height: calc(100vh - 32px);
+		}
+
+		/* Sidebar */
+		#adminmenuback, #adminmenuwrap {
+			width: 180px;
+			background: #100e0f;
+			flex-shrink: 0;
+		}
+		#adminmenu {
+			list-style: none;
+			margin: 0;
+			padding: 10px 0;
+		}
+		#adminmenu li {
+			margin: 0;
+			position: relative;
+		}
+		#adminmenu li a {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			padding: 8px 16px;
+			color: #c3c4c7;
+			text-decoration: none;
+			font-size: 13px;
+			font-weight: 500;
+			transition: background 0.12s, color 0.12s;
+		}
+		#adminmenu li a:hover {
+			background: #1a1718;
+			color: #ffffff;
+		}
+		#adminmenu li.current a {
+			background: #c51230;
+			color: #ffffff;
+			font-weight: 600;
+		}
+		#adminmenu .wp-menu-separator {
+			height: 1px;
+			background: #2a2829;
+			margin: 8px 0;
+		}
+		#adminmenu .menu-badge {
+			margin-left: auto;
+			background: rgba(255, 255, 255, 0.2);
+			color: #fff;
+			font-size: 10px;
+			padding: 1px 6px;
+			border-radius: 10px;
+			font-weight: 700;
+		}
+
+		/* Main Content Area */
+		#wpcontent {
+			flex-grow: 1;
+			padding: 20px 24px 40px;
+			background: #f7f7f9;
+		}
+		.wrap h1 {
+			font-size: 24px;
+			font-weight: 700;
+			margin: 0 0 4px;
+			color: #100e0f;
+		}
+		.wrap .page-subtitle {
+			font-size: 14px;
+			color: #646063;
+			margin: 0 0 20px;
+		}
+
+		/* View Mode Nav (Interactive Showcase tabs) */
+		.view-mode-bar {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			background: #ffffff;
+			border: 1px solid #e2e2e5;
+			padding: 6px 12px;
+			border-radius: 6px;
+			margin-bottom: 24px;
+		}
+		.view-mode-btn {
+			background: none;
+			border: 1px solid transparent;
+			padding: 6px 14px;
+			font-size: 13px;
+			font-weight: 600;
+			color: #646063;
+			border-radius: 4px;
+			cursor: pointer;
+			transition: all 0.15s ease;
+		}
+		.view-mode-btn:hover { color: #100e0f; background: #f1f1f4; }
+		.view-mode-btn.is-active {
+			background: #c51230;
+			color: #ffffff;
+		}
+
+		/* Grid Layout */
+		.dashboard-grid {
+			display: grid;
+			grid-template-columns: 2fr 1fr;
+			gap: 20px;
+		}
+		@media (max-width: 1080px) {
+			.dashboard-grid { grid-template-columns: 1fr; }
+		}
+
+		/* Toast alert */
+		#deploy-toast {
+			display: none;
+			background: #047857;
+			color: #ffffff;
+			padding: 12px 16px;
+			border-radius: 4px;
+			margin-bottom: 16px;
+			font-size: 13px;
+			font-weight: 500;
+			box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+		}
+	</style>
+</head>
+<body>
+
+<!-- WordPress Admin Bar -->
+<div id="wpadminbar">
+	<div class="ab-group">
+		<a href="#overview" class="ab-brand">
+			<img src="../public/assets/logo-192.png" alt="WesSciJo Seal">
+			<span>WESSCIJO CMS</span>
+		</a>
+		<span class="ab-issue-tag">Volume 14 (Fall 2026)</span>
+		<a href="https://wessci.yinkavaughan.me/" target="_blank" class="ab-item">
+			<span>Public Site ↗</span>
+		</a>
+	</div>
+	<div class="ab-group">
+		<button type="button" class="ab-btn-deploy" onclick="triggerDeploySim()">
+			🚀 Deploy to Vercel
+		</button>
+		<span class="ab-item">Howdy, <strong>Elena Mente</strong> (Editor-in-Chief)</span>
+	</div>
+</div>
+
+<div id="wpwrap">
+	<!-- WordPress Sidebar Menu -->
+	<div id="adminmenuback"></div>
+	<div id="adminmenuwrap">
+		<ul id="adminmenu">
+			<li class="current">
+				<a href="#overview" onclick="switchView('overview')">
+					<span>📰 Editorial Hub</span>
+				</a>
+			</li>
+			<li>
+				<a href="#editor" onclick="switchView('editor')">
+					<span>🔬 Manuscripts</span>
+					<span class="menu-badge">12</span>
+				</a>
+			</li>
+			<li>
+				<a href="#overview" onclick="switchView('overview')">
+					<span>📚 Volumes &amp; Issues</span>
+				</a>
+			</li>
+			<li>
+				<a href="#overview" onclick="switchView('overview')">
+					<span>📅 Events &amp; Calendar</span>
+				</a>
+			</li>
+			<li>
+				<a href="#masthead" onclick="switchView('masthead')">
+					<span>👥 Editorial Board</span>
+					<span class="menu-badge">25</span>
+				</a>
+			</li>
+			<li class="wp-menu-separator"></li>
+			<li>
+				<a href="#overview">
+					<span>🖼️ Scientific Media</span>
+				</a>
+			</li>
+			<li>
+				<a href="#overview">
+					<span>📄 Pages</span>
+				</a>
+			</li>
+			<li>
+				<a href="#overview">
+					<span>⚙️ Vercel &amp; Settings</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+
+	<!-- Main Content Area -->
+	<main id="wpcontent">
+		<div class="wrap">
+			<!-- Header -->
+			<div style="display: flex; justify-content: space-between; align-items: flex-start;">
+				<div>
+					<h1>Editorial Command Center</h1>
+					<p class="page-subtitle">The Wesleyan Science Journal • Academic Publishing &amp; Production Management</p>
+				</div>
+				<div style="display: flex; gap: 8px;">
+					<button type="button" class="button" onclick="switchView('editor')" style="padding: 6px 12px; background: #ffffff; border: 1px solid #ced4da; border-radius: 4px; font-weight: 600; cursor: pointer;">
+						+ New Research Paper
+					</button>
+					<button type="button" class="button button-primary" onclick="triggerDeploySim()" style="padding: 6px 12px; background: #c51230; color: #ffffff; border: none; border-radius: 4px; font-weight: 600; cursor: pointer;">
+						🚀 Deploy Staged Issue
+					</button>
+				</div>
+			</div>
+
+			<!-- Dynamic Deployment Notification -->
+			<div id="deploy-toast">
+				<strong>✓ Vercel Deployment Triggered:</strong> Production rebuild requested for <code>wessci.yinkavaughan.me</code>. Fresh static pages will propagate in ~10 seconds.
+			</div>
+
+			<!-- Showcase View Switcher -->
+			<div class="view-mode-bar">
+				<span style="font-weight: 700; font-size: 12px; text-transform: uppercase; color: #646063; margin-right: 8px;">CMS Preview Mode:</span>
+				<button type="button" class="view-mode-btn is-active" id="btn-view-overview" onclick="switchView('overview')">
+					1. Editorial Hub &amp; Queues
+				</button>
+				<button type="button" class="view-mode-btn" id="btn-view-editor" onclick="switchView('editor')">
+					2. Scientific Manuscript Authoring (Meta Boxes)
+				</button>
+				<button type="button" class="view-mode-btn" id="btn-view-masthead" onclick="switchView('masthead')">
+					3. 25-Student Editorial Board Masthead
+				</button>
+			</div>
+
+			<!-- VIEW 1: EDITORIAL OVERVIEW & QUEUES -->
+			<div id="view-overview">
+				<!-- Issue Assembly Progress Bar Widget -->
+				<div class="wessci-dashboard-card">
+					<div class="wessci-card-header">
+						<h3 class="wessci-card-title">
+							<span>📈 Volume 14 Issue Assembly &amp; Balance</span>
+							<span class="wessci-volume-pill">Target: Fall 2026</span>
+						</h3>
+						<div style="font-size: 13px; color: var(--wes-text-muted);">
+							<strong>12</strong> / 14 Manuscripts Approved or In-Progress (86%)
+						</div>
+					</div>
+
+					<p style="font-size: 13px; color: var(--wes-text-muted); margin: 0 0 10px;">
+						Visual distribution of accepted and reviewing manuscripts across the four scientific divisions:
+					</p>
+
+					<div class="wessci-progress-track">
+						<div class="wessci-progress-segment wessci-seg-life" style="width: 33%;" title="Life Sciences: 4 papers"></div>
+						<div class="wessci-progress-segment wessci-seg-phys" style="width: 25%;" title="Physical Sciences: 3 papers"></div>
+						<div class="wessci-progress-segment wessci-seg-quant" style="width: 17%;" title="Quantitative & Comp: 2 papers"></div>
+						<div class="wessci-progress-segment wessci-seg-sts" style="width: 25%;" title="Science, Tech & Society: 3 papers"></div>
+					</div>
+
+					<div class="wessci-progress-legend">
+						<div class="wessci-legend-item">
+							<span class="wessci-legend-dot" style="background-color: #059669;"></span>
+							<span><strong>Life Sciences:</strong> 4 papers</span>
+						</div>
+						<div class="wessci-legend-item">
+							<span class="wessci-legend-dot" style="background-color: #2563eb;"></span>
+							<span><strong>Physical Sciences:</strong> 3 papers</span>
+						</div>
+						<div class="wessci-legend-item">
+							<span class="wessci-legend-dot" style="background-color: #7c3aed;"></span>
+							<span><strong>Quantitative &amp; Comp:</strong> 2 papers</span>
+						</div>
+						<div class="wessci-legend-item">
+							<span class="wessci-legend-dot" style="background-color: #d97706;"></span>
+							<span><strong>Science, Tech &amp; Society:</strong> 3 papers</span>
+						</div>
+						<div class="wessci-legend-item" style="margin-left: auto; color: #c51230; font-weight: 600;">
+							<span>Needs: 2 more papers to close issue</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="dashboard-grid">
+					<!-- Left Column: Division Editorial Queues -->
+					<div class="wessci-dashboard-card" style="margin-bottom: 0;">
+						<div class="wessci-card-header">
+							<h3 class="wessci-card-title">
+								<span>🔬 Division Editorial Queues</span>
+							</h3>
+							<span style="font-size: 12px; color: var(--wes-text-muted);">Active Manuscripts</span>
+						</div>
+
+						<div class="wessci-tabs-nav" role="tablist">
+							<button type="button" class="wessci-tab-btn is-active" data-tab="all" role="tab" aria-selected="true">All Manuscripts (8)</button>
+							<button type="button" class="wessci-tab-btn" data-tab="life" role="tab" aria-selected="false">Life Sciences (2)</button>
+							<button type="button" class="wessci-tab-btn" data-tab="phys" role="tab" aria-selected="false">Physical Sciences (2)</button>
+							<button type="button" class="wessci-tab-btn" data-tab="quant" role="tab" aria-selected="false">Quantitative &amp; Comp (2)</button>
+							<button type="button" class="wessci-tab-btn" data-tab="sts" role="tab" aria-selected="false">STS (2)</button>
+						</div>
+
+						<div style="overflow-x: auto;">
+							<table class="wessci-queue-table">
+								<thead>
+									<tr>
+										<th>Manuscript Title</th>
+										<th>Division</th>
+										<th>Author(s)</th>
+										<th>Editorial Stage</th>
+										<th style="text-align: right;">Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr class="wessci-queue-row" data-division="life">
+										<td><strong>What a wing can teach us about the world</strong></td>
+										<td><span style="font-size: 11px; text-transform: uppercase; font-weight: 600; color: #059669;">LIFE</span></td>
+										<td>Elena Mente '26</td>
+										<td><span class="wessci-status-badge status-ready">Ready for Issue</span></td>
+										<td style="text-align: right; white-space: nowrap;">
+											<a href="#editor" onclick="switchView('editor')" class="wessci-btn-action">Review</a>
+											<a href="https://wessci.yinkavaughan.me/" target="_blank" class="wessci-btn-action">Preview ↗</a>
+										</td>
+									</tr>
+									<tr class="wessci-queue-row" data-division="quant">
+										<td><strong>Quantum error mitigation in near-term NISQ architectures</strong></td>
+										<td><span style="font-size: 11px; text-transform: uppercase; font-weight: 600; color: #7c3aed;">QUANT</span></td>
+										<td>Shloka Bhattacharyya '26</td>
+										<td><span class="wessci-status-badge status-copyedit">Copyediting</span></td>
+										<td style="text-align: right; white-space: nowrap;">
+											<a href="#editor" onclick="switchView('editor')" class="wessci-btn-action">Review</a>
+											<a href="https://wessci.yinkavaughan.me/" target="_blank" class="wessci-btn-action">Preview ↗</a>
+										</td>
+									</tr>
+									<tr class="wessci-queue-row" data-division="phys">
+										<td><strong>Investigating microplastic distribution across Long Island Sound</strong></td>
+										<td><span style="font-size: 11px; text-transform: uppercase; font-weight: 600; color: #2563eb;">PHYS</span></td>
+										<td>Aniana Garciano '27</td>
+										<td><span class="wessci-status-badge status-review">In Review</span></td>
+										<td style="text-align: right; white-space: nowrap;">
+											<a href="#editor" onclick="switchView('editor')" class="wessci-btn-action">Review</a>
+											<a href="https://wessci.yinkavaughan.me/" target="_blank" class="wessci-btn-action">Preview ↗</a>
+										</td>
+									</tr>
+									<tr class="wessci-queue-row" data-division="sts">
+										<td><strong>Who gets to ask the next big question?</strong></td>
+										<td><span style="font-size: 11px; text-transform: uppercase; font-weight: 600; color: #d97706;">STS</span></td>
+										<td>Aryia Banihashem-Ahmad '26</td>
+										<td><span class="wessci-status-badge status-ready">Ready for Issue</span></td>
+										<td style="text-align: right; white-space: nowrap;">
+											<a href="#editor" onclick="switchView('editor')" class="wessci-btn-action">Review</a>
+											<a href="https://wessci.yinkavaughan.me/" target="_blank" class="wessci-btn-action">Preview ↗</a>
+										</td>
+									</tr>
+									<tr class="wessci-queue-row" data-division="life">
+										<td><strong>Synaptic plasticity and songbird memory consolidation</strong></td>
+										<td><span style="font-size: 11px; text-transform: uppercase; font-weight: 600; color: #059669;">LIFE</span></td>
+										<td>Lorraine Hillgen-Santa '26</td>
+										<td><span class="wessci-status-badge status-review">In Review</span></td>
+										<td style="text-align: right; white-space: nowrap;">
+											<a href="#editor" onclick="switchView('editor')" class="wessci-btn-action">Review</a>
+											<a href="https://wessci.yinkavaughan.me/" target="_blank" class="wessci-btn-action">Preview ↗</a>
+										</td>
+									</tr>
+									<tr class="wessci-queue-row" data-division="phys">
+										<td><strong>Spectroscopic confirmation of high-redshift galaxy clusters</strong></td>
+										<td><span style="font-size: 11px; text-transform: uppercase; font-weight: 600; color: #2563eb;">PHYS</span></td>
+										<td>Zesun Hossain '27</td>
+										<td><span class="wessci-status-badge status-copyedit">Copyediting</span></td>
+										<td style="text-align: right; white-space: nowrap;">
+											<a href="#editor" onclick="switchView('editor')" class="wessci-btn-action">Review</a>
+											<a href="https://wessci.yinkavaughan.me/" target="_blank" class="wessci-btn-action">Preview ↗</a>
+										</td>
+									</tr>
+									<tr class="wessci-queue-row" data-division="quant">
+										<td><strong>Sparse autoencoders in mechanistic interpretability</strong></td>
+										<td><span style="font-size: 11px; text-transform: uppercase; font-weight: 600; color: #7c3aed;">QUANT</span></td>
+										<td>Calvin Chiu '26</td>
+										<td><span class="wessci-status-badge status-review">In Review</span></td>
+										<td style="text-align: right; white-space: nowrap;">
+											<a href="#editor" onclick="switchView('editor')" class="wessci-btn-action">Review</a>
+											<a href="https://wessci.yinkavaughan.me/" target="_blank" class="wessci-btn-action">Preview ↗</a>
+										</td>
+									</tr>
+									<tr class="wessci-queue-row" data-division="sts">
+										<td><strong>Algorithmic accountability in municipal decision systems</strong></td>
+										<td><span style="font-size: 11px; text-transform: uppercase; font-weight: 600; color: #d97706;">STS</span></td>
+										<td>Tessa Higgins '26</td>
+										<td><span class="wessci-status-badge status-copyedit">Copyediting</span></td>
+										<td style="text-align: right; white-space: nowrap;">
+											<a href="#editor" onclick="switchView('editor')" class="wessci-btn-action">Review</a>
+											<a href="https://wessci.yinkavaughan.me/" target="_blank" class="wessci-btn-action">Preview ↗</a>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<!-- Right Column: Vercel Deploy & Authoring Checklist -->
+					<div style="display: flex; flex-direction: column; gap: 20px;">
+						<!-- Vercel Production Deploy Card -->
+						<div class="wessci-dashboard-card" style="margin-bottom: 0;">
+							<div class="wessci-card-header">
+								<h3 class="wessci-card-title">
+									<span>🚀 Vercel Production Sync</span>
+								</h3>
+								<span style="font-size: 11px; background: #e0f2fe; color: #0369a1; padding: 2px 6px; border-radius: 3px; font-weight: 600;">ACTIVE</span>
+							</div>
+
+							<div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+								<span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #10b981;"></span>
+								<span style="font-size: 13px; font-weight: 600; color: #100e0f;">Edge Production Live</span>
+							</div>
+
+							<p style="font-size: 13px; color: var(--wes-text-muted); margin-bottom: 14px;">
+								Live site: <a href="https://wessci.yinkavaughan.me/" target="_blank" style="color: var(--wes-red); font-weight: 600; text-decoration: none;">wessci.yinkavaughan.me ↗</a>
+							</p>
+
+							<div style="background: var(--wes-bg-subtle); border: 1px solid var(--wes-border); padding: 12px; border-radius: 4px; margin-bottom: 12px;">
+								<p style="font-size: 12px; color: var(--wes-text-muted); margin: 0 0 10px;">
+									Deploys trigger automatically when articles, issues, or events publish. Use manual trigger to invalidate edge caches:
+								</p>
+								<button type="button" class="button" onclick="triggerDeploySim()" style="background: var(--wes-red); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; width: 100%;">
+									🚀 Trigger Immediate Rebuild
+								</button>
+							</div>
+
+							<div style="font-size: 11px; color: #888; display: flex; justify-content: space-between;">
+								<span>Last deploy: 4 mins ago</span>
+								<span>Commit: <code>feat(cms): dashboard</code></span>
+							</div>
+						</div>
+
+						<!-- Scientific Authoring Checklist Card -->
+						<div class="wessci-dashboard-card" style="margin-bottom: 0;">
+							<div class="wessci-card-header">
+								<h3 class="wessci-card-title">
+									<span>📋 Scientific Authoring Standards</span>
+								</h3>
+							</div>
+
+							<ul class="wessci-checklist">
+								<li>
+									<span class="wessci-check-icon">✓</span>
+									<span><strong>Figures &amp; Images:</strong> Lead figures must be &ge; 1200px wide with license and attribution.</span>
+								</li>
+								<li>
+									<span class="wessci-check-icon">✓</span>
+									<span><strong>Abstract / Deck:</strong> 150–250 word formal academic abstract for research papers.</span>
+								</li>
+								<li>
+									<span class="wessci-check-icon">✓</span>
+									<span><strong>Author Credentials:</strong> Graduation year (e.g. '26) and Wesleyan lab or department.</span>
+								</li>
+								<li>
+									<span class="wessci-check-icon">✓</span>
+									<span><strong>Citations &amp; DOIs:</strong> Full bibliographic citations with active HTTPS DOI hyperlinks.</span>
+								</li>
+								<li>
+									<span class="wessci-check-icon">✓</span>
+									<span><strong>Division Tagging:</strong> Both primary division and specific sub-discipline assigned.</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- VIEW 2: SCIENTIFIC MANUSCRIPT AUTHORING META BOXES -->
+			<div id="view-editor" style="display: none;">
+				<div style="background: #fff; border: 1px solid #e2e2e5; border-radius: 6px; padding: 20px; margin-bottom: 20px;">
+					<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #eee; padding-bottom: 12px;">
+						<div>
+							<span style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #c51230; letter-spacing: 0.05em;">Manuscript Editor</span>
+							<h2 style="margin: 2px 0 0; font-size: 20px;">What a wing can teach us about the world</h2>
+						</div>
+						<div style="display: flex; gap: 8px;">
+							<span class="wessci-status-badge status-ready" style="padding: 6px 12px; font-size: 12px;">Ready for Issue</span>
+							<button class="button" style="padding: 6px 14px; background: #c51230; color: #fff; border: none; border-radius: 4px; font-weight: 600;">Update Manuscript</button>
+						</div>
+					</div>
+
+					<!-- Meta Box 1: Academic Details -->
+					<div class="wessci-dashboard-card" style="margin-bottom: 20px;">
+						<div class="wessci-card-header">
+							<h3 class="wessci-card-title">🔬 Scientific Manuscript Details</h3>
+						</div>
+
+						<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+							<div>
+								<label style="display: block; font-weight: 600; margin-bottom: 4px;">Article Publication Format:</label>
+								<select style="width: 100%; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+									<option selected>Research Article (Peer-Reviewed / Original Data)</option>
+									<option>Scientific Review</option>
+									<option>News &amp; Feature Story</option>
+									<option>Perspective / Editorial Essay</option>
+									<option>Faculty / Researcher Interview</option>
+								</select>
+							</div>
+							<div>
+								<label style="display: block; font-weight: 600; margin-bottom: 4px;">Volume &amp; Issue Assignment:</label>
+								<select style="width: 100%; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+									<option selected>Volume 14, Issue 1 (Fall 2026)</option>
+									<option>Volume 14, Issue 2 (Spring 2027)</option>
+									<option>Online Continuous Dispatch</option>
+								</select>
+							</div>
+						</div>
+
+						<div style="margin-bottom: 16px;">
+							<label style="display: block; font-weight: 600; margin-bottom: 4px;">Abstract / Executive Deck:</label>
+							<textarea rows="3" style="width: 100%; padding: 8px; border: 1px solid #ced4da; border-radius: 4px; font-size: 13px;">Aerodynamic efficiency in avian flight relies on non-linear vortex stabilization across layered primary covert feathers. Through high-speed schlieren imaging and wind-tunnel lift-drag measurements, we demonstrate how micro-serrations along leading-edge barbules suppress acoustic flutter while preserving boundary layer adhesion.</textarea>
+						</div>
+
+						<div>
+							<label style="display: block; font-weight: 600; margin-bottom: 4px;">Author Credentials &amp; Affiliations:</label>
+							<div style="display: flex; gap: 8px; margin-bottom: 8px;">
+								<input type="text" value="Elena Mente" style="flex: 2; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+								<input type="text" value="'26" style="flex: 1; max-width: 90px; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+								<input type="text" value="Biology / Neuroscience" style="flex: 2; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+								<input type="text" value="Wesleyan University" style="flex: 2; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+							</div>
+						</div>
+					</div>
+
+					<!-- Meta Box 2: Scientific Figures & Assets -->
+					<div class="wessci-dashboard-card" style="margin-bottom: 20px;">
+						<div class="wessci-card-header">
+							<h3 class="wessci-card-title">📊 Scientific Figures &amp; Media Assets</h3>
+							<span style="font-size: 12px; color: #047857; font-weight: 600;">✓ Resolution verified (1440 × 960px)</span>
+						</div>
+
+						<div style="border: 1px solid #e2e2e5; padding: 12px; border-radius: 4px; background: #fafafa;">
+							<div style="display: flex; gap: 12px; margin-bottom: 8px;">
+								<input type="text" value="Figure 1" style="flex: 1; font-weight: bold; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+								<select style="flex: 2; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+									<option selected>Creative Commons Attribution 4.0 (CC BY 4.0)</option>
+									<option>Author Original (Undergraduate research)</option>
+									<option>Public Domain / NASA / NIH Open Access</option>
+								</select>
+							</div>
+							<div style="margin-bottom: 8px;">
+								<input type="text" value="Schlieren flow visualization captured in Hall-Atwater Aerodynamics Laboratory" style="width: 100%; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">
+							</div>
+							<div>
+								<textarea rows="2" style="width: 100%; padding: 6px; border: 1px solid #ced4da; border-radius: 4px;">Boundary-layer vortex structures at Re = 4.2 × 10^4 showing laminar-to-turbulent shear transition along secondary flight feathers.</textarea>
+							</div>
+						</div>
+					</div>
+
+					<!-- Meta Box 3: References & Citations -->
+					<div class="wessci-dashboard-card">
+						<div class="wessci-card-header">
+							<h3 class="wessci-card-title">📚 Citations &amp; Bibliographic References</h3>
+							<span style="font-size: 12px; color: #646063;">3 Citations with active DOIs</span>
+						</div>
+						<textarea rows="4" style="width: 100%; padding: 8px; font-family: monospace; font-size: 12px; border: 1px solid #ced4da; border-radius: 4px;">1. Lentink, D., et al. (2007). How swifts control their glide performance with morphing wings. Nature, 446(7139), 1082-1085. https://doi.org/10.1038/nature05733
+2. Videler, J. J. (2006). Avian Flight. Oxford University Press. https://doi.org/10.1093/acprof:oso/9780199299928.001.0001
+3. Anderson, P. S., et al. (2019). Bio-inspired aerodynamic surfaces. Bioinspiration & Biomimetics, 14(3), 031001. https://doi.org/10.1088/1748-3190/ab0cf5</textarea>
+					</div>
+				</div>
+			</div>
+
+			<!-- VIEW 3: EDITORIAL BOARD MASTHEAD -->
+			<div id="view-masthead" style="display: none;">
+				<div class="wessci-dashboard-card">
+					<div class="wessci-card-header">
+						<h3 class="wessci-card-title">👥 WesSciJo 25-Student Editorial Board</h3>
+						<span class="wessci-volume-pill">5 Academic Divisions</span>
+					</div>
+					<p style="font-size: 13px; color: var(--wes-text-muted); margin: 0 0 20px;">
+						Configured student editors driving manuscript review queues and the public <code>/about/</code> masthead roster:
+					</p>
+
+					<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px;">
+						<!-- Executive -->
+						<div style="border: 1px solid #e2e2e5; border-radius: 6px; padding: 14px; background: #ffffff;">
+							<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px;">
+								<strong style="color: #c51230; font-size: 14px;">Executive Leadership</strong>
+								<span style="font-size: 11px; background: #eee; padding: 2px 6px; border-radius: 3px;">3 Editors</span>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;">
+								<div><strong>Aryia Banihashem-Ahmad</strong> <span style="color: #888;">— Editor-in-Chief</span></div>
+								<div><strong>Shriya Sakalkale</strong> <span style="color: #888;">— Editor-in-Chief</span></div>
+								<div><strong>Elena Mente</strong> <span style="color: #888;">— Editor-in-Chief</span></div>
+							</div>
+						</div>
+
+						<!-- Life Sciences -->
+						<div style="border: 1px solid #e2e2e5; border-radius: 6px; padding: 14px; background: #ffffff;">
+							<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px;">
+								<strong style="color: #059669; font-size: 14px;">Life Sciences Division</strong>
+								<span style="font-size: 11px; background: #eee; padding: 2px 6px; border-radius: 3px;">11 Editors</span>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+								<div><strong>Lorraine Hillgen-Santa</strong> &amp; <strong>Maia Feik Reinhart</strong> <span style="color: #888;">(Leads)</span></div>
+								<div>Feyza Horuz, Kitty Edwards, Claire Farina, Sophie Lambert, Saara Saini <span style="color: #888;">(Biology)</span></div>
+								<div>Hannah Zullow, Gaby Sorin, Olivia Oliveira, Rhea Ashish Kothari <span style="color: #888;">(Neuro &amp; Psych)</span></div>
+							</div>
+						</div>
+
+						<!-- Physical Sciences -->
+						<div style="border: 1px solid #e2e2e5; border-radius: 6px; padding: 14px; background: #ffffff;">
+							<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px;">
+								<strong style="color: #2563eb; font-size: 14px;">Physical Sciences Division</strong>
+								<span style="font-size: 11px; background: #eee; padding: 2px 6px; border-radius: 3px;">9 Editors</span>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+								<div><strong>Natalie Price</strong> &amp; <strong>Hamza Habib</strong> <span style="color: #888;">(Leads)</span></div>
+								<div>Zesun Hossain <span style="color: #888;">(Astronomy)</span> • Ella Stricker, Rhea Kothari <span style="color: #888;">(Physics)</span></div>
+								<div>Ellen Gudiksen, Saara Saini <span style="color: #888;">(Chemistry)</span> • Aniana Garciano <span style="color: #888;">(E&amp;ES)</span></div>
+							</div>
+						</div>
+
+						<!-- Quant & Comp -->
+						<div style="border: 1px solid #e2e2e5; border-radius: 6px; padding: 14px; background: #ffffff;">
+							<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px;">
+								<strong style="color: #7c3aed; font-size: 14px;">Quantitative &amp; Comp Science</strong>
+								<span style="font-size: 11px; background: #eee; padding: 2px 6px; border-radius: 3px;">5 Editors</span>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+								<div><strong>Shloka Bhattacharyya</strong> <span style="color: #888;">(Lead Quant Editor)</span></div>
+								<div>Gillian Churchland, Calvin Chiu, Sangye Sherpa <span style="color: #888;">(Math)</span></div>
+								<div>Samantha Sheahan <span style="color: #888;">(Computer Science)</span></div>
+							</div>
+						</div>
+
+						<!-- STS -->
+						<div style="border: 1px solid #e2e2e5; border-radius: 6px; padding: 14px; background: #ffffff;">
+							<div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 8px; margin-bottom: 10px;">
+								<strong style="color: #d97706; font-size: 14px;">Science, Technology &amp; Society</strong>
+								<span style="font-size: 11px; background: #eee; padding: 2px 6px; border-radius: 3px;">4 Editors</span>
+							</div>
+							<div style="display: flex; flex-direction: column; gap: 6px; font-size: 12px;">
+								<div><strong>Sangye Sherpa</strong> &amp; <strong>Tessa Higgins</strong> <span style="color: #888;">(Division Leads)</span></div>
+								<div>Dahlia Cedarbaum, Sarah Toolan <span style="color: #888;">(STS Editors)</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>
+
+<!-- Interactive Switcher & Filter Scripts -->
+<script src="../plugins/wessci-site/admin/js/wessci-admin.js"></script>
+<script>
+	function switchView(mode) {
+		document.getElementById('view-overview').style.display = (mode === 'overview') ? 'block' : 'none';
+		document.getElementById('view-editor').style.display = (mode === 'editor') ? 'block' : 'none';
+		document.getElementById('view-masthead').style.display = (mode === 'masthead') ? 'block' : 'none';
+
+		document.querySelectorAll('.view-mode-btn').forEach(function(b) {
+			b.classList.remove('is-active');
+		});
+		var activeBtn = document.getElementById('btn-view-' + mode);
+		if (activeBtn) activeBtn.classList.add('is-active');
+	}
+
+	function triggerDeploySim() {
+		var toast = document.getElementById('deploy-toast');
+		toast.style.display = 'block';
+		setTimeout(function() {
+			toast.style.display = 'none';
+		}, 5000);
+	}
+</script>
+
+</body>
+</html>
