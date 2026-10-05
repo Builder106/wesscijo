@@ -1,4 +1,4 @@
-.wessci-branded {
+body.wp-admin.wessci-branded {
   --wes-red: #c51230;
   --wes-red-dark: #a50f28;
   --wes-carbon: #100e0f;
@@ -271,4 +271,18 @@ body.wessci-branded #wpbody-content .button-primary:focus {
   .wessci-workspace .wessci-queue-table td:nth-child(4) {
     display: none;
   }
+}
+
+/* Match the dashboard background down to the bottom of short screens. */
+html:has(body.wessci-workspace),
+.wessci-workspace #wpwrap {
+  background: #f7f7f9;
+}
+.wessci-branded #wpfooter a {
+  color: var(--wes-red);
+}
+.wessci-branded #adminmenu .update-plugins,
+.wessci-branded #adminmenu .awaiting-mod {
+  background: var(--wes-red);
+  color: #fff;
 }
