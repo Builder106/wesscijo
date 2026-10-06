@@ -69,6 +69,24 @@ $wessci_masthead = array(
 			array( 'name' => 'Sarah Toolan', 'role' => 'Science, Technology & Society Editor' ),
 		),
 	),
+	array(
+		'section' => 'Graphic Design',
+		'people'  => array(
+			array( 'name' => 'Sorielis Paulino Polanco', 'role' => 'Graphic Designer' ),
+			array( 'name' => 'Minaal Khwaja', 'role' => 'Graphic Designer' ),
+			array( 'name' => 'Hannah Russak', 'role' => 'Graphic Designer' ),
+			array( 'name' => 'Ali Eckstein', 'role' => 'Graphic Designer' ),
+			array( 'name' => 'Olivia Oliveira', 'role' => 'Graphic Designer' ),
+			array( 'name' => 'Kitty Edwards', 'role' => 'Graphic Designer' ),
+		),
+	),
+	array(
+		'section' => 'Web Design',
+		'people'  => array(
+			array( 'name' => 'Olayinka Vaughan', 'role' => 'Lead Web Designer' ),
+			array( 'name' => 'Giancarlo Fedolfi', 'role' => 'Web Designer' ),
+		),
+	),
 );
 ?>
 
@@ -76,6 +94,12 @@ $wessci_masthead = array(
 
 	<article class="article">
 		<h1 class="article__title"><?php the_title(); ?></h1>
+		<nav class="about-contents" aria-label="About this journal">
+			<?php if ( get_post_field( 'post_content', get_queried_object_id() ) ) : ?>
+				<a href="#editorial-board-letter">Letter from the Editorial Board</a>
+			<?php endif; ?>
+			<a href="#editorial-team">Editorial team</a>
+		</nav>
 
 		<?php if ( have_posts() ) : ?>
 			<?php
@@ -83,7 +107,7 @@ $wessci_masthead = array(
 				the_post();
 				if ( get_the_content() ) :
 					?>
-					<div class="prose"><?php the_content(); ?></div>
+					<div class="prose" id="editorial-board-letter"><?php the_content(); ?></div>
 					<?php
 				endif;
 			endwhile;
@@ -91,6 +115,7 @@ $wessci_masthead = array(
 		<?php endif; ?>
 	</article>
 
+	<div id="editorial-team">
 	<?php foreach ( $wessci_masthead as $wessci_group ) : ?>
 		<section class="division">
 			<h2 class="division__title"><?php echo esc_html( $wessci_group['section'] ); ?></h2>
@@ -105,6 +130,7 @@ $wessci_masthead = array(
 			</div>
 		</section>
 	<?php endforeach; ?>
+	</div>
 
 </main>
 

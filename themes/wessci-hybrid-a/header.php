@@ -54,7 +54,6 @@
 			<?php endforeach; ?>
 
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">Archives</a></li>
-			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/calendar/' ) ); ?>">Calendar</a></li>
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submit</a></li>
 		</ul>

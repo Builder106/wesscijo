@@ -2,7 +2,7 @@
 Theme Name: WesSciJo — Hybrid A
 Theme URI: https://wesleyan.edu/
 Author: Olayinka Vaughan
-Description: Hybrid concept A for The Wesleyan Science Journal. Black title band at poster scale over a red slab that hinges into a white index, then Brutalist structure with the typography reset in Libre Franklin. Mass comes from the setting rather than a display face.
+Description: A white and red journal theme with section dropdowns, illustrated articles, and an editorial masthead.
 Version: 1.0.0
 License: GNU General Public License v2 or later
 Text Domain: wessci-hybrid-a
@@ -10,19 +10,19 @@ Text Domain: wessci-hybrid-a
 
 /* ---------- tokens ---------- */
 :root {
-	--color-paper:    oklch(97% 0.003 70);
+	--color-paper:    #fff;
 	--color-ink:      oklch(12% 0 0);
 	--color-ink-2:    oklch(40% 0 0);
-	--color-ink-3:    oklch(58% 0 0);
+	--color-ink-3:    oklch(48% 0 0);
 	--color-invert:   oklch(99% 0 0);
-	--color-accent:   oklch(55% 0.21 28);
-	--color-accent-2: oklch(46% 0.18 28);
+	--color-accent:   #a6192e;
+	--color-accent-2: #841424;
 	--color-rule:     oklch(86% 0.004 70);
-	--color-focus:    oklch(55% 0.21 28);
+	--color-focus:    #a6192e;
 
-	--font-display: "Libre Franklin", system-ui, sans-serif;
+	--font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
 	--font-body:    "Libre Franklin", system-ui, sans-serif;
-	--font-brand:   "Libre Franklin", system-ui, sans-serif;
+	--font-brand:   "Cormorant Garamond", Georgia, "Times New Roman", serif;
 	--font-hero:    "Cormorant Garamond", Georgia, "Times New Roman", serif;
 
 	--text-4xl:     clamp(2rem, 4.5vw, 3.5rem);
@@ -97,11 +97,10 @@ h1, h2, h3 {
 }
 .skip-link:focus { left: 0; }
 
-/* ---------- hero: black band, red hinge, white index ---------- */
+/* ---------- masthead ---------- */
 .hero__band {
-	background: var(--color-ink);
+	background: var(--color-paper);
 	padding: clamp(2rem, 3.5vw, 3.5rem) var(--space-6);
-	/* the red slab IS the transition between the black and white fields */
 	border-bottom: var(--rule-slab) solid var(--color-accent);
 	container-type: inline-size;
 }
@@ -133,12 +132,12 @@ h1, h2, h3 {
 
 .hero__title {
 	display: block;
-	color: var(--color-invert);
+	color: var(--color-accent);
 	font-family: var(--font-brand);
 	/* Scale with the container instead of tuning to one exact string width;
 	   wrap if necessary rather than risk clipping. */
 	font-size: clamp(2.25rem, 5.2cqi, 5.5rem);
-	font-weight: 700;
+	font-weight: 600;
 	line-height: 1.1;
 	font-size-adjust: from-font;
 	letter-spacing: -0.005em;
@@ -286,23 +285,6 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 /* ---------- shell ---------- */
 .site-main { max-width: var(--shell); margin: 0 auto; padding-inline: var(--space-6); }
 
-/* ---------- issue bar ---------- */
-.issuebar {
-	display: flex;
-	align-items: center;
-	gap: var(--space-4);
-	flex-wrap: wrap;
-	padding-block: var(--space-8);
-	font-size: var(--text-xs);
-	font-weight: 600;
-	letter-spacing: 0.12em;
-	text-transform: uppercase;
-}
-.issuebar__slab { background: var(--color-accent); color: var(--color-invert); padding: var(--space-2) var(--space-3); }
-.issuebar__meta { color: var(--color-ink-2); }
-.issuebar__link { margin-inline-start: auto; text-decoration: none; border-bottom: var(--rule-thick) solid var(--color-accent); }
-.issuebar__link:hover { color: var(--color-accent); }
-
 /* ---------- featured article: text left, cover right, on white ---------- */
 .lead {
 	display: grid;
@@ -329,7 +311,16 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 .lead__excerpt { font-size: var(--text-lg); color: var(--color-ink-2); max-width: var(--measure); }
 
 .lead__figure { margin: 0; }
-.lead__figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
+.lead__figure img { width: 100%; height: auto; }
+
+figcaption, .wp-caption-text {
+	margin-top: var(--space-2);
+	font-size: var(--text-sm);
+	line-height: 1.5;
+	color: var(--color-ink-2);
+}
+
+.byline { margin-bottom: var(--space-4); font-size: var(--text-sm); font-weight: 600; }
 
 .tag {
 	display: inline-block;
@@ -420,6 +411,9 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 .person__name { font-weight: 700; font-size: var(--text-sm); }
 .person__role { color: var(--color-ink-2); font-size: var(--text-xs); }
 
+.about-contents { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); margin-block: var(--space-6) var(--space-8); }
+.about-contents a { text-decoration-color: var(--color-accent); text-underline-offset: 3px; }
+
 .navigation.pagination {
 	border-top: var(--rule-slab) solid var(--color-ink);
 	padding-top: var(--space-6);
@@ -452,6 +446,7 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 }
 .card { grid-column: span 3; display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
 .card--wide { grid-column: span 6; }
+.card__figure { margin: 0; }
 
 .card__media { display: block; overflow: hidden; border-bottom: var(--rule-thick) solid var(--color-ink); }
 .card__media img { width: 100%; transition: transform var(--dur-mid) var(--ease-out); }
@@ -486,7 +481,6 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 	letter-spacing: -0.02em;
 	margin-block: var(--space-8) var(--space-4);
 }
-.submit__copy { color: var(--color-ink-2); max-width: var(--measure); }
 
 /* ---------- single article ---------- */
 .article { padding-block: var(--space-16); }
@@ -504,25 +498,22 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 .article__figure { margin: 0 0 var(--space-12); border-top: var(--rule-slab) solid var(--color-ink); padding-top: var(--space-8); }
 .article__figure img {
 	width: 100%;
-	/* wessci-lead thumbnails are hard-cropped to 4:3 (functions.php), so
-	   capping height here can't distort them — it just stops a lead image
-	   from outrunning the headline and meta above the fold. */
-	aspect-ratio: 4 / 3;
-	object-fit: cover;
-	max-height: min(38vh, 420px);
+	height: auto;
 }
+
+.article__sources { margin-top: var(--space-12); }
 
 .prose {
 	max-width: var(--measure);
+	margin-inline: auto;
 	font-size: var(--text-lg);
 	line-height: 1.65;
 	color: var(--color-ink-2);
 }
 .prose > * + * { margin-top: var(--space-6); }
-.prose p { margin: 0; }
 .prose h2 {
 	font-family: var(--font-display);
-	font-size: var(--text-4xl);
+	font-size: var(--text-2xl);
 	font-weight: 700;
 	color: var(--color-ink);
 	margin-top: var(--space-12) !important;
@@ -548,11 +539,15 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 	color: var(--color-ink);
 }
 .prose ul, .prose ol { padding-left: 1.25em; }
+.prose ul { list-style: disc; }
 .prose li + li { margin-top: var(--space-2); }
 .prose img { width: 100%; }
+.prose .table-scroll { max-width: 100%; overflow-x: auto; }
+.prose table { border-collapse: collapse; font-size: var(--text-sm); }
+.prose td, .prose th { border: var(--rule-hair) solid var(--color-rule); padding: var(--space-2); }
 
 /* ---------- colophon ---------- */
-.colophon { background: var(--color-ink); color: var(--color-invert); padding-inline: var(--space-6); }
+.colophon { background: var(--color-paper); color: var(--color-ink); border-top: var(--rule-thick) solid var(--color-accent); padding-inline: var(--space-6); }
 
 /* one grid for the whole footer: brand in a wider first track, the three
    index groups across equal tracks, so every column shares an alignment */
@@ -568,9 +563,10 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 
 .colophon__brand { display: flex; flex-direction: column; gap: var(--space-6); }
 .colophon__name {
+	color: var(--color-accent);
 	font-family: var(--font-brand);
 	font-size: clamp(2rem, 5vw, 3.6rem);
-	font-weight: 700;
+	font-weight: 600;
 	line-height: 0.92;
 	font-size-adjust: from-font;
 }
@@ -584,7 +580,7 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 }
 .colophon__index .index-group__list { flex-direction: column; gap: var(--space-2); }
 
-.colophon .index-group__list a { color: var(--color-invert); }
+.colophon .index-group__list a { color: var(--color-ink); }
 .colophon .index-group__list a:hover { border-bottom-color: var(--color-accent); }
 
 .colophon__legal {
@@ -641,18 +637,19 @@ form.search { display: flex; align-items: stretch; margin-inline-start: auto; }
 	.panel:not([open]) > .panel__list { display: none; }
 	.panel[open] > .panel__list { display: flex; }
 	.panel__link { padding: var(--space-2) 0; white-space: normal; overflow-wrap: anywhere; }
-	.issuebar__link { margin-inline-start: 0; }
 	.division { padding-block: var(--space-12); }
 	.colophon__index { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
 	.hero__title {
-		font-size: clamp(2.75rem, 12vw, 4rem);
-		line-height: 0.95;
-		max-width: 11ch;
-		margin-inline: auto;
+		flex: 1;
+		font-size: 1.6rem;
+		line-height: 1.1;
+		max-width: none;
+		margin: 0;
+		text-align: left;
 	}
-	.hero__brand { flex-direction: column; gap: var(--space-4); }
-	.hero__logo-slot { max-inline-size: min(12rem, 70vw); max-block-size: 3rem; }
-	.hero__logo-slot img { max-height: 3rem; }
+	.hero__brand { flex-direction: row; gap: var(--space-4); }
+	.hero__logo-slot { flex: 0 0 4.5rem; max-inline-size: 4.5rem; max-block-size: none; }
+	.hero__logo-slot img { width: 100%; max-height: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

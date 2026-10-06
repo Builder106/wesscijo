@@ -14,9 +14,14 @@
 					?>
 					<article class="card">
 						<?php if ( has_post_thumbnail() ) : ?>
-							<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
-								<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '' ) ); ?>
-							</a>
+							<figure class="card__figure">
+								<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
+									<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
+								</a>
+								<?php if ( get_the_post_thumbnail_caption() ) : ?>
+									<figcaption><?php echo wp_kses_post( get_the_post_thumbnail_caption() ); ?></figcaption>
+								<?php endif; ?>
+							</figure>
 						<?php endif; ?>
 						<?php if ( $type ) : ?>
 							<span class="card__type"><?php echo wessci_term_name( $type ); ?></span>

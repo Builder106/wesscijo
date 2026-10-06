@@ -21,7 +21,6 @@
 				<ul class="index-group__list">
 					<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">Archives</a></li>
-					<li><a href="<?php echo esc_url( home_url( '/calendar/' ) ); ?>">Calendar</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submit</a></li>
 				</ul>
 			</div>
