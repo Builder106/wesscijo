@@ -1,0 +1,11 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "landingPage": "/",
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "steps": [
+    {
+      "step": "runPHP",
+      "code": "<?php define('WESSCI_ISSUE_PREVIEW', true); require '/wordpress/issue-scripts/seed-issue-preview.php';"
+    }
+  ]
+}
