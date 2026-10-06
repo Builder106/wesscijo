@@ -371,3 +371,11 @@ The release is prepared on `fix/editorial-publication`.
 The owner flagged the large empty area beside article text. Hybrid A capped the prose width at 58 characters but left it aligned with the page edge. Automatic inline margins now center that reading column, including inline figures and references, within the wider article layout.
 
 The owner also asked to deprioritize missing image credits. Keep the attribution inventory for follow-up and retain every supplied credit and reference; the outstanding credits no longer block this prepared release.
+
+## 2026-10-06 - Publish the Fall 2026 edition #deployment #milestone
+
+The owner approved publishing the reviewed release to both domains. The dark-theme static site is archived at the `archive/dark-site-2026-10-06` tag, which matches what was live at commit 6a63472. The live WordPress database and files were backed up before any change, and the previous Cardinal theme stays installed but inactive.
+
+The static edition went out through pull request 13: CI passed and Vercel completed the production deployment for merge commit 2e1df8f. For WordPress, Hybrid A was installed and activated, the nine articles and their images were imported, and the About, Submit and Archives pages were updated in place. The eight placeholder posts, Hello world, four placeholder events, the Calendar and Sample Page, and six unused categories were removed. The preview seeder was not used because it deletes all posts and hides the site from search engines; a one-time importer that keeps those settings did the work.
+
+Live browser checks against both domains had not been run when this entry was written. Image credits and a Google Forms test submission remain follow-up work.
