@@ -2,11 +2,11 @@
 
 ## Status and scope
 
-This is the working brief for a site-wide redesign. Hybrid A is the current implementation and one design reference, not the visual baseline. The next design may replace its layout, typography, navigation, artwork, and theme code if that produces a better publication site. Red and black, the cardinal, science, and birds are requirements for every direction. The earlier [Hybrid A design study](DESIGN.md) remains available as evidence of work already tried.
+The editors' October 5 emails replace the broader redesign brief for this release. Preserve Hybrid A's dropdown navigation, article layout, and About structure. Apply the simpler white and red styling, include the official logo and full name "The Wesleyan Science Journal", and prioritize the current edition and outside submissions. Further design exploration is deferred until an in-person meeting after the edition is released.
 
-The repository contains a WordPress prototype with article, category, search, archive, About, Calendar, Submit, and 404 routes. The editorial materials describe a hybrid science journal and magazine for both science and nonscience Wesleyan readers. They distinguish Research & Reviews from News, Features & Perspectives, and call for original graphics in articles, issue browsing, and eventually a submission path. The current approved content, issue details, image rights, event details, and launch date must be checked with the editors before publication. Working drafts and mock covers are not publication approval.
+The release must contain the nine articles on the final Fall 2026 list, labeled thumbnails, inline graphics, and both GMO comic pages. About must include the Editorial Board letter and the requested editorial, graphic design, and web design credits. Submission guidelines must use the approved article content document and the form supplied in Shriya's September 27 email. Remove the Calendar, placeholder stories, and unsolicited About content. Preserve photo credits and authors' references, and verify that each title opens its own article and search works.
 
-Planning does not change the live site or authorize publication. Implementation should use a short-lived topic branch from `main` after a direction is chosen.
+The owner approved publishing the reviewed release on October 6. The remaining sections below retain the earlier, deferred redesign research; they do not expand this release's scope.
 
 ## Desired experience
 

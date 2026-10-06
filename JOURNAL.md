@@ -351,3 +351,23 @@ The initial commit established the product as three from-scratch WordPress theme
      - `page.php`, `404.php`, `template-calendar.php`, and `template-submit.php`.
      - `assets/app.js`: Hardened with page-level guards, tri-state theme toggle, dynamic chapter map builder, and scroll spy.
   2. Verified syntax with `php -l` on PHP 8.3 with zero errors across all 13 template files.
+
+## 2026-10-05 - Prepare the editors' Fall 2026 edition #decision #milestone
+
+The October 5 "Updated website" thread sets the release scope: keep Hybrid A's dropdown navigation, article layout, and About structure; use white and red styling; include the official logo and full journal name. The broader Cardinal redesign is deferred until the editors meet after this edition. The Calendar and unsolicited logo explanations are removed from the prepared publication.
+
+The edition now contains the nine articles on the final Fall 2026 list, the supplied covers and inline graphics, both GMO comic pages before Sources Cited, the Editorial Board letter, the approved article guidelines, and the submission form from the September 27 email. About also includes the requested graphic and web design teams. Source conversion preserved each article's text and links, including four research tables and supplied figure captions. All nine articles passed the source-text comparison.
+
+The former static preview sent several titles to the same sample story. The publication now renders a unique page for every article from `content/issue-2026/`, with category pages, archives, and a search index built from those articles. The static edition is a dated snapshot: WordPress edits require an explicit content refresh and render before a static release. The guarded WordPress seeder prepares a disposable review installation; it is not a production migration.
+
+Final review passed 12 Playwright checks across the static and WordPress previews. The checks cover the nine article destinations, loaded images, search, the letter and submission link, comic ordering, internal links, missing routes, keyboard menus, and phone and desktop layouts. Visual review caught and corrected a narrow phone masthead. PHP syntax, JavaScript syntax, and the repository's CSS check also passed. These are local release checks; hosted CI and Google Forms response submission remain unverified.
+
+Image attribution still needs an editorial reply. The supplied material and 20 original WesSciJo emails did not identify the creators of five covers, four alumni portraits, six bird photos, seven research figures, the quantum diagram, or either GMO comic page. Three articles have no dedicated cover, so their first supplied inline figure is used as the thumbnail. Known credits and author references are retained. The September 27 permission to leave one unspecified article's credit blank does not identify that article or resolve the remaining images. `content/issue-2026/source-notes.json` records the affected files.
+
+The release is prepared on `fix/editorial-publication`.
+
+## 2026-10-05 - Center article prose and defer missing credits #feedback #decision
+
+The owner flagged the large empty area beside article text. Hybrid A capped the prose width at 58 characters but left it aligned with the page edge. Automatic inline margins now center that reading column, including inline figures and references, within the wider article layout.
+
+The owner also asked to deprioritize missing image credits. Keep the attribution inventory for follow-up and retain every supplied credit and reference; the outstanding credits no longer block this prepared release.
