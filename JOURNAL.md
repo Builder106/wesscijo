@@ -387,3 +387,9 @@ A browser check of both domains at 390 and 1440 pixels found that content, links
 Every static page now links Cormorant Garamond and Libre Franklin and the font overrides are gone. The theme leads with the sticky post when one exists and falls back to the newest, and the article header is centered over the reading column. Removing the Georgia override also widened the static article column to about 970 pixels, so the 75ch override was dropped as well; the column is now 754 pixels against 696 on WordPress. The updated theme was installed on the live WordPress site after saving a copy of the previous one. A final browser run on both domains showed matching fonts and lead story, centered article headers, no horizontal overflow, no broken images, working search and both comic pages with alt text.
 
 Image credits and a Google Forms test submission remain follow-up work.
+
+## 2026-10-06 - Match article text and check the submission form #deployment #open-question
+
+The static article column still ran about 60 pixels wider than WordPress because it overrode the theme's font size and line height. Both overrides are gone, and both live sites now set article text at 18 pixels with a 696-pixel column.
+
+Loading the submission form in a signed-out browser redirects to a Google sign-in page. Outside contributors may not be able to open it without signing in, which conflicts with the edition's goal of accepting outside submissions. The form's access setting belongs to the editors. Confirm whether the form is restricted to the Wesleyan organization or only requires a Google account for file uploads, and whether contributors without either can submit. No response was submitted, so delivery of submissions is still unverified. Missing image credits are unchanged and wait on the editors.
