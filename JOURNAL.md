@@ -379,3 +379,11 @@ The owner approved publishing the reviewed release to both domains. The dark-the
 The static edition went out through pull request 13: CI passed and Vercel completed the production deployment for merge commit 2e1df8f. For WordPress, Hybrid A was installed and activated, the nine articles and their images were imported, and the About, Submit and Archives pages were updated in place. The eight placeholder posts, Hello world, four placeholder events, the Calendar and Sample Page, and six unused categories were removed. The preview seeder was not used because it deletes all posts and hides the site from search engines; a one-time importer that keeps those settings did the work.
 
 Live browser checks against both domains had not been run when this entry was written. Image credits and a Google Forms test submission remain follow-up work.
+
+## 2026-10-06 - Match the two live sites #deployment #decision
+
+A browser check of both domains at 390 and 1440 pixels found that content, links, search and comic alt text were correct, but the two sites differed in three ways. The static pages never loaded the theme's web fonts, and an extra stylesheet forced Georgia and system fonts, so the static site rendered in fallback type. The WordPress home page led with the newest post and ignored the sticky Birds feature that the static site leads with. The article kicker, title, byline and date sat on the left above a centered reading column.
+
+Every static page now links Cormorant Garamond and Libre Franklin and the font overrides are gone. The theme leads with the sticky post when one exists and falls back to the newest, and the article header is centered over the reading column. Removing the Georgia override also widened the static article column to about 970 pixels, so the 75ch override was dropped as well; the column is now 754 pixels against 696 on WordPress. The updated theme was installed on the live WordPress site after saving a copy of the previous one. A final browser run on both domains showed matching fonts and lead story, centered article headers, no horizontal overflow, no broken images, working search and both comic pages with alt text.
+
+Image credits and a Google Forms test submission remain follow-up work.
