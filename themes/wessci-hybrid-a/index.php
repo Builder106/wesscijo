@@ -3,12 +3,15 @@
 <main class="site-main" id="main" tabindex="-1">
 
 	<?php
-	$lead_q  = new WP_Query(
-		array(
-			'posts_per_page'      => 1,
-			'ignore_sticky_posts' => true,
-		)
+	$lead_args = array(
+		'posts_per_page'      => 1,
+		'ignore_sticky_posts' => true,
 	);
+	$sticky    = get_option( 'sticky_posts' );
+	if ( $sticky ) {
+		$lead_args['post__in'] = $sticky;
+	}
+	$lead_q  = new WP_Query( $lead_args );
 	$lead_id = 0;
 
 	if ( $lead_q->have_posts() ) :

@@ -98,7 +98,9 @@ def document(title, body, articles, description='', canonical=''):
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             f'<title>{escape(page_title)}</title><meta name="description" content="{escape(description)}">'
             f'<link rel="canonical" href="https://thewesleyansciencejournal.com{canonical}">'
-            '<link rel="icon" href="/assets/favicon.png"><link rel="stylesheet" href="/publication.css">'
+            '<link rel="icon" href="/assets/favicon.png">'
+            '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@600&display=swap">'
+            '<link rel="stylesheet" href="/publication.css">'
             '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script></head><body>'
             + header(articles) + '<main class="site-main" id="main" tabindex="-1">' + body + '</main>'
             f'<footer class="publication-footer"><a href="/">{NAME}</a><nav aria-label="Footer"><a href="/about/">About</a><a href="/submit/">Submission guidelines</a></nav></footer></body></html>')
