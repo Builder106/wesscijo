@@ -14,13 +14,13 @@ body.wp-admin.wessci-branded {
   --wp-admin-theme-color-darker-20--rgb: 138, 13, 34;
 }
 
-/* The cardinal head replaces the WordPress logo in the admin bar. */
+/* The journal seal replaces the WordPress logo in the admin bar. */
 .wessci-branded #wpadminbar #wp-admin-bar-wp-logo > .ab-item .ab-icon:before {
   content: "";
   display: block;
   width: 20px;
   height: 20px;
-  background: url("../images/cardinal-field.svg") -88px -28px / 150px 127px no-repeat;
+  background: url("../images/wessci-logo.png") center / contain no-repeat;
 }
 
 /* Shell recolor: same WordPress structure, WesSciJo colors. */
@@ -124,7 +124,7 @@ body.wessci-branded #wpbody-content .button-primary:focus {
 }
 .wessci-workspace .welcome-panel-header {
   min-height: 220px;
-  background: var(--wes-carbon) url("../images/cardinal-field.svg") no-repeat right 40px center / auto 170%;
+  background: var(--wes-carbon) url("../images/wessci-logo.png") no-repeat right 40px center / auto 90%;
   border-bottom: 4px solid var(--wes-red);
 }
 .wessci-workspace .welcome-panel-header-image {
