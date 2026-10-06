@@ -2,12 +2,6 @@
 
 <main class="site-main" id="main" tabindex="-1">
 
-	<div class="issuebar">
-		<span class="issuebar__slab">Current issue</span>
-		<span class="issuebar__meta">Vol. 1 — No. 1 — October 2026</span>
-		<a class="issuebar__link" href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">All issues</a>
-	</div>
-
 	<?php
 	$lead_q  = new WP_Query(
 		array(
@@ -35,6 +29,9 @@
 					</h1>
 
 					<p class="lead__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
+					<?php if ( wessci_hybrid_a_byline( $lead_id ) ) : ?>
+						<p class="byline"><?php echo esc_html( wessci_hybrid_a_byline( $lead_id ) ); ?></p>
+					<?php endif; ?>
 
 					<p class="meta">
 						<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></time>
@@ -48,6 +45,9 @@
 				<?php if ( $has_cover ) : ?>
 					<figure class="lead__figure">
 						<?php the_post_thumbnail( 'wessci-lead', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '(max-width: 1080px) 100vw, 50vw' ) ); ?>
+						<?php if ( get_the_post_thumbnail_caption() ) : ?>
+							<figcaption><?php echo wp_kses_post( get_the_post_thumbnail_caption() ); ?></figcaption>
+						<?php endif; ?>
 					</figure>
 				<?php endif; ?>
 			</article>
@@ -83,9 +83,14 @@
 					?>
 					<article class="card<?php echo 1 === $index ? ' card--wide' : ''; ?>">
 						<?php if ( has_post_thumbnail() ) : ?>
-							<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
-								<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
-							</a>
+							<figure class="card__figure">
+								<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
+									<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
+								</a>
+								<?php if ( get_the_post_thumbnail_caption() ) : ?>
+									<figcaption><?php echo wp_kses_post( get_the_post_thumbnail_caption() ); ?></figcaption>
+								<?php endif; ?>
+							</figure>
 						<?php endif; ?>
 						<?php if ( $type ) : ?>
 							<span class="card__type"><?php echo wessci_term_name( $type ); ?></span>
@@ -105,7 +110,6 @@
 
 	<section class="submit">
 		<h2 class="submit__title">Write for us</h2>
-		<p class="submit__copy">The inaugural issue is written by our editorial staff. Submissions open to the wider Wesleyan community in a future issue.</p>
 		<a class="btn btn--invert" href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submission guidelines</a>
 	</section>
 

@@ -17,8 +17,8 @@ function wessci_hybrid_a_setup() {
 			'flex-width'  => true,
 		)
 	);
-	add_image_size( 'wessci-lead', 800, 600, true );
-	add_image_size( 'wessci-card', 800, 600, true );
+	add_image_size( 'wessci-lead', 800, 600, false );
+	add_image_size( 'wessci-card', 800, 600, false );
 }
 add_action( 'after_setup_theme', 'wessci_hybrid_a_setup' );
 
@@ -40,8 +40,8 @@ add_action( 'wp_enqueue_scripts', 'wessci_hybrid_a_assets' );
 
 /** Return the configurable masthead title used by the header and footer. */
 function wessci_hybrid_a_brand_title() {
-	$title = get_theme_mod( 'wessci_masthead_title', 'Wesleyan Science Journal' );
-	return '' !== trim( $title ) ? $title : 'Wesleyan Science Journal';
+	$title = trim( get_theme_mod( 'wessci_masthead_title', 'The Wesleyan Science Journal' ) );
+	return '' === $title || 'Wesleyan Science Journal' === $title ? 'The Wesleyan Science Journal' : $title;
 }
 
 /** Keep the logo placement easy to change when the final logo is ready. */
@@ -61,7 +61,7 @@ function wessci_hybrid_a_customize_register( $wp_customize ) {
 	$wp_customize->add_setting(
 		'wessci_masthead_title',
 		array(
-			'default'           => 'Wesleyan Science Journal',
+			'default'           => 'The Wesleyan Science Journal',
 			'sanitize_callback' => 'sanitize_text_field',
 			'transport'         => 'refresh',
 		)
@@ -70,7 +70,7 @@ function wessci_hybrid_a_customize_register( $wp_customize ) {
 		'wessci_masthead_title',
 		array(
 			'label'       => 'Masthead title',
-			'description' => 'Text shown in the black banner and footer.',
+			'description' => 'Text shown in the masthead and footer.',
 			'section'     => 'wessci_masthead',
 			'type'        => 'text',
 		)
@@ -159,6 +159,20 @@ function wessci_read_time( $post_id ) {
 	preg_match_all( '/\p{L}+/u', wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), $m );
 	$words = count( $m[0] );
 	return max( 1, (int) round( $words / 200 ) );
+}
+
+function wessci_hybrid_a_byline( $post_id ) {
+	$authors = get_post_meta( $post_id, '_wessci_authors', true );
+	if ( ! is_array( $authors ) ) {
+		return '';
+	}
+	$names = array();
+	foreach ( $authors as $author ) {
+		if ( is_array( $author ) && isset( $author['name'] ) && is_string( $author['name'] ) && '' !== trim( $author['name'] ) ) {
+			$names[] = trim( $author['name'] );
+		}
+	}
+	return implode( ', ', $names );
 }
 
 /** Up to two initials for a masthead placeholder avatar, until real headshots exist. */

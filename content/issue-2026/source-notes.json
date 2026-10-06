@@ -1,0 +1,65 @@
+{
+  "guidelinesSource": "19wLsvmW-9ajFUpjlet8IWHITTbT7ZakQ",
+  "guidelinesOmission": "Internal Editorial Calendar procedures excluded at editors request. Article guidance and final disclaimer retained.",
+  "letterSource": "1n-ngrZs9o75J_JNOLmcbBqs-TyeNwYMmJNendFRgTvs",
+  "creditSearch": {
+    "provider": "Gmail",
+    "label": "WesSciJo",
+    "date": "2026-10-05",
+    "messagesRead": 20,
+    "newCreatorAssociations": [],
+    "creditExceptionMessage": "1a0e5705905e188b",
+    "creditException": "September 27 permits one unspecified article credit to remain blank temporarily. The message does not identify that article."
+  },
+  "bylineNotes": {
+    "liberal-arts-to-scientific-academia": "Source header says Hourz; author bio and masthead establish Horuz.",
+    "math-behind-llms": "Calvin and Gillian attributed by issue list; full names supplied by July9 masthead.",
+    "chatgpt-moment-for-robotics": "Shloka attributed by issue list; full name supplied by July9 masthead."
+  },
+  "missingCredits": {
+    "gmos-applications-and-controversy": [
+      "/assets/issue-2026/gmos-applications-and-controversy/gmo-comic-page-1.png",
+      "/assets/issue-2026/gmos-applications-and-controversy/gmo-comic-page-2.png",
+      "/assets/issue-2026/gmos-applications-and-controversy/cover.webp"
+    ],
+    "liberal-arts-to-scientific-academia": [
+      "/assets/issue-2026/liberal-arts-to-scientific-academia/image1.jpg",
+      "/assets/issue-2026/liberal-arts-to-scientific-academia/image4.jpg",
+      "/assets/issue-2026/liberal-arts-to-scientific-academia/image3.jpg",
+      "/assets/issue-2026/liberal-arts-to-scientific-academia/image2.jpg",
+      "/assets/issue-2026/liberal-arts-to-scientific-academia/cover.webp"
+    ],
+    "birds-of-wesleyan": [
+      "/assets/issue-2026/birds-of-wesleyan/image2.png",
+      "/assets/issue-2026/birds-of-wesleyan/image4.png",
+      "/assets/issue-2026/birds-of-wesleyan/image1.png",
+      "/assets/issue-2026/birds-of-wesleyan/image6.png",
+      "/assets/issue-2026/birds-of-wesleyan/image3.png",
+      "/assets/issue-2026/birds-of-wesleyan/image5.png",
+      "/assets/issue-2026/birds-of-wesleyan/cover.webp"
+    ],
+    "bile-salt-mixed-micelles": [
+      "/assets/issue-2026/bile-salt-mixed-micelles/image1.png",
+      "/assets/issue-2026/bile-salt-mixed-micelles/image7.png",
+      "/assets/issue-2026/bile-salt-mixed-micelles/image2.png",
+      "/assets/issue-2026/bile-salt-mixed-micelles/image6.png",
+      "/assets/issue-2026/bile-salt-mixed-micelles/image3.png",
+      "/assets/issue-2026/bile-salt-mixed-micelles/image5.png",
+      "/assets/issue-2026/bile-salt-mixed-micelles/image4.png"
+    ],
+    "quantum-voting": [
+      "/assets/issue-2026/quantum-voting/image1.png"
+    ],
+    "math-behind-llms": [
+      "/assets/issue-2026/math-behind-llms/cover.webp"
+    ],
+    "scientific-paradigms": [
+      "/assets/issue-2026/scientific-paradigms/cover.webp"
+    ]
+  },
+  "missingDedicatedCovers": [
+    "bile-salt-mixed-micelles",
+    "quantum-voting",
+    "chatgpt-moment-for-robotics"
+  ]
+}

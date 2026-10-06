@@ -19,6 +19,9 @@
 			<?php endif; ?>
 
 			<h1 class="article__title"><?php the_title(); ?></h1>
+			<?php if ( wessci_hybrid_a_byline( $post_id ) ) : ?>
+				<p class="byline"><?php echo esc_html( wessci_hybrid_a_byline( $post_id ) ); ?></p>
+			<?php endif; ?>
 
 			<p class="meta">
 				<time datetime="<?php echo esc_attr( get_the_date( 'c' ) ); ?>"><?php echo esc_html( get_the_date( 'j F Y' ) ); ?></time>
@@ -28,13 +31,25 @@
 
 			<?php if ( has_post_thumbnail() ) : ?>
 				<figure class="article__figure">
-					<?php the_post_thumbnail( 'wessci-lead', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => 'min(100vw, 800px)' ) ); ?>
+					<?php the_post_thumbnail( 'full', array( 'loading' => 'eager', 'fetchpriority' => 'high', 'sizes' => '(max-width: 1400px) 100vw, 1400px' ) ); ?>
+					<?php if ( get_the_post_thumbnail_caption() ) : ?>
+						<figcaption><?php echo wp_kses_post( get_the_post_thumbnail_caption() ); ?></figcaption>
+					<?php endif; ?>
 				</figure>
 			<?php endif; ?>
 
 			<div class="prose">
 				<?php the_content(); ?>
 			</div>
+			<?php
+			$references = get_post_meta( $post_id, '_wessci_references', true );
+			if ( is_string( $references ) && '' !== trim( $references ) ) :
+				?>
+				<section class="prose article__sources" aria-labelledby="sources-title">
+					<h2 id="sources-title">Sources</h2>
+					<?php echo wp_kses_post( wpautop( make_clickable( esc_html( $references ) ) ) ); ?>
+				</section>
+			<?php endif; ?>
 		</article>
 
 		<?php if ( $division ) : ?>
@@ -58,9 +73,14 @@
 							?>
 							<article class="card">
 								<?php if ( has_post_thumbnail() ) : ?>
-									<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
-										<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
-									</a>
+									<figure class="card__figure">
+										<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
+											<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
+										</a>
+										<?php if ( get_the_post_thumbnail_caption() ) : ?>
+											<figcaption><?php echo wp_kses_post( get_the_post_thumbnail_caption() ); ?></figcaption>
+										<?php endif; ?>
+									</figure>
 								<?php endif; ?>
 								<?php if ( $related_type ) : ?>
 									<span class="card__type"><?php echo wessci_term_name( $related_type ); ?></span>
