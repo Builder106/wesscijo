@@ -32,8 +32,8 @@
 					</h1>
 
 					<p class="lead__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
-					<?php if ( wessci_hybrid_a_byline( $lead_id ) ) : ?>
-						<p class="byline"><?php echo esc_html( wessci_hybrid_a_byline( $lead_id ) ); ?></p>
+					<?php if ( wesscijo_byline( $lead_id ) ) : ?>
+						<p class="byline"><?php echo esc_html( wesscijo_byline( $lead_id ) ); ?></p>
 					<?php endif; ?>
 
 					<p class="meta">

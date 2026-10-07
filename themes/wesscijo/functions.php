@@ -1,10 +1,10 @@
 <?php
 /**
- * WesSciJo — Hybrid A
- * Concept theme for The Wesleyan Science Journal.
+ * WesSciJo
+ * Site theme for The Wesleyan Science Journal.
  */
 
-function wessci_hybrid_a_setup() {
+function wesscijo_setup() {
 	add_theme_support( 'post-thumbnails' );
 	add_theme_support( 'title-tag' );
 	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
@@ -20,9 +20,9 @@ function wessci_hybrid_a_setup() {
 	add_image_size( 'wessci-lead', 800, 600, false );
 	add_image_size( 'wessci-card', 800, 600, false );
 }
-add_action( 'after_setup_theme', 'wessci_hybrid_a_setup' );
+add_action( 'after_setup_theme', 'wesscijo_setup' );
 
-function wessci_hybrid_a_assets() {
+function wesscijo_assets() {
 	wp_enqueue_style(
 		'wessci-fonts',
 		'https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@600&display=swap',
@@ -30,26 +30,26 @@ function wessci_hybrid_a_assets() {
 		null
 	);
 	wp_enqueue_style(
-		'wessci-hybrid-a',
+		'wesscijo',
 		get_stylesheet_uri(),
 		array( 'wessci-fonts' ),
 		(string) filemtime( get_stylesheet_directory() . '/style.css' )
 	);
 }
-add_action( 'wp_enqueue_scripts', 'wessci_hybrid_a_assets' );
+add_action( 'wp_enqueue_scripts', 'wesscijo_assets' );
 
 /** Return the configurable masthead title used by the header and footer. */
-function wessci_hybrid_a_brand_title() {
+function wesscijo_brand_title() {
 	$title = trim( get_theme_mod( 'wessci_masthead_title', 'The Wesleyan Science Journal' ) );
 	return '' === $title || 'Wesleyan Science Journal' === $title ? 'The Wesleyan Science Journal' : $title;
 }
 
 /** Keep the logo placement easy to change when the final logo is ready. */
-function wessci_hybrid_a_sanitize_logo_position( $value ) {
+function wesscijo_sanitize_logo_position( $value ) {
 	return in_array( $value, array( 'left', 'right' ), true ) ? $value : 'left';
 }
 
-function wessci_hybrid_a_customize_register( $wp_customize ) {
+function wesscijo_customize_register( $wp_customize ) {
 	$wp_customize->add_section(
 		'wessci_masthead',
 		array(
@@ -80,7 +80,7 @@ function wessci_hybrid_a_customize_register( $wp_customize ) {
 		'wessci_logo_position',
 		array(
 			'default'           => 'left',
-			'sanitize_callback' => 'wessci_hybrid_a_sanitize_logo_position',
+			'sanitize_callback' => 'wesscijo_sanitize_logo_position',
 			'transport'         => 'refresh',
 		)
 	);
@@ -98,17 +98,17 @@ function wessci_hybrid_a_customize_register( $wp_customize ) {
 		)
 	);
 }
-add_action( 'customize_register', 'wessci_hybrid_a_customize_register' );
+add_action( 'customize_register', 'wesscijo_customize_register' );
 
 /** Keep search results on the article card system instead of mixing page types. */
-function wessci_hybrid_a_search_query( $query ) {
+function wesscijo_search_query( $query ) {
 	if ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) {
 		return;
 	}
 
 	$query->set( 'post_type', 'post' );
 }
-add_action( 'pre_get_posts', 'wessci_hybrid_a_search_query' );
+add_action( 'pre_get_posts', 'wesscijo_search_query' );
 
 /**
  * The journal's two top-level divisions, each with its article types.
@@ -161,7 +161,7 @@ function wessci_read_time( $post_id ) {
 	return max( 1, (int) round( $words / 200 ) );
 }
 
-function wessci_hybrid_a_byline( $post_id ) {
+function wesscijo_byline( $post_id ) {
 	$authors = get_post_meta( $post_id, '_wessci_authors', true );
 	if ( ! is_array( $authors ) ) {
 		return '';

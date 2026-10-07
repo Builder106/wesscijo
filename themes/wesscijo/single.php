@@ -19,8 +19,8 @@
 			<?php endif; ?>
 
 			<h1 class="article__title"><?php the_title(); ?></h1>
-			<?php if ( wessci_hybrid_a_byline( $post_id ) ) : ?>
-				<p class="byline"><?php echo esc_html( wessci_hybrid_a_byline( $post_id ) ); ?></p>
+			<?php if ( wesscijo_byline( $post_id ) ) : ?>
+				<p class="byline"><?php echo esc_html( wesscijo_byline( $post_id ) ); ?></p>
 			<?php endif; ?>
 
 			<p class="meta">

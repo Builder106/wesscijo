@@ -1,8 +1,8 @@
-# WesSciJo Hybrid A Design Study
+# WesSciJo design history
 
 ## Status
 
-This document records the earlier Hybrid A exploration. It is a candidate and historical reference, not the visual baseline for the site-wide redesign in [ROADMAP.md](ROADMAP.md). Its implementation and workflow notes describe that specific exploration; they do not constrain a new direction. It is not a content approval or launch approval.
+This document records an earlier site design exploration. It is a historical reference, not the visual baseline for the current site-wide work in [ROADMAP.md](ROADMAP.md). Its implementation and workflow notes describe that exploration; they do not constrain the current site. It is not a content approval or launch approval.
 
 ## Reference provenance
 
@@ -32,7 +32,7 @@ Public page text and hierarchy were reviewed for the live Emergence and Atmos si
 
 ### Atmosphere and identity
 
-Keep Hybrid A's black masthead, Wesleyan-red hinge, white navigation index, and text-left/image-right lead. Let the opening read as an editorial cover: an unmistakable publication name, compact navigation and search, then one large story split between a quiet text block and its matched lead image. Use a warm paper field and strong ink contrast below the masthead.
+The earlier direction used a black masthead, Wesleyan-red hinge, white navigation index, and text-left/image-right lead. The opening read as an editorial cover: an unmistakable publication name, compact navigation and search, then one large story split between a quiet text block and its matched lead image. It used a warm paper field and strong ink contrast below the masthead.
 
 The current source defines paper, ink, Wesleyan red, a 1400px shell, Libre Franklin interface/body text, and Cormorant Garamond for hero display. These are observed source tokens. Extend those existing roles; do not claim reference-derived color or font measurements. Use the serif sparingly for the lead title or a single section-level display moment. Keep labels, navigation, captions, and metadata in Libre Franklin.
 
@@ -107,7 +107,7 @@ These missing stages prevent the required Open Design handoff. Per the workflow 
 
 ## Review plan
 
-No visual revision cycle has begun because no editable prototype could pass the required handoff. If the handoff becomes available, allow up to three measured cycles. Define the rubric as editorial clarity, recognizable Hybrid A identity, varied composition, mobile usability, accessibility, and measured page weight/response. Budget 90 minutes and three cycles. At each cycle inspect 390px, 768px, and 1280px screenshots, compare reduced-motion behavior, and record each rubric rating from 1 to 5 with one defect-based change. Finish at all scores of at least 4 with no horizontal overflow, one main `h1`, and working keyboard and search paths. Stop earlier after two cycles with no measured improvement. This is a future evaluation plan, not a score for an unimplemented design.
+No visual revision cycle began because an editable prototype was not available. If the handoff becomes available, allow up to three measured cycles. Define the rubric as editorial clarity, recognizable journal identity, varied composition, mobile usability, accessibility, and measured page weight and response. Budget 90 minutes and three cycles. At each cycle inspect 390px, 768px, and 1280px screenshots, compare reduced-motion behavior, and record each rubric rating from 1 to 5 with one defect-based change. Finish at all scores of at least 4 with no horizontal overflow, one main `h1`, and working keyboard and search paths. Stop earlier after two cycles with no measured improvement. This is a future evaluation plan, not a score for an unimplemented design.
 
 ## Readiness
 

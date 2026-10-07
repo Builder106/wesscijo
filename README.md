@@ -1,6 +1,6 @@
 # WesSciJo
 
-WordPress themes and a static publication for The Wesleyan Science Journal. The prepared Fall 2026 edition uses Hybrid A's layout with white and red styling and the editors' article content.
+WordPress themes and a static publication for The Wesleyan Science Journal. The Fall 2026 edition is the current WesSciJo site, with white and red styling and the editors' article content.
 
 `public/` is the static publication served by the website. Its real article routes, search index, About page, and submission guidelines are rendered from `content/issue-2026/` by `scripts/render-publication.py`. The separate Cardinal concept in `preview/` uses sample stories and is deferred. Check [ROADMAP.md](ROADMAP.md) for the editors' current requirements and [JOURNAL.md](JOURNAL.md) for dated decisions.
 
@@ -13,7 +13,7 @@ WordPress themes and a static publication for The Wesleyan Science Journal. The 
 | `scripts/render-publication.py` | Standard-library renderer for the static publication. |
 | `scripts/seed-issue-preview.php` | Seeder for an isolated WordPress issue preview. |
 | `themes/wessci-cardinal/` | Deferred black and red theme concept. |
-| `themes/wessci-hybrid-a/` | Approved layout adapted to white and red, with article, archive, and About templates. |
+| `themes/wesscijo/` | Current WesSciJo theme, with article, archive, and About templates. |
 | `themes/wessci-hybrid-b/` | Alternate hybrid theme concept. |
 | `plugins/wessci-site/` | Site-specific event content and metadata. |
 | `preview/` | Standalone Cardinal preview and sample story art in `preview/assets/`. Open `index.html` in a browser. |
