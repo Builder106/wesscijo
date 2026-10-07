@@ -113,7 +113,7 @@ def write_page(route, title, body, articles, description=''):
 
 
 def masthead():
-    source = (ROOT / 'themes/wessci-hybrid-a/template-about.php').read_text()
+    source = (ROOT / 'themes/wesscijo/template-about.php').read_text()
     groups = re.split(r"'section'\s*=>\s*'", source)[1:]
     result = ''
     for group in groups:
@@ -174,7 +174,7 @@ def main():
     write_page('/submit/', 'Submission guidelines', '<article class="article"><h1 class="article__title">Submission guidelines</h1><p class="submission-link"><a class="btn" href="' + FORM + '">Open the article submission form</a></p><div class="prose">' + guidelines + '</div></article>', articles)
     write_page('/search/', 'Search', '<h1 class="archive-title" id="search-title">Search the journal</h1><p id="search-status" role="status"></p><div class="cards" id="search-results"></div><noscript><p>Enable JavaScript to search, or <a href="/archives/">browse all articles</a>.</p></noscript>', articles)
     (PUBLIC / '404.html').write_text(document('Page not found', '<h1 class="archive-title">Page not found</h1><p><a href="/">Return to the journal</a></p>', articles))
-    shutil.copyfile(ROOT / 'themes/wessci-hybrid-a/style.css', PUBLIC / 'publication.css')
+    shutil.copyfile(ROOT / 'themes/wesscijo/style.css', PUBLIC / 'publication.css')
     index = [{k: a[k] for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
     (PUBLIC / 'search-index.json').write_text(json.dumps(index, ensure_ascii=False), encoding='utf-8')
     print(f'Rendered {len(articles)} articles, their sections, About, submissions, archives, and search.')

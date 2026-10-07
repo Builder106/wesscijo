@@ -17,7 +17,7 @@
 		$custom_logo         = $custom_logo_id && wp_attachment_is_image( $custom_logo_id ) ? wp_get_attachment_image( $custom_logo_id, 'full', false, array( 'alt' => '' ) ) : '';
 		$logo_position       = get_theme_mod( 'wessci_logo_position', 'left' );
 		$brand_class         = 'hero__brand';
-		$brand_title         = wessci_hybrid_a_brand_title();
+		$brand_title         = wesscijo_brand_title();
 		$brand_class        .= 'right' === $logo_position ? ' hero__brand--logo-right' : '';
 		?>
 		<div class="<?php echo esc_attr( $brand_class ); ?>">

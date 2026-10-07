@@ -393,3 +393,7 @@ Image credits and a Google Forms test submission remain follow-up work.
 The static article column still ran about 60 pixels wider than WordPress because it overrode the theme's font size and line height. Both overrides are gone, and both live sites now set article text at 18 pixels with a 696-pixel column.
 
 Loading the submission form in a signed-out browser redirects to a Google sign-in page. Outside contributors may not be able to open it without signing in, which conflicts with the edition's goal of accepting outside submissions. The form's access setting belongs to the editors. Confirm whether the form is restricted to the Wesleyan organization or only requires a Google account for file uploads, and whether contributors without either can submit. No response was submitted, so delivery of submissions is still unverified. Missing image credits are unchanged and wait on the editors.
+
+## 2026-10-06 - Use the site name for the active theme #maintenance #decision
+
+The active WordPress theme now uses the `wesscijo` folder slug and keeps the display name `WesSciJo`. Its saved theme settings were copied to the new slug so the custom logo stayed in place. `wessci-fallback` remains the default theme. Both theme cards now use a preview based on the current homepage screenshot. Dated journal entries preserve the old design names.

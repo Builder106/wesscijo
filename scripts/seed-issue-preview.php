@@ -44,7 +44,7 @@ update_option( 'blogdescription', '' );
 update_option( 'timezone_string', 'America/New_York' );
 update_option( 'permalink_structure', '/%postname%/' );
 update_option( 'blog_public', 0 );
-switch_theme( 'wessci-hybrid-a' );
+switch_theme( 'wesscijo' );
 set_theme_mod( 'custom_logo', wessci_preview_attachment( '/assets/logo.png', '', 'The Wesleyan Science Journal logo' ) );
 set_theme_mod( 'wessci_masthead_title', 'The Wesleyan Science Journal' );
 

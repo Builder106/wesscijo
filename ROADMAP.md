@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-The editors' October 5 emails replace the broader redesign brief for this release. Preserve Hybrid A's dropdown navigation, article layout, and About structure. Apply the simpler white and red styling, include the official logo and full name "The Wesleyan Science Journal", and prioritize the current edition and outside submissions. Further design exploration is deferred until an in-person meeting after the edition is released.
+The editors' October 5 emails replace the broader redesign brief for this release. Preserve the current site's dropdown navigation, article layout, and About structure. Apply the simpler white and red styling, include the official logo and full name "The Wesleyan Science Journal", and prioritize the current edition and outside submissions. Further design exploration is deferred until an in-person meeting after the edition is released.
 
 The release must contain the nine articles on the final Fall 2026 list, labeled thumbnails, inline graphics, and both GMO comic pages. About must include the Editorial Board letter and the requested editorial, graphic design, and web design credits. Submission guidelines must use the approved article content document and the form supplied in Shriya's September 27 email. Remove the Calendar, placeholder stories, and unsolicited About content. Preserve photo credits and authors' references, and verify that each title opens its own article and search works.
 
@@ -12,7 +12,7 @@ The owner approved publishing the reviewed release on October 6. The remaining s
 
 The site should feel like a distinctive student science publication, with enough visual ambition to make its stories memorable and enough clarity to make them easy to read. A first-time visitor should be able to identify the journal, find a story by field or format, understand whether it is research, review, news, feature, perspective, interview, or essay, and continue to the current issue, archive, events, or submission information. Article pages should give scientific figures, captions, credits, and references room to work.
 
-Visual continuity with Hybrid A is optional. Continuity of the journal's actual content, editorial taxonomy, accessible reading paths, and working URLs matters. Avoid carrying over a component simply because it already exists.
+Visual continuity with the current site is optional. Continuity of the journal's actual content, editorial taxonomy, accessible reading paths, and working URLs matters. Avoid carrying over a component simply because it already exists.
 
 ## Identity and art direction
 
@@ -26,7 +26,7 @@ Explore the proposed 3D bird nest with beakers and test tubes as a signature ope
 
 Create and compare at least three genuinely different visual routes before committing to theme implementation. Each route must use the red-and-black identity, the cardinal, and a visible connection between birds and science:
 
-1. **Editorial publication:** use the seal and cardinal with strong typography, purposeful image crops, varied story layouts, and a clear issue identity. Hybrid A can inform this route, but its exact band, rule, index, and split lead are optional.
+1. **Editorial publication:** use the seal and cardinal with strong typography, purposeful image crops, varied story layouts, and a clear issue identity. The current site can inform this route, but its exact band, rule, index, and split lead are optional.
 2. **Science as visual material:** weave bird anatomy, flight, field observation, and approved scientific diagrams or figures into a red-and-black editorial system. Design an image-free state for stories without licensed or approved artwork.
 3. **Distinctive journal world:** give the cardinal a prominent role in a nest of beakers and test tubes, with article subjects branching out from that world. Compare a strong still illustration with a 3D treatment before choosing one.
 
