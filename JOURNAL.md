@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-08 - Accessible motion strategy and exclusive navigation panels #motion #ux #accessibility
+
+Implemented the publication motion strategy across the WordPress theme and static publication site. Added an accessible reading progress bar with passive scroll tracking, high z-index, and responsive WordPress admin bar offsets. Implemented tactile button presses, About tab fade transitions, and search card entrance animations with strict suppression under prefers-reduced-motion. Updated header navigation disclosure panels with exclusive grouping (`name="nav-panel"`), auto-collapse accordion logic, and click-outside/Escape dismissal.
+
 ## 2026-10-07 - Retire Vercel from WordPress publishing #deployment #decision
 
 The target is self-hosted WordPress production and staging on Oracle OCI Always Free resources. One Micro VM per environment is an option, subject to the 1 GB memory limit. The WordPress plugin no longer triggers Vercel deployments or exposes Vercel rebuild controls in the dashboard. Keep the existing static output and Vercel configuration until WordPress production is ready and the domain cutover is approved.
