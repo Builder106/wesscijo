@@ -35,7 +35,7 @@
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a></li>
 			<?php foreach ( wessci_divisions() as $div ) : ?>
 				<li class="hero__nav-item hero__nav-item--has-panel">
-					<details class="panel">
+					<details class="panel" name="nav-panel">
 						<summary class="panel__summary hero__nav-link">
 						<?php echo wessci_term_name( $div['term'] ); ?>
 						</summary>
@@ -55,7 +55,7 @@
 
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">Archives</a></li>
 			<li class="hero__nav-item hero__nav-item--has-panel">
-				<details class="panel">
+				<details class="panel" name="nav-panel">
 					<summary class="panel__summary hero__nav-link">About Us</summary>
 					<ul class="panel__list">
 						<li><a class="panel__link" href="<?php echo esc_url( home_url( '/about/#letter' ) ); ?>">Letter from the Editorial Board</a></li>

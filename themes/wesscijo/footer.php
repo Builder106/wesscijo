@@ -32,6 +32,36 @@
 	</div>
 </footer>
 
+<script>
+(function() {
+	var panels = document.querySelectorAll('.panel');
+	panels.forEach(function(panel) {
+		panel.addEventListener('toggle', function() {
+			if (panel.open) {
+				panels.forEach(function(other) {
+					if (other !== panel && other.open) other.open = false;
+				});
+			}
+		});
+	});
+	document.addEventListener('click', function(e) {
+		if (!e.target.closest('.panel')) {
+			panels.forEach(function(panel) { panel.open = false; });
+		}
+	});
+	document.addEventListener('keydown', function(e) {
+		if (e.key === 'Escape') {
+			var openPanel = document.querySelector('.panel[open]');
+			if (openPanel) {
+				openPanel.open = false;
+				var sum = openPanel.querySelector('summary');
+				if (sum) sum.focus();
+			}
+		}
+	});
+})();
+</script>
+
 <?php wp_footer(); ?>
 </body>
 </html>

@@ -17,6 +17,16 @@ if (location.pathname === '/' && params.has('s')) {
   location.replace('/search/?q=' + encodeURIComponent(params.get('s') || ''));
 }
 
+document.querySelectorAll('.panel').forEach((panel) => {
+  panel.addEventListener('toggle', () => {
+    if (panel.open) {
+      document.querySelectorAll('.panel[open]').forEach((other) => {
+        if (other !== panel) other.open = false;
+      });
+    }
+  });
+});
+
 document.addEventListener('keydown', (event) => {
   if (event.key !== 'Escape') return;
   const open = document.querySelector('.panel[open]');
@@ -24,9 +34,10 @@ document.addEventListener('keydown', (event) => {
   open.open = false;
   open.querySelector('summary').focus();
 });
+
 document.addEventListener('click', (event) => {
   if (event.target.closest('.panel')) return;
-  document.querySelectorAll('.panel[open]').forEach(panel => { panel.open = false; });
+  document.querySelectorAll('.panel[open]').forEach((panel) => { panel.open = false; });
 });
 
 function initReadingProgress() {
