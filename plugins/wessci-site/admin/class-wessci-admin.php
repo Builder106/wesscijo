@@ -14,16 +14,7 @@ class WesSci_Admin {
 	public static function body_class( $classes ) {
 		$screen = get_current_screen();
 		$classes .= in_array( get_user_option( 'admin_color' ), array( false, '', 'fresh', 'modern' ), true ) ? ' wessci-branded' : '';
-		return $classes . ( $screen && in_array( $screen->id, array( 'dashboard', 'toplevel_page_wessci-masthead', 'dashboard_page_wessci-publishing' ), true ) ? ' wessci-workspace' : '' );
-	}
-
-	public static function render_publishing_page() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-		echo '<div class="wrap"><h1>Publishing</h1>';
-		self::render_widget_vercel_deploy();
-		echo '</div>';
+		return $classes . ( $screen && in_array( $screen->id, array( 'dashboard', 'toplevel_page_wessci-masthead' ), true ) ? ' wessci-workspace' : '' );
 	}
 
 	public static function selected_issue() {
@@ -161,13 +152,6 @@ class WesSci_Admin {
 	}
 
 	/**
-	 * Render Vercel Production & Deployment Monitor widget.
-	 */
-	public static function render_widget_vercel_deploy() {
-		require_once dirname( __FILE__ ) . '/views/widget-vercel-deploy.php';
-	}
-
-	/**
 	 * Render Scientific Authoring & Figure Guidelines widget.
 	 */
 	public static function render_widget_authoring_guide() {
@@ -178,7 +162,6 @@ class WesSci_Admin {
 	 * Register custom administrative pages and submenus.
 	 */
 	public static function register_admin_menus() {
-		add_dashboard_page( __( 'Publishing', 'wessci' ), __( 'Publishing', 'wessci' ), 'manage_options', 'wessci-publishing', array( __CLASS__, 'render_publishing_page' ) );
 		add_menu_page(
 			__( 'Editorial Board', 'wessci' ),
 			__( 'Editorial Board', 'wessci' ),

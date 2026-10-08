@@ -11,5 +11,4 @@ for source in files:
 print(f'PHP syntax checked: {len(files)} files')
 PYTHON
 php tests/dashboard-query.php
-php tests/dashboard-deploy.php
 npx playwright test tests/dashboard-preview.spec.js --workers=1
