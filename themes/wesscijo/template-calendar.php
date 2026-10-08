@@ -61,7 +61,7 @@ get_header();
 						<?php if ( get_post_meta( $event->ID, '_wessci_event_location', true ) ) : ?>
 							<p class="card__excerpt"><?php echo esc_html( get_post_meta( $event->ID, '_wessci_event_location', true ) ); ?></p>
 						<?php endif; ?>
-						<p class="card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
+						<p class="card__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
 						<?php $url = get_post_meta( $event->ID, '_wessci_event_url', true ); ?>
 						<?php if ( $url ) : ?>
 							<a href="<?php echo esc_url( $url ); ?>" rel="noopener noreferrer">Event details</a>

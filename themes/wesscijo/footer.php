@@ -19,7 +19,7 @@
 			<div class="index-group">
 				<span class="index-group__title">Journal</span>
 				<ul class="index-group__list">
-					<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About Us</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">Archives</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submit</a></li>
 				</ul>

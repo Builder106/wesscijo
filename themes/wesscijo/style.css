@@ -25,6 +25,7 @@ Text Domain: wesscijo
 	--font-brand:   "Cormorant Garamond", Georgia, "Times New Roman", serif;
 	--font-hero:    "Cormorant Garamond", Georgia, "Times New Roman", serif;
 
+	--text-5xl:     clamp(2.5rem, 5.5vw, 4.25rem);
 	--text-4xl:     clamp(2rem, 4.5vw, 3.5rem);
 	--text-2xl:     clamp(1.15rem, 1.8vw, 1.4rem);
 	--text-lg:      1.125rem;
@@ -369,7 +370,7 @@ figcaption, .wp-caption-text {
 
 .division__title {
 	font-family: var(--font-display);
-	font-size: var(--text-4xl);
+	font-size: var(--text-5xl);
 	font-weight: 700;
 	line-height: 1.0;
 	letter-spacing: -0.02em;
@@ -414,6 +415,42 @@ figcaption, .wp-caption-text {
 .about-contents { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); margin-block: var(--space-6) var(--space-8); }
 .about-contents a { text-decoration-color: var(--color-accent); text-underline-offset: 3px; }
 
+.about-tabs {
+	display: flex;
+	gap: var(--space-2);
+	border-bottom: var(--rule-thick) solid var(--color-ink);
+	margin-block: var(--space-6) var(--space-10);
+}
+.about-tab {
+	display: inline-block;
+	background: none;
+	border: none;
+	border-bottom: 3px solid transparent;
+	padding: var(--space-3) var(--space-6);
+	font-family: var(--font-body);
+	font-size: var(--text-base);
+	font-weight: 700;
+	color: var(--color-ink-3);
+	cursor: pointer;
+	text-decoration: none;
+	margin-bottom: -2px;
+	transition: all var(--dur-fast) var(--ease-out);
+}
+.about-tab:hover {
+	color: var(--color-ink);
+}
+.about-tab.is-active,
+.about-tab[aria-selected="true"] {
+	color: var(--color-accent);
+	border-bottom-color: var(--color-accent);
+}
+.about-panel {
+	display: none;
+}
+.about-panel.is-active {
+	display: block;
+}
+
 .navigation.pagination {
 	border-top: var(--rule-slab) solid var(--color-ink);
 	padding-top: var(--space-6);
@@ -449,7 +486,7 @@ figcaption, .wp-caption-text {
 .card__figure { margin: 0; }
 
 .card__media { display: block; overflow: hidden; border-bottom: var(--rule-thick) solid var(--color-ink); }
-.card__media img { width: 100%; transition: transform var(--dur-mid) var(--ease-out); }
+.card__media img { width: 100%; height: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: transform var(--dur-mid) var(--ease-out); }
 .card:hover .card__media img { transform: scale(1.04); }
 
 .card__type {
@@ -501,6 +538,13 @@ figcaption, .wp-caption-text {
 .article__figure img {
 	width: 100%;
 	height: auto;
+}
+.article__figure figcaption {
+	text-align: right;
+	font-size: var(--text-xs);
+	color: var(--color-ink-3);
+	margin-top: var(--space-2);
+	font-style: italic;
 }
 
 .article__sources { margin-top: var(--space-12); }

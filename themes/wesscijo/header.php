@@ -54,7 +54,15 @@
 			<?php endforeach; ?>
 
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">Archives</a></li>
-			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
+			<li class="hero__nav-item hero__nav-item--has-panel">
+				<details class="panel">
+					<summary class="panel__summary hero__nav-link">About Us</summary>
+					<ul class="panel__list">
+						<li><a class="panel__link" href="<?php echo esc_url( home_url( '/about/#letter' ) ); ?>">Letter from the Editorial Board</a></li>
+						<li><a class="panel__link" href="<?php echo esc_url( home_url( '/about/#team' ) ); ?>">Our Team</a></li>
+					</ul>
+				</details>
+			</li>
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submit</a></li>
 		</ul>
 

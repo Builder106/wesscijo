@@ -12,11 +12,9 @@ WordPress themes and a static publication for The Wesleyan Science Journal. The 
 | `content/issue-2026/` | Article content, source records, artwork credits, editorial letter, and guidelines. |
 | `scripts/render-publication.py` | Standard-library renderer for the static publication. |
 | `scripts/seed-issue-preview.php` | Seeder for an isolated WordPress issue preview. |
-| `themes/wessci-cardinal/` | Deferred black and red theme concept. |
 | `themes/wesscijo/` | Current WesSciJo theme, with article, archive, and About templates. |
-| `themes/wessci-hybrid-b/` | Alternate hybrid theme concept. |
 | `plugins/wessci-site/` | Site-specific event content and metadata. |
-| `preview/` | Standalone Cardinal preview and sample story art in `preview/assets/`. Open `index.html` in a browser. |
+| `preview/` | Cardinal design preview with local styles in `preview.css` and artwork, fonts, and menu code in `assets/`. Open `index.html` in a browser. |
 | `tests/` | Playwright checks for the preview and public site. |
 | `screenshots/design-directions/` | Earlier visual direction comparisons. |
 | `screenshots/cardinal/` | Cardinal artwork and preview captures. |

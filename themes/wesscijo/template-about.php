@@ -94,43 +94,76 @@ $wessci_masthead = array(
 
 	<article class="article">
 		<h1 class="article__title"><?php the_title(); ?></h1>
-		<nav class="about-contents" aria-label="About this journal">
-			<?php if ( get_post_field( 'post_content', get_queried_object_id() ) ) : ?>
-				<a href="#editorial-board-letter">Letter from the Editorial Board</a>
-			<?php endif; ?>
-			<a href="#editorial-team">Editorial team</a>
-		</nav>
+		<div class="about-tabs" role="tablist" aria-label="About navigation">
+			<a href="#letter" class="about-tab is-active" id="tab-btn-letter" role="tab" aria-selected="true" aria-controls="panel-letter">Letter from the Editorial Board</a>
+			<a href="#team" class="about-tab" id="tab-btn-team" role="tab" aria-selected="false" aria-controls="panel-team">Our Team</a>
+		</div>
 
-		<?php if ( have_posts() ) : ?>
-			<?php
-			while ( have_posts() ) :
-				the_post();
-				if ( get_the_content() ) :
-					?>
-					<div class="prose" id="editorial-board-letter"><?php the_content(); ?></div>
-					<?php
-				endif;
-			endwhile;
-			?>
-		<?php endif; ?>
+		<div class="about-panel is-active" id="panel-letter" role="tabpanel" aria-labelledby="tab-btn-letter">
+			<?php if ( have_posts() ) : ?>
+				<?php
+				while ( have_posts() ) :
+					the_post();
+					if ( get_the_content() ) :
+						?>
+						<div class="prose"><?php the_content(); ?></div>
+						<?php
+					endif;
+				endwhile;
+				?>
+			<?php endif; ?>
+		</div>
+
+		<div class="about-panel" id="panel-team" role="tabpanel" aria-labelledby="tab-btn-team">
+			<?php foreach ( $wessci_masthead as $wessci_group ) : ?>
+				<section class="division">
+					<h2 class="division__title"><?php echo esc_html( $wessci_group['section'] ); ?></h2>
+					<div class="masthead-grid">
+						<?php foreach ( $wessci_group['people'] as $wessci_person ) : ?>
+							<div class="person">
+								<div class="person__avatar" aria-hidden="true"><?php echo esc_html( wessci_initials( $wessci_person['name'] ) ); ?></div>
+								<p class="person__name"><?php echo esc_html( $wessci_person['name'] ); ?></p>
+								<p class="person__role"><?php echo esc_html( $wessci_person['role'] ); ?></p>
+							</div>
+						<?php endforeach; ?>
+					</div>
+				</section>
+			<?php endforeach; ?>
+		</div>
 	</article>
 
-	<div id="editorial-team">
-	<?php foreach ( $wessci_masthead as $wessci_group ) : ?>
-		<section class="division">
-			<h2 class="division__title"><?php echo esc_html( $wessci_group['section'] ); ?></h2>
-			<div class="masthead-grid">
-				<?php foreach ( $wessci_group['people'] as $wessci_person ) : ?>
-					<div class="person">
-						<div class="person__avatar" aria-hidden="true"><?php echo esc_html( wessci_initials( $wessci_person['name'] ) ); ?></div>
-						<p class="person__name"><?php echo esc_html( $wessci_person['name'] ); ?></p>
-						<p class="person__role"><?php echo esc_html( $wessci_person['role'] ); ?></p>
-					</div>
-				<?php endforeach; ?>
-			</div>
-		</section>
-	<?php endforeach; ?>
-	</div>
+	<script>
+	(function() {
+		function setTab(name) {
+			var isTeam = name === 'team';
+			var tabLetter = document.getElementById('tab-btn-letter');
+			var tabTeam = document.getElementById('tab-btn-team');
+			var pLetter = document.getElementById('panel-letter');
+			var pTeam = document.getElementById('panel-team');
+			if (!tabLetter || !tabTeam || !pLetter || !pTeam) return;
+			tabLetter.classList.toggle('is-active', !isTeam);
+			tabLetter.setAttribute('aria-selected', !isTeam ? 'true' : 'false');
+			tabTeam.classList.toggle('is-active', isTeam);
+			tabTeam.setAttribute('aria-selected', isTeam ? 'true' : 'false');
+			pLetter.classList.toggle('is-active', !isTeam);
+			pTeam.classList.toggle('is-active', isTeam);
+		}
+		window.addEventListener('hashchange', function() {
+			if (location.hash === '#team') setTab('team');
+			else if (location.hash === '#letter') setTab('letter');
+		});
+		if (location.hash === '#team') setTab('team');
+		document.addEventListener('click', function(e) {
+			var btn = e.target.closest('.about-tab');
+			if (btn) {
+				e.preventDefault();
+				var target = btn.getAttribute('href').replace('#', '');
+				history.replaceState(null, '', '#' + target);
+				setTab(target);
+			}
+		});
+	})();
+	</script>
 
 </main>
 

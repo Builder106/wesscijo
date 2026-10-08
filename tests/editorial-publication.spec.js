@@ -47,8 +47,8 @@ test('approved pages have the letter, guidelines and exact submission form', asy
   await expect(page.locator('main')).not.toContainText(/Official Seal|Insignia|describing the logo/i);
   await page.goto(url('/submit/'));
   await expect(page.getByRole('link', { name: 'Open the article submission form' })).toHaveAttribute('href', 'https://docs.google.com/forms/d/e/1FAIpQLSf3YVPrAoa6FFr3QyJYtGbWm5aDzRgoVsL6EjiwLnagwW63cA/viewform');
-  await expect(page.locator('main')).toContainText('Prior to publication');
-  await expect(page.locator('main')).toContainText('Literature Review');
+  await expect(page.locator('main')).toContainText('Article Content Guidelines');
+  await expect(page.locator('main')).toContainText('Download the complete guidelines');
   await expect(page.getByRole('link', { name: 'Calendar', exact: true })).toHaveCount(0);
 });
 

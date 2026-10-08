@@ -56,8 +56,10 @@ def figure(article, classname, eager=False):
     if image.get('width') and image.get('height'):
         dimensions = f' width="{int(image["width"])}" height="{int(image["height"])}"'
     loading = 'fetchpriority="high"' if eager else 'loading="lazy"'
-    caption = f'<figcaption>{escape(image["credit"])}</figcaption>' if image.get('credit') else ''
-    return (f'<figure class="{classname}"><a href="{article_url(article)}" tabindex="-1" aria-hidden="true">'
+    is_card = classname == 'card__figure'
+    link_class = ' class="card__media"' if is_card else ''
+    caption = f'<figcaption>{escape(image["credit"])}</figcaption>' if (classname == 'article__figure' and image.get('credit')) else ''
+    return (f'<figure class="{classname}"><a{link_class} href="{article_url(article)}" tabindex="-1" aria-hidden="true">'
             f'<img src="{escape(image["src"])}" alt=""{dimensions} {loading}></a>{caption}</figure>')
 
 
@@ -72,7 +74,7 @@ def card(article, wide=False, level=3):
 def header(articles):
     menus = []
     for slug, label in GROUPS.items():
-        types = sorted({a['type'] for a in articles if group_slug(a) == slug})
+        types = sorted({a['type'] for a in articles if group_slug(a) == slug} | ({'News'} if slug == 'news-features-perspectives' else set()))
         children = ''.join(f'<li><a class="panel__link" href="/category/{slug}/{type_slug(t)}/">{escape(t)}</a></li>' for t in types)
         menus.append(f'<li class="hero__nav-item"><details class="panel" name="sections">'
                      f'<summary class="panel__summary hero__nav-link">{escape(label)}</summary>'
@@ -84,7 +86,7 @@ def header(articles):
             '<nav class="hero__index" aria-label="Sections"><ul class="hero__nav-list">'
             '<li><a class="hero__nav-link" href="/">Home</a></li>' + ''.join(menus) +
             '<li><a class="hero__nav-link" href="/archives/">Archives</a></li>'
-            '<li><a class="hero__nav-link" href="/about/">About</a></li>'
+            '<li><a class="hero__nav-link" href="/about/">About Us</a></li>'
             '<li><a class="hero__nav-link" href="/submit/">Submit</a></li></ul>'
             '<search><form class="search" action="/search/" method="get">'
             '<label class="u-visually-hidden" for="q">Search the journal</label>'
@@ -103,7 +105,7 @@ def document(title, body, articles, description='', canonical=''):
             '<link rel="stylesheet" href="/publication.css">'
             '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script></head><body>'
             + header(articles) + '<main class="site-main" id="main" tabindex="-1">' + body + '</main>'
-            f'<footer class="publication-footer"><a href="/">{NAME}</a><nav aria-label="Footer"><a href="/about/">About</a><a href="/submit/">Submission guidelines</a></nav></footer></body></html>')
+            f'<footer class="publication-footer"><a href="/">{NAME}</a><nav aria-label="Footer"><a href="/about/">About Us</a><a href="/submit/">Submission guidelines</a></nav></footer></body></html>')
 
 
 def write_page(route, title, body, articles, description=''):
@@ -165,11 +167,55 @@ def main():
     for slug, label in GROUPS.items():
         selected = [a for a in articles if group_slug(a) == slug]
         write_page(f'/category/{slug}/', label, f'<h1 class="archive-title">{escape(label)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected) + '</div>', articles)
-        for kind in sorted({a['type'] for a in selected}):
-            write_page(f'/category/{slug}/{type_slug(kind)}/', kind, f'<h1 class="archive-title">{escape(kind)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected if a['type'] == kind) + '</div>', articles)
+        kinds = sorted({a['type'] for a in selected} | ({'News'} if slug == 'news-features-perspectives' else set()))
+        for kind in kinds:
+            kind_selected = [a for a in selected if a['type'] == kind]
+            content = f'<h1 class="archive-title">{escape(kind)}</h1>'
+            if kind_selected:
+                content += '<div class="cards">' + ''.join(card(a, level=2) for a in kind_selected) + '</div>'
+            else:
+                content += '<p class="empty">News articles coming soon.</p>'
+            write_page(f'/category/{slug}/{type_slug(kind)}/', kind, content, articles)
     write_page('/archives/', 'Archives', '<h1 class="archive-title">Archives</h1><h2>Fall 2026</h2><div class="cards">' + ''.join(card(a) for a in articles) + '</div>', articles)
     letter = (CONTENT / 'letter.html').read_text()
-    write_page('/about/', 'About', '<article class="article"><h1 class="article__title">About</h1><nav class="about-index" aria-label="About this journal"><a href="#editorial-letter">Letter from the Editorial Board</a><a href="#masthead">Our team</a></nav><section id="editorial-letter" class="prose"><h2>Letter from the Editorial Board</h2>' + letter + '</section></article><div id="masthead">' + masthead() + '</div>', articles)
+    about_html = (
+        '<article class="article"><h1 class="article__title">About Us</h1>'
+        '<div class="about-tabs" role="tablist" aria-label="About navigation">'
+        '<a href="#editorial-letter" class="about-tab is-active" id="tab-btn-letter" role="tab" aria-selected="true" aria-controls="editorial-letter">Letter from the Editorial Board</a>'
+        '<a href="#masthead" class="about-tab" id="tab-btn-team" role="tab" aria-selected="false" aria-controls="masthead">Our Team</a>'
+        '</div>'
+        '<div class="about-panel is-active" id="editorial-letter" role="tabpanel" aria-labelledby="tab-btn-letter">'
+        '<section class="prose"><h2>Letter from the Editorial Board</h2>' + letter + '</section></div>'
+        '<div class="about-panel" id="masthead" role="tabpanel" aria-labelledby="tab-btn-team">' + masthead() + '</div></article>'
+        '<script>'
+        '(function(){'
+        'function setTab(name){'
+        'var isTeam=(name==="masthead"||name==="team");'
+        'var tabLetter=document.getElementById("tab-btn-letter");'
+        'var tabTeam=document.getElementById("tab-btn-team");'
+        'var pLetter=document.getElementById("editorial-letter");'
+        'var pTeam=document.getElementById("masthead");'
+        'if(!tabLetter||!tabTeam||!pLetter||!pTeam)return;'
+        'tabLetter.classList.toggle("is-active",!isTeam);'
+        'tabLetter.setAttribute("aria-selected",!isTeam?"true":"false");'
+        'tabTeam.classList.toggle("is-active",isTeam);'
+        'tabTeam.setAttribute("aria-selected",isTeam?"true":"false");'
+        'pLetter.classList.toggle("is-active",!isTeam);'
+        'pTeam.classList.toggle("is-active",isTeam);'
+        '}'
+        'window.addEventListener("hashchange",function(){'
+        'if(location.hash==="#masthead"||location.hash==="#team")setTab("team");'
+        'else if(location.hash==="#editorial-letter"||location.hash==="#letter")setTab("letter");'
+        '});'
+        'if(location.hash==="#masthead"||location.hash==="#team")setTab("team");'
+        'document.addEventListener("click",function(e){'
+        'var btn=e.target.closest(".about-tab");'
+        'if(btn){e.preventDefault();var target=btn.getAttribute("href").replace("#","");history.replaceState(null,"","#"+target);setTab(target);}'
+        '});'
+        '})();'
+        '</script>'
+    )
+    write_page('/about/', 'About Us', about_html, articles)
     guidelines = (CONTENT / 'guidelines.html').read_text()
     write_page('/submit/', 'Submission guidelines', '<article class="article"><h1 class="article__title">Submission guidelines</h1><p class="submission-link"><a class="btn" href="' + FORM + '">Open the article submission form</a></p><div class="prose">' + guidelines + '</div></article>', articles)
     write_page('/search/', 'Search', '<h1 class="archive-title" id="search-title">Search the journal</h1><p id="search-status" role="status"></p><div class="cards" id="search-results"></div><noscript><p>Enable JavaScript to search, or <a href="/archives/">browse all articles</a>.</p></noscript>', articles)

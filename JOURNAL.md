@@ -1,5 +1,13 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-07 - Retire Vercel from WordPress publishing #deployment #decision
+
+The target is self-hosted WordPress production and staging on Oracle OCI Always Free resources. One Micro VM per environment is an option, subject to the 1 GB memory limit. The WordPress plugin no longer triggers Vercel deployments or exposes Vercel rebuild controls in the dashboard. Keep the existing static output and Vercel configuration until WordPress production is ready and the domain cutover is approved.
+
+## 2026-10-06 - Keep preview assets with the preview #organization
+
+The Cardinal preview no longer loads files from its deleted theme. Its stylesheet, menu script, illustration, and font files now live under `preview/`. The README lists the remaining WordPress theme and the preview's local assets. The publication renderer still uses `themes/wesscijo` for its stylesheet and About template.
+
 ## 2026-10-05 - Restyle the native WordPress dashboard #cms #decision
 
 The owner clarified that the redesign must retain WordPress's admin bar, full sidebar, welcome panel, default widgets, Screen Options, and movable/collapsible widget layout. Removed the replacement preview shell, custom sidebar ordering, and forced full-width widget layout. The admin styling uses cardinal red and carbon without changing WordPress's navigation or widget structure. Manuscripts and issue assembly remain additional native dashboard widgets.
@@ -397,3 +405,18 @@ Loading the submission form in a signed-out browser redirects to a Google sign-i
 ## 2026-10-06 - Use the site name for the active theme #maintenance #decision
 
 The active WordPress theme now uses the `wesscijo` folder slug and keeps the display name `WesSciJo`. Its saved theme settings were copied to the new slug so the custom logo stayed in place. `wessci-fallback` remains the default theme. Both theme cards now use a preview based on the current homepage screenshot. Dated journal entries preserve the old design names.
+
+## 2026-10-08 - Editorial tweaks and duplicate photo resolution #editorial #bugfix
+
+1. Editorial Thread Compliance: Addressed feedback from the "Tweaks to website" document:
+   - Cleaned article bylines so only authors appear (e.g. Ella Stricker on Birds of Wesleyan).
+   - Recategorized *Liberal Arts to Scientific Academia* from News to Features, repaired broken interview Q&A line breaks, and purged author bios.
+   - Renamed *Literature Review Articles* category to *Literature Reviews*.
+   - Replaced incomplete blurb truncation (`wp_trim_words`) with full sentence excerpts.
+   - Replaced lengthy inlined submission text with downloadable `guidelines.pdf` link.
+   - Restructured About Us into distinct tabbed letter and team views.
+   - Standardized thumbnail aspect ratio (16:10) and suppressed homepage/card captions.
+   - Styled article hero captions flush bottom-right in muted italics with artist/courtesy prefixes.
+2. Duplicate Photo Resolution in "The ChatGPT Moment for Robotics":
+   - Root Cause: Post #52 had `image1.jpg` designated as its WordPress featured image (`_thumbnail_id: 53`) and static thumbnail. The theme's `single.php` template automatically renders `the_post_thumbnail()` hero banner with caption at the top of the article. Additionally, the ingestion source had retained an identical `<figure><img ...></figure>` block at the very top of `post_content` / `bodyHtml`.
+   - Fix: Stripped the redundant inline `<figure>` from Post #52's `post_content` in WordPress and from `content/issue-2026/chatgpt-moment-for-robotics.html` and `content/issue-2026/articles.json`. Re-rendered static publication, ensuring 1:1 parity between local and live draft environments.
