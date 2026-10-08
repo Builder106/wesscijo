@@ -23,9 +23,6 @@
 								<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
 									<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
 								</a>
-								<?php if ( get_the_post_thumbnail_caption() ) : ?>
-									<figcaption><?php echo wp_kses_post( get_the_post_thumbnail_caption() ); ?></figcaption>
-								<?php endif; ?>
 							</figure>
 						<?php endif; ?>
 						<?php if ( $type ) : ?>
@@ -34,7 +31,7 @@
 						<h3 class="card__title">
 							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 						</h3>
-						<p class="card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
+						<p class="card__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
 					</article>
 					<?php
 				endwhile;
@@ -43,7 +40,11 @@
 
 			<?php the_posts_pagination(); ?>
 		<?php else : ?>
-			<p class="empty">No articles found.</p>
+			<?php if ( is_category( 'news' ) || ( $queried instanceof WP_Term && 'news' === $queried->slug ) ) : ?>
+				<p class="empty">News articles coming soon.</p>
+			<?php else : ?>
+				<p class="empty">No articles found.</p>
+			<?php endif; ?>
 		<?php endif; ?>
 	</section>
 
