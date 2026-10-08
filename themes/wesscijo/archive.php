@@ -40,7 +40,7 @@
 
 			<?php the_posts_pagination(); ?>
 		<?php else : ?>
-			<?php if ( is_category( 'news' ) || ( $queried instanceof WP_Term && 'news' === $queried->slug ) ) : ?>
+			<?php if ( is_category( array( 'news', 'news-features-perspectives-news' ) ) || ( $queried instanceof WP_Term && ( in_array( $queried->slug, array( 'news', 'news-features-perspectives-news' ), true ) || 'News' === $queried->name ) ) ) : ?>
 				<p class="empty">News articles coming soon.</p>
 			<?php else : ?>
 				<p class="empty">No articles found.</p>

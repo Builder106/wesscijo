@@ -417,6 +417,7 @@ The active WordPress theme now uses the `wesscijo` folder slug and keeps the dis
    - Restructured About Us into distinct tabbed letter and team views.
    - Standardized thumbnail aspect ratio (16:10) and suppressed homepage/card captions.
    - Styled article hero captions flush bottom-right in muted italics with artist/courtesy prefixes.
+   - Fixed news category empty condition in archive.php to match WordPress taxonomy slug news-features-perspectives-news so the "News articles coming soon" notice renders on live category archives.
 2. Duplicate Photo Resolution in "The ChatGPT Moment for Robotics":
    - Root Cause: Post #52 had `image1.jpg` designated as its WordPress featured image (`_thumbnail_id: 53`) and static thumbnail. The theme's `single.php` template automatically renders `the_post_thumbnail()` hero banner with caption at the top of the article. Additionally, the ingestion source had retained an identical `<figure><img ...></figure>` block at the very top of `post_content` / `bodyHtml`.
    - Fix: Stripped the redundant inline `<figure>` from Post #52's `post_content` in WordPress and from `content/issue-2026/chatgpt-moment-for-robotics.html` and `content/issue-2026/articles.json`. Re-rendered static publication, ensuring 1:1 parity between local and live draft environments.
