@@ -71,24 +71,63 @@ function initThemeToggle() {
     toggle.setAttribute('title', 'Switch to ' + next + ' theme');
   }
 
-  toggle.addEventListener('click', () => {
-    const current = getCurrentTheme();
-    const next = current === 'dark' ? 'light' : 'dark';
+  function applyTheme(targetTheme) {
     const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const systemTheme = systemDark ? 'dark' : 'light';
 
-    if (next === systemTheme) {
+    if (targetTheme === systemTheme) {
       localStorage.removeItem('theme');
       document.documentElement.removeAttribute('data-theme');
       const meta = document.querySelector('meta[name="color-scheme"]');
       if (meta) meta.content = 'light dark';
     } else {
-      localStorage.setItem('theme', next);
-      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', targetTheme);
+      document.documentElement.setAttribute('data-theme', targetTheme);
       const meta = document.querySelector('meta[name="color-scheme"]');
-      if (meta) meta.content = next;
+      if (meta) meta.content = targetTheme;
     }
     updateLabel();
+  }
+
+  toggle.addEventListener('click', (e) => {
+    const current = getCurrentTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!document.startViewTransition || prefersReducedMotion) {
+      applyTheme(next);
+      return;
+    }
+
+    const rect = toggle.getBoundingClientRect();
+    const x = (e.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
+    const y = (e.clientY && e.clientY > 0) ? e.clientY : (rect.top + rect.height / 2);
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = document.startViewTransition(() => {
+      applyTheme(next);
+    });
+
+    transition.ready.then(() => {
+      try {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              'circle(0px at ' + x + 'px ' + y + 'px)',
+              'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)'
+            ]
+          },
+          {
+            duration: 400,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            pseudoElement: '::view-transition-new(root)'
+          }
+        );
+      } catch (err) {}
+    });
   });
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {

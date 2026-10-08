@@ -73,24 +73,62 @@
 			toggle.setAttribute('aria-label', 'Switch to ' + next + ' theme');
 			toggle.setAttribute('title', 'Switch to ' + next + ' theme');
 		}
-		toggle.addEventListener('click', function() {
-			var current = getCurrentTheme();
-			var next = current === 'dark' ? 'light' : 'dark';
+		function applyTheme(targetTheme) {
 			var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 			var systemTheme = systemDark ? 'dark' : 'light';
 
-			if (next === systemTheme) {
+			if (targetTheme === systemTheme) {
 				localStorage.removeItem('theme');
 				document.documentElement.removeAttribute('data-theme');
 				var meta = document.querySelector('meta[name="color-scheme"]');
 				if (meta) meta.content = 'light dark';
 			} else {
-				localStorage.setItem('theme', next);
-				document.documentElement.setAttribute('data-theme', next);
+				localStorage.setItem('theme', targetTheme);
+				document.documentElement.setAttribute('data-theme', targetTheme);
 				var meta = document.querySelector('meta[name="color-scheme"]');
-				if (meta) meta.content = next;
+				if (meta) meta.content = targetTheme;
 			}
 			updateLabel();
+		}
+		toggle.addEventListener('click', function(e) {
+			var current = getCurrentTheme();
+			var next = current === 'dark' ? 'light' : 'dark';
+			var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			if (!document.startViewTransition || prefersReducedMotion) {
+				applyTheme(next);
+				return;
+			}
+
+			var rect = toggle.getBoundingClientRect();
+			var x = (e.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
+			var y = (e.clientY && e.clientY > 0) ? e.clientY : (rect.top + rect.height / 2);
+			var endRadius = Math.hypot(
+				Math.max(x, window.innerWidth - x),
+				Math.max(y, window.innerHeight - y)
+			);
+
+			var transition = document.startViewTransition(function() {
+				applyTheme(next);
+			});
+
+			transition.ready.then(function() {
+				try {
+					document.documentElement.animate(
+						{
+							clipPath: [
+								'circle(0px at ' + x + 'px ' + y + 'px)',
+								'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)'
+							]
+						},
+						{
+							duration: 400,
+							easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+							pseudoElement: '::view-transition-new(root)'
+						}
+					);
+				} catch (err) {}
+			});
 		});
 		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
 			updateLabel();

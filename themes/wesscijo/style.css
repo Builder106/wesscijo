@@ -368,9 +368,9 @@ form.search { display: flex; align-items: stretch; }
 .search__submit:active { transform: translateY(1px); }
 
 .theme-toggle {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+	display: inline-grid;
+	place-items: center;
+	position: relative;
 	width: 2.25rem;
 	height: 2.25rem;
 	padding: 0;
@@ -379,6 +379,8 @@ form.search { display: flex; align-items: stretch; }
 	color: var(--color-ink);
 	cursor: pointer;
 	border-radius: 2px;
+	overflow: hidden;
+	view-transition-name: theme-toggle;
 	transition:
 		border-color var(--dur-fast) var(--ease-out),
 		color var(--dur-fast) var(--ease-out),
@@ -396,28 +398,111 @@ form.search { display: flex; align-items: stretch; }
 	outline-offset: 2px;
 }
 .theme-toggle__icon {
+	grid-area: 1 / 1;
 	width: 1.125rem;
 	height: 1.125rem;
 	display: block;
+	pointer-events: none;
+	transition:
+		transform var(--dur-mid) var(--ease-out),
+		opacity var(--dur-mid) var(--ease-out);
+	will-change: transform, opacity;
 }
 
-.theme-toggle__icon--sun { display: none; }
-.theme-toggle__icon--moon { display: block; }
+.theme-toggle__icon--moon {
+	transform: rotate(0deg) scale(1);
+	opacity: 1;
+}
+.theme-toggle__icon--sun {
+	transform: rotate(90deg) scale(0.4);
+	opacity: 0;
+}
 
 @media (prefers-color-scheme: dark) {
-	:root:not([data-theme="light"]) .theme-toggle__icon--sun { display: block; }
-	:root:not([data-theme="light"]) .theme-toggle__icon--moon { display: none; }
+	:root:not([data-theme="light"]) .theme-toggle__icon--moon {
+		transform: rotate(-90deg) scale(0.4);
+		opacity: 0;
+	}
+	:root:not([data-theme="light"]) .theme-toggle__icon--sun {
+		transform: rotate(0deg) scale(1);
+		opacity: 1;
+	}
 }
 
-:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle__icon--sun,
-:root[data-theme="dark"] .theme-toggle__icon--sun { display: block; }
 :root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle__icon--moon,
-:root[data-theme="dark"] .theme-toggle__icon--moon { display: none; }
+:root[data-theme="dark"] .theme-toggle__icon--moon {
+	transform: rotate(-90deg) scale(0.4);
+	opacity: 0;
+}
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle__icon--sun,
+:root[data-theme="dark"] .theme-toggle__icon--sun {
+	transform: rotate(0deg) scale(1);
+	opacity: 1;
+}
 
-:root:has(> head > meta[name="color-scheme"][content="light"]) .theme-toggle__icon--sun,
-:root[data-theme="light"] .theme-toggle__icon--sun { display: none; }
 :root:has(> head > meta[name="color-scheme"][content="light"]) .theme-toggle__icon--moon,
-:root[data-theme="light"] .theme-toggle__icon--moon { display: block; }
+:root[data-theme="light"] .theme-toggle__icon--moon {
+	transform: rotate(0deg) scale(1);
+	opacity: 1;
+}
+:root:has(> head > meta[name="color-scheme"][content="light"]) .theme-toggle__icon--sun,
+:root[data-theme="light"] .theme-toggle__icon--sun {
+	transform: rotate(90deg) scale(0.4);
+	opacity: 0;
+}
+
+/* ---------- view transitions & theme animations ---------- */
+::view-transition {
+	pointer-events: none;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation: none;
+	mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+	z-index: 1;
+}
+
+::view-transition-new(root) {
+	z-index: 9999;
+}
+
+::view-transition-group(theme-toggle) {
+	z-index: 10000;
+}
+
+@keyframes theme-icon-out {
+	from {
+		transform: rotate(0deg) scale(1);
+		opacity: 1;
+	}
+	to {
+		transform: rotate(-90deg) scale(0.4);
+		opacity: 0;
+	}
+}
+
+@keyframes theme-icon-in {
+	from {
+		transform: rotate(90deg) scale(0.4);
+		opacity: 0;
+	}
+	to {
+		transform: rotate(0deg) scale(1);
+		opacity: 1;
+	}
+}
+
+::view-transition-old(theme-toggle) {
+	animation: theme-icon-out var(--dur-mid) var(--ease-out) forwards;
+}
+
+::view-transition-new(theme-toggle) {
+	animation: theme-icon-in var(--dur-mid) var(--ease-out) forwards;
+}
 
 /* ---------- shell ---------- */
 .site-main { max-width: var(--shell); margin: 0 auto; padding-inline: var(--space-6); }
@@ -904,6 +989,14 @@ body.admin-bar .reading-progress {
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
+	}
+	::view-transition-group(*),
+	::view-transition-old(*),
+	::view-transition-new(*) {
+		animation: none !important;
+	}
+	.theme-toggle__icon {
+		transition: none !important;
 	}
 	.reading-progress { display: none !important; }
 	.card:hover .card__media img { transform: none !important; }

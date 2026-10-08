@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-08 - Animated theme switching with View Transitions and icon morphing #theme #animation #view-transitions
+
+Implemented animated theme switching across the WordPress theme and the static publication build. When toggled, the page runs a circular reveal transition originating from the click coordinates using the View Transitions API and Web Animations API, expanding the incoming theme across the viewport. Integrated smooth rotation and scaling between the Sun and Moon SVG icons inside the toggle button, with a clean cross-fade fallback for browsers without View Transitions. The entire animation suite is bypassed immediately when `prefers-reduced-motion` is active.
+
 ## 2026-10-08 - Accessible motion strategy and exclusive navigation panels #motion #ux #accessibility
 
 Implemented the publication motion strategy across the WordPress theme and static publication site. Added an accessible reading progress bar with passive scroll tracking, high z-index, and responsive WordPress admin bar offsets. Implemented tactile button presses, About tab fade transitions, and search card entrance animations with strict suppression under prefers-reduced-motion. Updated header navigation disclosure panels with exclusive grouping (`name="nav-panel"`), auto-collapse accordion logic, and click-outside/Escape dismissal.
