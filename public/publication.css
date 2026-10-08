@@ -546,21 +546,33 @@ figcaption, .wp-caption-text {
 .article { padding-block: var(--space-16); text-align: center; }
 .article .prose { text-align: left; }
 
+.reading-progress {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 3px;
+	background: var(--color-accent);
+	transform-origin: 0 50%;
+	transform: scaleX(0);
+	z-index: 999999;
+	pointer-events: none;
+	will-change: transform;
+}
+
+body.admin-bar .reading-progress {
+	top: 32px;
+}
+@media screen and (max-width: 782px) {
+	body.admin-bar .reading-progress {
+		top: 46px;
+	}
+}
+
 @supports (animation-timeline: scroll()) {
-	.article::before {
-		content: "";
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 2.5px;
-		background: var(--color-accent);
-		transform-origin: 0 50%;
-		transform: scaleX(0);
-		z-index: 1000;
-		pointer-events: none;
-		animation: reading-progress linear;
-		animation-timeline: scroll();
+	.reading-progress {
+		animation: reading-progress auto linear;
+		animation-timeline: scroll(root);
 	}
 	@keyframes reading-progress {
 		from { transform: scaleX(0); }
@@ -764,7 +776,7 @@ figcaption, .wp-caption-text {
 		transition-duration: 0.01ms !important;
 		scroll-behavior: auto !important;
 	}
-	.article::before { display: none !important; }
+	.reading-progress { display: none !important; }
 	.card:hover .card__media img { transform: none !important; }
 	.btn:hover, .btn:active, .btn--invert:hover, .btn--invert:active, .search__submit:active { transform: none !important; }
 	.about-panel.is-active, #search-results .card { animation: none !important; }

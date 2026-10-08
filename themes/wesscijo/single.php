@@ -1,5 +1,7 @@
 <?php get_header(); ?>
 
+<div id="reading-progress" class="reading-progress" aria-hidden="true"></div>
+
 <main class="site-main" id="main" tabindex="-1">
 
 	<?php
@@ -100,6 +102,19 @@
 
 	<?php endwhile; ?>
 
-</main>
+<script>
+(function() {
+	var bar = document.getElementById('reading-progress');
+	if (!bar) return;
+	function update() {
+		var total = document.documentElement.scrollHeight - window.innerHeight;
+		var progress = total > 0 ? Math.min(1, Math.max(0, window.scrollY / total)) : 0;
+		bar.style.transform = 'scaleX(' + progress + ')';
+	}
+	window.addEventListener('scroll', update, { passive: true });
+	window.addEventListener('resize', update);
+	update();
+})();
+</script>
 
 <?php get_footer(); ?>

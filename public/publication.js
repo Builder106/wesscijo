@@ -29,6 +29,20 @@ document.addEventListener('click', (event) => {
   document.querySelectorAll('.panel[open]').forEach(panel => { panel.open = false; });
 });
 
+function initReadingProgress() {
+  const bar = document.getElementById('reading-progress');
+  if (!bar) return;
+  function update() {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = total > 0 ? Math.min(1, Math.max(0, window.scrollY / total)) : 0;
+    bar.style.transform = 'scaleX(' + progress + ')';
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+}
+initReadingProgress();
+
 async function showSearch() {
   const results = document.getElementById('search-results');
   if (!results) return;

@@ -153,7 +153,8 @@ def main():
     write_page('/', NAME, homepage, articles, 'Read the Fall 2026 edition of The Wesleyan Science Journal.')
     for a in articles:
         related = [other for other in articles if other['section'] == a['section'] and other != a]
-        body = (f'<article class="article"><h1 class="article__title">{escape(a["title"])}</h1>'
+        body = ('<div id="reading-progress" class="reading-progress" aria-hidden="true"></div>'
+                f'<article class="article"><h1 class="article__title">{escape(a["title"])}</h1>'
                 f'<p class="byline">{escape(a["byline"])}</p><p class="meta"><a href="/category/{section_slug(a["section"])}/">{escape(a["section"])}</a> / {escape(a["type"])}</p>'
                 + figure(a, 'article__figure', True) + f'<div class="prose">{a["bodyHtml"]}</div></article>')
         if related:

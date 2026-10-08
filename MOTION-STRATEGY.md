@@ -91,3 +91,4 @@ All motion rules are strictly governed by the following reduced-motion contract:
 - **WCAG 2.2 Compliance**: Conforms to Success Criterion 2.2.2 (Pause, Stop, Hide) and 2.3.3 (Animation from Interactions).
 - **Assistive Technology Safety**: The reading progress indicator uses `pointer-events: none` and is isolated on a pseudo-element. It does not obscure text or create accessibility tree noise.
 - **Cognitive Hygiene**: No continuous loops, no ambient flashing, and no spatial bouncing.
+
