@@ -54,6 +54,62 @@ function initReadingProgress() {
 }
 initReadingProgress();
 
+function initThemeToggle() {
+  const toggle = document.getElementById('theme-toggle');
+  if (!toggle) return;
+
+  function getCurrentTheme() {
+    const stored = localStorage.getItem('theme');
+    if (stored === 'dark' || stored === 'light') return stored;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+
+  function updateLabel() {
+    const current = getCurrentTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+    toggle.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+    toggle.setAttribute('title', 'Switch to ' + next + ' theme');
+  }
+
+  toggle.addEventListener('click', () => {
+    const current = getCurrentTheme();
+    const next = current === 'dark' ? 'light' : 'dark';
+    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const systemTheme = systemDark ? 'dark' : 'light';
+
+    if (next === systemTheme) {
+      localStorage.removeItem('theme');
+      document.documentElement.removeAttribute('data-theme');
+      const meta = document.querySelector('meta[name="color-scheme"]');
+      if (meta) meta.content = 'light dark';
+    } else {
+      localStorage.setItem('theme', next);
+      document.documentElement.setAttribute('data-theme', next);
+      const meta = document.querySelector('meta[name="color-scheme"]');
+      if (meta) meta.content = next;
+    }
+    updateLabel();
+  });
+
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    updateLabel();
+  });
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'theme') {
+      if (e.newValue === 'dark' || e.newValue === 'light') {
+        document.documentElement.setAttribute('data-theme', e.newValue);
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+      updateLabel();
+    }
+  });
+
+  updateLabel();
+}
+initThemeToggle();
+
 async function showSearch() {
   const results = document.getElementById('search-results');
   if (!results) return;

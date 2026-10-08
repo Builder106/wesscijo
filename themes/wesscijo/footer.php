@@ -59,6 +59,54 @@
 			}
 		}
 	});
+
+	var toggle = document.getElementById('theme-toggle');
+	if (toggle) {
+		function getCurrentTheme() {
+			var stored = localStorage.getItem('theme');
+			if (stored === 'dark' || stored === 'light') return stored;
+			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+		}
+		function updateLabel() {
+			var current = getCurrentTheme();
+			var next = current === 'dark' ? 'light' : 'dark';
+			toggle.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+			toggle.setAttribute('title', 'Switch to ' + next + ' theme');
+		}
+		toggle.addEventListener('click', function() {
+			var current = getCurrentTheme();
+			var next = current === 'dark' ? 'light' : 'dark';
+			var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+			var systemTheme = systemDark ? 'dark' : 'light';
+
+			if (next === systemTheme) {
+				localStorage.removeItem('theme');
+				document.documentElement.removeAttribute('data-theme');
+				var meta = document.querySelector('meta[name="color-scheme"]');
+				if (meta) meta.content = 'light dark';
+			} else {
+				localStorage.setItem('theme', next);
+				document.documentElement.setAttribute('data-theme', next);
+				var meta = document.querySelector('meta[name="color-scheme"]');
+				if (meta) meta.content = next;
+			}
+			updateLabel();
+		});
+		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+			updateLabel();
+		});
+		window.addEventListener('storage', function(e) {
+			if (e.key === 'theme') {
+				if (e.newValue === 'dark' || e.newValue === 'light') {
+					document.documentElement.setAttribute('data-theme', e.newValue);
+				} else {
+					document.documentElement.removeAttribute('data-theme');
+				}
+				updateLabel();
+			}
+		});
+		updateLabel();
+	}
 })();
 </script>
 
