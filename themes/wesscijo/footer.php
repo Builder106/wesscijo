@@ -90,7 +90,7 @@
 			}
 			updateLabel();
 		}
-		toggle.addEventListener('click', function(e) {
+		toggle.addEventListener('click', function() {
 			var current = getCurrentTheme();
 			var next = current === 'dark' ? 'light' : 'dark';
 			var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -100,34 +100,8 @@
 				return;
 			}
 
-			var rect = toggle.getBoundingClientRect();
-			var x = (e.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
-			var y = (e.clientY && e.clientY > 0) ? e.clientY : (rect.top + rect.height / 2);
-			var endRadius = Math.hypot(
-				Math.max(x, window.innerWidth - x),
-				Math.max(y, window.innerHeight - y)
-			);
-
-			var transition = document.startViewTransition(function() {
+			document.startViewTransition(function() {
 				applyTheme(next);
-			});
-
-			transition.ready.then(function() {
-				try {
-					document.documentElement.animate(
-						{
-							clipPath: [
-								'circle(0px at ' + x + 'px ' + y + 'px)',
-								'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)'
-							]
-						},
-						{
-							duration: 400,
-							easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-							pseudoElement: '::view-transition-new(root)'
-						}
-					);
-				} catch (err) {}
 			});
 		});
 		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {

@@ -89,7 +89,7 @@ function initThemeToggle() {
     updateLabel();
   }
 
-  toggle.addEventListener('click', (e) => {
+  toggle.addEventListener('click', () => {
     const current = getCurrentTheme();
     const next = current === 'dark' ? 'light' : 'dark';
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -99,34 +99,8 @@ function initThemeToggle() {
       return;
     }
 
-    const rect = toggle.getBoundingClientRect();
-    const x = (e.clientX && e.clientX > 0) ? e.clientX : (rect.left + rect.width / 2);
-    const y = (e.clientY && e.clientY > 0) ? e.clientY : (rect.top + rect.height / 2);
-    const endRadius = Math.hypot(
-      Math.max(x, window.innerWidth - x),
-      Math.max(y, window.innerHeight - y)
-    );
-
-    const transition = document.startViewTransition(() => {
+    document.startViewTransition(() => {
       applyTheme(next);
-    });
-
-    transition.ready.then(() => {
-      try {
-        document.documentElement.animate(
-          {
-            clipPath: [
-              'circle(0px at ' + x + 'px ' + y + 'px)',
-              'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)'
-            ]
-          },
-          {
-            duration: 400,
-            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
-            pseudoElement: '::view-transition-new(root)'
-          }
-        );
-      } catch (err) {}
     });
   });
 

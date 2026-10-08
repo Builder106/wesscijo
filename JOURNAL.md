@@ -1,8 +1,8 @@
 # JOURNAL - WesSciJo
 
-## 2026-10-08 - Animated theme switching with View Transitions and icon morphing #theme #animation #view-transitions
+## 2026-10-08 - Optical Illumination Dissolve for theme switching #theme #motion #ux
 
-Implemented animated theme switching across the WordPress theme and the static publication build. When toggled, the page runs a circular reveal transition originating from the click coordinates using the View Transitions API and Web Animations API, expanding the incoming theme across the viewport. Integrated smooth rotation and scaling between the Sun and Moon SVG icons inside the toggle button, with a clean cross-fade fallback for browsers without View Transitions. The entire animation suite is bypassed immediately when `prefers-reduced-motion` is active.
+Replaced the circular wipe with an Optical Illumination Dissolve across the WordPress theme and static publication build. Inspired by scientific brightfield/darkfield microscopy transitions, the page executes a 220ms ambient exposure cross-dissolve via the View Transitions API and GPU-accelerated CSS keyframes (`theme-fade-out` / `theme-fade-in`). The toggle button features a precision 200ms 45-degree rotation and scale morph between the Sun and Moon SVG icons. All animations are strictly bypassed under prefers-reduced-motion.
 
 ## 2026-10-08 - Accessible motion strategy and exclusive navigation panels #motion #ux #accessibility
 
