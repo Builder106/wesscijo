@@ -421,3 +421,19 @@ The active WordPress theme now uses the `wesscijo` folder slug and keeps the dis
 2. Duplicate Photo Resolution in "The ChatGPT Moment for Robotics":
    - Root Cause: Post #52 had `image1.jpg` designated as its WordPress featured image (`_thumbnail_id: 53`) and static thumbnail. The theme's `single.php` template automatically renders `the_post_thumbnail()` hero banner with caption at the top of the article. Additionally, the ingestion source had retained an identical `<figure><img ...></figure>` block at the very top of `post_content` / `bodyHtml`.
    - Fix: Stripped the redundant inline `<figure>` from Post #52's `post_content` in WordPress and from `content/issue-2026/chatgpt-moment-for-robotics.html` and `content/issue-2026/articles.json`. Re-rendered static publication, ensuring 1:1 parity between local and live draft environments.
+
+## 2026-10-08 - Implement purposeful, accessible motion strategy #motion #ux #a11y
+
+Applied the motion-strategy skill to architect and implement dignified academic microinteractions across WesSciJo:
+1. Architecture & Strategy (`MOTION-STRATEGY.md`):
+   - Audited user journeys across discovery, reading, governance, submissions, and search.
+   - Selected lightweight CSS transforms and scroll-driven timelines over third-party vector runtimes, preserving performance and academic dignity.
+   - Deferred decorative Lottie mascot loops per editorial scope.
+2. Production Microinteractions (`themes/wesscijo/style.css`, `public/publication.css`):
+   - Reading progress indicator: Injected GPU-accelerated 2.5px Cardinal Red progress rule via `@supports (animation-timeline: scroll())` on `.article::before`.
+   - About tab switching: Added 240ms ease-out opacity fade and vertical settle (`translateY(6px)` to `0`) on `.about-panel.is-active`.
+   - Navigation disclosure: Refined `.panel__summary::after` to smoothly pivot 45 degrees into an expansion marker (`+` to `×`) on `[open]`.
+   - Tactile button press: Added 1px hover lift and active press translation on `.btn`, `.btn--invert`, and `.search__submit`.
+   - Dynamic search results entrance: Animated incoming cards via 240ms ease-out fade and settle.
+3. Accessibility & Reduced Motion:
+   - Nullified all animations, durations, and transforms under `@media (prefers-reduced-motion: reduce)`, hiding the scroll progress pseudo-element completely.
