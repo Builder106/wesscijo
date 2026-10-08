@@ -1,8 +1,8 @@
 # JOURNAL - WesSciJo
 
-## 2026-10-08 - Optical Illumination Dissolve and custom scrollbar #theme #motion #ux
+## 2026-10-08 - Optical Illumination Dissolve and red scrollbar #theme #motion #ux
 
-Replaced the circular wipe with an Optical Illumination Dissolve across the WordPress theme and static publication build. Inspired by scientific brightfield/darkfield microscopy transitions, the page executes a 220ms ambient exposure cross-dissolve via the View Transitions API and GPU-accelerated CSS keyframes (`theme-fade-out` / `theme-fade-in`). The toggle button features a precision 200ms 45-degree rotation and scale morph between the Sun and Moon SVG icons. All animations are strictly bypassed under prefers-reduced-motion. Added theme-aware custom scrollbar styling utilizing standard `scrollbar-color`/`scrollbar-width` and WebKit fallbacks styled to `--color-rule`, `--color-paper`, and hover `--color-accent`.
+Replaced the circular wipe with an Optical Illumination Dissolve across the WordPress theme and static publication build. Inspired by scientific brightfield/darkfield microscopy transitions, the page executes a 220ms ambient exposure cross-dissolve via the View Transitions API and GPU-accelerated CSS keyframes (`theme-fade-out` / `theme-fade-in`). The toggle button features a precision 200ms 45-degree rotation and scale morph between the Sun and Moon SVG icons. All animations are strictly bypassed under prefers-reduced-motion. Added theme-aware custom scrollbar styling utilizing standard `scrollbar-color`/`scrollbar-width` and WebKit fallbacks styled with a Cardinal Red thumb (`--color-accent`, darkening to `--color-accent-2` on hover) over `--color-paper`.
 
 ## 2026-10-08 - Accessible motion strategy and exclusive navigation panels #motion #ux #accessibility
 
