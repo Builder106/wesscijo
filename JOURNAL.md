@@ -449,3 +449,14 @@ Applied the motion-strategy skill to architect and implement dignified academic 
    - Dynamic search results entrance: Animated incoming cards via 240ms ease-out fade and settle.
 3. Accessibility & Reduced Motion:
    - Nullified all animations, durations, and transforms under `@media (prefers-reduced-motion: reduce)`, hiding the scroll progress pseudo-element completely.
+
+## 2026-10-09 - Editorial, dark mode logo, and masthead alignment refinements #editorial #ui #darkmode
+
+1. Byline Normalization: Removed class year from Kitty Edwards' byline on *GMOs: Applications and Controversy* across `content/issue-2026/articles.json`, `public/articles/gmos-applications-and-controversy/index.html`, and `public/search-index.json`.
+2. Dark Mode Header Logo Troubleshooting & Adaptation:
+   - Root Cause: `public/assets/logo.png` had an opaque, solid white circular background fill (`#ffffff`) with black lettering and borders. In dark mode against `--color-paper` (`oklch(16% 0.005 30)` / `#161314`), the logo rendered as a harsh white circular cutout next to the red journal title.
+   - Solution: Authored dark-mode optimized logo assets (`public/assets/logo-dark.png`, along with 512px and 192px variants) rendering a transparent background, crisp light ink ring lettering/borders (`#f2f2f2`), and fully preserving the red cardinal, safety goggles, yellow beak, and spilling tail feathers.
+   - Architecture: Injected both light and dark variants in header markup (`.hero__logo--light`, `.hero__logo--dark`) and added theme-aware CSS rules in `themes/wesscijo/style.css` and `public/publication.css` supporting both explicit theme toggle (`data-theme="dark"`) and system preference (`prefers-color-scheme: dark`) with zero layout shift.
+3. About Us Masthead Layout & Alignment Fixes:
+   - Root Cause: The About team masthead was nested under `<article class="article">`, which declares `text-align: center`. While `.article .prose` resets text alignment, `#masthead` was not in `.prose` and inherited `text-align: center`. Because `.person` had `align-items: flex-start`, the avatar square was pinned to the left while multi-line wrapped text (such as `Aryia Banihashem-Ahmad` breaking at the hyphen to `Aryia Banihashem-` and a centered `Ahmad`, and roles like `Neuroscience & Psychology` with a centered `Editor`) centered underneath, producing a jagged, indented layout. Additionally, the grid column min-width of 160px was narrower than the longest 164px names.
+   - Solution: Declared explicit `text-align: left` on `.about-panel`, `.masthead-grid`, `.person`, `.person__name`, and `.person__role`. Widened grid tracks to `minmax(180px, 1fr)` and set `hyphens: none`, allowing all editorial board names to render on a single line and ensuring perfect left-edge alignment under avatar cards across all screen sizes.
