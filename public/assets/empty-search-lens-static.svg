@@ -1,13 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="search-lens-svg" viewBox="0 0 80 80" width="80" height="80" fill="none" stroke="currentColor" stroke-width="2" role="img" aria-label="Scientific search lens and reticle calibration emblem">
-  <circle id="outer-rim" cx="36" cy="36" r="26" stroke-width="2.6"/>
-  <line id="lens-handle" x1="55" y1="55" x2="73" y2="73" stroke-width="4.8" stroke-linecap="round"/>
-  <circle cx="36" cy="36" r="21" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 6" stroke-opacity="0.6"/>
-  <line id="reticle-h" x1="18" y1="36" x2="54" y2="36" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-  <line id="reticle-v" x1="36" y1="18" x2="36" y2="54" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
-  <line x1="28" y1="34" x2="28" y2="38" stroke="currentColor" stroke-width="1.2"/>
-  <line x1="44" y1="34" x2="44" y2="38" stroke="currentColor" stroke-width="1.2"/>
-  <line x1="34" y1="28" x2="38" y2="28" stroke="currentColor" stroke-width="1.2"/>
-  <line x1="34" y1="44" x2="38" y2="44" stroke="currentColor" stroke-width="1.2"/>
-  <circle id="target-ring" cx="36" cy="36" r="12" stroke="#a6192e" stroke-width="1.6" stroke-dasharray="4 2"/>
-  <circle id="focal-point" cx="36" cy="36" r="2.2" fill="#a6192e"/>
+<svg xmlns="http://www.w3.org/2000/svg" id="search-lens-svg" viewBox="0 0 80 80" width="80" height="80" fill="none" role="img" aria-label="Scientific search lens and reticle calibration emblem">
+  <defs>
+    <!-- Optical Lens Glass Backing -->
+    <linearGradient id="lens-glass-static" x1="16" y1="16" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.06"/>
+      <stop offset="50%" stop-color="currentColor" stop-opacity="0.01"/>
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0.06"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Lens Glass Backing -->
+  <circle cx="36" cy="36" r="26" fill="url(#lens-glass-static)"/>
+
+  <!-- Outer Optics Rim & Ergonomic Handle -->
+  <circle id="outer-rim" cx="36" cy="36" r="26" stroke="currentColor" stroke-width="2.8"/>
+  <line id="lens-handle" x1="55" y1="55" x2="73" y2="73" stroke="currentColor" stroke-width="5.0" stroke-linecap="round"/>
+
+  <!-- Vernier Dial Scale -->
+  <circle cx="36" cy="36" r="21" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 5" stroke-opacity="0.75"/>
+
+  <!-- Precision Calibrated Reticle Crosshairs -->
+  <line id="reticle-h" x1="16" y1="36" x2="56" y2="36" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  <line id="reticle-v" x1="36" y1="16" x2="36" y2="56" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+  
+  <!-- Vernier Sub-Scale Graticule Ticks -->
+  <line x1="26" y1="33" x2="26" y2="39" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="46" y1="33" x2="46" y2="39" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="33" y1="26" x2="39" y2="26" stroke="currentColor" stroke-width="1.2"/>
+  <line x1="33" y1="46" x2="39" y2="46" stroke="currentColor" stroke-width="1.2"/>
+
+  <!-- Static Calibration Target Ring -->
+  <circle id="target-ring-static" cx="36" cy="36" r="11" stroke="#a6192e" stroke-width="1.4" stroke-dasharray="4 2" stroke-opacity="0.8"/>
+
+  <!-- Central Focal Acquisition Point -->
+  <circle id="focal-point" cx="36" cy="36" r="2.4" fill="#a6192e"/>
 </svg>
