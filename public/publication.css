@@ -217,11 +217,49 @@ h1, h2, h3 {
 	max-block-size: 4rem;
 }
 
-.hero__logo-slot img {
+.hero__logo-slot img,
+.hero__logo {
 	width: auto;
 	max-width: 100%;
 	max-height: 4rem;
 	object-fit: contain;
+}
+
+.hero__logo--dark {
+	display: none;
+}
+
+.hero__logo--light {
+	display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme="light"]) .hero__logo--light {
+		display: none;
+	}
+	:root:not([data-theme="light"]) .hero__logo--dark {
+		display: block;
+	}
+}
+
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .hero__logo--light,
+:root[data-theme="dark"] .hero__logo--light {
+	display: none;
+}
+
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .hero__logo--dark,
+:root[data-theme="dark"] .hero__logo--dark {
+	display: block;
+}
+
+:root:has(> head > meta[name="color-scheme"][content="light"]) .hero__logo--dark,
+:root[data-theme="light"] .hero__logo--dark {
+	display: none;
+}
+
+:root:has(> head > meta[name="color-scheme"][content="light"]) .hero__logo--light,
+:root[data-theme="light"] .hero__logo--light {
+	display: block;
 }
 
 .hero__title {
@@ -657,14 +695,26 @@ figcaption, .wp-caption-text {
 }
 
 /* ---------- masthead (About page) ---------- */
-.masthead-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-	gap: var(--space-8);
-	padding-bottom: var(--space-8);
+.about-panel {
+	text-align: left;
 }
 
-.person { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); min-width: 0; }
+.masthead-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+	gap: var(--space-8);
+	padding-bottom: var(--space-8);
+	text-align: left;
+}
+
+.person {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: var(--space-2);
+	min-width: 0;
+	text-align: left;
+}
 
 .person__avatar {
 	width: 64px;
@@ -680,8 +730,19 @@ figcaption, .wp-caption-text {
 	flex-shrink: 0;
 }
 
-.person__name { font-weight: 700; font-size: var(--text-sm); }
-.person__role { color: var(--color-ink-2); font-size: var(--text-xs); }
+.person__name {
+	font-weight: 700;
+	font-size: var(--text-sm);
+	text-align: left;
+	hyphens: none;
+	overflow-wrap: break-word;
+}
+
+.person__role {
+	color: var(--color-ink-2);
+	font-size: var(--text-xs);
+	text-align: left;
+}
 
 .about-contents { display: flex; flex-wrap: wrap; gap: var(--space-4) var(--space-8); margin-block: var(--space-6) var(--space-8); }
 .about-contents a { text-decoration-color: var(--color-accent); text-underline-offset: 3px; }

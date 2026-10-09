@@ -81,7 +81,9 @@ def header(articles):
                      f'<ul class="panel__list"><li><a class="panel__link panel__link--all" href="/category/{slug}/">All {escape(label)}</a></li>{children}</ul></details></li>')
     return ('<a class="skip-link" href="#main">Skip to content</a><header class="hero">'
             '<div class="hero__band"><div class="hero__brand">'
-            '<a href="/" class="hero__logo-slot" aria-label="Journal home"><img src="/assets/logo.png" alt="" width="1024" height="1024"></a>'
+            '<a href="/" class="hero__logo-slot" aria-label="Journal home">'
+            '<img src="/assets/logo.png" class="hero__logo hero__logo--light" alt="" width="1024" height="1024">'
+            '<img src="/assets/logo-dark.png" class="hero__logo hero__logo--dark" alt="" width="1024" height="1024"></a>'
             f'<a class="hero__title" href="/">{NAME}</a></div></div>'
             '<nav class="hero__index" aria-label="Sections"><ul class="hero__nav-list">'
             '<li><a class="hero__nav-link" href="/">Home</a></li>' + ''.join(menus) +
