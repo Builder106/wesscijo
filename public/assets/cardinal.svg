@@ -16,59 +16,59 @@
     }
 
     #cardinal-body {
-      transform-origin: 645px 360px;
+      transform-origin: 150px 195px;
       animation: cardinalBreathe 2.4s ease-in-out infinite;
     }
 
     #cardinal-tail {
-      transform-origin: 678px 403px;
+      transform-origin: 183px 238px;
       animation: cardinalTailBob 3.0s cubic-bezier(0.25, 1, 0.5, 1) infinite;
     }
 
     #cardinal-head {
-      transform-origin: 588px 272px;
+      transform-origin: 93px 107px;
       animation: cardinalHeadSnap 6.0s cubic-bezier(0.2, 0.9, 0.3, 1) infinite;
     }
 
     #cardinal-crest {
-      transform-origin: 595px 208px;
+      transform-origin: 100px 43px;
       animation: cardinalCrestSnap 6.0s cubic-bezier(0.2, 0.9, 0.3, 1) infinite;
     }
 
     #beak-lower {
-      transform-origin: 545px 257px;
+      transform-origin: 50px 92px;
       animation: cardinalBeakChirp 6.0s ease-in-out infinite;
     }
 
     #cardinal-eye {
-      transform-origin: 570px 239px;
+      transform-origin: 75px 74px;
       animation: cardinalDoubleBlink 3.2s infinite;
     }
 
     #cardinal-feet {
       transform: none !important;
-      transform-origin: 661px 455px;
+      transform-origin: 166px 290px;
     }
 
     /* Standalone hover */
     #cardinal-svg:hover #cardinal-head {
       animation: none !important;
-      transform: rotate(12deg) translate(2px, -1px);
+      transform: rotate(5deg);
     }
 
     #cardinal-svg:hover #cardinal-crest {
       animation: none !important;
-      transform: rotate(-16deg) translateY(-3px) scaleY(1.08);
+      transform: rotate(-10deg) scaleY(1.08);
     }
 
     #cardinal-svg:hover #cardinal-tail {
       animation: none !important;
-      transform: rotate(-8deg);
+      transform: rotate(-4deg);
     }
 
     #cardinal-svg:hover #cardinal-body {
       animation: none !important;
-      transform: scale(1.025);
+      transform: scale(1.015);
     }
 
     #cardinal-svg:hover #cardinal-feet {
@@ -112,37 +112,37 @@
     }
 
     @keyframes cardinalHeadSnap {
-      0%, 18% {
+      0%, 20% {
         transform: rotate(0deg);
       }
-      21%, 42% {
-        transform: rotate(-7.5deg) translate(-2px, 3px);
+      23%, 45% {
+        transform: rotate(-4deg);
       }
-      45%, 68% {
-        transform: rotate(9.5deg) translate(2px, -2px);
+      48%, 70% {
+        transform: rotate(5deg);
       }
-      71%, 86% {
-        transform: rotate(3.5deg) translate(1px, 0);
+      73%, 88% {
+        transform: rotate(2deg);
       }
-      90%, 100% {
+      92%, 100% {
         transform: rotate(0deg);
       }
     }
 
     @keyframes cardinalCrestSnap {
-      0%, 18% {
+      0%, 20% {
         transform: rotate(0deg);
       }
-      21%, 42% {
-        transform: rotate(3.5deg);
+      23%, 45% {
+        transform: rotate(2deg);
       }
-      45%, 68% {
-        transform: rotate(-14deg) translateY(-2px) scaleY(1.08);
+      48%, 70% {
+        transform: rotate(-8deg) scaleY(1.06);
       }
-      71%, 86% {
-        transform: rotate(-6deg);
+      73%, 88% {
+        transform: rotate(-3deg);
       }
-      90%, 100% {
+      92%, 100% {
         transform: rotate(0deg);
       }
     }

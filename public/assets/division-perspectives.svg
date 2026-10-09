@@ -1,1 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="perspectives-svg" viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" role="img" aria-label="News, Features and Perspectives prism emblem"><polygon id="prism-body" points="20,8 32,30 8,30" stroke-linejoin="round"/><line id="beam-in" x1="4" y1="20" x2="14" y2="20" stroke-linecap="round"><animate values="0.3;1;0.3" keyTimes="0;0.5;1" dur="1800ms" begin="0ms" repeatCount="indefinite" fill="freeze" attributeName="opacity"/></line><line id="beam-out-1" x1="26" y1="19" x2="36" y2="15" stroke-linecap="round"><animate values="0.2;1;0.2" keyTimes="0;0.5;1" dur="1800ms" begin="400ms" repeatCount="indefinite" fill="freeze" attributeName="opacity"/></line><line id="beam-out-2" x1="26" y1="21" x2="36" y2="21" stroke-linecap="round"><animate values="0.2;1;0.2" keyTimes="0;0.5;1" dur="1800ms" begin="600ms" repeatCount="indefinite" fill="freeze" attributeName="opacity"/></line><line id="beam-out-3" x1="26" y1="23" x2="36" y2="27" stroke-linecap="round"><animate values="0.2;1;0.2" keyTimes="0;0.5;1" dur="1800ms" begin="800ms" repeatCount="indefinite" fill="freeze" attributeName="opacity"/></line></svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="perspectives-svg" viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" role="img" aria-label="News, Features and Perspectives optical refraction prism emblem">
+  <!-- Prism Facets & Crystalline Internal Structure -->
+  <polygon id="prism-body" points="20,7 33,31 7,31" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+  
+  <!-- Internal Reflection Beam -->
+  <line x1="15" y1="21" x2="25" y2="22" stroke="#a6192e" stroke-width="2" stroke-linecap="round">
+    <animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2.4s" begin="0.6s" repeatCount="indefinite"/>
+  </line>
+  
+  <!-- Crystalline Internal Specular Glint -->
+  <circle cx="20" cy="21.5" r="2.2" fill="#a6192e">
+    <animate attributeName="r" values="1.6;3;1.6" dur="2.4s" begin="0.6s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
+    <animate attributeName="opacity" values="0.4;1;0.4" dur="2.4s" begin="0.6s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Incident Inquiry Ray (White/CurrentColor Beam) -->
+  <line id="beam-in" x1="3" y1="21" x2="15" y2="21" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+  <circle r="2" fill="#a6192e">
+    <animateMotion path="M 3,21 L 15,21" dur="2.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1" keyTimes="0;1"/>
+  </circle>
+
+  <!-- Diverging Spectrum Perspective Rays -->
+  <!-- Ray 1: Ruby Spectrum -->
+  <line id="beam-out-1" x1="25" y1="20" x2="37" y2="13" stroke="#a6192e" stroke-width="2.2" stroke-linecap="round"/>
+  <circle r="1.8" fill="#a6192e">
+    <animateMotion path="M 25,20 L 37,13" dur="2.4s" begin="0.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0.8 0.2 1" keyTimes="0;1"/>
+  </circle>
+
+  <!-- Ray 2: Gold/Amber Spectrum -->
+  <line id="beam-out-2" x1="25" y1="22" x2="38" y2="22" stroke="#d97706" stroke-width="2.2" stroke-linecap="round"/>
+  <circle r="1.8" fill="#d97706">
+    <animateMotion path="M 25,22 L 38,22" dur="2.4s" begin="0.9s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0.8 0.2 1" keyTimes="0;1"/>
+  </circle>
+
+  <!-- Ray 3: Sapphire Spectrum -->
+  <line id="beam-out-3" x1="25" y1="24" x2="37" y2="31" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round"/>
+  <circle r="1.8" fill="#2563eb">
+    <animateMotion path="M 25,24 L 37,31" dur="2.4s" begin="1.0s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0.8 0.2 1" keyTimes="0;1"/>
+  </circle>
+</svg>

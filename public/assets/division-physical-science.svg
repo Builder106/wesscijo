@@ -1,1 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" id="physical-science-svg" viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" role="img" aria-label="Physical Science atomic orbital emblem"><circle id="nucleus" cx="20" cy="20" r="3.5" fill="currentColor"><animate values="0.7;1;0.7" keyTimes="0;0.5;1" dur="2000ms" begin="0ms" repeatCount="indefinite" fill="freeze" attributeName="opacity"/></circle><ellipse id="orbit-1" cx="20" cy="20" rx="16" ry="6" transform="rotate(-30 20 20)"/><ellipse id="orbit-2" cx="20" cy="20" rx="16" ry="6" transform="rotate(30 20 20)"/><circle id="electron-1" cx="6" cy="12" r="2" fill="currentColor"><animate values="0.3;1;0.3" keyTimes="0;0.5;1" dur="2400ms" begin="0ms" repeatCount="indefinite" fill="freeze" attributeName="opacity"/></circle><circle id="electron-2" cx="34" cy="28" r="2" fill="currentColor"><animate values="0.3;1;0.3" keyTimes="0;0.5;1" dur="2400ms" begin="800ms" repeatCount="indefinite" fill="freeze" attributeName="opacity"/></circle></svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="physical-science-svg" viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" role="img" aria-label="Physical Science atomic orbital emblem">
+  <!-- Nucleus core & aura -->
+  <circle id="nucleus-aura" cx="20" cy="20" r="5" stroke="#a6192e" stroke-width="1.2" stroke-opacity="0.5">
+    <animate attributeName="r" values="4;6.5;4" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
+    <animate attributeName="stroke-opacity" values="0.6;0.1;0.6" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+  <circle id="nucleus" cx="20" cy="20" r="3.4" fill="#a6192e">
+    <animate attributeName="r" values="3.2;4;3.2" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
+  </circle>
+
+  <!-- Orbital Track 1 (tilted -35 deg) & Orbiting Electron Alpha -->
+  <g transform="rotate(-35 20 20)">
+    <ellipse cx="20" cy="20" rx="16" ry="6.5" stroke="currentColor" stroke-width="1.6"/>
+    <circle r="2.4" fill="#a6192e">
+      <animateMotion path="M 4,20 a 16,6.5 0 1,0 32,0 a 16,6.5 0 1,0 -32,0" dur="2.6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Orbital Track 2 (tilted +35 deg) & Orbiting Electron Beta -->
+  <g transform="rotate(35 20 20)">
+    <ellipse cx="20" cy="20" rx="16" ry="6.5" stroke="currentColor" stroke-width="1.6"/>
+    <circle r="2.4" fill="currentColor">
+      <animateMotion path="M 36,20 a 16,6.5 0 1,0 -32,0 a 16,6.5 0 1,0 32,0" dur="3.2s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Equatorial Polar Track & Electron Gamma -->
+  <ellipse cx="20" cy="20" rx="6" ry="16" stroke="currentColor" stroke-width="1.2" stroke-dasharray="2 2" stroke-opacity="0.6"/>
+  <circle r="2" fill="#a6192e">
+    <animateMotion path="M 20,4 a 6,16 0 1,0 0,32 a 6,16 0 1,0 0,-32" dur="3.8s" repeatCount="indefinite"/>
+  </circle>
+</svg>

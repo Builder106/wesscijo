@@ -1,1 +1,17 @@
-<svg id="quantitative-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" role="img" aria-label="Quantitative and Computational Science neural graph emblem"><line id="edge-1" x1="10" y1="12" x2="20" y2="28" stroke-linecap="round"/><line id="edge-2" x1="10" y1="12" x2="30" y2="14" stroke-linecap="round"/><line id="edge-3" x1="20" y1="28" x2="30" y2="14" stroke-linecap="round"/><line id="edge-4" x1="20" y1="28" x2="32" y2="30" stroke-linecap="round"/><circle id="node-a" cx="10" cy="12" r="3" fill="currentColor"/><circle id="node-b" cx="30" cy="14" r="3" fill="currentColor"/><circle id="node-c" cx="20" cy="28" r="3" fill="currentColor"/><circle id="node-d" cx="32" cy="30" r="2.5" fill="currentColor"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" id="quantitative-svg" viewBox="0 0 40 40" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.8" role="img" aria-label="Quantitative and Computational Science neural network graph emblem">
+  <line x1="7" y1="14" x2="21" y2="10" stroke-width="1.4" stroke-opacity="0.4"/>
+  <line x1="7" y1="14" x2="21" y2="20" stroke-width="1.4" stroke-opacity="0.4"/>
+  <line x1="7" y1="26" x2="21" y2="20" stroke-width="1.4" stroke-opacity="0.4"/>
+  <line x1="7" y1="26" x2="21" y2="30" stroke-width="1.4" stroke-opacity="0.4"/>
+  <line x1="21" y1="10" x2="33" y2="20" stroke-width="1.4" stroke-opacity="0.4"/>
+  <line x1="21" y1="20" x2="33" y2="20" stroke-width="1.4" stroke-opacity="0.4"/>
+  <line x1="21" y1="30" x2="33" y2="20" stroke-width="1.4" stroke-opacity="0.4"/>
+
+  <circle id="node-in-1" cx="7" cy="14" r="3" fill="currentColor"/>
+  <circle id="node-in-2" cx="7" cy="26" r="3" fill="currentColor"/>
+  <circle id="node-hid-1" cx="21" cy="10" r="3" fill="currentColor"/>
+  <circle id="node-hid-hub" cx="21" cy="20" r="3.4" fill="#a6192e"/>
+  <circle id="node-hid-2" cx="21" cy="30" r="3" fill="currentColor"/>
+  <circle id="node-out" cx="33" cy="20" r="3.8" fill="#a6192e"/>
+  <circle cx="33" cy="20" r="6" stroke="#a6192e" stroke-width="1.2" fill="none" stroke-opacity="0.6"/>
+</svg>
