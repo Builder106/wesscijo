@@ -190,10 +190,10 @@ def animations_gallery_html():
         },
         {
             'title': 'Quantitative & Computational Science',
-            'desc': 'Dynamic neural and computational graph with active synaptic signal packets traversing edges and pulsing output activation.',
+            'desc': 'Multi-layer 3-3-1 feedforward computational graph with forward propagation action potentials and output activation firing.',
             'animated': '/assets/division-quantitative.svg',
             'static': '/assets/division-quantitative-static.svg',
-            'meta': 'SMIL 2.2s loop • 2.4 KB / 920 B',
+            'meta': 'SMIL 2.0s loop • 2.6 KB / 1.0 KB',
             'link': '/category/quantitative-computational-science/',
             'label': 'Quantitative Section',
         },
