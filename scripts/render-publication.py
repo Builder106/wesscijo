@@ -102,7 +102,8 @@ def header(articles):
             '<li><a class="hero__nav-link" href="/">Home</a></li>' + ''.join(menus) +
             '<li><a class="hero__nav-link" href="/archives/">Archives</a></li>'
             '<li><a class="hero__nav-link" href="/about/">About Us</a></li>'
-            '<li><a class="hero__nav-link" href="/submit/">Submit</a></li></ul>'
+            '<li><a class="hero__nav-link" href="/submit/">Submit</a></li>'
+            '<li><a class="hero__nav-link" href="/animations/">Animations</a></li></ul>'
             '<div class="hero__controls"><search><form class="search" action="/search/" method="get">'
             '<label class="u-visually-hidden" for="q">Search the journal</label>'
             '<input class="search__input" id="q" name="q" type="search" placeholder="Search">'
@@ -136,7 +137,7 @@ def document(title, body, articles, description='', canonical=''):
             '<link rel="stylesheet" href="/publication.css">'
             '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script></head><body>'
             + header(articles) + '<main class="site-main" id="main" tabindex="-1">' + body + '</main>'
-            f'<footer class="publication-footer"><a href="/">{NAME}</a><nav aria-label="Footer"><a href="/about/">About Us</a><a href="/submit/">Submission guidelines</a></nav></footer></body></html>')
+            f'<footer class="publication-footer"><a href="/">{NAME}</a><nav aria-label="Footer"><a href="/about/">About Us</a><a href="/submit/">Submission guidelines</a><a href="/animations/">Animated SVGs</a></nav></footer></body></html>')
 
 
 def write_page(route, title, body, articles, description=''):
@@ -165,6 +166,127 @@ def masthead():
             result += f'<div class="person"><div class="person__avatar" aria-hidden="true">{escape(initials)}</div><p class="person__name">{escape(name)}</p><p class="person__role">{escape(role)}</p></div>'
         result += '</div></section>'
     return result
+
+
+def animations_gallery_html():
+    divisions = [
+        {
+            'title': 'Life Science',
+            'desc': 'Dual-strand DNA double-helix with staggered base-pair transmission opacity pulse.',
+            'animated': '/assets/division-life-science.svg',
+            'static': '/assets/division-life-science-static.svg',
+            'meta': 'SMIL 1.8s loop • 1.5 KB / 856 B',
+            'link': '/category/life-science/',
+            'label': 'Life Science Section',
+        },
+        {
+            'title': 'Physical Science',
+            'desc': 'Dual intersecting orbital paths with rotating electron glide and nuclear breathing pulse.',
+            'animated': '/assets/division-physical-science.svg',
+            'static': '/assets/division-physical-science-static.svg',
+            'meta': 'SMIL 2.0s loop • 1.0 KB / 598 B',
+            'link': '/category/physical-science/',
+            'label': 'Physical Science Section',
+        },
+        {
+            'title': 'Quantitative & Computational Science',
+            'desc': 'Directed neural and graph network with synaptic edge propagation and node activation.',
+            'animated': '/assets/division-quantitative.svg',
+            'static': '/assets/division-quantitative-static.svg',
+            'meta': 'SMIL 1.6s loop • 1.6 KB / 798 B',
+            'link': '/category/quantitative-computational-science/',
+            'label': 'Quantitative Section',
+        },
+        {
+            'title': 'News, Features & Perspectives',
+            'desc': 'Optical refraction prism capturing incident beam inquiry into divergent perspective rays.',
+            'animated': '/assets/division-perspectives.svg',
+            'static': '/assets/division-perspectives-static.svg',
+            'meta': 'SMIL 1.8s loop • 1.2 KB / 617 B',
+            'link': '/category/news-features-perspectives/',
+            'label': 'Perspectives Section',
+        },
+    ]
+
+    vignettes = [
+        {
+            'title': 'Manuscript Submission Guidelines Packet',
+            'desc': 'Folded manuscript document packet with smooth vertical directional arrow indicating intake.',
+            'animated': '/assets/submission-packet.svg',
+            'static': '/assets/submission-packet-static.svg',
+            'meta': 'SMIL 1.8s loop • 1.3 KB / 730 B',
+            'link': '/submit/',
+            'label': 'Submission Guidelines',
+        },
+        {
+            'title': 'Microscope Reticle & Search Calibration',
+            'desc': 'Scientific reticle focal ring with crosshair intensity cycle and dashed radius pulse on empty search results and 404.',
+            'animated': '/assets/empty-search-lens.svg',
+            'static': '/assets/empty-search-lens-static.svg',
+            'meta': 'SMIL 2.4s loop • 1.0 KB / 631 B',
+            'link': '/search/',
+            'label': 'Journal Search',
+        },
+    ]
+
+    def render_cards(items):
+        cards = []
+        for item in items:
+            cards.append(
+                f'<article class="svg-gallery-card">'
+                f'<div class="svg-gallery-previews">'
+                f'<div class="svg-gallery-frame"><img src="{item["animated"]}" alt="{item["title"]} animated vector" width="48" height="48">'
+                f'<span class="svg-gallery-frame-label">Animated</span></div>'
+                f'<div class="svg-gallery-frame"><img src="{item["static"]}" alt="{item["title"]} static vector" width="48" height="48">'
+                f'<span class="svg-gallery-frame-label">Static</span></div>'
+                f'</div>'
+                f'<h3 class="svg-gallery-card__title">{escape(item["title"])}</h3>'
+                f'<p class="svg-gallery-card__desc">{escape(item["desc"])}</p>'
+                f'<div class="svg-gallery-card__meta"><span>{escape(item["meta"])}</span><a href="{item["link"]}">{escape(item["label"])} &rarr;</a></div>'
+                f'</article>'
+            )
+        return ''.join(cards)
+
+    cardinal_section = (
+        '<section class="svg-gallery-section">'
+        '<h2 class="svg-gallery-section__title">Articulated Avian Kinematics Specimen Plate</h2>'
+        '<div class="svg-cardinal-showcase">'
+        '<div class="svg-cardinal-stage">'
+        '<object type="image/svg+xml" data="/assets/cardinal.svg" width="260" height="330" class="specimen-card__svg" aria-label="Interactive anatomical observation plate of the Northern Cardinal">'
+        '<img src="/assets/cardinal.svg" alt="Northern Cardinal specimen plate" width="260" height="330">'
+        '</object></div>'
+        '<div class="svg-cardinal-info">'
+        '<h3>Field Specimen Plate: Northern Cardinal (<em>Cardinalis cardinalis</em>)</h3>'
+        '<p>Articulated SVGator biological kinematics system mounted in <em>The Birds of Wesleyan and How To Find Them</em>. Interactive hover or touch triggers an alert orientation posture, while autonomous biological cycles operate continuously:</p>'
+        '<ul class="svg-cardinal-specs">'
+        '<li><code>cardinalBreathe</code>: 2.4s respiratory cycle</li>'
+        '<li><code>cardinalTailBob</code>: 3.0s counterbalance bob</li>'
+        '<li><code>cardinalHeadSnap</code>: 6.0s saccadic orienting</li>'
+        '<li><code>cardinalCrestSnap</code>: 6.0s alertness erection</li>'
+        '<li><code>cardinalDoubleBlink</code>: 3.2s ocular membrane blink</li>'
+        '<li><code>cardinalBeakChirp</code>: 6.0s chirp cycle</li>'
+        '<li><code>:hover state</code>: Observer alert posture</li>'
+        '<li><code>Reduced Motion</code>: Full static cancellation</li>'
+        '</ul>'
+        '<p><a class="btn" href="/articles/birds-of-wesleyan/">View within ornithology feature &rarr;</a></p>'
+        '</div></div></section>'
+    )
+
+    return (
+        '<div class="svg-gallery-intro">'
+        '<h1 class="archive-title">Animated Vector Showcase</h1>'
+        '<p>A complete exhibition of all animated vector emblems, editorial vignettes, and articulated anatomical kinematics created for <em>The Wesleyan Science Journal</em>. Every animated asset operates with an exact static counterpart ensuring full accessibility under <code>prefers-reduced-motion</code>.</p>'
+        '</div>'
+        '<section class="svg-gallery-section">'
+        '<h2 class="svg-gallery-section__title">Journal Division Emblems</h2>'
+        '<div class="svg-gallery-grid">' + render_cards(divisions) + '</div>'
+        '</section>'
+        '<section class="svg-gallery-section">'
+        '<h2 class="svg-gallery-section__title">Editorial Vignettes & Interface Reticles</h2>'
+        '<div class="svg-gallery-grid">' + render_cards(vignettes) + '</div>'
+        '</section>'
+        + cardinal_section
+    )
 
 
 def main():
@@ -269,6 +391,9 @@ def main():
     )
     write_page('/submit/', 'Submission guidelines', submit_content, articles)
     write_page('/search/', 'Search', '<h1 class="archive-title" id="search-title">Search the journal</h1><p id="search-status" role="status"></p><div class="cards" id="search-results"></div><noscript><p>Enable JavaScript to search, or <a href="/archives/">browse all articles</a>.</p></noscript>', articles)
+    gallery = animations_gallery_html()
+    write_page('/animations/', 'Animated Vector Gallery', gallery, articles, 'Exhibition of animated SVG division emblems, editorial vignettes, and avian kinematics in The Wesleyan Science Journal.')
+    write_page('/svgs/', 'Animated Vector Gallery', gallery, articles, 'Exhibition of animated SVG division emblems, editorial vignettes, and avian kinematics in The Wesleyan Science Journal.')
     (PUBLIC / '404.html').write_text(document('Page not found', '<div class="search-empty"><img src="/assets/empty-search-lens.svg" class="search-empty__icon" alt="" width="72" height="72" aria-hidden="true"><h1 class="archive-title">Page not found</h1><p><a href="/">Return to the journal</a></p></div>', articles))
     shutil.copyfile(ROOT / 'themes/wesscijo/style.css', PUBLIC / 'publication.css')
     index = [{k: a[k] for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
