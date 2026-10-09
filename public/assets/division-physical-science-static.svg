@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" id="physical-science-svg" viewBox="0 0 40 40" width="40" height="40" fill="none" role="img" aria-label="Physical Science atomic orbital emblem">
-  <!-- Nucleus Stable High-Energy Core -->
-  <circle id="nucleus-glow" cx="20" cy="20" r="4.2" fill="#a6192e" opacity="0.18"/>
+  <!-- Nucleus Solid Core -->
   <circle id="nucleus" cx="20" cy="20" r="2.8" fill="#a6192e"/>
 
   <!-- Orbital Tracks (3-Fold Symmetrical Triad at 60 deg intervals) -->
