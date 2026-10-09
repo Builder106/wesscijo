@@ -108,3 +108,41 @@ test('internal publication links resolve and old view links retain their own sto
   await expect(page).toHaveURL(url('/articles/birds-of-wesleyan/'));
   expect((await request.get(url('/nonexistent-article/'))).status()).toBe(404);
 });
+
+test('theme toggle cycles between system, light, and dark', async ({ page }) => {
+  await page.goto(url('/'));
+  const toggle = page.locator('#theme-toggle');
+
+  // Verify system monitor icon was dynamically injected
+  await expect(toggle.locator('.theme-toggle__icon--system')).toHaveCount(1);
+
+  // Starts in system mode (no data-theme)
+  await expect(toggle).toHaveAttribute('aria-label', 'Switch to light theme');
+  expect(await page.evaluate(() => document.documentElement.getAttribute('data-theme'))).toBeNull();
+  expect(await page.evaluate(() => localStorage.getItem('theme'))).toBeNull();
+  await page.screenshot({ path: path.join(screenshots, 'theme-1-system.png'), clip: { x: 0, y: 0, width: 1440, height: 400 } });
+
+  // 1st click: Switch to light theme
+  await toggle.click();
+  await page.waitForTimeout(300);
+  await expect(toggle).toHaveAttribute('aria-label', 'Switch to dark theme');
+  expect(await page.evaluate(() => document.documentElement.getAttribute('data-theme'))).toBe('light');
+  expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('light');
+  await page.screenshot({ path: path.join(screenshots, 'theme-2-light.png'), clip: { x: 0, y: 0, width: 1440, height: 400 } });
+
+  // 2nd click: Switch to dark theme
+  await toggle.click();
+  await page.waitForTimeout(300);
+  await expect(toggle).toHaveAttribute('aria-label', 'Switch to system theme');
+  expect(await page.evaluate(() => document.documentElement.getAttribute('data-theme'))).toBe('dark');
+  expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('dark');
+  await page.screenshot({ path: path.join(screenshots, 'theme-3-dark.png'), clip: { x: 0, y: 0, width: 1440, height: 400 } });
+
+  // 3rd click: Switch back to system theme
+  await toggle.click();
+  await page.waitForTimeout(300);
+  await expect(toggle).toHaveAttribute('aria-label', 'Switch to light theme');
+  expect(await page.evaluate(() => document.documentElement.getAttribute('data-theme'))).toBeNull();
+  expect(await page.evaluate(() => localStorage.getItem('theme'))).toBeNull();
+});
+

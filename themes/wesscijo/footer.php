@@ -62,61 +62,88 @@
 
 	var toggle = document.getElementById('theme-toggle');
 	if (toggle) {
-		function getCurrentTheme() {
-			var stored = localStorage.getItem('theme');
-			if (stored === 'dark' || stored === 'light') return stored;
-			return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+		if (!toggle.querySelector('.theme-toggle__icon--system')) {
+			var systemSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+			systemSvg.setAttribute('class', 'theme-toggle__icon theme-toggle__icon--system');
+			systemSvg.setAttribute('viewBox', '0 0 24 24');
+			systemSvg.setAttribute('fill', 'none');
+			systemSvg.setAttribute('stroke', 'currentColor');
+			systemSvg.setAttribute('stroke-width', '2');
+			systemSvg.setAttribute('stroke-linecap', 'round');
+			systemSvg.setAttribute('stroke-linejoin', 'round');
+			systemSvg.setAttribute('aria-hidden', 'true');
+			systemSvg.innerHTML = '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>';
+			toggle.insertBefore(systemSvg, toggle.firstChild);
 		}
-		function updateLabel() {
-			var current = getCurrentTheme();
-			var next = current === 'dark' ? 'light' : 'dark';
-			toggle.setAttribute('aria-label', 'Switch to ' + next + ' theme');
-			toggle.setAttribute('title', 'Switch to ' + next + ' theme');
-		}
-		function applyTheme(targetTheme) {
-			var systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-			var systemTheme = systemDark ? 'dark' : 'light';
 
-			if (targetTheme === systemTheme) {
+		function getStoredPreference() {
+			var stored = localStorage.getItem('theme');
+			if (stored === 'light' || stored === 'dark') return stored;
+			return 'system';
+		}
+
+		function getNextTheme(currentPref) {
+			if (currentPref === 'system') return 'light';
+			if (currentPref === 'light') return 'dark';
+			return 'system';
+		}
+
+		function updateLabel() {
+			var pref = getStoredPreference();
+			var next = getNextTheme(pref);
+			var label = next === 'system' ? 'Switch to system theme' : 'Switch to ' + next + ' theme';
+			toggle.setAttribute('aria-label', label);
+			toggle.setAttribute('title', label);
+		}
+
+		function applyTheme(targetPref) {
+			var meta = document.querySelector('meta[name="color-scheme"]');
+			if (targetPref === 'system') {
 				localStorage.removeItem('theme');
 				document.documentElement.removeAttribute('data-theme');
-				var meta = document.querySelector('meta[name="color-scheme"]');
 				if (meta) meta.content = 'light dark';
 			} else {
-				localStorage.setItem('theme', targetTheme);
-				document.documentElement.setAttribute('data-theme', targetTheme);
-				var meta = document.querySelector('meta[name="color-scheme"]');
-				if (meta) meta.content = targetTheme;
+				localStorage.setItem('theme', targetPref);
+				document.documentElement.setAttribute('data-theme', targetPref);
+				if (meta) meta.content = targetPref;
 			}
 			updateLabel();
 		}
+
 		toggle.addEventListener('click', function() {
-			var current = getCurrentTheme();
-			var next = current === 'dark' ? 'light' : 'dark';
+			var currentPref = getStoredPreference();
+			var nextPref = getNextTheme(currentPref);
 			var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 			if (!document.startViewTransition || prefersReducedMotion) {
-				applyTheme(next);
+				applyTheme(nextPref);
 				return;
 			}
 
 			document.startViewTransition(function() {
-				applyTheme(next);
+				applyTheme(nextPref);
 			});
 		});
+
 		window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
 			updateLabel();
 		});
+
 		window.addEventListener('storage', function(e) {
 			if (e.key === 'theme') {
 				if (e.newValue === 'dark' || e.newValue === 'light') {
 					document.documentElement.setAttribute('data-theme', e.newValue);
+					var meta = document.querySelector('meta[name="color-scheme"]');
+					if (meta) meta.content = e.newValue;
 				} else {
 					document.documentElement.removeAttribute('data-theme');
+					var meta = document.querySelector('meta[name="color-scheme"]');
+					if (meta) meta.content = 'light dark';
 				}
 				updateLabel();
 			}
 		});
+
 		updateLabel();
 	}
 })();

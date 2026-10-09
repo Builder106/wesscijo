@@ -58,49 +58,67 @@ function initThemeToggle() {
   const toggle = document.getElementById('theme-toggle');
   if (!toggle) return;
 
-  function getCurrentTheme() {
+  // Dynamically inject the system (display monitor) icon if not already present
+  if (!toggle.querySelector('.theme-toggle__icon--system')) {
+    const systemSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    systemSvg.setAttribute('class', 'theme-toggle__icon theme-toggle__icon--system');
+    systemSvg.setAttribute('viewBox', '0 0 24 24');
+    systemSvg.setAttribute('fill', 'none');
+    systemSvg.setAttribute('stroke', 'currentColor');
+    systemSvg.setAttribute('stroke-width', '2');
+    systemSvg.setAttribute('stroke-linecap', 'round');
+    systemSvg.setAttribute('stroke-linejoin', 'round');
+    systemSvg.setAttribute('aria-hidden', 'true');
+    systemSvg.innerHTML = '<rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line>';
+    toggle.insertBefore(systemSvg, toggle.firstChild);
+  }
+
+  function getStoredPreference() {
     const stored = localStorage.getItem('theme');
-    if (stored === 'dark' || stored === 'light') return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (stored === 'light' || stored === 'dark') return stored;
+    return 'system';
+  }
+
+  function getNextTheme(currentPref) {
+    if (currentPref === 'system') return 'light';
+    if (currentPref === 'light') return 'dark';
+    return 'system';
   }
 
   function updateLabel() {
-    const current = getCurrentTheme();
-    const next = current === 'dark' ? 'light' : 'dark';
-    toggle.setAttribute('aria-label', 'Switch to ' + next + ' theme');
-    toggle.setAttribute('title', 'Switch to ' + next + ' theme');
+    const pref = getStoredPreference();
+    const next = getNextTheme(pref);
+    const label = next === 'system' ? 'Switch to system theme' : 'Switch to ' + next + ' theme';
+    toggle.setAttribute('aria-label', label);
+    toggle.setAttribute('title', label);
   }
 
-  function applyTheme(targetTheme) {
-    const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const systemTheme = systemDark ? 'dark' : 'light';
-
-    if (targetTheme === systemTheme) {
+  function applyTheme(targetPref) {
+    const meta = document.querySelector('meta[name="color-scheme"]');
+    if (targetPref === 'system') {
       localStorage.removeItem('theme');
       document.documentElement.removeAttribute('data-theme');
-      const meta = document.querySelector('meta[name="color-scheme"]');
       if (meta) meta.content = 'light dark';
     } else {
-      localStorage.setItem('theme', targetTheme);
-      document.documentElement.setAttribute('data-theme', targetTheme);
-      const meta = document.querySelector('meta[name="color-scheme"]');
-      if (meta) meta.content = targetTheme;
+      localStorage.setItem('theme', targetPref);
+      document.documentElement.setAttribute('data-theme', targetPref);
+      if (meta) meta.content = targetPref;
     }
     updateLabel();
   }
 
   toggle.addEventListener('click', () => {
-    const current = getCurrentTheme();
-    const next = current === 'dark' ? 'light' : 'dark';
+    const currentPref = getStoredPreference();
+    const nextPref = getNextTheme(currentPref);
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (!document.startViewTransition || prefersReducedMotion) {
-      applyTheme(next);
+      applyTheme(nextPref);
       return;
     }
 
     document.startViewTransition(() => {
-      applyTheme(next);
+      applyTheme(nextPref);
     });
   });
 
@@ -112,8 +130,12 @@ function initThemeToggle() {
     if (e.key === 'theme') {
       if (e.newValue === 'dark' || e.newValue === 'light') {
         document.documentElement.setAttribute('data-theme', e.newValue);
+        const meta = document.querySelector('meta[name="color-scheme"]');
+        if (meta) meta.content = e.newValue;
       } else {
         document.documentElement.removeAttribute('data-theme');
+        const meta = document.querySelector('meta[name="color-scheme"]');
+        if (meta) meta.content = 'light dark';
       }
       updateLabel();
     }

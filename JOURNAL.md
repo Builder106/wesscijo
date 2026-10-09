@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-08 - 3-state system theme toggle #theme #accessibility #ux
+
+Added a native 3-state theme preference cycle (`System` -> `Light` -> `Dark` -> `System`) across the WordPress theme and static publication build without modifying any article HTML files or page templates. The script dynamically injects an SVG monitor/display glyph into `#theme-toggle` on initialization. In System mode, explicit theme overrides (`localStorage['theme']` and `data-theme`) are cleanly removed, allowing the OS `prefers-color-scheme` media query to control page styling dynamically. View Transitions API and prefers-reduced-motion guards remain active across all transitions. Verified with Playwright on `ampere-dev`.
+
 ## 2026-10-08 - Optical Illumination Dissolve and red scrollbar #theme #motion #ux
 
 Replaced the circular wipe with an Optical Illumination Dissolve across the WordPress theme and static publication build. Inspired by scientific brightfield/darkfield microscopy transitions, the page executes a 220ms ambient exposure cross-dissolve via the View Transitions API and GPU-accelerated CSS keyframes (`theme-fade-out` / `theme-fade-in`). The toggle button features a precision 200ms 45-degree rotation and scale morph between the Sun and Moon SVG icons. All animations are strictly bypassed under prefers-reduced-motion. Added theme-aware custom scrollbar styling utilizing standard `scrollbar-color`/`scrollbar-width` and WebKit fallbacks styled with a Cardinal Red thumb (`--color-accent`, darkening to `--color-accent-2` on hover) over `--color-paper`.

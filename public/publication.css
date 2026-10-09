@@ -434,6 +434,10 @@ form.search { display: flex; align-items: stretch; }
 	will-change: transform, opacity;
 }
 
+.theme-toggle__icon--system {
+	transform: scale(0.6);
+	opacity: 0;
+}
 .theme-toggle__icon--moon {
 	transform: rotate(0deg) scale(1);
 	opacity: 1;
@@ -443,36 +447,42 @@ form.search { display: flex; align-items: stretch; }
 	opacity: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-	:root:not([data-theme="light"]) .theme-toggle__icon--moon {
-		transform: rotate(-45deg) scale(0.6);
-		opacity: 0;
-	}
-	:root:not([data-theme="light"]) .theme-toggle__icon--sun {
-		transform: rotate(0deg) scale(1);
-		opacity: 1;
-	}
+/* System preference overrides when in system mode (no data-theme) */
+:root:not([data-theme]) .theme-toggle__icon--system {
+	transform: scale(1);
+	opacity: 1;
 }
-
-:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle__icon--moon,
-:root[data-theme="dark"] .theme-toggle__icon--moon {
-	transform: rotate(-45deg) scale(0.6);
+:root:not([data-theme]) .theme-toggle__icon--moon,
+:root:not([data-theme]) .theme-toggle__icon--sun {
+	transform: scale(0.6);
 	opacity: 0;
 }
-:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle__icon--sun,
-:root[data-theme="dark"] .theme-toggle__icon--sun {
-	transform: rotate(0deg) scale(1);
-	opacity: 1;
-}
 
-:root:has(> head > meta[name="color-scheme"][content="light"]) .theme-toggle__icon--moon,
-:root[data-theme="light"] .theme-toggle__icon--moon {
-	transform: rotate(0deg) scale(1);
-	opacity: 1;
-}
+/* Explicit Light theme */
 :root:has(> head > meta[name="color-scheme"][content="light"]) .theme-toggle__icon--sun,
 :root[data-theme="light"] .theme-toggle__icon--sun {
-	transform: rotate(45deg) scale(0.6);
+	transform: rotate(0deg) scale(1);
+	opacity: 1;
+}
+:root:has(> head > meta[name="color-scheme"][content="light"]) .theme-toggle__icon--moon,
+:root[data-theme="light"] .theme-toggle__icon--moon,
+:root:has(> head > meta[name="color-scheme"][content="light"]) .theme-toggle__icon--system,
+:root[data-theme="light"] .theme-toggle__icon--system {
+	transform: scale(0.6);
+	opacity: 0;
+}
+
+/* Explicit Dark theme */
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle__icon--moon,
+:root[data-theme="dark"] .theme-toggle__icon--moon {
+	transform: rotate(0deg) scale(1);
+	opacity: 1;
+}
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle__icon--sun,
+:root[data-theme="dark"] .theme-toggle__icon--sun,
+:root:has(> head > meta[name="color-scheme"][content="dark"]) .theme-toggle__icon--system,
+:root[data-theme="dark"] .theme-toggle__icon--system {
+	transform: scale(0.6);
 	opacity: 0;
 }
 
