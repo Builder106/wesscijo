@@ -640,6 +640,9 @@ figcaption, .wp-caption-text {
 .division { padding-block: var(--space-16); }
 
 .division__title {
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
 	font-family: var(--font-display);
 	font-size: var(--text-5xl);
 	font-weight: 700;
@@ -648,6 +651,14 @@ figcaption, .wp-caption-text {
 	border-bottom: var(--rule-slab) solid var(--color-ink);
 	padding-bottom: var(--space-4);
 	margin-bottom: var(--space-8);
+}
+
+.division__icon {
+	width: clamp(1.75rem, 3.2vw, 2.5rem);
+	height: clamp(1.75rem, 3.2vw, 2.5rem);
+	flex-shrink: 0;
+	color: var(--color-accent);
+	display: inline-block;
 }
 
 .empty {
@@ -794,12 +805,86 @@ figcaption, .wp-caption-text {
 .card__excerpt { color: var(--color-ink-2); font-size: var(--text-sm); }
 
 .submit { padding-block: var(--space-16) var(--space-24); border-top: var(--rule-slab) solid var(--color-ink); }
+.submit__header {
+	display: flex;
+	align-items: center;
+	gap: var(--space-4);
+	margin-block: var(--space-8) var(--space-4);
+}
+.submit__icon {
+	width: 2.75rem;
+	height: 2.75rem;
+	flex-shrink: 0;
+	color: var(--color-accent);
+}
 .submit__title {
 	font-family: var(--font-display);
 	font-size: var(--text-4xl);
 	font-weight: 700;
 	letter-spacing: -0.02em;
-	margin-block: var(--space-8) var(--space-4);
+}
+
+.submission-hero {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--space-2);
+	margin: var(--space-6) auto;
+	text-align: center;
+}
+.submission-hero__icon {
+	width: 3.5rem;
+	height: 3.5rem;
+	color: var(--color-accent);
+}
+.submission-hero figcaption {
+	font-size: var(--text-xs);
+	color: var(--color-ink-3);
+}
+
+.specimen-card {
+	margin: var(--space-10) auto;
+	max-width: 440px;
+	background: var(--color-paper-alt);
+	border: var(--rule-hair) solid var(--color-rule);
+	border-top: var(--rule-thick) solid var(--color-accent);
+	padding: var(--space-6);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+.specimen-card__media {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	overflow: hidden;
+}
+.specimen-card__svg {
+	max-width: 100%;
+	height: auto;
+	display: block;
+}
+.specimen-card__caption {
+	margin-top: var(--space-4);
+	font-size: var(--text-xs);
+	color: var(--color-ink-3);
+	font-style: italic;
+}
+
+.search-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding-block: var(--space-12);
+	gap: var(--space-4);
+}
+.search-empty__icon {
+	width: 4.5rem;
+	height: 4.5rem;
+	color: var(--color-accent);
 }
 
 /* ---------- single article ---------- */
@@ -1051,4 +1136,8 @@ body.admin-bar .reading-progress {
 	.btn:hover, .btn:active, .btn--invert:hover, .btn--invert:active, .search__submit:active, .theme-toggle:active { transform: none !important; }
 	.about-panel.is-active, #search-results .card { animation: none !important; }
 	.panel[open] > .panel__summary::after { transform: none !important; }
+	.division__icon, .submit__icon, .submission-hero__icon, .search-empty__icon, .specimen-card__svg {
+		animation: none !important;
+		transition: none !important;
+	}
 }

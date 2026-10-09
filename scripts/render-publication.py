@@ -20,6 +20,21 @@ GROUPS = {
     'research-reviews': 'Research & Reviews',
     'news-features-perspectives': 'News, Features & Perspectives',
 }
+DIVISION_ICONS = {
+    'research-reviews': '/assets/division-life-science.svg',
+    'news-features-perspectives': '/assets/division-perspectives.svg',
+    'life-science': '/assets/division-life-science.svg',
+    'physical-science': '/assets/division-physical-science.svg',
+    'quantitative-computational-science': '/assets/division-quantitative.svg',
+    'science-technology-society': '/assets/division-perspectives.svg',
+}
+
+
+def division_icon(slug):
+    src = DIVISION_ICONS.get(slug)
+    if not src:
+        return ''
+    return f'<img src="{src}" class="division__icon" alt="" width="32" height="32" aria-hidden="true">'
 
 
 def escape(value):
@@ -134,10 +149,17 @@ def masthead():
     source = (ROOT / 'themes/wesscijo/template-about.php').read_text()
     groups = re.split(r"'section'\s*=>\s*'", source)[1:]
     result = ''
+    icon_map = {
+        'Life Science': '/assets/division-life-science.svg',
+        'Physical Science': '/assets/division-physical-science.svg',
+        'Quantitative and Computational Science': '/assets/division-quantitative.svg',
+        'Science, Technology and Society': '/assets/division-perspectives.svg',
+    }
     for group in groups:
         label = group.split("'", 1)[0]
+        icon = f'<img src="{icon_map[label]}" class="division__icon" alt="" width="28" height="28" aria-hidden="true">' if label in icon_map else ''
         people = re.findall(r"array\( 'name' => '([^']+)', 'role' => '([^']+)' \)", group)
-        result += f'<section class="division"><h2 class="division__title">{escape(label)}</h2><div class="masthead-grid">'
+        result += f'<section class="division"><h2 class="division__title">{icon}{escape(label)}</h2><div class="masthead-grid">'
         for name, role in people:
             initials = ''.join(part[0] for part in name.split()[:2])
             result += f'<div class="person"><div class="person__avatar" aria-hidden="true">{escape(initials)}</div><p class="person__name">{escape(name)}</p><p class="person__role">{escape(role)}</p></div>'
@@ -164,8 +186,11 @@ def main():
                  f'<a class="btn" href="{article_url(lead)}">Read the article</a></div>{figure(lead, "lead__figure", True)}</article>')
     for slug, label in GROUPS.items():
         selected = [a for a in articles if group_slug(a) == slug and a != lead]
-        homepage += f'<section class="division"><h2 class="division__title"><a href="/category/{slug}/">{escape(label)}</a></h2><div class="cards">' + ''.join(card(a, index == 0) for index, a in enumerate(selected)) + '</div></section>'
-    homepage += '<section class="submit"><h2 class="submit__title">Write for us</h2><a class="btn btn--invert" href="/submit/">Submission guidelines</a></section>'
+        homepage += f'<section class="division"><h2 class="division__title">{division_icon(slug)}<a href="/category/{slug}/">{escape(label)}</a></h2><div class="cards">' + ''.join(card(a, index == 0) for index, a in enumerate(selected)) + '</div></section>'
+    homepage += ('<section class="submit"><div class="submit__header">'
+                 '<img src="/assets/submission-packet.svg" class="submit__icon" alt="" width="44" height="44" aria-hidden="true">'
+                 '<h2 class="submit__title">Write for us</h2></div>'
+                 '<a class="btn btn--invert" href="/submit/">Submission guidelines</a></section>')
     write_page('/', NAME, homepage, articles, 'Read the Fall 2026 edition of The Wesleyan Science Journal.')
     for a in articles:
         related = [other for other in articles if other['section'] == a['section'] and other != a]
@@ -178,12 +203,12 @@ def main():
         write_page(article_url(a), a['title'], body, articles, a['excerpt'])
     for slug, label in SECTIONS.items():
         selected = [a for a in articles if section_slug(a['section']) == slug]
-        write_page(f'/category/{slug}/', label, f'<h1 class="archive-title">{escape(label)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected) + '</div>', articles)
+        write_page(f'/category/{slug}/', label, f'<h1 class="archive-title">{division_icon(slug)}{escape(label)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected) + '</div>', articles)
         for kind in sorted({a['type'] for a in selected}):
-            write_page(f'/category/{slug}/{type_slug(kind)}/', kind, f'<h1 class="archive-title">{escape(label)}: {escape(kind)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected if a['type'] == kind) + '</div>', articles)
+            write_page(f'/category/{slug}/{type_slug(kind)}/', kind, f'<h1 class="archive-title">{division_icon(slug)}{escape(label)}: {escape(kind)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected if a['type'] == kind) + '</div>', articles)
     for slug, label in GROUPS.items():
         selected = [a for a in articles if group_slug(a) == slug]
-        write_page(f'/category/{slug}/', label, f'<h1 class="archive-title">{escape(label)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected) + '</div>', articles)
+        write_page(f'/category/{slug}/', label, f'<h1 class="archive-title">{division_icon(slug)}{escape(label)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected) + '</div>', articles)
         kinds = sorted({a['type'] for a in selected} | ({'News'} if slug == 'news-features-perspectives' else set()))
         for kind in kinds:
             kind_selected = [a for a in selected if a['type'] == kind]
@@ -234,9 +259,17 @@ def main():
     )
     write_page('/about/', 'About Us', about_html, articles)
     guidelines = (CONTENT / 'guidelines.html').read_text()
-    write_page('/submit/', 'Submission guidelines', '<article class="article"><h1 class="article__title">Submission guidelines</h1><p class="submission-link"><a class="btn" href="' + FORM + '">Open the article submission form</a></p><div class="prose">' + guidelines + '</div></article>', articles)
+    submit_content = (
+        '<article class="article"><h1 class="article__title">Submission guidelines</h1>'
+        '<figure class="submission-hero">'
+        '<img src="/assets/submission-packet.svg" class="submission-hero__icon" alt="" width="56" height="56" aria-hidden="true">'
+        '<figcaption>Official WesSciJo Manuscript Guidelines Packet</figcaption></figure>'
+        '<p class="submission-link"><a class="btn" href="' + FORM + '">Open the article submission form</a></p>'
+        '<div class="prose">' + guidelines + '</div></article>'
+    )
+    write_page('/submit/', 'Submission guidelines', submit_content, articles)
     write_page('/search/', 'Search', '<h1 class="archive-title" id="search-title">Search the journal</h1><p id="search-status" role="status"></p><div class="cards" id="search-results"></div><noscript><p>Enable JavaScript to search, or <a href="/archives/">browse all articles</a>.</p></noscript>', articles)
-    (PUBLIC / '404.html').write_text(document('Page not found', '<h1 class="archive-title">Page not found</h1><p><a href="/">Return to the journal</a></p>', articles))
+    (PUBLIC / '404.html').write_text(document('Page not found', '<div class="search-empty"><img src="/assets/empty-search-lens.svg" class="search-empty__icon" alt="" width="72" height="72" aria-hidden="true"><h1 class="archive-title">Page not found</h1><p><a href="/">Return to the journal</a></p></div>', articles))
     shutil.copyfile(ROOT / 'themes/wesscijo/style.css', PUBLIC / 'publication.css')
     index = [{k: a[k] for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
     (PUBLIC / 'search-index.json').write_text(json.dumps(index, ensure_ascii=False), encoding='utf-8')

@@ -115,9 +115,22 @@ $wessci_masthead = array(
 		</div>
 
 		<div class="about-panel" id="panel-team" role="tabpanel" aria-labelledby="tab-btn-team">
+			<?php
+			$wessci_group_icons = array(
+				'Life Science'                           => '/assets/division-life-science.svg',
+				'Physical Science'                       => '/assets/division-physical-science.svg',
+				'Quantitative and Computational Science' => '/assets/division-quantitative.svg',
+				'Science, Technology and Society'        => '/assets/division-perspectives.svg',
+			);
+			?>
 			<?php foreach ( $wessci_masthead as $wessci_group ) : ?>
 				<section class="division">
-					<h2 class="division__title"><?php echo esc_html( $wessci_group['section'] ); ?></h2>
+					<h2 class="division__title">
+						<?php if ( isset( $wessci_group_icons[ $wessci_group['section'] ] ) ) : ?>
+							<img src="<?php echo esc_url( $wessci_group_icons[ $wessci_group['section'] ] ); ?>" class="division__icon" alt="" width="28" height="28" aria-hidden="true">
+						<?php endif; ?>
+						<?php echo esc_html( $wessci_group['section'] ); ?>
+					</h2>
 					<div class="masthead-grid">
 						<?php foreach ( $wessci_group['people'] as $wessci_person ) : ?>
 							<div class="person">
