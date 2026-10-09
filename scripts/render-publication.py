@@ -199,10 +199,10 @@ def animations_gallery_html():
         },
         {
             'title': 'News, Features & Perspectives',
-            'desc': 'Newtonian refraction prism capturing incident inquiry into crystalline focal glint and diverging into full-spectrum perspective rays.',
+            'desc': 'Newtonian optical prism capturing incident inquiry into crystalline facet refraction and diverging into flowing spectral perspective rays.',
             'animated': '/assets/division-perspectives.svg',
             'static': '/assets/division-perspectives-static.svg',
-            'meta': 'SMIL 2.4s loop • 2.2 KB / 780 B',
+            'meta': 'SMIL 1.2s loop • 2.6 KB / 1.0 KB',
             'link': '/category/news-features-perspectives/',
             'label': 'Perspectives Section',
         },
