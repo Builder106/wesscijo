@@ -460,3 +460,11 @@ Applied the motion-strategy skill to architect and implement dignified academic 
 3. About Us Masthead Layout & Alignment Fixes:
    - Root Cause: The About team masthead was nested under `<article class="article">`, which declares `text-align: center`. While `.article .prose` resets text alignment, `#masthead` was not in `.prose` and inherited `text-align: center`. Because `.person` had `align-items: flex-start`, the avatar square was pinned to the left while multi-line wrapped text (such as `Aryia Banihashem-Ahmad` breaking at the hyphen to `Aryia Banihashem-` and a centered `Ahmad`, and roles like `Neuroscience & Psychology` with a centered `Editor`) centered underneath, producing a jagged, indented layout. Additionally, the grid column min-width of 160px was narrower than the longest 164px names.
    - Solution: Declared explicit `text-align: left` on `.about-panel`, `.masthead-grid`, `.person`, `.person__name`, and `.person__role`. Widened grid tracks to `minmax(180px, 1fr)` and set `hyphens: none`, allowing all editorial board names to render on a single line and ensuring perfect left-edge alignment under avatar cards across all screen sizes.
+
+## 2026-10-09 - Dark mode logo finishing touches and asset polish #ui #darkmode #branding
+
+Refined candidate dark mode logo assets across `public/assets/logo-dark.png` (1024px), `logo-dark-512.png`, and `logo-dark-192.png`:
+1. Purged Trapped Background White: Cleared the 99,700+ pixels of pure white (`#ffffff`) background fill trapped in the right-side inner field during initial color flood-filling, converting all internal and external negative space to clean transparency.
+2. Concentric Seal Framing: Re-established inner and outer circular dividing rules in light ink (`#f2f2f2`) bounding `WESLEYAN` and `SCIENCE JOURNAL`, anchoring the curved serif typography within a defined academic seal track.
+3. Keyline Harmonization: Synchronized the cardinal's crest tip with the spilling tail feathers by adding matching light stroke definition where the crest crosses into the dark ring, eliminating letterform collisions under "WESLEYAN".
+4. Export Verification: Re-rendered and verified all multi-scale PNG assets at 1024px, 512px, and 192px with full alpha transparency.
