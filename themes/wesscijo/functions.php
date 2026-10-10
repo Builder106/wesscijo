@@ -169,7 +169,8 @@ function wesscijo_byline( $post_id ) {
 	$names = array();
 	foreach ( $authors as $author ) {
 		if ( is_array( $author ) && isset( $author['name'] ) && is_string( $author['name'] ) && '' !== trim( $author['name'] ) ) {
-			$names[] = trim( $author['name'] );
+			$name    = preg_replace( '/,\s*Class of \d{4}/i', '', trim( $author['name'] ) );
+			$names[] = $name;
 		}
 	}
 	return implode( ', ', $names );

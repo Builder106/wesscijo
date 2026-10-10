@@ -1127,7 +1127,7 @@ figcaption, .wp-caption-text {
 }
 
 /* ---------- single article ---------- */
-.article { padding-block: var(--space-16); text-align: center; }
+.article { padding-block: var(--space-16); text-align: left; }
 .article .prose { text-align: left; }
 
 .reading-progress {
@@ -1180,14 +1180,15 @@ body.admin-bar .reading-progress {
 
 .article__title {
 	font-family: var(--font-display);
-	font-size: var(--text-4xl);
+	font-size: clamp(2.25rem, 4.5vw, 3.75rem);
 	font-weight: 700;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
 	margin-block: var(--space-6) var(--space-4);
-	margin-inline: auto;
-	max-width: 20ch;
+	max-width: 1050px;
 }
 
-.article .meta { justify-content: center; margin-bottom: var(--space-8); }
+.article .meta { justify-content: flex-start; margin-bottom: var(--space-8); }
 
 .article__figure { margin: 0 0 var(--space-12); border-top: var(--rule-slab) solid var(--color-ink); padding-top: var(--space-8); }
 .article__figure img {

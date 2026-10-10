@@ -625,3 +625,10 @@ Resolved an issue where `.btn` elements inside `.prose` (such as the submission 
 1. Updated `.prose a` selector to `.prose a:not(.btn)` and added explicit `.prose .btn` declarations ensuring white text (`var(--color-invert)`), no text-decoration, and clean contrast across light and dark themes.
 2. Synchronized changes across `themes/wesscijo/style.css`, `public/publication.css`, and `public/publication-extra.css`.
 3. Synced updated theme stylesheet to live WordPress container on `ampere-dev`, flushed object cache, and verified button legibility via Playwright.
+
+## 2026-10-10 - Left-align article headers and strip author class years #ui #editorial
+
+Following editorial feedback:
+1. Stripped student class years (e.g. ", Class of 2028") from author bylines in the production WordPress database for posts 40 and 42, and added a regex fallback in `wesscijo_byline()` to sanitize future inputs.
+2. Removed `text-align: center` from `.article`, left-aligned `.article .meta`, and widened `.article__title` max-width from `20ch` to `1050px` in `themes/wesscijo/style.css` and `public/publication.css`. This prevents awkward word wrapping on long titles and keeps shorter titles anchored naturally to the left.
+3. Synced updated theme files to the live container `wessci-wordpress-1` on `ampere-dev`, verified rendering in Playwright, and confirmed 9 of 9 editorial publication tests pass.
