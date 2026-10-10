@@ -700,8 +700,8 @@ figcaption, .wp-caption-text {
 }
 
 .division__icon {
-	width: clamp(1.75rem, 3.2vw, 2.5rem);
-	height: clamp(1.75rem, 3.2vw, 2.5rem);
+	width: clamp(2.5rem, 4.5vw, 3.75rem);
+	height: clamp(2.5rem, 4.5vw, 3.75rem);
 	flex-shrink: 0;
 	color: var(--color-accent);
 	display: inline-block;
@@ -881,8 +881,8 @@ figcaption, .wp-caption-text {
 	margin-block: var(--space-8) var(--space-4);
 }
 .submit__icon {
-	width: 2.75rem;
-	height: 2.75rem;
+	width: clamp(2.75rem, 4.5vw, 3.75rem);
+	height: clamp(2.75rem, 4.5vw, 3.75rem);
 	flex-shrink: 0;
 	color: var(--color-accent);
 }

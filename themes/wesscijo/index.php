@@ -79,7 +79,7 @@
 					? get_theme_file_uri( '/assets/division-perspectives.svg' )
 					: get_theme_file_uri( '/assets/division-life-science.svg' );
 				?>
-				<img src="<?php echo esc_url( $div_icon ); ?>" class="division__icon" alt="" width="32" height="32" aria-hidden="true">
+				<img src="<?php echo esc_url( $div_icon ); ?>" class="division__icon" alt="" width="56" height="56" aria-hidden="true">
 				<?php echo wessci_term_name( $div['term'] ); ?>
 			</h2>
 

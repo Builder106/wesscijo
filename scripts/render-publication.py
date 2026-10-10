@@ -34,7 +34,7 @@ def division_icon(slug):
     src = DIVISION_ICONS.get(slug)
     if not src:
         return ''
-    return f'<img src="{src}" class="division__icon" alt="" width="32" height="32" aria-hidden="true">'
+    return f'<img src="{src}" class="division__icon" alt="" width="56" height="56" aria-hidden="true">'
 
 
 def escape(value):
