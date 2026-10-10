@@ -610,3 +610,11 @@ Completed Option A cutover making the self-hosted WordPress instance the single 
    - `https://thewesleyansciencejournal.com/`: HTTP 200 OK, full SSL validity, native WordPress theme with red badges, article read times, and 3-column academic colophon live.
    - `https://wessci.yinkavaughan.me/`: HTTP 301 Moved Permanently to official production URL.
    - Theme SVG assets (`/wp-content/themes/wesscijo/assets/*.svg`): HTTP 200 OK.
+
+## 2026-10-10 - Tune heading display scale and animated SVG dimensions #ui #css
+
+Following editorial inspection of the production site:
+1. Removed the legacy `1.4rem` font-size override on `.division__title` in `public/publication-extra.css` so static previews inherit the authoritative `var(--text-5xl)` (68px) display scale.
+2. Scaled animated division SVG emblems (`.division__icon`) from `clamp(1.75rem, 3.2vw, 2.5rem)` to `clamp(2.5rem, 4.5vw, 3.75rem)` (up to 60px) and submission icons (`.submit__icon`) to `clamp(2.75rem, 4.5vw, 3.75rem)` in both `themes/wesscijo/style.css` and `public/publication.css`.
+3. Updated HTML dimension hints in `index.php` and `render-publication.py` to `56x56`.
+4. Deployed updated theme stylesheets and templates to the live production container `wessci-wordpress-1` on `ampere-dev`, verified visual balance in Playwright screenshots, and confirmed all 9 editorial publication tests pass.
