@@ -25,7 +25,6 @@
 .division { padding-block: 1rem; }
 .article__figure { border-top: 0; padding-top: 0; }
 .prose h3 { text-transform: none; letter-spacing: normal; }
-.division__title { font-size: 1.4rem; line-height: 1.3; }
 .division__title a { text-decoration: none; }
 .division { margin-block: 3rem; }
 .meta { margin-block: .75rem; color: var(--color-ink-3); }
