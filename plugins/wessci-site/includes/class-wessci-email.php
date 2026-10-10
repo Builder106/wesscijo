@@ -289,4 +289,3 @@ class WesSci_Email {
 		return $notification;
 	}
 }
-
