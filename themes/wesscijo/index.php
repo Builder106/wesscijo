@@ -76,8 +76,8 @@
 				<?php
 				$div_slug = $div['term']->slug;
 				$div_icon = ( strpos( $div_slug, 'news' ) !== false || strpos( $div_slug, 'perspectives' ) !== false )
-					? '/assets/division-perspectives.svg'
-					: '/assets/division-life-science.svg';
+					? get_theme_file_uri( '/assets/division-perspectives.svg' )
+					: get_theme_file_uri( '/assets/division-life-science.svg' );
 				?>
 				<img src="<?php echo esc_url( $div_icon ); ?>" class="division__icon" alt="" width="32" height="32" aria-hidden="true">
 				<?php echo wessci_term_name( $div['term'] ); ?>
@@ -116,7 +116,7 @@
 
 	<section class="submit">
 		<div class="submit__header">
-			<img src="<?php echo esc_url( '/assets/submission-packet.svg' ); ?>" class="submit__icon" alt="" width="44" height="44" aria-hidden="true">
+			<img src="<?php echo esc_url( get_theme_file_uri( '/assets/submission-packet.svg' ) ); ?>" class="submit__icon" alt="" width="44" height="44" aria-hidden="true">
 			<h2 class="submit__title">Write for us</h2>
 		</div>
 		<a class="btn btn--invert" href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submission guidelines</a>
