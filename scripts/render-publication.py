@@ -104,8 +104,7 @@ def header(articles):
             '<li><a class="hero__nav-link" href="/">Home</a></li>' + ''.join(menus) +
             '<li><a class="hero__nav-link" href="/archives/">Archives</a></li>'
             '<li><a class="hero__nav-link" href="/about/">About Us</a></li>'
-            '<li><a class="hero__nav-link" href="/submit/">Submit</a></li>'
-            '<li><a class="hero__nav-link" href="/animations/">Animations</a></li></ul>'
+            '<li><a class="hero__nav-link" href="/submit/">Submit</a></li></ul>'
             '<div class="hero__controls"><search><form class="search" action="/search/" method="get">'
             '<label class="u-visually-hidden" for="q">Search the journal</label>'
             '<input class="search__input" id="q" name="q" type="search" placeholder="Search">'
@@ -139,7 +138,7 @@ def document(title, body, articles, description='', canonical=''):
             '<link rel="stylesheet" href="/publication.css">'
             '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script></head><body>'
             + header(articles) + '<main class="site-main" id="main" tabindex="-1">' + body + '</main>'
-            f'<footer class="publication-footer"><a href="/">{NAME}</a><nav aria-label="Footer"><a href="/about/">About Us</a><a href="/submit/">Submission guidelines</a><a href="/animations/">Animated SVGs</a></nav></footer></body></html>')
+            f'<footer class="publication-footer"><a href="/">{NAME}</a><nav aria-label="Footer"><a href="/about/">About Us</a><a href="/submit/">Submission guidelines</a></nav></footer></body></html>')
 
 
 def write_page(route, title, body, articles, description=''):
@@ -394,7 +393,6 @@ def main():
     write_page('/submit/', 'Submission guidelines', submit_content, articles)
     write_page('/search/', 'Search', '<h1 class="archive-title" id="search-title">Search the journal</h1><p id="search-status" role="status"></p><div class="cards" id="search-results"></div><noscript><p>Enable JavaScript to search, or <a href="/archives/">browse all articles</a>.</p></noscript>', articles)
     gallery = animations_gallery_html()
-    write_page('/animations/', 'Animated Vector Gallery', gallery, articles, 'Exhibition of animated SVG division emblems, editorial vignettes, and avian kinematics in The Wesleyan Science Journal.')
     write_page('/svgs/', 'Animated Vector Gallery', gallery, articles, 'Exhibition of animated SVG division emblems, editorial vignettes, and avian kinematics in The Wesleyan Science Journal.')
     (PUBLIC / '404.html').write_text(document('Page not found', '<div class="search-empty"><img src="/assets/empty-search-lens.svg" class="search-empty__icon" alt="" width="72" height="72" aria-hidden="true"><h1 class="archive-title">Page not found</h1><p><a href="/">Return to the journal</a></p></div>', articles))
     shutil.copyfile(ROOT / 'themes/wesscijo/style.css', PUBLIC / 'publication.css')

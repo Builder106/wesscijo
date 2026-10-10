@@ -488,9 +488,23 @@ Restored full-fidelity cardinal artwork for dark mode logo assets (`public/asset
    - Merged production `main` into `feat/animated-svgs` to inherit the dark-mode header logo pair (`logo.png`, `logo-dark.png`) and masthead layout refinements.
    - Updated `scripts/render-publication.py` to seamlessly output dual-logo headers alongside division icons.
    - Regenerated all static publication HTML pages and search indices.
-3. Pre-Push Verification Gate on ampere-dev:
+4. Pre-Push Verification Gate on ampere-dev:
    - Ran PHP syntax check (`find themes/ -type f -name "*.php" -exec php -l {} +`): 11 of 11 files passed cleanly with zero syntax errors.
    - Ran Stylelint (`npx --yes stylelint "themes/**/*.css"`): 0 errors, 0 warnings.
    - Ran Playwright publication test suite (`tests/editorial-publication.spec.js`): All 9 tests passed across responsive viewports (390px, 768px, 1440px), search handling, article content integrity, and tri-state theme switching.
+
+## 2026-10-10 - Removal of the animations path from publication site #ui #navigation #cleanup
+
+Following editorial review of the publication site, removed the `/animations/` path and its navigation presence:
+1. Removed the "Animations" link from header navigation in `scripts/render-publication.py`.
+2. Removed the "Animated SVGs" link from the colophon footer navigation in `scripts/render-publication.py`.
+3. Removed `/animations/` route generation from `scripts/render-publication.py` and deleted `public/animations/`.
+4. Regenerated all static publication HTML pages and search indices via `scripts/render-publication.py`.
+5. Updated `tests/responsiveness-audit.spec.js` routes list to remove `/animations/`.
+6. Verified on remote ARM64 VM (`ampere-dev`):
+   - PHP lint: 11 of 11 files passed.
+   - Stylelint: 0 errors, 0 warnings.
+   - Playwright publication suite (`tests/editorial-publication.spec.js`): All 9 tests passed.
+
 
 
