@@ -506,5 +506,8 @@ Following editorial review of the publication site, removed the `/animations/` p
    - Stylelint: 0 errors, 0 warnings.
    - Playwright publication suite (`tests/editorial-publication.spec.js`): All 9 tests passed.
 
+## 2026-10-10 - Simplify transactional emails
 
+Replaced the boxed email layout with a compact masthead and editorial letter. The shared wrapper uses the existing seal, system serif typography, a white background, and a short footer. Decisions, editor comments, manuscript details, and account instructions use plain paragraphs and short links. This change applies to emails only.
 
+Rewrote the five templates and password-reset variant to remove administrative jargon. Removed fixed review timelines and the double-blind review claim because the templates did not establish an approved policy. WordPress account notifications no longer claim a hardcoded expiry window; callers can still supply an expiry when known. Preserved escaped user content and existing destination fields. Reviewer actions are omitted when their URLs are missing.

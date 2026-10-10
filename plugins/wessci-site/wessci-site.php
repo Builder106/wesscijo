@@ -11,8 +11,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 require_once dirname( __FILE__ ) . '/includes/class-wessci-editorial.php';
 require_once dirname( __FILE__ ) . '/includes/class-wessci-meta-boxes.php';
+require_once dirname( __FILE__ ) . '/includes/class-wessci-email.php';
 WesSci_Editorial::init();
 WesSci_Meta_Boxes::init();
+WesSci_Email::init();
 
 if ( is_admin() ) {
 	require_once dirname( __FILE__ ) . '/admin/class-wessci-admin.php';
