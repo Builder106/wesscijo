@@ -165,7 +165,11 @@ async function showSearch() {
       const text = [article.title, article.byline, article.section, article.type, article.text].join(' ').toLocaleLowerCase();
       return terms.every(term => text.includes(term));
     });
-    status.textContent = matches.length ? `${matches.length} ${matches.length === 1 ? 'article' : 'articles'} found.` : 'No articles found. Try another title, author, or topic.';
+    if (matches.length) {
+      status.textContent = `${matches.length} ${matches.length === 1 ? 'article' : 'articles'} found.`;
+    } else {
+      status.innerHTML = '<div class="search-empty"><img src="/assets/empty-search-lens.svg" class="search-empty__icon" alt="" width="64" height="64" aria-hidden="true"><p>No articles found. Try another title, author, or topic.</p></div>';
+    }
     for (const article of matches) {
       const card = document.createElement('article');
       card.className = 'card';

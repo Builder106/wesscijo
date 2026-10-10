@@ -477,4 +477,20 @@ Restored full-fidelity cardinal artwork for dark mode logo assets (`public/asset
 3. Tail Plumage & Outline Fidelity: Restored solid Cardinal Red (`#ea192e`) plumage across all tail feathers with crisp black perimeter outlines and internal quills, eliminating all gray patches, white strokes, and tip artifacts.
 4. Multi-Scale Export: Re-exported 1024px, 512px, and 192px production PNGs via Lanczos downsampling with full alpha transparency.
 
+## 2026-10-10 - Site-wide animated vector suite integration and verification #ui #animation #svg #verification
+
+1. Integration & Asset Wiring:
+   - Wired four animated division emblems (`division-life-science.svg`, `division-physical-science.svg`, `division-quantitative.svg`, and `division-perspectives.svg`) with static fallbacks into section headings across the homepage, category archive headers, and About page division rosters.
+   - Integrated the submission packet animation (`submission-packet.svg`) into the homepage callout card and the dedicated `/submit/` guide hero.
+   - Connected the microscope search reticle (`empty-search-lens.svg`) with active radar focal scan to zero-result queries and the 404 error page.
+   - Mounted the articulated Northern Cardinal specimen plate (`cardinal.svg`) with authentic kinematics pivots into *Birds of Wesleyan* (`public/articles/birds-of-wesleyan/index.html`) using `<object type="image/svg+xml">` for native SMIL playback with full dark-mode palette adaptation.
+2. Main Synchronization & Static Generation:
+   - Merged production `main` into `feat/animated-svgs` to inherit the dark-mode header logo pair (`logo.png`, `logo-dark.png`) and masthead layout refinements.
+   - Updated `scripts/render-publication.py` to seamlessly output dual-logo headers alongside division icons.
+   - Regenerated all static publication HTML pages and search indices.
+3. Pre-Push Verification Gate on ampere-dev:
+   - Ran PHP syntax check (`find themes/ -type f -name "*.php" -exec php -l {} +`): 11 of 11 files passed cleanly with zero syntax errors.
+   - Ran Stylelint (`npx --yes stylelint "themes/**/*.css"`): 0 errors, 0 warnings.
+   - Ran Playwright publication test suite (`tests/editorial-publication.spec.js`): All 9 tests passed across responsive viewports (390px, 768px, 1440px), search handling, article content integrity, and tri-state theme switching.
+
 

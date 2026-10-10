@@ -1,5 +1,8 @@
 <svg id="cardinal-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 470" width="370" height="470" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" role="img" aria-label="Cardinal perched on science tree">
   <style>
+    :root {
+      color-scheme: light dark;
+    }
     /* Cardinal SVGator Articulated Avian Kinematics */
     #cardinal-tail,
     #cardinal-feet,

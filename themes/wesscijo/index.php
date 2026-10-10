@@ -72,7 +72,16 @@
 		$index = 0;
 		?>
 		<section class="division">
-			<h2 class="division__title"><?php echo wessci_term_name( $div['term'] ); ?></h2>
+			<h2 class="division__title">
+				<?php
+				$div_slug = $div['term']->slug;
+				$div_icon = ( strpos( $div_slug, 'news' ) !== false || strpos( $div_slug, 'perspectives' ) !== false )
+					? '/assets/division-perspectives.svg'
+					: '/assets/division-life-science.svg';
+				?>
+				<img src="<?php echo esc_url( $div_icon ); ?>" class="division__icon" alt="" width="32" height="32" aria-hidden="true">
+				<?php echo wessci_term_name( $div['term'] ); ?>
+			</h2>
 
 			<div class="cards">
 				<?php
@@ -106,7 +115,10 @@
 	<?php endforeach; ?>
 
 	<section class="submit">
-		<h2 class="submit__title">Write for us</h2>
+		<div class="submit__header">
+			<img src="<?php echo esc_url( '/assets/submission-packet.svg' ); ?>" class="submit__icon" alt="" width="44" height="44" aria-hidden="true">
+			<h2 class="submit__title">Write for us</h2>
+		</div>
 		<a class="btn btn--invert" href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submission guidelines</a>
 	</section>
 
