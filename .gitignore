@@ -13,6 +13,8 @@ Thumbs.db
 # Logs & Caches
 *.log
 .cache/
+__pycache__/
+*.py[cod]
 
 # Dependencies and test output
 node_modules/
