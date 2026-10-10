@@ -618,3 +618,10 @@ Following editorial inspection of the production site:
 2. Scaled animated division SVG emblems (`.division__icon`) from `clamp(1.75rem, 3.2vw, 2.5rem)` to `clamp(2.5rem, 4.5vw, 3.75rem)` (up to 60px) and submission icons (`.submit__icon`) to `clamp(2.75rem, 4.5vw, 3.75rem)` in both `themes/wesscijo/style.css` and `public/publication.css`.
 3. Updated HTML dimension hints in `index.php` and `render-publication.py` to `56x56`.
 4. Deployed updated theme stylesheets and templates to the live production container `wessci-wordpress-1` on `ampere-dev`, verified visual balance in Playwright screenshots, and confirmed all 9 editorial publication tests pass.
+
+## 2026-10-10 - Fix button contrast and text-decoration inside prose #ui #bugfix
+
+Resolved an issue where `.btn` elements inside `.prose` (such as the submission guidelines page) were unintentionally affected by `.prose a` link styles:
+1. Updated `.prose a` selector to `.prose a:not(.btn)` and added explicit `.prose .btn` declarations ensuring white text (`var(--color-invert)`), no text-decoration, and clean contrast across light and dark themes.
+2. Synchronized changes across `themes/wesscijo/style.css`, `public/publication.css`, and `public/publication-extra.css`.
+3. Synced updated theme stylesheet to live WordPress container on `ampere-dev`, flushed object cache, and verified button legibility via Playwright.
