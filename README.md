@@ -19,9 +19,8 @@ WordPress themes and a static publication for The Wesleyan Science Journal. The 
 | `screenshots/design-directions/` | Earlier visual direction comparisons. |
 | `screenshots/cardinal/` | Cardinal artwork and preview captures. |
 | `screenshots/client-reply/` | Screens prepared for client feedback. |
-| `artifacts/svgator/cardinal/` | Editable SVGator projects and export records. |
-| `artifacts/design-inspiration/` | Local-only design research and capture evidence, ignored by Git. |
-| `logo.pdf` | Supplied journal logo. |
+| `artifacts/` | Local-only design research, SVGator projects, and capture evidence (Git-ignored). |
+| `brand/` | Supplied high-resolution journal logo files (`logo.pdf`, `logo.png`). |
 
 ## Browser checks
 

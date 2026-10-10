@@ -16,7 +16,7 @@ Visual continuity with the current site is optional. Continuity of the journal's
 
 ## Identity and art direction
 
-The supplied [logo](logo.pdf) is a circular Wesleyan Science Journal seal. Its central image is a red cardinal wearing lab goggles and perched on a lab instrument, surrounded by black serif lettering on white. Use this as the source for the site's identity, while checking how well the full seal reads in the header, on a phone, and at small sizes. Any simplified mark or redraw needs review against the supplied artwork before use.
+The supplied [logo](brand/logo.pdf) is a circular Wesleyan Science Journal seal. Its central image is a red cardinal wearing lab goggles and perched on a lab instrument, surrounded by black serif lettering on white. Use this as the source for the site's identity, while checking how well the full seal reads in the header, on a phone, and at small sizes. Any simplified mark or redraw needs review against the supplied artwork before use.
 
 Use Wesleyan red and black as the dominant site colors. White or a light neutral can provide reading space and contrast; the logo's small accessory colors need not become interface colors. Confirm the production red against the university's current brand guidance before setting final color tokens. Every concept should show the cardinal clearly and tie it to science. Bird forms, feathers, nests, flight paths, and field imagery can recur in section art or transitions, but article graphics must still match their subjects.
 
