@@ -130,9 +130,12 @@ class WesSci_Admin {
 	}
 
 	/**
-	 * Add editorial widgets alongside the native WordPress dashboard widgets.
+	 * Configure dashboard widgets.
 	 */
 	public static function configure_dashboard_widgets() {
+		// Remove core "WordPress Events and News" widget for all users.
+		remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
+
 		wp_add_dashboard_widget( 'wessci_dashboard_division_queues', __( 'Manuscripts', 'wessci' ), array( __CLASS__, 'render_widget_division_queues' ) );
 		wp_add_dashboard_widget( 'wessci_dashboard_issue_progress', __( 'Issue assembly', 'wessci' ), array( __CLASS__, 'render_widget_issue_progress' ), null, null, 'side' );
 	}
