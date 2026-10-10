@@ -9,6 +9,18 @@
   </defs>
 
   <style>
+    :root {
+      --ink: #111827;
+      --accent: #a6192e;
+      color: var(--ink);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #ede8e5;
+        --accent: #e63946;
+        color: var(--ink);
+      }
+    }
     @media (prefers-reduced-motion: reduce) {
       animate, animateTransform { animation: none !important; }
     }
@@ -28,12 +40,12 @@
   </g>
 
   <!-- Expanding Optical Focal Acquisition Waves (Active Radar/Focus Scan) -->
-  <circle cx="36" cy="36" r="4" stroke="#a6192e" stroke-width="1.6" fill="none" opacity="0">
+  <circle cx="36" cy="36" r="4" stroke="var(--accent, #a6192e)" stroke-width="1.6" fill="none" opacity="0">
     <animate attributeName="r" values="4;22" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.1 0.8 0.2 1"/>
     <animate attributeName="opacity" values="0.85;0" dur="2.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.1 0.8 0.2 1"/>
     <animate attributeName="stroke-width" values="1.8;0.8" dur="2.2s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="36" cy="36" r="4" stroke="#a6192e" stroke-width="1.6" fill="none" opacity="0">
+  <circle cx="36" cy="36" r="4" stroke="var(--accent, #a6192e)" stroke-width="1.6" fill="none" opacity="0">
     <animate attributeName="r" values="4;22" dur="2.2s" begin="1.1s" repeatCount="indefinite" calcMode="spline" keySplines="0.1 0.8 0.2 1"/>
     <animate attributeName="opacity" values="0.85;0" dur="2.2s" begin="1.1s" repeatCount="indefinite" calcMode="spline" keySplines="0.1 0.8 0.2 1"/>
     <animate attributeName="stroke-width" values="1.8;0.8" dur="2.2s" begin="1.1s" repeatCount="indefinite"/>
@@ -50,10 +62,10 @@
   <line x1="33" y1="46" x2="39" y2="46" stroke="currentColor" stroke-width="1.2"/>
 
   <!-- Static Calibration Target Ring -->
-  <circle id="target-ring-static" cx="36" cy="36" r="11" stroke="#a6192e" stroke-width="1.4" stroke-dasharray="4 2" stroke-opacity="0.8"/>
+  <circle id="target-ring-static" cx="36" cy="36" r="11" stroke="var(--accent, #a6192e)" stroke-width="1.4" stroke-dasharray="4 2" stroke-opacity="0.8"/>
 
   <!-- Central Focal Acquisition Point -->
-  <circle id="focal-point" cx="36" cy="36" r="2.4" fill="#a6192e">
+  <circle id="focal-point" cx="36" cy="36" r="2.4" fill="var(--accent, #a6192e)">
     <animate attributeName="r" values="2.0;3.0;2.0" dur="1.1s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
   </circle>
 </svg>

@@ -2,23 +2,42 @@
   <defs>
     <!-- Crystalline Glass Surface Gradient -->
     <linearGradient id="prism-glass-static" x1="7.5" y1="31.5" x2="20" y2="7.5" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="currentColor" stop-opacity="0.03"/>
-      <stop offset="100%" stop-color="currentColor" stop-opacity="0.08"/>
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0.12"/>
     </linearGradient>
 
     <!-- Internal Dispersion Wedge Gradient -->
     <linearGradient id="prism-internal-static" x1="14" y1="19" x2="26.5" y2="20" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="currentColor" stop-opacity="0.7"/>
-      <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#a6192e" stop-opacity="0.6"/>
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#d97706" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#a6192e" stop-opacity="0.7"/>
     </linearGradient>
   </defs>
+
+  <style>
+    :root {
+      --ink: #111827;
+      --accent: #a6192e;
+      --amber: #d97706;
+      --blue: #2563eb;
+      color: var(--ink);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #ede8e5;
+        --accent: #f87171;
+        --amber: #fbbf24;
+        --blue: #60a5fa;
+        color: var(--ink);
+      }
+    }
+  </style>
 
   <!-- Prism Glass Body & Facets -->
   <polygon id="prism-body" points="20,7.5 32.5,31.5 7.5,31.5" fill="url(#prism-glass-static)" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
   
   <!-- Subtle Internal 3D Crystalline Facet Edge -->
-  <line id="prism-facet" x1="20" y1="7.5" x2="16.5" y2="31.5" stroke="currentColor" stroke-width="1.0" stroke-opacity="0.22" stroke-linecap="round"/>
+  <line id="prism-facet" x1="20" y1="7.5" x2="16.5" y2="31.5" stroke="currentColor" stroke-width="1.0" stroke-opacity="0.25" stroke-linecap="round"/>
 
   <!-- Specular Apex Edge Sheen -->
   <line id="prism-sheen" x1="18.5" y1="10.4" x2="20" y2="7.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-opacity="0.85"/>
@@ -27,20 +46,20 @@
   <polygon id="dispersion-wedge" points="14,19 25.8,18.6 26.8,20.8" fill="url(#prism-internal-static)" opacity="0.35"/>
 
   <!-- Internal Refracted Light Trajectories -->
-  <line x1="14" y1="19" x2="25.8" y2="18.6" stroke="#a6192e" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
-  <line x1="14" y1="19" x2="26.3" y2="19.7" stroke="#d97706" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
-  <line x1="14" y1="19" x2="26.8" y2="20.8" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+  <line x1="14" y1="19" x2="25.8" y2="18.6" stroke="var(--accent, #a6192e)" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+  <line x1="14" y1="19" x2="26.3" y2="19.7" stroke="var(--amber, #d97706)" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+  <line x1="14" y1="19" x2="26.8" y2="20.8" stroke="var(--blue, #2563eb)" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
 
   <!-- Incoming Incident Light Beam -->
   <line id="beam-in" x1="3" y1="23.5" x2="14" y2="19" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
 
   <!-- Outgoing Dispersed Spectral Rays -->
   <!-- Ray 1: Wesleyan Ruby (Bends least) -->
-  <line id="beam-out-1" x1="25.8" y1="18.6" x2="38" y2="19.8" stroke="#a6192e" stroke-width="2.2" stroke-linecap="round"/>
+  <line id="beam-out-1" x1="25.8" y1="18.6" x2="38" y2="19.8" stroke="var(--accent, #a6192e)" stroke-width="2.2" stroke-linecap="round"/>
 
   <!-- Ray 2: Warm Amber / Gold (Medium dispersion) -->
-  <line id="beam-out-2" x1="26.3" y1="19.7" x2="38" y2="24.5" stroke="#d97706" stroke-width="2.2" stroke-linecap="round"/>
+  <line id="beam-out-2" x1="26.3" y1="19.7" x2="38" y2="24.5" stroke="var(--amber, #d97706)" stroke-width="2.2" stroke-linecap="round"/>
 
   <!-- Ray 3: Sapphire Blue (Bends most) -->
-  <line id="beam-out-3" x1="26.8" y1="20.8" x2="38" y2="29.5" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round"/>
+  <line id="beam-out-3" x1="26.8" y1="20.8" x2="38" y2="29.5" stroke="var(--blue, #2563eb)" stroke-width="2.2" stroke-linecap="round"/>
 </svg>

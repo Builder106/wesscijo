@@ -2,8 +2,8 @@
   <defs>
     <!-- Crystalline Glass Surface Gradient -->
     <linearGradient id="prism-glass-grad" x1="7.5" y1="31.5" x2="20" y2="7.5" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="currentColor" stop-opacity="0.04"/>
-      <stop offset="100%" stop-color="currentColor" stop-opacity="0.10"/>
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0.12"/>
     </linearGradient>
 
     <!-- Internal Dispersion Wedge Gradient -->
@@ -15,6 +15,22 @@
   </defs>
 
   <style>
+    :root {
+      --ink: #111827;
+      --accent: #a6192e;
+      --amber: #d97706;
+      --blue: #2563eb;
+      color: var(--ink);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #ede8e5;
+        --accent: #f87171;
+        --amber: #fbbf24;
+        --blue: #60a5fa;
+        color: var(--ink);
+      }
+    }
     @media (prefers-reduced-motion: reduce) {
       animate, animateTransform { animation: none !important; }
     }
@@ -39,18 +55,18 @@
 
   <!-- ================= INTERNAL REFRACTED PATHS ================= -->
   <!-- Static Base Trajectories inside Glass -->
-  <line x1="14" y1="19" x2="25.8" y2="18.6" stroke="#a6192e" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
-  <line x1="14" y1="19" x2="26.3" y2="19.7" stroke="#d97706" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
-  <line x1="14" y1="19" x2="26.8" y2="20.8" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
+  <line x1="14" y1="19" x2="25.8" y2="18.6" stroke="var(--accent, #a6192e)" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
+  <line x1="14" y1="19" x2="26.3" y2="19.7" stroke="var(--amber, #d97706)" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
+  <line x1="14" y1="19" x2="26.8" y2="20.8" stroke="var(--blue, #2563eb)" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
 
   <!-- Internal Refractive Propagation Pulses -->
-  <line x1="14" y1="19" x2="25.8" y2="18.6" stroke="#a6192e" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
+  <line x1="14" y1="19" x2="25.8" y2="18.6" stroke="var(--accent, #a6192e)" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
     <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.32s" repeatCount="indefinite"/>
   </line>
-  <line x1="14" y1="19" x2="26.3" y2="19.7" stroke="#d97706" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
+  <line x1="14" y1="19" x2="26.3" y2="19.7" stroke="var(--amber, #d97706)" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
     <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.38s" repeatCount="indefinite"/>
   </line>
-  <line x1="14" y1="19" x2="26.8" y2="20.8" stroke="#2563eb" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
+  <line x1="14" y1="19" x2="26.8" y2="20.8" stroke="var(--blue, #2563eb)" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
     <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.44s" repeatCount="indefinite"/>
   </line>
 
@@ -64,20 +80,20 @@
 
   <!-- ================= OUTGOING SPECTRAL RAYS ================= -->
   <!-- Ray 1: Wesleyan Cardinal Ruby (Bends least, top) -->
-  <line id="beam-out-1-base" x1="25.8" y1="18.6" x2="38" y2="19.8" stroke="#a6192e" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
-  <line id="beam-out-1-pulse" x1="25.8" y1="18.6" x2="38" y2="19.8" stroke="#a6192e" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
+  <line id="beam-out-1-base" x1="25.8" y1="18.6" x2="38" y2="19.8" stroke="var(--accent, #a6192e)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
+  <line id="beam-out-1-pulse" x1="25.8" y1="18.6" x2="38" y2="19.8" stroke="var(--accent, #a6192e)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
     <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.60s" repeatCount="indefinite"/>
   </line>
 
   <!-- Ray 2: Warm Amber / Gold (Medium dispersion, center) -->
-  <line id="beam-out-2-base" x1="26.3" y1="19.7" x2="38" y2="24.5" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
-  <line id="beam-out-2-pulse" x1="26.3" y1="19.7" x2="38" y2="24.5" stroke="#d97706" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
+  <line id="beam-out-2-base" x1="26.3" y1="19.7" x2="38" y2="24.5" stroke="var(--amber, #d97706)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
+  <line id="beam-out-2-pulse" x1="26.3" y1="19.7" x2="38" y2="24.5" stroke="var(--amber, #d97706)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
     <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.70s" repeatCount="indefinite"/>
   </line>
 
   <!-- Ray 3: Sapphire Blue (Bends most, bottom) -->
-  <line id="beam-out-3-base" x1="26.8" y1="20.8" x2="38" y2="29.5" stroke="#2563eb" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
-  <line id="beam-out-3-pulse" x1="26.8" y1="20.8" x2="38" y2="29.5" stroke="#2563eb" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
+  <line id="beam-out-3-base" x1="26.8" y1="20.8" x2="38" y2="29.5" stroke="var(--blue, #2563eb)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
+  <line id="beam-out-3-pulse" x1="26.8" y1="20.8" x2="38" y2="29.5" stroke="var(--blue, #2563eb)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
     <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.80s" repeatCount="indefinite"/>
   </line>
 </svg>

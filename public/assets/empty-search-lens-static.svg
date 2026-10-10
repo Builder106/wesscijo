@@ -8,6 +8,21 @@
     </linearGradient>
   </defs>
 
+  <style>
+    :root {
+      --ink: #111827;
+      --accent: #a6192e;
+      color: var(--ink);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #ede8e5;
+        --accent: #e63946;
+        color: var(--ink);
+      }
+    }
+  </style>
+
   <!-- Lens Glass Backing -->
   <circle cx="36" cy="36" r="26" fill="url(#lens-glass-static)"/>
 
@@ -29,8 +44,8 @@
   <line x1="33" y1="46" x2="39" y2="46" stroke="currentColor" stroke-width="1.2"/>
 
   <!-- Static Calibration Target Ring -->
-  <circle id="target-ring-static" cx="36" cy="36" r="11" stroke="#a6192e" stroke-width="1.4" stroke-dasharray="4 2" stroke-opacity="0.8"/>
+  <circle id="target-ring-static" cx="36" cy="36" r="11" stroke="var(--accent, #a6192e)" stroke-width="1.4" stroke-dasharray="4 2" stroke-opacity="0.8"/>
 
   <!-- Central Focal Acquisition Point -->
-  <circle id="focal-point" cx="36" cy="36" r="2.4" fill="#a6192e"/>
+  <circle id="focal-point" cx="36" cy="36" r="2.4" fill="var(--accent, #a6192e)"/>
 </svg>
