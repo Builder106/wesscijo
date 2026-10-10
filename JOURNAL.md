@@ -505,6 +505,53 @@ Following editorial review of the publication site, removed the `/animations/` p
    - PHP lint: 11 of 11 files passed.
    - Stylelint: 0 errors, 0 warnings.
    - Playwright publication suite (`tests/editorial-publication.spec.js`): All 9 tests passed.
+## 2026-10-10 - Restore continuous white seal background across logo assets #branding #ui #bugfix
+
+1. Root Cause Analysis:
+   - When background transparency was originally established from white raster artwork, flood-fill erasure leaked into the outer text ring on the lower left because the outer border stroke had an unclosed segment along "SCIENCE".
+   - This erroneously erased the white background fill behind "SCIENCE" (specifically "SCIE" and the lower sector bounding the cardinal's tail), leaving 60,000+ pixels transparent inside the seal.
+   - When rendered against dark surfaces (such as the WordPress Admin Welcome panel header `#100e0f` or dark backgrounds), the black text of "SCIENCE" lost its white backing and became illegible, while "WESLEYAN" and "JOURNAL" retained their solid white backing.
+2. Asset Repair & Multi-Scale Normalization:
+   - Restored solid white background fill (`#ffffff`) throughout the entire inner disk and annular ring bounding "WESLEYAN SCIENCE JOURNAL" up to the perimeter border stroke.
+   - Preserved crisp black lettering, inner/outer concentric border strokes, authentic safety-goggles cardinal artwork, and pipette detailing.
+   - Preserved alpha transparency outside the circular seal, maintaining the authentic cardinal tail spill across the lower-left perimeter into negative space.
+   - Updated all canonical logo assets: `plugins/wessci-site/admin/images/wessci-logo.png`, `public/assets/logo.png` (1024px), `public/assets/logo-512.png`, `public/assets/logo-192.png`, and `brand/logo.png`.
+3. WordPress Instance Deployment:
+   - Deployed updated 1024px logo to live container `wessci-wordpress-1` at `/var/www/html/wp-content/plugins/wessci-site/admin/images/wessci-logo.png` and `/var/www/html/wp-content/uploads/issue/logo.png` (saving `.bak` snapshots of both previous files).
+   - Regenerated all attachment #61 media thumbnails (`wp media regenerate 61 --yes`).
+   - Flushed WordPress object cache (`wp cache flush`).
+   - Verified live HTTP responses serving the new asset checksum (`3feaa1090dbc95dfd470515dda6d3276`).
+4. Dashboard Events and News Widget Removal:
+   - Unregistered core `dashboard_primary` meta box ("WordPress Events and News") in `plugins/wessci-site/admin/class-wessci-admin.php` within `configure_dashboard_widgets()` on `wp_dashboard_setup`.
+   - Stripped the widget canvas and screen options toggle globally across all user accounts.
+   - Deployed updated `class-wessci-admin.php` to live container `wessci-wordpress-1` and flushed object cache.
+5. Site Health Inactive Theme Cleanup:
+   - Deleted obsolete `wesscijo-wpvibe-backup` theme via `wp theme delete wesscijo-wpvibe-backup` in `wessci-wordpress-1`.
+   - Preserved active `wesscijo` and required default `wessci-fallback` themes, clearing the Site Health inactive theme security recommendation.
+6. FOSS Mailer Migration to FluentSMTP:
+   - Replaced proprietary/freemium `wp-mail-smtp` (which locked email delivery logs/analytics behind a paywall and triggered dashboard upsell nags) with 100% FOSS FluentSMTP (`fluent-smtp` v2.4.1).
+   - Ran FluentMail DB migration (`FluentMailDBMigrator`) initializing the native `wp_fsmpt_email_logs` logging table.
+   - Migrated Gmail SMTP configuration (TLS port 587, host `smtp.gmail.com`, sender "The Wesleyan Science Journal <yvaughan@wesleyan.edu>", with AES-256-CTR salt-encrypted database credentials) into `fluentmail-settings`.
+   - Mapped sender identities (`yvaughan@wesleyan.edu`, `vaughanolayinka@gmail.com`) to the Gmail SMTP connection with forced sender name and email matching publication branding.
+   - Tested live email transmission via FluentSMTP test dispatch and standard `wp_mail()` routing; verified delivery and logging with status `sent`.
+   - Deactivated and deleted `wp-mail-smtp` from the live container.
+   - Purged 16 orphaned `wp_mail_smtp%` configuration records from `wp_options` and removed legacy `WPMS_*` constant blocks from `wp-config.php`.
+   - Flushed WordPress object cache and verified clean Site Health status.
+7. WesSciJo Email Design System & Transactional Template Suite:
+   - Built a comprehensive, responsive HTML email design system adhering to Wesleyan University Cardinal Red (`#c51230`), Carbon Black (`#100e0f`), and warm archival paper (`#f7f6f4`) brand tokens.
+   - Strictly enforced publication design rules: zero status dots, zero accent rails, zero eyebrow headings, and zero middle-dot separators.
+   - Authored base wrapper partials (`header.php` and `footer.php`) featuring the official circular seal, institutional masthead, Cormorant Garamond typography, and colophon address.
+   - Engineered 5 core transactional email archetypes in `plugins/wessci-site/templates/email/`:
+     1. Editorial Decision Notice (`editorial-decision.php`)
+     2. Peer Reviewer Invitation (`reviewer-invitation.php`)
+     3. Manuscript Submission Confirmation (`submission-confirmation.php`)
+     4. Article Publication Notice (`publication-notice.php`)
+     5. Editorial Account Onboarding & Access (`account-access.php`)
+   - Implemented `WesSci_Email` service in `plugins/wessci-site/includes/class-wessci-email.php` with programmatic send API and WordPress core filter interceptors (`retrieve_password_notification_email` and `wp_new_user_notification_email`).
+   - Deployed to live container `wessci-wordpress-1`, verified syntax and end-to-end rendering across all 5 templates.
+   - Dispatched live branded editorial decision test email via FluentSMTP to `yvaughan@wesleyan.edu`, confirming delivery and logging with status `sent`.
+   - Compiled an interactive preview suite in `preview/email-preview.html` with desktop/mobile viewports and client background switches.
+
 
 ## 2026-10-10 - Simplify transactional emails
 
@@ -515,3 +562,51 @@ Rewrote the five templates and password-reset variant to remove administrative j
 Added a preview renderer that uses the actual PHP templates, fictional fixtures, and one embedded copy of the existing seal. The review page supports phone widths, light and dark themes, and hidden images. Its HTML export retains hosted image URLs. Added standalone checks for mail dispatch, notification callbacks, and password-key errors without sending email.
 
 Focused Linux ARM64 verification passed: email-service and template PHP syntax, minimal-data rendering and escaping checks, and six browser tests covering all six examples at 320, 390, and 1440 pixels in light and dark themes with images hidden. Actual Gmail and Outlook inbox rendering remains unverified. No email sent or deployment made for this redesign.
+
+## 2026-10-10 - Align static publication with WordPress theme and hide staging from search #ui #branding #seo
+
+Following editorial review of the publication sites, resolved discrepancies between the static build (`thewesleyansciencejournal.com`) and the WordPress theme (`wessci.yinkavaughan.me`), and prevented public indexing of the staging environment:
+
+1. Static Publication Styling & Component Alignment (`scripts/render-publication.py` & `public/`):
+   - Restored red category pill badges (`.card__type` / `.tag`) across all article cards and the homepage lead story.
+   - Restored lead article publication date and reading time metadata (`6 October 2026 • 6 min read`).
+   - Replaced the single-line publication footer with the complete 3-column academic colophon (`.colophon`), including division directories, governance links, journal description, and university disclaimer.
+   - Synchronized homepage division article ordering to feature lead cards (*The Math Behind LLMS* and *Scientific Paradigms*) matching editorial layout.
+   - Removed `.division__title { border-bottom-width: 1px; }` override in `publication-extra.css` to restore the authoritative thick baseline rule.
+   - Re-rendered all static HTML routes via `scripts/render-publication.py`.
+
+2. Theme Asset Resolution (`themes/wesscijo/`):
+   - Packaged division and submission SVG icons into `themes/wesscijo/assets/`.
+   - Updated `index.php` and `template-about.php` to resolve assets dynamically via `get_theme_file_uri()` rather than root-relative paths, eliminating 404 errors on the WordPress host.
+   - Synced updated theme files to the live container `wessci-wordpress-1` on `ampere-dev`.
+
+3. Staging Index Suppression & Cleanup:
+   - Configured `blog_public = 0` on `wessci-wordpress-1`, applying `<meta name="robots" content="noindex, nofollow" />` to `wessci.yinkavaughan.me` to prevent staging and development pages from surfacing in search results and confusing readers.
+
+4. Pre-Push Verification Gate on ampere-dev:
+   - Ran PHP syntax check: 11 of 11 files in `themes/wesscijo/` passed with zero errors.
+   - Ran Stylelint across themes and public stylesheets: 0 errors, 0 warnings.
+   - Ran Playwright publication suite (`tests/editorial-publication.spec.js`): All 9 tests passed across viewports, search, and tri-state theme switching.
+
+## 2026-10-10 - Production cutover: WordPress live on thewesleyansciencejournal.com #deployment #dns #ssl #cms
+
+Completed Option A cutover making the self-hosted WordPress instance the single canonical production site for The Wesleyan Science Journal:
+
+1. DNS & SSL Provisioning:
+   - Apex domain `thewesleyansciencejournal.com` (A record to `161.153.47.170`) and `www` (CNAME) updated in Cloudflare.
+   - Retired Vercel routing (`64.29.17.1` and `vercel-dns-017.com`).
+   - Provisioned Let's Encrypt ECDSA SSL certificates covering `thewesleyansciencejournal.com` and `www.thewesleyansciencejournal.com`.
+
+2. Reverse Proxy Routing (Nginx):
+   - Configured `thewesleyansciencejournal.com` as the primary production HTTPS virtual host proxying to `wessci-wordpress-1` on port 8184.
+   - Added permanent 301 redirects for `https://wessci.yinkavaughan.me` and `https://www.thewesleyansciencejournal.com` targeting `https://thewesleyansciencejournal.com$request_uri`.
+
+3. WordPress Production Identity & Search:
+   - Updated `siteurl` and `home` to `https://thewesleyansciencejournal.com` via `wp search-replace` across database tables (46 replacements).
+   - Set `blog_public = 1` enabling search engine indexing on the official production domain.
+   - Flushed object cache.
+
+4. End-to-End Live Verification:
+   - `https://thewesleyansciencejournal.com/`: HTTP 200 OK, full SSL validity, native WordPress theme with red badges, article read times, and 3-column academic colophon live.
+   - `https://wessci.yinkavaughan.me/`: HTTP 301 Moved Permanently to official production URL.
+   - Theme SVG assets (`/wp-content/themes/wesscijo/assets/*.svg`): HTTP 200 OK.
