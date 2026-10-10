@@ -81,9 +81,50 @@ def figure(article, classname, eager=False):
 def card(article, wide=False, level=3):
     classname = 'card card--wide' if wide else 'card'
     return (f'<article class="{classname}">{figure(article, "card__figure")}'
+            f'<span class="card__type">{escape(article["type"])}</span>'
             f'<h{level} class="card__title"><a href="{article_url(article)}">{escape(article["title"])}</a></h{level}>'
-            f'<p class="meta">{escape(article["type"])}</p>'
             f'<p class="card__excerpt">{escape(article["excerpt"])}</p></article>')
+
+
+def footer():
+    return (
+        '<footer class="colophon">'
+        '<div class="colophon__main">'
+        '<div class="colophon__brand">'
+        f'<p class="colophon__name">{escape(NAME)}</p>'
+        '<p class="colophon__tag">A hybrid journal and science magazine for the Wesleyan community</p>'
+        '</div>'
+        '<nav class="colophon__index" aria-label="Footer">'
+        '<div class="index-group">'
+        '<span class="index-group__title">Research &amp; Reviews</span>'
+        '<ul class="index-group__list">'
+        '<li><a href="/category/research-reviews/journal-articles/">Journal Articles</a></li>'
+        '<li><a href="/category/research-reviews/literature-reviews/">Literature Reviews</a></li>'
+        '</ul>'
+        '</div>'
+        '<div class="index-group">'
+        '<span class="index-group__title">News, Features &amp; Perspectives</span>'
+        '<ul class="index-group__list">'
+        '<li><a href="/category/news-features-perspectives/features/">Features</a></li>'
+        '<li><a href="/category/news-features-perspectives/news/">News</a></li>'
+        '<li><a href="/category/news-features-perspectives/op-ed/">Op/Ed</a></li>'
+        '</ul>'
+        '</div>'
+        '<div class="index-group">'
+        '<span class="index-group__title">Journal</span>'
+        '<ul class="index-group__list">'
+        '<li><a href="/about/">About Us</a></li>'
+        '<li><a href="/archives/">Archives</a></li>'
+        '<li><a href="/submit/">Submit</a></li>'
+        '</ul>'
+        '</div>'
+        '</nav>'
+        '</div>'
+        '<div class="colophon__legal">'
+        '<p>Views expressed belong solely to individual authors and do not necessarily reflect the positions of Wesleyan University.</p>'
+        '</div>'
+        '</footer>'
+    )
 
 
 def header(articles):
@@ -138,7 +179,7 @@ def document(title, body, articles, description='', canonical=''):
             '<link rel="stylesheet" href="/publication.css">'
             '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script></head><body>'
             + header(articles) + '<main class="site-main" id="main" tabindex="-1">' + body + '</main>'
-            f'<footer class="publication-footer"><a href="/">{NAME}</a><nav aria-label="Footer"><a href="/about/">About Us</a><a href="/submit/">Submission guidelines</a></nav></footer></body></html>')
+            + footer() + '</body></html>')
 
 
 def write_page(route, title, body, articles, description=''):
@@ -303,12 +344,30 @@ def main():
             raise ValueError('Missing article body: ' + a['slug'])
     lead = next(a for a in articles if a['slug'] == 'birds-of-wesleyan')
     homepage = '<div class="issuebar"><span>Current issue</span><span>Fall 2026</span><a href="/archives/">All issues</a></div>'
-    homepage += (f'<article class="lead"><div class="lead__text"><h1 class="lead__title"><a href="{article_url(lead)}">{escape(lead["title"])}</a></h1>'
-                 f'<p class="meta">{escape(lead["section"])} / {escape(lead["type"])}</p>'
+    order = {
+        'research-reviews': [
+            'math-behind-llms',
+            'quantum-voting',
+            'bile-salt-mixed-micelles',
+            'gmos-applications-and-controversy',
+        ],
+        'news-features-perspectives': [
+            'scientific-paradigms',
+            'chatgpt-moment-for-robotics',
+            'liberal-arts-to-scientific-academia',
+            'psychology-in-the-age-of-tiktok',
+        ],
+    }
+    homepage += (f'<article class="lead"><div class="lead__text">'
+                 f'<a class="tag" href="/category/news-features-perspectives/features/">{escape(lead["type"])}</a>'
+                 f'<h1 class="lead__title"><a href="{article_url(lead)}">{escape(lead["title"])}</a></h1>'
                  f'<p class="lead__excerpt">{escape(lead["excerpt"])}</p><p class="byline">{escape(lead["byline"])}</p>'
+                 f'<p class="meta"><time datetime="2026-10-06T04:16:47+00:00">6 October 2026</time>'
+                 f'<span class="meta__sep" aria-hidden="true"></span><span>6 min read</span></p>'
                  f'<a class="btn" href="{article_url(lead)}">Read the article</a></div>{figure(lead, "lead__figure", True)}</article>')
     for slug, label in GROUPS.items():
-        selected = [a for a in articles if group_slug(a) == slug and a != lead]
+        order_slugs = order.get(slug, [])
+        selected = [next(a for a in articles if a['slug'] == s) for s in order_slugs if any(a['slug'] == s for a in articles)]
         homepage += f'<section class="division"><h2 class="division__title">{division_icon(slug)}<a href="/category/{slug}/">{escape(label)}</a></h2><div class="cards">' + ''.join(card(a, index == 0) for index, a in enumerate(selected)) + '</div></section>'
     homepage += ('<section class="submit"><div class="submit__header">'
                  '<img src="/assets/submission-packet.svg" class="submit__icon" alt="" width="44" height="44" aria-hidden="true">'

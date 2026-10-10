@@ -23,7 +23,6 @@
 .card__title a { text-decoration: none; }
 .card__title a:hover { color: var(--color-accent); text-decoration: underline; }
 .division { padding-block: 1rem; }
-.division__title { border-bottom-width: 1px; }
 .article__figure { border-top: 0; padding-top: 0; }
 .prose h3 { text-transform: none; letter-spacing: normal; }
 .division__title { font-size: 1.4rem; line-height: 1.3; }
