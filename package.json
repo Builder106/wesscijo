@@ -3,7 +3,13 @@
   "private": true,
   "scripts": {
     "test:browser": "playwright test",
-    "test:browser:headed": "playwright test --headed"
+    "test:browser:headed": "playwright test --headed",
+    "test:smoke": "playwright test tests/browser-smoke.spec.js",
+    "test:publication": "playwright test tests/editorial-publication.spec.js",
+    "test:cardinal": "playwright test tests/cardinal-preview.spec.js",
+    "test:dashboard": "playwright test tests/dashboard-preview.spec.js",
+    "test:wordpress": "playwright test tests/editorial-wordpress.spec.js",
+    "test:playground": "playwright test tests/playground-dashboard.spec.js tests/playground-roles.spec.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.55.0"
