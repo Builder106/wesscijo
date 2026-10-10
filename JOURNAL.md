@@ -469,10 +469,12 @@ Refined candidate dark mode logo assets across `public/assets/logo-dark.png` (10
 3. Keyline Harmonization: Synchronized the cardinal's crest tip with the spilling tail feathers by adding matching light stroke definition where the crest crosses into the dark ring, eliminating letterform collisions under "WESLEYAN".
 4. Export Verification: Re-rendered and verified all multi-scale PNG assets at 1024px, 512px, and 192px with full alpha transparency.
 
-## 2026-10-09 - Dark mode logo tail plumage and outline restoration #ui #darkmode #branding
+## 2026-10-09 - Dark mode logo cardinal artwork fidelity restoration #ui #darkmode #branding
 
-Restored authentic tail feather rendering for dark mode logo assets (`public/assets/logo-dark.png`, `logo-dark-512.png`, and `logo-dark-192.png`):
-1. Tail Plumage & Outline Fidelity: Reverted tail feathers to solid Cardinal Red (`#ea192e`) fill with authentic black perimeter outlines and quill lines, removing unintentional gray patches and light keyline strokes to match the canonical light mode artwork.
-2. Layer Composition: Composed the cardinal bird artwork cleanly in front of the inner concentric circular rule (r=360) and surrounding letterforms, preserving crisp dark outlines against negative space and eliminating relic stroke artifacts near the "SCIENCE" serif tracks.
-3. Multi-Scale Export: Re-exported 1024px, 512px, and 192px production PNGs via Lanczos downsampling with full alpha transparency.
+Restored full-fidelity cardinal artwork for dark mode logo assets (`public/assets/logo-dark.png`, `logo-dark-512.png`, and `logo-dark-192.png`):
+1. Face & Goggles Preservation: Restored the complete authentic safety goggles artwork (golden frame, center rivet, mauve housing, cyan transparent lens, and white pupil highlight reflection), orange beak, and black feathered facial mask.
+2. Syringe / Pipette Integrity: Restored the metallic silver barrel with black contouring, blue plunger button, and needle shaft without alpha erasure.
+3. Tail Plumage & Outline Fidelity: Restored solid Cardinal Red (`#ea192e`) plumage across all tail feathers with crisp black perimeter outlines and internal quills, eliminating all gray patches, white strokes, and tip artifacts.
+4. Multi-Scale Export: Re-exported 1024px, 512px, and 192px production PNGs via Lanczos downsampling with full alpha transparency.
+
 
