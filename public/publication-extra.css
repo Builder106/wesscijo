@@ -29,8 +29,9 @@
 .division { margin-block: 3rem; }
 .meta { margin-block: .75rem; color: var(--color-ink-3); }
 .byline { font-size: .95rem; margin-block: 1rem; }
-.article { max-width: 100%; }
-.article__title { max-width: 1050px; font-size: clamp(2rem, 4vw, 3.5rem); }
+.article { max-width: 100%; text-align: center; }
+.article .prose { text-align: left; }
+.article__title { max-width: 1050px; font-size: clamp(2rem, 4vw, 3.5rem); margin-inline: auto; text-align: center; }
 .article__figure { margin: 2rem auto; max-width: 900px; }
 .article__figure img { max-height: 44rem; }
 figcaption { margin-block: .5rem; font-size: .82rem; line-height: 1.5; color: var(--color-ink-3); }
