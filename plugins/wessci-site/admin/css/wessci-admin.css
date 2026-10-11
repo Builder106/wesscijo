@@ -246,6 +246,118 @@ body.wessci-branded #wpbody-content .button-primary:focus {
   font-size: 24px;
   font-weight: 600;
 }
+.wessci-workspace .wessci-issue-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.wessci-workspace .wessci-issue-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--wes-carbon);
+}
+.wessci-workspace .wessci-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 3px;
+  background: var(--wes-red);
+  color: #fff;
+}
+.wessci-workspace .wessci-badge--live {
+  background: #1b8a5a;
+}
+.wessci-workspace .wessci-progress-wrap {
+  margin: 12px 0 16px;
+}
+.wessci-workspace .wessci-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--wes-text-muted);
+  margin-bottom: 6px;
+}
+.wessci-workspace .wessci-progress-bar {
+  background: #e2e4e7;
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+.wessci-workspace .wessci-progress-fill {
+  background: var(--wes-red);
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+.wessci-workspace .wessci-stats-grid {
+  display: flex;
+  gap: 10px;
+  margin: 14px 0;
+}
+.wessci-workspace .wessci-stat-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid var(--wes-border);
+  border-radius: 4px;
+  padding: 10px 8px;
+  text-align: center;
+}
+.wessci-workspace .wessci-stat-num {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--wes-carbon);
+  line-height: 1.1;
+}
+.wessci-workspace .wessci-stat-label {
+  font-size: 11px;
+  color: var(--wes-text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.wessci-workspace .wessci-division-summary {
+  margin: 16px 0 12px;
+  border-top: 1px solid var(--wes-border);
+  padding-top: 12px;
+}
+.wessci-workspace .wessci-division-summary h4 {
+  margin: 0 0 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--wes-text-muted);
+  letter-spacing: 0.03em;
+}
+.wessci-workspace .wessci-division-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.wessci-workspace .wessci-div-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: #f0f0f2;
+  border: 1px solid var(--wes-border);
+  border-radius: 12px;
+  font-size: 11px;
+  color: var(--wes-carbon);
+}
+.wessci-workspace .wessci-action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--wes-border);
+}
 .wessci-workspace [hidden] {
   display: none !important;
 }

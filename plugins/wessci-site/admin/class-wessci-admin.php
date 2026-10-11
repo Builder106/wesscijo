@@ -30,12 +30,16 @@ class WesSci_Admin {
 	}
 
 	public static function division_group( $post_id ) {
+		$div = get_post_meta( $post_id, '_wessci_division', true );
+		if ( $div && in_array( $div, array( 'life', 'phys', 'quant', 'sts' ), true ) ) {
+			return $div;
+		}
 		$cats   = wp_get_post_categories( $post_id, array( 'fields' => 'slugs' ) );
 		$groups = array(
-			'life'  => array( 'biology', 'neuroscience', 'psychology', 'life-sciences' ),
-			'phys'  => array( 'astronomy', 'physics', 'chemistry', 'earth-environmental', 'physical-sciences' ),
-			'quant' => array( 'math', 'computer-science', 'quantitative-computational' ),
-			'sts'   => array( 'science-technology-society', 'sts' ),
+			'life'  => array( 'biology', 'neuroscience', 'psychology', 'life-sciences', 'life-science' ),
+			'phys'  => array( 'astronomy', 'physics', 'chemistry', 'earth-environmental', 'physical-sciences', 'physical-science' ),
+			'quant' => array( 'math', 'computer-science', 'quantitative-computational', 'quantitative-and-computational-science' ),
+			'sts'   => array( 'science-technology-society', 'sts', 'science-technology-and-society' ),
 		);
 		foreach ( $groups as $group => $slugs ) {
 			if ( array_intersect( $cats, $slugs ) ) {
@@ -133,8 +137,9 @@ class WesSci_Admin {
 	 * Configure dashboard widgets.
 	 */
 	public static function configure_dashboard_widgets() {
-		// Remove core "WordPress Events and News" widget for all users.
+		// Remove core "WordPress Events and News" and "Quick Draft" widgets for all users.
 		remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
+		remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
 
 		wp_add_dashboard_widget( 'wessci_dashboard_division_queues', __( 'Manuscripts', 'wessci' ), array( __CLASS__, 'render_widget_division_queues' ) );
 		wp_add_dashboard_widget( 'wessci_dashboard_issue_progress', __( 'Issue assembly', 'wessci' ), array( __CLASS__, 'render_widget_issue_progress' ), null, null, 'side' );

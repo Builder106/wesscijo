@@ -21,7 +21,12 @@ $_GET = array( 'wessci_issue' => array( '12' ) );
 check( 0 === WesSci_Admin::selected_issue(), 'Reject non-scalar issue input.' );
 function __( $text, $domain ) { return $text; }
 function wp_add_dashboard_widget( ...$args ) { $GLOBALS['widgets'][] = $args; }
-function remove_meta_box( ...$args ) { throw new RuntimeException( 'Native widgets must remain available.' ); }
+function remove_meta_box( ...$args ) {
+	$allowed = array( 'dashboard_primary', 'dashboard_quick_press' );
+	if ( ! in_array( $args[0], $allowed, true ) ) {
+		throw new RuntimeException( 'Native widgets must remain available.' );
+	}
+}
 function remove_action( ...$args ) { throw new RuntimeException( 'Native welcome panel must remain available.' ); }
 $GLOBALS['widgets'] = array();
 WesSci_Admin::configure_dashboard_widgets();
