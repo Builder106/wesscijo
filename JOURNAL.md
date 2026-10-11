@@ -1,5 +1,17 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-11 - Submit page action deduplication #editorial #ux
+
+Deduplicated action buttons on `/submit/`. Kept the primary Google Form link (`Open the article submission form`) in the top hero slot and retained the editorial document download (`Download the complete guidelines (PDF)`) in context under the Article Content Guidelines section. Aligned the live WordPress page content with the static publication template and verified visual hierarchy with automated browser tests.
+
+## 2026-10-11 - Editorial dashboard enhancement and Quick Draft retirement #cms #editorial
+
+Activated and restyled the native `Issue assembly` dashboard widget in `wessci-site` to provide real-time tracking for active editions (e.g. Fall 2026). Added a progress indicator, publication readiness metrics (Published/Ready, In Pipeline, Total Articles), and discipline distribution badges across Life Sciences, Physical Sciences, Quantitative, and STS divisions. Removed the extraneous `Quick Draft` widget to declutter editorial navigation.
+
+## 2026-10-11 - Editorial guidelines integration, favicon update, and article header alignment #branding #typography #assets
+
+Integrated the official `Approved Article Content.pdf` guidelines document into static and theme assets (`assets/guidelines.pdf`), resolving 404 download errors. Configured the circular cardinal emblem as the site icon and fallback favicon across desktop and mobile browsers. Restored centered header alignment and auto-margin constraint on single article views to prevent author bylines and metadata from misaligning to the left of the reading layout.
+
 ## 2026-10-08 - 3-state system theme toggle #theme #accessibility #ux
 
 Added a native 3-state theme preference cycle (`System` -> `Light` -> `Dark` -> `System`) across the WordPress theme and static publication build without modifying any article HTML files or page templates. The script dynamically injects an SVG monitor/display glyph into `#theme-toggle` on initialization. In System mode, explicit theme overrides (`localStorage['theme']` and `data-theme`) are cleanly removed, allowing the OS `prefers-color-scheme` media query to control page styling dynamically. View Transitions API and prefers-reduced-motion guards remain active across all transitions. Verified with Playwright on `ampere-dev`.
