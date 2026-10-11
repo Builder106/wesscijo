@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-11 - Open guidelines PDF in new browser tab #editorial #ux
+
+Updated editorial guidelines links across the publication and WordPress database to open the PDF in a new browser tab (`target="_blank" rel="noopener noreferrer"`) rather than prompting a direct file download. Removed the HTML `download` attribute and updated the action label to `View the complete guidelines (PDF)`. Verified link target, rel attributes, and absence of download prompts with automated publication tests.
+
 ## 2026-10-11 - Submit page action deduplication #editorial #ux
 
 Deduplicated action buttons on `/submit/`. Kept the primary Google Form link (`Open the article submission form`) in the top hero slot and retained the editorial document download (`Download the complete guidelines (PDF)`) in context under the Article Content Guidelines section. Aligned the live WordPress page content with the static publication template and verified visual hierarchy with automated browser tests.
