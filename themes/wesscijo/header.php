@@ -16,6 +16,9 @@
 		} catch(e) {}
 	})();
 	</script>
+	<?php if ( ! has_site_icon() ) : ?>
+		<link rel="icon" href="<?php echo esc_url( get_theme_file_uri( '/assets/favicon.png' ) ); ?>">
+	<?php endif; ?>
 	<?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
