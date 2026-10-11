@@ -632,3 +632,11 @@ Following editorial feedback:
 1. Stripped student class years (e.g. ", Class of 2028") from author bylines in the production WordPress database for posts 40 and 42, and added a regex fallback in `wesscijo_byline()` to sanitize future inputs.
 2. Removed `text-align: center` from `.article`, left-aligned `.article .meta`, and widened `.article__title` max-width from `20ch` to `1050px` in `themes/wesscijo/style.css` and `public/publication.css`. This prevents awkward word wrapping on long titles and keeps shorter titles anchored naturally to the left.
 3. Synced updated theme files to the live container `wessci-wordpress-1` on `ampere-dev`, verified rendering in Playwright, and confirmed 9 of 9 editorial publication tests pass.
+
+## 2026-10-11 - Center article headers and deploy guidelines PDF #ui #editorial #assets #deployment
+
+Following editorial feedback:
+1. Centered article category tags, titles (`.article__title`), author names (`.byline`), and reading metadata (`.meta`) in single article view, while preserving left alignment for article prose and sources. Increased author byline font size to `var(--text-base)` and applied centered auto margins to `.article__title` with a 1050px max width so headers have expansive presence without awkward leftward shifts.
+2. Ingested updated Approved Article Content PDF from Documents into `public/assets/guidelines.pdf`, `themes/wesscijo/assets/guidelines.pdf`, and `notes/editorial/Approved Article Content.pdf`.
+3. Deployed `guidelines.pdf` into `/var/www/html/assets/guidelines.pdf` and `/var/www/html/wp-content/themes/wesscijo/assets/guidelines.pdf` in the live production WordPress container `wessci-wordpress-1` on `ampere-dev`, resolving the 404 error for the guidelines download link.
+4. Synced theme stylesheets (`themes/wesscijo/style.css`, `public/publication.css`, and `public/publication-extra.css`), flushed WordPress object cache, re-rendered static publication snapshot, and verified 9 of 9 editorial publication tests on `ampere-dev`.
