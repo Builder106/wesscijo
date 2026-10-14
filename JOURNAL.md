@@ -1,5 +1,13 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-14 - Configure lightweight page caching with Cache Enabler #performance #cms #deployment
+
+Installed and configured Cache Enabler on the production WordPress instance to resolve the Site Health page cache recommendation while protecting editorial workflow:
+1. Deployed Cache Enabler 1.8.17 with `WP_CACHE` drop-in configuration (`advanced-cache.php`) and disk-based caching under `wp-content/cache/cache-enabler/`.
+2. Configured cache rules to bypass caching for all logged-in editors (`wordpress_logged_in_*`), ensuring real-time draft previews, issue assembly, and editorial tools never serve stale states.
+3. Enabled automatic full-site cache purges upon post updates and plugin state changes (`clear_site_cache_on_saved_post = 1`, `clear_site_cache_on_changed_plugin = 1`), with a 24-hour baseline expiration.
+4. Verified that anonymous page requests serve cached HTML via `X-Cache-Handler: cache-enabler-engine` with sub-100ms response times, and confirmed WordPress Site Health now passes the page cache test with `status: good` (0 critical issues, 0 recommended improvements).
+
 ## 2026-10-11 - Open guidelines PDF in new browser tab #editorial #ux
 
 Updated editorial guidelines links across the publication and WordPress database to open the PDF in a new browser tab (`target="_blank" rel="noopener noreferrer"`) rather than prompting a direct file download. Removed the HTML `download` attribute and updated the action label to `View the complete guidelines (PDF)`. Verified link target, rel attributes, and absence of download prompts with automated publication tests.
