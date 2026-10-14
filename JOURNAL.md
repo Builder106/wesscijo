@@ -1,5 +1,12 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-14 - Tune PHP upload limits, memory constraints, and debug hardening #infrastructure #security #cms
+
+Applied production resource adjustments and security hardening for the WordPress container:
+1. Created `/home/ubuntu/apps/wessci/config/custom-php.ini` mounted into `/usr/local/etc/php/conf.d/custom.ini`, raising `upload_max_filesize` to 32M, `post_max_size` to 64M, `memory_limit` to 256M, and `max_execution_time` to 60s.
+2. Updated `wp-config.php` to define `WP_MEMORY_LIMIT` as `128M` (raising the frontend PHP soft ceiling from WordPress's 40M default to support Simply Static exports) and explicitly set `WP_DEBUG_DISPLAY` to `false` to prevent internal notices from leaking to public HTML.
+3. Verified in WordPress Site Health debug info that effective upload size is 32 MB and memory limits are active. All 9 Playwright publication tests pass cleanly.
+
 ## 2026-10-14 - Upgrade production WordPress to PHP 8.5 #infrastructure #performance #deployment
 
 Upgraded the self-hosted production WordPress container from PHP 8.3 to PHP 8.5:
