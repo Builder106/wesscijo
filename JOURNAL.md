@@ -1,5 +1,14 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-14 - Upgrade production WordPress to PHP 8.5 #infrastructure #performance #deployment
+
+Upgraded the self-hosted production WordPress container from PHP 8.3 to PHP 8.5:
+1. Updated Docker Compose configuration to use `wordpress:php8.5-apache` (PHP 8.5.11 with Zend OPcache 8.5.11 and Apache 2.4.68).
+2. Preserved the WP-CLI binary via dedicated read-only host mount (`/home/ubuntu/apps/wessci/bin/wp`), confirming full CLI functionality under PHP 8.5.
+3. Linted all installed plugins (`cache-enabler`, `fluent-smtp`, `simply-static`, `mcp-adapter`, `wessci-site`) and the `wesscijo` theme under PHP 8.5 with zero syntax or deprecation errors.
+4. Verified that WordPress Site Health reports `status: good` for both the PHP version check (`Your site is running a recommended version of PHP (8.5.11)`) and the page cache check.
+5. Confirmed that all 9 Playwright publication end-to-end tests continue to pass cleanly.
+
 ## 2026-10-14 - Configure lightweight page caching with Cache Enabler #performance #cms #deployment
 
 Installed and configured Cache Enabler on the production WordPress instance to resolve the Site Health page cache recommendation while protecting editorial workflow:
