@@ -1,5 +1,12 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-15 - Expose editorial board roster to companion plugin admin screen #editorial #cms #bugfix
+
+Resolved missing editorial roster in the WordPress admin panel (`admin.php?page=wessci-masthead`):
+1. Implemented `wessci_editorial_board()` in `themes/wesscijo/functions.php` and `themes/wessci-fallback/functions.php`, returning the structured 25+ position masthead across all seven divisions and creative roles.
+2. Verified that the `wessci-site` plugin's Editorial Board administrative view successfully binds to the roster and renders formatted position tables.
+3. Verified all 22 theme PHP templates pass syntax checks under PHP 8.5.
+
 ## 2026-10-15 - Version-control fallback theme and automate milestone promotion #theme #maintenance #cms
 
 Version-controlled `wessci-fallback` in the git repository and established an automated promotion script to maintain disaster-recovery parity with `wesscijo`:
