@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="submission-packet-svg" viewBox="0 0 64 64" width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" role="img" aria-label="Manuscript submission guidelines packet icon">
+  <style>
+    :root {
+      --ink: #111827;
+      --accent: #a6192e;
+      color: var(--ink);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #ede8e5;
+        --accent: #e63946;
+        color: var(--ink);
+      }
+    }
+  </style>
+
+  <path id="doc-outline" d="M16 8 h24 l12 12 v36 h-36 z" stroke-width="2.2" stroke-linejoin="round"/>
+  <path id="doc-fold" d="M40 8 v12 h12" stroke-width="2" stroke-linejoin="round"/>
+  <polygon points="40,8 40,20 52,20" fill="currentColor" fill-opacity="0.08"/>
+  <line id="line-1" x1="22" y1="26" x2="36" y2="26" stroke-linecap="round" stroke-width="2" stroke="var(--accent, #a6192e)"/>
+  <line id="line-2" x1="22" y1="33" x2="42" y2="33" stroke-linecap="round" stroke-width="2"/>
+  <line id="line-3" x1="22" y1="40" x2="34" y2="40" stroke-linecap="round" stroke-width="2"/>
+  <path id="arrow-down" d="M42 45 l5 5 l5 -5 M47 33 v17" stroke="var(--accent, #a6192e)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

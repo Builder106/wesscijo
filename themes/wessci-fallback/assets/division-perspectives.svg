@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="perspectives-svg" viewBox="0 0 40 40" width="40" height="40" fill="none" role="img" aria-label="News, Features and Perspectives optical refraction prism emblem">
+  <defs>
+    <!-- Crystalline Glass Surface Gradient -->
+    <linearGradient id="prism-glass-grad" x1="7.5" y1="31.5" x2="20" y2="7.5" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0.12"/>
+    </linearGradient>
+
+    <!-- Internal Dispersion Wedge Gradient -->
+    <linearGradient id="prism-internal-grad" x1="14" y1="19" x2="26.5" y2="20" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.8"/>
+      <stop offset="50%" stop-color="#d97706" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#a6192e" stop-opacity="0.7"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    :root {
+      --ink: #111827;
+      --accent: #a6192e;
+      --amber: #d97706;
+      --blue: #2563eb;
+      color: var(--ink);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #ede8e5;
+        --accent: #f87171;
+        --amber: #fbbf24;
+        --blue: #60a5fa;
+        color: var(--ink);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      animate, animateTransform { animation: none !important; }
+    }
+  </style>
+
+  <!-- ================= PRISM BODY & FACETS ================= -->
+  <!-- Prism Triangular Glass Body -->
+  <polygon id="prism-body" points="20,7.5 32.5,31.5 7.5,31.5" fill="url(#prism-glass-grad)" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+  
+  <!-- Internal 3D Crystalline Facet Edge -->
+  <line id="prism-facet" x1="20" y1="7.5" x2="16.5" y2="31.5" stroke="currentColor" stroke-width="1.0" stroke-opacity="0.25" stroke-linecap="round"/>
+
+  <!-- Specular Apex Edge Sheen (Glints as light passes) -->
+  <line id="prism-sheen" x1="18.5" y1="10.4" x2="20" y2="7.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-opacity="0.4">
+    <animate attributeName="stroke-opacity" values="0.3;0.95;0.3" dur="1.4s" begin="0.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
+  </line>
+
+  <!-- Internal Dispersion Wedge (Refracting Light Chamber) -->
+  <polygon id="dispersion-wedge" points="14,19 25.8,18.6 26.8,20.8" fill="url(#prism-internal-grad)" opacity="0.25">
+    <animate attributeName="opacity" values="0.15;0.65;0.15" dur="1.4s" begin="0.35s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
+  </polygon>
+
+  <!-- ================= INTERNAL REFRACTED PATHS ================= -->
+  <!-- Static Base Trajectories inside Glass -->
+  <line x1="14" y1="19" x2="25.8" y2="18.6" stroke="var(--accent, #a6192e)" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
+  <line x1="14" y1="19" x2="26.3" y2="19.7" stroke="var(--amber, #d97706)" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
+  <line x1="14" y1="19" x2="26.8" y2="20.8" stroke="var(--blue, #2563eb)" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.4"/>
+
+  <!-- Internal Refractive Propagation Pulses -->
+  <line x1="14" y1="19" x2="25.8" y2="18.6" stroke="var(--accent, #a6192e)" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
+    <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.32s" repeatCount="indefinite"/>
+  </line>
+  <line x1="14" y1="19" x2="26.3" y2="19.7" stroke="var(--amber, #d97706)" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
+    <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.38s" repeatCount="indefinite"/>
+  </line>
+  <line x1="14" y1="19" x2="26.8" y2="20.8" stroke="var(--blue, #2563eb)" stroke-width="2.0" stroke-linecap="round" stroke-dasharray="5 15">
+    <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.44s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- ================= INCOMING INCIDENT LIGHT BEAM ================= -->
+  <!-- Base Guide Track (Subtle so pulse pops) -->
+  <line id="beam-in-base" x1="3" y1="23.5" x2="14" y2="19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.3"/>
+  <!-- Intense Traveling Incident Photon Stream -->
+  <line id="beam-in-pulse" x1="3" y1="23.5" x2="14" y2="19" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
+    <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- ================= OUTGOING SPECTRAL RAYS ================= -->
+  <!-- Ray 1: Wesleyan Cardinal Ruby (Bends least, top) -->
+  <line id="beam-out-1-base" x1="25.8" y1="18.6" x2="38" y2="19.8" stroke="var(--accent, #a6192e)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
+  <line id="beam-out-1-pulse" x1="25.8" y1="18.6" x2="38" y2="19.8" stroke="var(--accent, #a6192e)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
+    <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.60s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Ray 2: Warm Amber / Gold (Medium dispersion, center) -->
+  <line id="beam-out-2-base" x1="26.3" y1="19.7" x2="38" y2="24.5" stroke="var(--amber, #d97706)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
+  <line id="beam-out-2-pulse" x1="26.3" y1="19.7" x2="38" y2="24.5" stroke="var(--amber, #d97706)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
+    <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.70s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- Ray 3: Sapphire Blue (Bends most, bottom) -->
+  <line id="beam-out-3-base" x1="26.8" y1="20.8" x2="38" y2="29.5" stroke="var(--blue, #2563eb)" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.35"/>
+  <line id="beam-out-3-pulse" x1="26.8" y1="20.8" x2="38" y2="29.5" stroke="var(--blue, #2563eb)" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="6 14">
+    <animate attributeName="stroke-dashoffset" values="20;0" dur="1.4s" begin="0.80s" repeatCount="indefinite"/>
+  </line>
+</svg>

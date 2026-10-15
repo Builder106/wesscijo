@@ -1,0 +1,53 @@
+<?php get_header(); ?>
+
+<main class="site-main" id="main" tabindex="-1">
+
+	<?php
+	$queried       = get_queried_object();
+	$archive_title = ( $queried instanceof WP_Term ) ? wessci_term_name( $queried ) : esc_html( get_the_archive_title() );
+	?>
+
+	<section class="division">
+		<h1 class="division__title"><?php echo $archive_title; ?></h1>
+
+		<?php if ( have_posts() ) : ?>
+			<div class="cards">
+				<?php
+				while ( have_posts() ) :
+					the_post();
+					$type = wessci_article_type( get_the_ID() );
+					?>
+					<article class="card">
+						<?php if ( has_post_thumbnail() ) : ?>
+							<figure class="card__figure">
+								<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
+									<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
+								</a>
+							</figure>
+						<?php endif; ?>
+						<?php if ( $type ) : ?>
+							<span class="card__type"><?php echo wessci_term_name( $type ); ?></span>
+						<?php endif; ?>
+						<h3 class="card__title">
+							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+						</h3>
+						<p class="card__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
+					</article>
+					<?php
+				endwhile;
+				?>
+			</div>
+
+			<?php the_posts_pagination(); ?>
+		<?php else : ?>
+			<?php if ( is_category( array( 'news', 'news-features-perspectives-news' ) ) || ( $queried instanceof WP_Term && ( in_array( $queried->slug, array( 'news', 'news-features-perspectives-news' ), true ) || 'News' === $queried->name ) ) ) : ?>
+				<p class="empty">News articles coming soon.</p>
+			<?php else : ?>
+				<p class="empty">No articles found.</p>
+			<?php endif; ?>
+		<?php endif; ?>
+	</section>
+
+</main>
+
+<?php get_footer(); ?>

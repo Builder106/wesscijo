@@ -1,0 +1,187 @@
+<?php
+/**
+ * WesSciJo
+ * Site theme for The Wesleyan Science Journal.
+ */
+
+function wesscijo_setup() {
+	add_theme_support( 'post-thumbnails' );
+	add_theme_support( 'title-tag' );
+	add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'style', 'script' ) );
+	add_theme_support(
+		'custom-logo',
+		array(
+			'height'      => 160,
+			'width'       => 320,
+			'flex-height' => true,
+			'flex-width'  => true,
+		)
+	);
+	add_image_size( 'wessci-lead', 800, 600, false );
+	add_image_size( 'wessci-card', 800, 600, false );
+}
+add_action( 'after_setup_theme', 'wesscijo_setup' );
+
+function wesscijo_assets() {
+	wp_enqueue_style(
+		'wessci-fonts',
+		'https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@600&display=swap',
+		array(),
+		null
+	);
+	wp_enqueue_style(
+		'wessci-fallback',
+		get_stylesheet_uri(),
+		array( 'wessci-fonts' ),
+		(string) filemtime( get_stylesheet_directory() . '/style.css' )
+	);
+}
+add_action( 'wp_enqueue_scripts', 'wesscijo_assets' );
+
+/** Return the configurable masthead title used by the header and footer. */
+function wesscijo_brand_title() {
+	$title = trim( get_theme_mod( 'wessci_masthead_title', 'The Wesleyan Science Journal' ) );
+	return '' === $title || 'Wesleyan Science Journal' === $title ? 'The Wesleyan Science Journal' : $title;
+}
+
+/** Keep the logo placement easy to change when the final logo is ready. */
+function wesscijo_sanitize_logo_position( $value ) {
+	return in_array( $value, array( 'left', 'right' ), true ) ? $value : 'left';
+}
+
+function wesscijo_customize_register( $wp_customize ) {
+	$wp_customize->add_section(
+		'wessci_masthead',
+		array(
+			'title'    => 'Journal masthead',
+			'priority' => 30,
+		)
+	);
+
+	$wp_customize->add_setting(
+		'wessci_masthead_title',
+		array(
+			'default'           => 'The Wesleyan Science Journal',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'wessci_masthead_title',
+		array(
+			'label'       => 'Masthead title',
+			'description' => 'Text shown in the masthead and footer.',
+			'section'     => 'wessci_masthead',
+			'type'        => 'text',
+		)
+	);
+
+	$wp_customize->add_setting(
+		'wessci_logo_position',
+		array(
+			'default'           => 'left',
+			'sanitize_callback' => 'wesscijo_sanitize_logo_position',
+			'transport'         => 'refresh',
+		)
+	);
+	$wp_customize->add_control(
+		'wessci_logo_position',
+		array(
+			'label'       => 'Logo position',
+			'description' => 'Choose which side of the masthead title the custom logo uses.',
+			'section'     => 'wessci_masthead',
+			'type'        => 'select',
+			'choices'     => array(
+				'left'  => 'Left of title',
+				'right' => 'Right of title',
+			),
+		)
+	);
+}
+add_action( 'customize_register', 'wesscijo_customize_register' );
+
+/** Keep search results on the article card system instead of mixing page types. */
+function wesscijo_search_query( $query ) {
+	if ( is_admin() || ! $query->is_main_query() || ! $query->is_search() ) {
+		return;
+	}
+
+	$query->set( 'post_type', 'post' );
+}
+add_action( 'pre_get_posts', 'wesscijo_search_query' );
+
+/**
+ * The journal's two top-level divisions, each with its article types.
+ * Returns [ term, children[] ] so nav and section heads share one source.
+ */
+function wessci_divisions() {
+	$out = array();
+	foreach ( array( 'research-reviews', 'news-features-perspectives' ) as $slug ) {
+		$term = get_term_by( 'slug', $slug, 'category' );
+		if ( ! $term ) {
+			continue;
+		}
+		$out[] = array(
+			'term'     => $term,
+			'children' => get_terms(
+				array(
+					'taxonomy'   => 'category',
+					'parent'     => $term->term_id,
+					'hide_empty' => false,
+				)
+			),
+		);
+	}
+	return $out;
+}
+
+/**
+ * Term names are stored HTML-escaped ("News &amp; Views"), so esc_html alone
+ * would double-encode the ampersand. Decode first, then escape.
+ */
+function wessci_term_name( $term ) {
+	return esc_html( html_entity_decode( $term->name, ENT_QUOTES, 'UTF-8' ) );
+}
+
+/** Article type = the most specific (child) category on the post. */
+function wessci_article_type( $post_id ) {
+	$cats = get_the_category( $post_id );
+	foreach ( $cats as $c ) {
+		if ( $c->parent ) {
+			return $c;
+		}
+	}
+	return ! empty( $cats ) ? $cats[0] : null;
+}
+
+/** Reading time from word count — real number, not invented. */
+function wessci_read_time( $post_id ) {
+	preg_match_all( '/\p{L}+/u', wp_strip_all_tags( get_post_field( 'post_content', $post_id ) ), $m );
+	$words = count( $m[0] );
+	return max( 1, (int) round( $words / 200 ) );
+}
+
+function wesscijo_byline( $post_id ) {
+	$authors = get_post_meta( $post_id, '_wessci_authors', true );
+	if ( ! is_array( $authors ) ) {
+		return '';
+	}
+	$names = array();
+	foreach ( $authors as $author ) {
+		if ( is_array( $author ) && isset( $author['name'] ) && is_string( $author['name'] ) && '' !== trim( $author['name'] ) ) {
+			$name    = preg_replace( '/,\s*Class of \d{4}/i', '', trim( $author['name'] ) );
+			$names[] = $name;
+		}
+	}
+	return implode( ', ', $names );
+}
+
+/** Up to two initials for a masthead placeholder avatar, until real headshots exist. */
+function wessci_initials( $name ) {
+	$parts    = preg_split( '/\s+/', trim( $name ) );
+	$initials = '';
+	foreach ( array_slice( $parts, 0, 2 ) as $part ) {
+		$initials .= mb_substr( $part, 0, 1 );
+	}
+	return mb_strtoupper( $initials );
+}
