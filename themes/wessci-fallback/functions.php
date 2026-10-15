@@ -185,3 +185,92 @@ function wessci_initials( $name ) {
 	}
 	return mb_strtoupper( $initials );
 }
+
+/**
+ * Return the editorial board and masthead roster.
+ *
+ * Exposes the structured roster for both theme views and the
+ * wessci-site companion plugin admin screen.
+ *
+ * @return array Sections containing title and members.
+ */
+function wessci_editorial_board() {
+	return array(
+		array(
+			'title'   => 'Editorial Board',
+			'members' => array(
+				array( 'name' => 'Aryia Banihashem-Ahmad', 'role' => 'Editor-in-Chief' ),
+				array( 'name' => 'Shriya Sakalkale', 'role' => 'Editor-in-Chief' ),
+				array( 'name' => 'Elena Mente', 'role' => 'Editor-in-Chief' ),
+			),
+		),
+		array(
+			'title'   => 'Life Science',
+			'members' => array(
+				array( 'name' => 'Lorraine Hillgen-Santa', 'role' => 'Lead Life Science Editor' ),
+				array( 'name' => 'Maia Feik Reinhart', 'role' => 'Lead Life Science Editor' ),
+				array( 'name' => 'Feyza Horuz', 'role' => 'Biology Editor' ),
+				array( 'name' => 'Kitty Edwards', 'role' => 'Biology Editor' ),
+				array( 'name' => 'Claire Farina', 'role' => 'Biology Editor' ),
+				array( 'name' => 'Sophie Lambert', 'role' => 'Assistant Biology Editor' ),
+				array( 'name' => 'Saara Saini', 'role' => 'Assistant Biology Editor' ),
+				array( 'name' => 'Hannah Zullow', 'role' => 'Neuroscience & Psychology Editor' ),
+				array( 'name' => 'Gaby Sorin', 'role' => 'Neuroscience & Psychology Editor' ),
+				array( 'name' => 'Olivia Oliveira', 'role' => 'Assistant Neuroscience & Psychology Editor' ),
+				array( 'name' => 'Rhea Ashish Kothari', 'role' => 'Assistant Neuroscience & Psychology Editor' ),
+			),
+		),
+		array(
+			'title'   => 'Physical Science',
+			'members' => array(
+				array( 'name' => 'Natalie Price', 'role' => 'Lead Physical Science Editor' ),
+				array( 'name' => 'Hamza Habib', 'role' => 'Lead Physical Science Editor' ),
+				array( 'name' => 'Zesun Hossain', 'role' => 'Astronomy Editor' ),
+				array( 'name' => 'Ella Stricker', 'role' => 'Physics Editor' ),
+				array( 'name' => 'Rhea Ashish Kothari', 'role' => 'Assistant Physics Editor' ),
+				array( 'name' => 'Ellen Gudiksen', 'role' => 'Chemistry Editor' ),
+				array( 'name' => 'Saara Saini', 'role' => 'Assistant Chemistry Editor' ),
+				array( 'name' => 'Aniana Garciano', 'role' => 'Earth & Environmental Editor' ),
+				array( 'name' => 'Ella Stricker', 'role' => 'Earth & Environmental Editor' ),
+			),
+		),
+		array(
+			'title'   => 'Quantitative and Computational Science',
+			'members' => array(
+				array( 'name' => 'Shloka Bhattacharyya', 'role' => 'Lead Quantitative and Computational Editor' ),
+				array( 'name' => 'Gillian Churchland', 'role' => 'Math Editor' ),
+				array( 'name' => 'Calvin Chiu', 'role' => 'Math Editor' ),
+				array( 'name' => 'Sangye Sherpa', 'role' => 'Math Editor' ),
+				array( 'name' => 'Samantha Sheahan', 'role' => 'Assistant Computer Science Editor' ),
+			),
+		),
+		array(
+			'title'   => 'Science, Technology and Society',
+			'members' => array(
+				array( 'name' => 'Sangye Sherpa', 'role' => 'Lead Science, Technology & Society Editor' ),
+				array( 'name' => 'Tessa Higgins', 'role' => 'Lead Science, Technology & Society Editor' ),
+				array( 'name' => 'Dahlia Cedarbaum', 'role' => 'Science, Technology & Society Editor' ),
+				array( 'name' => 'Sarah Toolan', 'role' => 'Science, Technology & Society Editor' ),
+			),
+		),
+		array(
+			'title'   => 'Graphic Design',
+			'members' => array(
+				array( 'name' => 'Sorielis Paulino Polanco', 'role' => 'Graphic Designer' ),
+				array( 'name' => 'Minaal Khwaja', 'role' => 'Graphic Designer' ),
+				array( 'name' => 'Hannah Russak', 'role' => 'Graphic Designer' ),
+				array( 'name' => 'Ali Eckstein', 'role' => 'Graphic Designer' ),
+				array( 'name' => 'Olivia Oliveira', 'role' => 'Graphic Designer' ),
+				array( 'name' => 'Kitty Edwards', 'role' => 'Graphic Designer' ),
+			),
+		),
+		array(
+			'title'   => 'Web Design',
+			'members' => array(
+				array( 'name' => 'Olayinka Vaughan', 'role' => 'Lead Web Designer' ),
+				array( 'name' => 'Giancarlo Fedolfi', 'role' => 'Web Designer' ),
+			),
+		),
+	);
+}
+
