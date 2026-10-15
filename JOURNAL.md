@@ -1,5 +1,14 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-15 - Unregister unused comments moderation system from editorial admin #cms #ui #hardening
+
+Removed the default WordPress blog comments system to streamline the editorial administration interface:
+1. Unregistered the core `edit-comments.php` admin menu page in `plugins/wessci-site/admin/class-wessci-admin.php`.
+2. Removed the top admin bar comments count bubble node on all screens.
+3. Removed the `dashboard_recent_comments` widget from the main dashboard.
+4. Stripped comment and trackback support from posts and pages, and redirected direct requests to `edit-comments.php` and `comment.php` back to the dashboard.
+5. Closed comments and trackbacks globally in database options and updated all published posts.
+
 ## 2026-10-15 - Expose editorial board roster to companion plugin admin screen #editorial #cms #bugfix
 
 Resolved missing editorial roster in the WordPress admin panel (`admin.php?page=wessci-masthead`):
