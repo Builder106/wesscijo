@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-15 - Prototype cardinal landing logo #preview #motion
+
+Traced `brand/logo.png` into `brand/logo-semantic.svg` with named seal, cardinal, wing, feet, and syringe groups. Authored a 2.6-second cardinal flight and landing in Glaxnimate. The preview starts with the seal centered alone, pauses briefly after the landing, then moves the completed logo into the masthead as the page appears. Reduced-motion visitors see the settled page immediately. The vector is a preview approximation of the raster logo; no published site assets changed.
+
 ## 2026-10-15 - Unregister unused comments moderation system from editorial admin #cms #ui #hardening
 
 Removed the default WordPress blog comments system to streamline the editorial administration interface:

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Logo entrance preview — The Wesleyan Science Journal</title>
+  <script>
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches && Element.prototype.animate) {
+      document.documentElement.classList.add('intro');
+    }
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #fff;
+      --ink: #171414;
+      --muted: #605b5b;
+      --rule: #d9d4d4;
+      --red: #a6192e;
+    }
+
+    :root.dark {
+      color-scheme: dark;
+      --paper: #161314;
+      --ink: #f2f2f2;
+      --muted: #c5bfc0;
+      --rule: #51494b;
+      --red: #ec5067;
+    }
+
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; }
+    a { color: inherit; }
+    button { font: inherit; }
+    :focus-visible { outline: 3px solid var(--red); outline-offset: 4px; }
+    .skip-link { position: absolute; top: -5rem; left: 1rem; z-index: 3; padding: .75rem; background: var(--paper); }
+    .skip-link:focus { top: 1rem; }
+    .preview-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding: .8rem max(1.25rem, calc((100vw - 1200px) / 2)); background: var(--ink); color: var(--paper); }
+    .preview-bar p { margin: 0; font-size: .85rem; }
+    .preview-actions { display: flex; gap: .6rem; }
+    .preview-actions button { padding: .5rem .8rem; border: 1px solid currentColor; background: transparent; color: inherit; cursor: pointer; }
+    .preview-actions button:disabled { opacity: .55; cursor: not-allowed; }
+    .masthead { border-bottom: 4px solid var(--red); }
+    .brand { display: flex; align-items: center; justify-content: center; gap: clamp(2rem, 5vw, 5rem); max-width: 1200px; margin: auto; padding: 2rem 1.25rem; }
+    .seal { display: block; flex: 0 0 clamp(16rem, 27vw, 22rem); width: clamp(16rem, 27vw, 22rem); }
+    .seal img { display: block; width: 100%; height: auto; }
+    .brand-name { max-width: 16ch; color: var(--red); font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2rem, 5vw, 4.6rem); font-weight: 600; line-height: 1; text-decoration: none; }
+    .nav { display: flex; justify-content: center; gap: clamp(1rem, 3vw, 2.5rem); flex-wrap: wrap; padding: 1.15rem 1.25rem; border-bottom: 1px solid var(--rule); font-size: .85rem; font-weight: 700; }
+    .nav a { text-decoration: none; }
+    .nav a:hover { color: var(--red); }
+    main { max-width: 1200px; margin: auto; padding: 2rem 1.25rem 5rem; }
+    .issue { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--rule); color: var(--muted); font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; }
+    .lead { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: clamp(2rem, 6vw, 5rem); padding-top: 3.5rem; }
+    .lead h1 { max-width: 12ch; margin: 0 0 1.2rem; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.7rem, 5.5vw, 5.3rem); line-height: .98; }
+    .lead h1 a { text-decoration: none; }
+    .lead p { max-width: 49ch; color: var(--muted); line-height: 1.6; }
+    .lead img { display: block; width: 100%; height: auto; }
+    .preview-note { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem 2rem; color: var(--muted); font-size: .8rem; }
+    .intro { overflow: hidden; }
+    .intro #site-shell { visibility: hidden; }
+    .intro.intro-revealing #site-shell { visibility: visible; }
+    .intro #masthead-logo { visibility: hidden; }
+    #intro-screen { display: none; }
+    .intro #intro-screen { display: block; position: fixed; inset: 0; z-index: 10; }
+    .intro-backdrop { position: absolute; inset: 0; background: var(--paper); }
+    #intro-logo { position: fixed; top: 50%; left: 50%; width: min(82vw, 68vh, 440px); height: auto; transform: translate(-50%, -50%); }
+
+    @media (max-width: 700px) {
+      .brand { flex-direction: column; align-items: flex-start; gap: 1rem; padding-block: 1.5rem; }
+      .seal { align-self: center; flex-basis: auto; width: min(74vw, 18rem); }
+      .brand-name { max-width: none; font-size: clamp(2rem, 8vw, 3rem); }
+      .nav { justify-content: flex-start; }
+      .lead { grid-template-columns: 1fr; padding-top: 2.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div id="intro-screen">
+    <div class="intro-backdrop"></div>
+    <img id="intro-logo" width="768" height="768" alt="Cardinal flying in to land on a syringe inside the journal seal">
+  </div>
+  <div id="site-shell">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="preview-bar">
+    <p>Logo entrance preview</p>
+    <div class="preview-actions">
+      <button id="replay" type="button">Replay entrance</button>
+      <button id="theme" type="button" aria-pressed="false">Dark theme</button>
+    </div>
+  </div>
+  <header class="masthead">
+    <div class="brand">
+      <picture class="seal"><img id="masthead-logo" src="assets/logo-flight-still.svg" width="768" height="768" alt=""></picture>
+      <a class="brand-name" href="../public/index.html">The Wesleyan Science Journal</a>
+    </div>
+  </header>
+  <nav class="nav" aria-label="Sections">
+    <a href="../public/index.html">Home</a>
+    <a href="../public/category/research-reviews/index.html">Research &amp; Reviews</a>
+    <a href="../public/category/news-features-perspectives/index.html">News, Features &amp; Perspectives</a>
+    <a href="../public/archives/index.html">Archives</a>
+    <a href="../public/submit/index.html">Submit</a>
+  </nav>
+  <main id="main" tabindex="-1">
+    <div class="issue"><span>Current issue</span><span>Fall 2026</span></div>
+    <article class="lead">
+      <div>
+        <h1><a href="../public/articles/birds-of-wesleyan/index.html">The Birds of Wesleyan and How To Find Them</a></h1>
+        <p>The fall semester is in full swing. Classes are underway, walkways are filled, and hundreds of Cardinals have returned to campus.</p>
+      </div>
+      <img src="../public/assets/issue-2026/birds-of-wesleyan/cover.webp" width="1800" height="1273" alt="">
+    </article>
+  </main>
+  <p class="preview-note">Standalone Glaxnimate motion study. This page does not change the published site.</p>
+  </div>
+  <script>
+    const root = document.documentElement;
+    const replay = document.querySelector('#replay');
+    const shell = document.querySelector('#site-shell');
+    const introLogo = document.querySelector('#intro-logo');
+    const backdrop = document.querySelector('.intro-backdrop');
+    const mastheadLogo = document.querySelector('#masthead-logo');
+    const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+    const syncReplay = () => { replay.disabled = motionPreference.matches; };
+    let timer;
+    let logoAnimation;
+    let backdropAnimation;
+
+    const settle = () => {
+      clearTimeout(timer);
+      logoAnimation?.cancel();
+      backdropAnimation?.cancel();
+      root.classList.remove('intro', 'intro-revealing');
+      shell.inert = false;
+    };
+
+    const moveToMasthead = () => {
+      if (motionPreference.matches) { settle(); return; }
+      const start = introLogo.getBoundingClientRect();
+      const end = mastheadLogo.getBoundingClientRect();
+      const x = end.left + end.width / 2 - start.left - start.width / 2;
+      const y = end.top + end.height / 2 - start.top - start.height / 2;
+      const scale = end.width / start.width;
+      root.classList.add('intro-revealing');
+      logoAnimation = introLogo.animate([
+        { transform: 'translate(-50%, -50%)' },
+        { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})` },
+      ], { duration: 760, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'forwards' });
+      backdropAnimation = backdrop.animate([{ opacity: 1 }, { opacity: 0 }],
+        { duration: 650, delay: 110, fill: 'forwards' });
+      logoAnimation.addEventListener('finish', settle, { once: true });
+    };
+
+    const startIntro = () => {
+      if (motionPreference.matches) { settle(); return; }
+      scrollTo(0, 0);
+      root.classList.remove('intro-revealing');
+      root.classList.add('intro');
+      shell.inert = true;
+      introLogo.onload = () => { timer = setTimeout(moveToMasthead, 2900); };
+      introLogo.onerror = settle;
+      introLogo.src = `assets/logo-flight.svg?replay=${Date.now()}`;
+    };
+
+    motionPreference.addEventListener('change', () => {
+      syncReplay();
+      if (motionPreference.matches) settle();
+    });
+    syncReplay();
+    if (root.classList.contains('intro')) startIntro();
+    replay.addEventListener('click', startIntro);
+    document.querySelector('#theme').addEventListener('click', (event) => {
+      const dark = root.classList.toggle('dark');
+      event.currentTarget.setAttribute('aria-pressed', String(dark));
+      event.currentTarget.textContent = dark ? 'Light theme' : 'Dark theme';
+    });
+  </script>
+</body>
+</html>
