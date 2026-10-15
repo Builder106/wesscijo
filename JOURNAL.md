@@ -1,5 +1,13 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-15 - Version-control fallback theme and automate milestone promotion #theme #maintenance #cms
+
+Version-controlled `wessci-fallback` in the git repository and established an automated promotion script to maintain disaster-recovery parity with `wesscijo`:
+1. Authored `scripts/promote-to-fallback.sh` to synchronize verified templates, assets, and styling from `themes/wesscijo` into `themes/wessci-fallback/`, automatically preserving fallback theme metadata in `style.css` (`Theme Name: WesSciJo Fallback`, `Text Domain: wessci-fallback`) and updating stylesheet enqueue handles in `functions.php`.
+2. Created `themes/wessci-fallback/` incorporating the latest division SVG emblems, guidelines PDF, favicon assets, centered reading layout, and theme toggle controls.
+3. Added `tests/check-php-syntax.sh` to automate PHP linting across all installed themes.
+4. Verified all 22 PHP theme templates pass syntax checks under PHP 8.5 on the verification environment, and confirmed all 9 Playwright publication end-to-end tests pass cleanly.
+
 ## 2026-10-14 - Tune PHP upload limits, memory constraints, and debug hardening #infrastructure #security #cms
 
 Applied production resource adjustments and security hardening for the WordPress container:
