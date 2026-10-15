@@ -99,6 +99,8 @@ class WesSci_Admin {
 		add_filter( 'admin_body_class', array( __CLASS__, 'body_class' ) );
 		add_action( 'admin_menu', array( __CLASS__, 'register_admin_menus' ) );
 		add_filter( 'gettext', array( __CLASS__, 'welcome_heading' ), 10, 2 );
+		add_action( 'admin_init', array( __CLASS__, 'disable_comments_admin' ) );
+		add_action( 'wp_before_admin_bar_render', array( __CLASS__, 'remove_admin_bar_comments' ) );
 	}
 
 	public static function welcome_heading( $translation, $text ) {
@@ -137,9 +139,10 @@ class WesSci_Admin {
 	 * Configure dashboard widgets.
 	 */
 	public static function configure_dashboard_widgets() {
-		// Remove core "WordPress Events and News" and "Quick Draft" widgets for all users.
+		// Remove core "WordPress Events and News", "Quick Draft", and "Recent Comments" widgets for all users.
 		remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
 		remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
+		remove_meta_box( 'dashboard_recent_comments', 'dashboard', 'normal' );
 
 		wp_add_dashboard_widget( 'wessci_dashboard_division_queues', __( 'Manuscripts', 'wessci' ), array( __CLASS__, 'render_widget_division_queues' ) );
 		wp_add_dashboard_widget( 'wessci_dashboard_issue_progress', __( 'Issue assembly', 'wessci' ), array( __CLASS__, 'render_widget_issue_progress' ), null, null, 'side' );
@@ -170,6 +173,8 @@ class WesSci_Admin {
 	 * Register custom administrative pages and submenus.
 	 */
 	public static function register_admin_menus() {
+		remove_menu_page( 'edit-comments.php' );
+
 		add_menu_page(
 			__( 'Editorial Board', 'wessci' ),
 			__( 'Editorial Board', 'wessci' ),
@@ -188,4 +193,31 @@ class WesSci_Admin {
 		require_once dirname( __FILE__ ) . '/views/masthead-management.php';
 	}
 
+	/**
+	 * Disable comments in admin: redirect comment screens and remove post type support.
+	 */
+	public static function disable_comments_admin() {
+		global $pagenow;
+		if ( 'edit-comments.php' === $pagenow || 'comment.php' === $pagenow ) {
+			wp_safe_redirect( admin_url( 'index.php' ) );
+			exit;
+		}
+
+		remove_post_type_support( 'post', 'comments' );
+		remove_post_type_support( 'page', 'comments' );
+		remove_post_type_support( 'post', 'trackbacks' );
+		remove_post_type_support( 'page', 'trackbacks' );
+	}
+
+	/**
+	 * Remove the comments icon from the admin bar.
+	 */
+	public static function remove_admin_bar_comments() {
+		global $wp_admin_bar;
+		if ( $wp_admin_bar ) {
+			$wp_admin_bar->remove_menu( 'comments' );
+		}
+	}
+
 }
+
