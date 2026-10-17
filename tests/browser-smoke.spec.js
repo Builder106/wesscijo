@@ -66,6 +66,7 @@ test.describe('WesSciJo public site smoke tests', () => {
 
   test('native details menus open from the keyboard', async ({ page }) => {
     await page.goto(siteUrl('/'));
+    await expect(page.locator('#logo-entrance')).toBeHidden({ timeout: 6000 });
     const details = page.locator('details').first();
     const summary = details.locator('summary');
     await summary.focus();
