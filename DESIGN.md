@@ -2,11 +2,11 @@
 
 ## Status
 
-This document records an earlier site design exploration. It is a historical reference, not the visual baseline for the current site-wide work in [ROADMAP.md](ROADMAP.md). Its implementation and workflow notes describe that exploration; they do not constrain the current site. It is not a content approval or launch approval.
+This file records an earlier site design exploration. Treat it as an archive, not current implementation guidance. See [ROADMAP.md](ROADMAP.md) for the current direction. The references, workflow notes, and readiness assessment below describe that earlier work; they do not set current requirements or approve content or a launch. Later project changes are recorded in [JOURNAL.md](JOURNAL.md).
 
 ## Reference provenance
 
-Three references passed the design-inspiration verifier as dated Awwwards Site of the Day winners. The award tier confirms eligibility; each page was compared for relevance to a student science publication.
+Three references passed the design-inspiration check as dated Awwwards Site of the Day winners. The award confirmed that each reference was eligible. We then checked how well each page fit a student science publication.
 
 | Reference | Award marker | Role and adaptation |
 | --- | --- | --- |
@@ -14,19 +14,19 @@ Three references passed the design-inspiration verifier as dated Awwwards Site o
 | [Atmos](https://www.awwwards.com/sites/atmos) and [live publication](https://atmos.earth/) | Site of the Day, Jul 15, 2022 | Supporting. It combines field/topic navigation with a stream of environmental reporting and an explicit volume identity. Adapt browsable topic links and separated story lanes. WesSciJo will link only to its existing divisions and categories. |
 | [Into the Amazon](https://www.awwwards.com/sites/into-the-amazon) and [National Geographic project](https://www.nationalgeographic.com/into-the-amazon/) | Site of the Day, Apr 21, 2025 | Supporting. Its case-study page describes a research-led, image-rich science narrative using maps and satellite data. Adapt the principle that imagery should explain the science. Do not reproduce its WebGL journey or use its imagery in WesSciJo. |
 
-Emergence is the primary reference because its format distinctions and discovery pathways map well to the existing journal taxonomy. Atmos supports section browsing. Into the Amazon is useful for future approved, story-specific art direction. It is not a publication homepage pattern.
+Emergence is the main reference because its story formats and ways to browse fit the journal's existing categories. Atmos is useful for section browsing. Into the Amazon may inform future, approved art direction for specific stories, but it is not a homepage template.
 
-The contracted SOTD searches for editorial, magazine, typography, and restrained interaction returned no results. Searches remained within the requested SOTD tier. Broader live-reference preparation accepted three independently verified SOTD records above; failed records (Noema, The Pudding, and Ink) were excluded. The search did not establish those failed nominees as non-winners; their Awwwards URLs did not pass verification.
+The requested Site of the Day searches for editorial, magazine, typography, and restrained interaction returned no results. The searches stayed within that award tier. A broader search found the three verified references above. We left out Noema, The Pudding, and Ink because their Awwwards pages did not pass verification. That does not establish whether they won an award.
 
 ### Measured tokens
 
-The extraction request used the Awwwards Emergence listing URL. The extractor confirmed that its token measurements describe that listing page, not the live Emergence publication. The saved output is preserved in `artifacts/design-inspiration/emergence-listing-tokens.json` for provenance and is not treated as a measurement of the reference publication.
+The token extraction used the Awwwards Emergence listing page. The extractor confirmed that the results describe the listing, not the live publication. We kept the output in `artifacts/design-inspiration/emergence-listing-tokens.json` as a record of the extraction, not as a measurement of the publication.
 
-Examples reported for the listing include #222222 text, #f8f8f8 background, a #fff083 accent, and an Inter Tight display sample measured at 170px. Those are listing-page measurements. They do not inform WesSciJo's selected palette or type scale.
+The listing measurements included #222222 text, a #f8f8f8 background, a #fff083 accent, and an Inter Tight display sample at 170px. These measurements describe the listing only. They do not set WesSciJo's palette or type scale.
 
 ### Live-site observation boundary
 
-Public page text and hierarchy were reviewed for the live Emergence and Atmos sites. The Into the Amazon page title was resolved and its studio case study describes science storytelling, maps, photography, and a WebGL expedition. No accepted GPU-backed recording was produced. Live animation, timing, scroll behavior, and reduced-motion behavior remain unobserved for all three references.
+We reviewed public page text and hierarchy on Emergence and Atmos. We also confirmed the Into the Amazon page title and read its studio case study about science storytelling, maps, photography, and a WebGL expedition. We did not produce an accepted recording, so live animation, timing, scrolling, and reduced-motion behavior remain unobserved for all three references.
 
 ## WesSciJo system
 
@@ -59,7 +59,7 @@ The live baseline image shows the Biology mock cover paired with the Computer Sc
 4. **Research and Reviews.** Give research a quieter, evidence-led composition with a larger first story and a short ruled list or smaller supporting stories. Use the existing division and child categories; do not infer peer-review status or researcher affiliation.
 5. **News, Features, and Perspectives.** Change the rhythm: one broader feature with adjacent compact story links or a staggered editorial list. Preserve each title, excerpt, taxonomy, and URL. Do not use a repeated three-card row.
 6. **Browse fields.** Present the existing category names as a compact typographic index grouped under their current division. This uses current WordPress taxonomy and does not imply a new field database.
-7. **Issue and archive pathway.** The homepage currently hard-codes “Vol. 1 — No. 1 — October 2026,” while the roadmap describes an inaugural-issue placeholder. No verified issue record is present in the homepage data query. Until the editors verify the issue title, number, date, and cover, omit an issue identity rather than asserting this line as current. Retain the Archives link and its existing page state.
+7. **Issue and archive pathway.** The homepage hard-codes a label for volume 1, issue 1, dated October 2026, while the roadmap describes an inaugural-issue placeholder. The homepage data query has no verified issue record. Until the editors confirm the issue title, number, date, and cover, do not present an issue identity as current. Keep the Archives link and its existing page state.
 8. **Audience pathways.** Keep the existing submission prompt and Submit route. Keep Calendar and About reachable through navigation and footer. Do not add subscription controls; no subscription functionality is present in the theme.
 9. **Colophon.** Close on a dark footer that repeats the publication name and description, division and journal links, and the existing Wesleyan views disclaimer. Keep link contrast and section names legible.
 
@@ -89,29 +89,29 @@ Do not add motion based on the reference text or listing tokens alone. The refer
 
 Preserve placeholder article and event copy byte-for-byte. Do not invent authors, affiliations, biographies, story dates, issue details, awards, readership, newsletter functionality, or endorsement. The homepage's issue line needs editorial verification. The Biology/Computer Science pairing needs editorial review. Submission copy, Calendar entries, Archive content, and about-page roster remain source-controlled and must retain their existing wording.
 
-## Workflow evidence and blockers
+## Earlier workflow evidence and blockers
 
-Current workflow evidence and failure records live under the ignored `artifacts/design-inspiration/` directory:
+The records from this design exploration are in the ignored `artifacts/design-inspiration/` directory:
 
-- `preflight.json` records the active Codex context, available capabilities, plugin listing, and unknown grants.
-- `references.json` records dated SOTD verification, roles, failed candidates, and searches.
-- `emergence-listing-tokens.json` retains listing-only extraction with its scope caveat.
-- `site-motion-capture/blocked.json` records the refused runner connection and all four unrecorded cells.
-- `workflow-manifest.candidate.json` is an explicitly incomplete draft. It is not valid completed workflow evidence.
+- `preflight.json` lists the active Codex context, available capabilities, plugin listing, and grants that were not verified.
+- `references.json` records the award checks, reference roles, excluded candidates, and searches.
+- `emergence-listing-tokens.json` preserves the listing-only measurements and their scope note.
+- `site-motion-capture/blocked.json` records the failed runner connection and the four capture stages that did not run.
+- `workflow-manifest.candidate.json` is an incomplete draft, not a completed workflow record.
 
-The capture runner refused SSH during the GPU precheck; no `gpu_check_id`, WebM, jank report, capture manifest, motion analysis, or frame was produced. The workflow host also rejects the project path because its configured root is the parent `CS` workspace. Its project-scoped run and validation calls cannot start. Open Design lists the required effect-extractor plugin, but this execution did not verify its grants. Codex exposes the Gemini video-analysis tool, but no provider approval was established and no recording was uploaded.
+The GPU precheck could not connect to the capture runner. As a result, no `gpu_check_id`, WebM, jank report, capture manifest, motion analysis, or frame was produced. The workflow service rejected this project workspace, so its project-specific run and validation did not start. Open Design listed the required effect-extractor plugin, but its grants were not checked. The video-analysis provider required approval, and no recording was uploaded.
 
-Separate live-site baseline screenshots and page measurements are saved under `artifacts/design-inspiration/baseline/`. Playwright completed one six-view capture at 390px, 768px, and 1280px, with full and reduced motion preferences. After scrolling to load deferred media, all seven story images loaded in each view. The page had one `h1` and no horizontal overflow at each width. Navigation Timing recorded a `responseStart` between 50 and 71.8ms and an HTML `transferSize` of 8,143 bytes. These are baseline browser readings, not Web Vitals, full-page transfer totals, or redesigned-page measurements. The full and reduced screenshots match pixel-for-pixel after media loading; no visible motion was observed in this static capture.
+Baseline screenshots and page measurements are saved in `artifacts/design-inspiration/baseline/`. Playwright captured six views at 390px, 768px, and 1280px, using full and reduced motion. After scrolling to load deferred media, all seven story images appeared at every width. Each view had one `h1` and no horizontal overflow. Navigation Timing showed a `responseStart` of 50 to 71.8 ms and an HTML `transferSize` of 8,143 bytes. These are browser readings from the baseline, not Web Vitals, full-page transfer totals, or measurements of a redesign. After the media loaded, the full and reduced-motion screenshots matched pixel for pixel. The static capture showed no visible motion.
 
-These missing stages prevent the required Open Design handoff. Per the workflow contract, do not replace live captures with screenshots or silently switch capture backends. Continue implementation only after the accepted runner returns a fresh GPU check ID and the configured workflow host accepts this project workspace. Motion analysis also needs an explicitly approved provider.
+At the time, these gaps blocked the required Open Design handoff. The workflow required a fresh GPU check ID and an accepted project workspace before implementation could continue. It also required approval for motion analysis. Screenshots could not replace the live capture, and the capture backend could not be changed without review.
 
-## Review plan
+## Proposed review plan for that exploration
 
-No visual revision cycle began because an editable prototype was not available. If the handoff becomes available, allow up to three measured cycles. Define the rubric as editorial clarity, recognizable journal identity, varied composition, mobile usability, accessibility, and measured page weight and response. Budget 90 minutes and three cycles. At each cycle inspect 390px, 768px, and 1280px screenshots, compare reduced-motion behavior, and record each rubric rating from 1 to 5 with one defect-based change. Finish at all scores of at least 4 with no horizontal overflow, one main `h1`, and working keyboard and search paths. Stop earlier after two cycles with no measured improvement. This is a future evaluation plan, not a score for an unimplemented design.
+No visual review cycle began because there was no editable prototype. The proposed plan allowed up to three cycles within a 90-minute budget. Each cycle would inspect screenshots at 390px, 768px, and 1280px, compare reduced-motion behavior, rate editorial clarity, journal identity, composition, mobile use, accessibility, page weight, and response from 1 to 5, and record one defect to fix. The review would finish when every score reached at least 4, with no horizontal overflow, one main `h1`, and working keyboard and search paths. It would stop after two cycles without measurable improvement. These are proposed review criteria, not results from an implemented design.
 
-## Readiness
+## Readiness at the time of this exploration
 
-- **Design review:** the direction and references are documented, but there is no editable homepage artifact or rendered design to review.
-- **Technical implementation:** blocked at the required capture and Open Design gates.
-- **Content approval:** required for issue identity and lead art pairing.
-- **Launch readiness:** not assessed; no implementation, editorial package, or deployment review has passed.
+- **Design review:** The direction and references were documented, but there was no editable homepage or rendered design to review.
+- **Technical implementation:** The work was blocked at the required capture and Open Design gates.
+- **Content approval:** Editors still needed to confirm the issue identity and lead image pairing.
+- **Launch readiness:** Not assessed. The design, editorial package, and deployment had not passed review.
