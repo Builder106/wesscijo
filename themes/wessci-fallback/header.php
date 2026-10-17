@@ -49,7 +49,7 @@
 	<div class="hero__band">
 		<?php
 		$custom_logo_id      = (int) get_theme_mod( 'custom_logo' );
-		$custom_logo         = $custom_logo_id && wp_attachment_is_image( $custom_logo_id ) ? wp_get_attachment_image( $custom_logo_id, 'full', false, array( 'alt' => '' ) ) : '';
+		$custom_logo         = $custom_logo_id && wp_attachment_is_image( $custom_logo_id ) ? wp_get_attachment_image( $custom_logo_id, 'full', false, array( 'alt' => '', 'class' => 'hero__logo hero__logo--light' ) ) : '';
 		$logo_position       = get_theme_mod( 'wessci_logo_position', 'left' );
 		$brand_class         = 'hero__brand';
 		$brand_title         = wesscijo_brand_title();
@@ -59,6 +59,7 @@
 			<?php if ( $custom_logo ) : ?>
 				<span class="hero__logo-slot">
 					<?php echo $custom_logo; ?>
+					<img class="hero__logo hero__logo--dark" src="<?php echo esc_url( get_theme_file_uri( '/assets/logo-dark.png' ) ); ?>" alt="" width="1024" height="1024">
 				</span>
 			<?php endif; ?>
 			<a class="hero__title" href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php echo esc_html( $brand_title ); ?></a>

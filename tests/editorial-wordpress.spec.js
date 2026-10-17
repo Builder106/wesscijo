@@ -43,7 +43,7 @@ for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 950 });
     await page.goto(url('/'));
     await expect(page.locator('.hero__title')).toHaveText('The Wesleyan Science Journal');
-    await expect(page.locator('.hero__logo-slot img')).toHaveCount(1);
+    await expect(page.locator('.hero__logo-slot img')).toHaveCount(2);
     if (width === 390) {
       expect(await page.locator('.hero__title').evaluate(element => element.getBoundingClientRect().width)).toBeGreaterThan(200);
     }
