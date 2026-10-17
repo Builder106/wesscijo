@@ -59,12 +59,13 @@
     .preview-note { max-width: 1200px; margin: 0 auto; padding: 0 1.25rem 2rem; color: var(--muted); font-size: .8rem; }
     .intro { overflow: hidden; }
     .intro #site-shell { visibility: hidden; }
-    .intro.intro-revealing #site-shell { visibility: visible; }
+    .intro.intro-revealing #site-shell { visibility: visible; opacity: 0; }
     .intro #masthead-logo { visibility: hidden; }
     #intro-screen { display: none; }
     .intro #intro-screen { display: block; position: fixed; inset: 0; z-index: 10; }
     .intro-backdrop { position: absolute; inset: 0; background: var(--paper); }
-    #intro-logo { position: fixed; top: 50%; left: 50%; width: min(82vw, 68vh, 440px); height: auto; transform: translate(-50%, -50%); }
+    #intro-logo { position: fixed; top: 50%; left: 50%; width: min(82vw, 68vh, 440px); aspect-ratio: 1; transform: translate(-50%, -50%); }
+    #intro-flight { position: absolute; top: -28.6458%; left: -92.4479%; width: 192.4479%; height: auto; }
 
     @media (max-width: 700px) {
       .brand { flex-direction: column; align-items: flex-start; gap: 1rem; padding-block: 1.5rem; }
@@ -78,7 +79,7 @@
 <body>
   <div id="intro-screen">
     <div class="intro-backdrop"></div>
-    <img id="intro-logo" width="768" height="768" alt="Cardinal flying in to land on a syringe inside the journal seal">
+    <div id="intro-logo"><img id="intro-flight" width="1478" height="988" alt="Cardinal flying in to land on a syringe inside the journal seal"></div>
   </div>
   <div id="site-shell">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -119,6 +120,7 @@
     const replay = document.querySelector('#replay');
     const shell = document.querySelector('#site-shell');
     const introLogo = document.querySelector('#intro-logo');
+    const introFlight = document.querySelector('#intro-flight');
     const backdrop = document.querySelector('.intro-backdrop');
     const mastheadLogo = document.querySelector('#masthead-logo');
     const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
@@ -126,11 +128,13 @@
     let timer;
     let logoAnimation;
     let backdropAnimation;
+    let shellAnimation;
 
     const settle = () => {
       clearTimeout(timer);
       logoAnimation?.cancel();
       backdropAnimation?.cancel();
+      shellAnimation?.cancel();
       root.classList.remove('intro', 'intro-revealing');
       shell.inert = false;
     };
@@ -146,9 +150,11 @@
       logoAnimation = introLogo.animate([
         { transform: 'translate(-50%, -50%)' },
         { transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) scale(${scale})` },
-      ], { duration: 760, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'forwards' });
+      ], { duration: 620, easing: 'cubic-bezier(.22, 1, .36, 1)', fill: 'forwards' });
       backdropAnimation = backdrop.animate([{ opacity: 1 }, { opacity: 0 }],
-        { duration: 650, delay: 110, fill: 'forwards' });
+        { duration: 540, delay: 80, fill: 'forwards' });
+      shellAnimation = shell.animate([{ opacity: 0 }, { opacity: 1 }],
+        { duration: 400, delay: 180, easing: 'ease-out', fill: 'forwards' });
       logoAnimation.addEventListener('finish', settle, { once: true });
     };
 
@@ -158,9 +164,9 @@
       root.classList.remove('intro-revealing');
       root.classList.add('intro');
       shell.inert = true;
-      introLogo.onload = () => { timer = setTimeout(moveToMasthead, 2900); };
-      introLogo.onerror = settle;
-      introLogo.src = `assets/logo-flight.svg?replay=${Date.now()}`;
+      introFlight.onload = () => { timer = setTimeout(moveToMasthead, 2050); };
+      introFlight.onerror = settle;
+      introFlight.src = `assets/logo-flight.svg?replay=${Date.now()}`;
     };
 
     motionPreference.addEventListener('change', () => {

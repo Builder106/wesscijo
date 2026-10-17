@@ -1,4 +1,4 @@
-"""Trace the supplied seal's cardinal into editable, named SVG artwork.
+"""Trace the supplied logo into editable, named SVG artwork.
 
 Run on the build host with: uv run --with vtracer==1.0.0a4 --with pillow python brand/trace-logo.py
 """
@@ -13,6 +13,10 @@ import vtracer
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "brand/logo.png"
 OUTPUT = ROOT / "brand/logo-semantic.svg"
+UPPER_INPUT = ROOT / "preview/assets/.upper-lettering-trace-input.png"
+UPPER_OUTPUT = ROOT / "preview/assets/.upper-lettering-trace-output.svg"
+LOWER_INPUT = ROOT / "preview/assets/.lower-lettering-trace-input.png"
+LOWER_OUTPUT = ROOT / "preview/assets/.lower-lettering-trace-output.svg"
 TRACE_INPUT = ROOT / "preview/assets/.cardinal-trace-input.png"
 TRACE_OUTPUT = ROOT / "preview/assets/.cardinal-trace-output.svg"
 FEET_INPUT = ROOT / "preview/assets/.feet-trace-input.png"
@@ -43,75 +47,93 @@ for y in range(768):
 region = red_region.filter(ImageFilter.MaxFilter(25))
 draw = ImageDraw.Draw(region)
 draw.polygon([(423, 166), (553, 168), (614, 226), (610, 307), (553, 333), (430, 282)], fill=255)
-
-region_pixels = region.load()
-cardinal = Image.new("RGBA", canvas.size)
-out = cardinal.load()
-for y in range(768):
-    for x in range(768):
-        red, green, blue, alpha = pixels[x, y]
-        if region_pixels[x, y] and alpha and min(red, green, blue) < 245:
-            out[x, y] = (red, green, blue, alpha)
-
-cardinal.save(TRACE_INPUT)
-vtracer.convert_file(str(TRACE_INPUT), str(TRACE_OUTPUT))
+draw.polygon([(455, 270), (560, 276), (579, 348), (493, 359), (470, 333)], fill=255)
 
 feet_region = Image.new("L", canvas.size)
 feet_draw = ImageDraw.Draw(feet_region)
 feet_draw.polygon([(346, 510), (369, 512), (398, 541), (417, 555), (438, 578), (442, 596), (432, 613), (408, 613), (389, 587), (370, 551)], fill=255)
 feet_draw.polygon([(420, 510), (449, 514), (478, 535), (502, 539), (517, 558), (517, 579), (506, 587), (486, 572), (465, 551), (439, 536)], fill=255)
+feet_draw.ellipse((356, 536, 392, 570), fill=255)
+feet_draw.ellipse((466, 563, 500, 598), fill=255)
+
+syringe_region = Image.new("L", canvas.size)
+syringe_draw = ImageDraw.Draw(syringe_region)
+syringe_draw.polygon([(294, 618), (310, 600), (512, 522), (548, 542), (330, 653)], fill=255)
+syringe_draw.polygon([(475, 541), (638, 482), (645, 495), (484, 562)], fill=255)
+
+layers = {
+    "upper": Image.new("RGBA", canvas.size),
+    "lower": Image.new("RGBA", canvas.size),
+    "syringe": Image.new("RGBA", canvas.size),
+    "cardinal": Image.new("RGBA", canvas.size),
+    "feet": Image.new("RGBA", canvas.size),
+}
+layer_pixels = {name: image.load() for name, image in layers.items()}
+region_pixels = region.load()
 feet_mask = feet_region.load()
-feet_image = Image.new("RGBA", canvas.size)
-feet_pixels = feet_image.load()
+syringe_mask = syringe_region.load()
 for y in range(768):
     for x in range(768):
         red, green, blue, alpha = pixels[x, y]
-        if feet_mask[x, y] and alpha and max(red, green, blue) < 125:
-            feet_pixels[x, y] = (red, green, blue, alpha)
-feet_image.save(FEET_INPUT)
-vtracer.convert_file(str(FEET_INPUT), str(FEET_OUTPUT))
+        if not alpha:
+            continue
+        if feet_mask[x, y] and max(red, green, blue) < 125:
+            layer = "feet"
+        elif region_pixels[x, y] and min(red, green, blue) < 245:
+            layer = "cardinal"
+        elif syringe_mask[x, y]:
+            layer = "syringe"
+        elif max(red, green, blue) < 160 and 286 ** 2 < (x - 384) ** 2 + (y - 384) ** 2 < 372 ** 2:
+            layer = "upper" if y < 384 else "lower"
+        else:
+            continue
+        layer_pixels[layer][x, y] = (red, green, blue, alpha)
+
+for name, source_path, output_path in (
+    ("upper", UPPER_INPUT, UPPER_OUTPUT),
+    ("lower", LOWER_INPUT, LOWER_OUTPUT),
+    ("cardinal", TRACE_INPUT, TRACE_OUTPUT),
+    ("feet", FEET_INPUT, FEET_OUTPUT),
+):
+    layers[name].save(source_path)
+    vtracer.convert_file(str(source_path), str(output_path))
+
+def append_trace(parent, path):
+    for child in ET.parse(path).getroot():
+        parent.append(child)
+
 
 svg = ET.Element(f"{{{SVG_NS}}}svg", {"viewBox": "0 0 768 768", "role": "img", "aria-labelledby": "logo-title logo-description"})
 element(svg, "title", id="logo-title").text = "The Wesleyan Science Journal"
-element(svg, "desc", id="logo-description").text = "A goggled red cardinal lands on a laboratory syringe inside the journal seal."
-defs = element(svg, "defs")
-element(defs, "path", id="seal-lettering-upper-arc", d="M 86,385 A 298,298 0 0 1 682,385")
-element(defs, "path", id="seal-lettering-lower-arc", d="M 48,383 A 336,336 0 0 0 720,383")
-
+element(svg, "desc", id="logo-description").text = "The original seal artwork with a goggled red cardinal landing on a laboratory syringe."
 seal = element(svg, "g", id="journal-seal")
-element(seal, "circle", id="seal-paper", cx="384", cy="384", r="376", fill="#ffffff", stroke="#171414", **{"stroke-width": "2"})
-element(seal, "circle", id="seal-inner-rule", cx="384", cy="384", r="280", fill="none", stroke="#747474", **{"stroke-width": "1.5"})
-upper = element(seal, "text", id="seal-lettering-upper", fill="#171414", **{"font-family": "Georgia, Times New Roman, serif", "font-size": "68", "letter-spacing": "16", "text-anchor": "middle"})
-element(upper, "textPath", href="#seal-lettering-upper-arc", startOffset="50%").text = "WESLEYAN"
-lower = element(seal, "text", id="seal-lettering-lower", fill="#171414", **{"font-family": "Georgia, Times New Roman, serif", "font-size": "48", "letter-spacing": "5", "text-anchor": "middle"})
-element(lower, "textPath", href="#seal-lettering-lower-arc", startOffset="50%").text = "SCIENCE JOURNAL"
-
-syringe = element(svg, "g", id="syringe", stroke="#171414", **{"stroke-linejoin": "round", "stroke-linecap": "round"})
-element(syringe, "path", id="syringe-needle", d="M 584,513 636,490", fill="none", stroke="#6f7378", **{"stroke-width": "2"})
-element(syringe, "path", id="syringe-needle-hub", d="M 495,553 587,512", fill="none", stroke="#234b9c", **{"stroke-width": "8"})
-element(syringe, "path", id="syringe-barrel", d="M 328,610 470,547 489,562 342,632 Z", fill="#f8f8f6", **{"stroke-width": "4"})
-element(syringe, "path", id="syringe-barrel-shading", d="M 341,618 479,557 485,562 343,629 Z", fill="#b6b8b8", stroke="none")
-element(syringe, "path", id="syringe-barrel-rule", d="M 357,610 477,557", fill="none", **{"stroke-width": "2"})
-element(syringe, "path", id="syringe-plunger", d="M 311,626 397,589", fill="none", stroke="#224b9b", **{"stroke-width": "10"})
-element(syringe, "path", id="syringe-plunger-cap", d="M 306,616 318,610 326,636 313,642 Z", fill="#254d9a", **{"stroke-width": "3"})
-element(syringe, "path", id="syringe-flange", d="M 328,603 332,633 Q 339,642 355,638", fill="none", **{"stroke-width": "3"})
+element(seal, "circle", id="seal-paper", cx="384", cy="384", r="376", fill="#ffffff")
+element(seal, "circle", id="seal-outer-rule", cx="384", cy="384", r="375.5", fill="none", stroke="#252525", **{"stroke-width": "1.2"})
+element(seal, "circle", id="seal-inner-rule", cx="388", cy="384", r="278", fill="none", stroke="#858585", **{"stroke-width": "1.2"})
+append_trace(element(seal, "g", id="seal-lettering-upper"), UPPER_OUTPUT)
+append_trace(element(seal, "g", id="seal-lettering-lower"), LOWER_OUTPUT)
+syringe = element(svg, "g", id="syringe")
+needle = element(syringe, "g", id="syringe-needle", fill="none", **{"stroke-linecap": "round"})
+element(needle, "path", d="M 477,565 578,520", stroke="#284999", **{"stroke-width": "6"})
+element(needle, "path", d="M 578,520 635,491", stroke="#6b6b6b", **{"stroke-width": "1.5"})
+barrel = element(syringe, "g", id="syringe-barrel", **{"stroke-linecap": "round", "stroke-linejoin": "round"})
+element(barrel, "path", d="M 328,615 471,551 Q 479,548 484,558 L 490,568 340,638 329,630 Z", fill="#f7f7f6", stroke="#252525", **{"stroke-width": "2.2"})
+element(barrel, "path", d="M 335,618 477,557 M 340,629 484,565", fill="none", stroke="#717171", **{"stroke-width": "1.5"})
+element(barrel, "path", d="M 346,631 C 344,648 352,660 365,655", fill="none", stroke="#252525", **{"stroke-width": "2"})
+hub = element(syringe, "g", id="syringe-hub", **{"stroke-linejoin": "round"})
+element(hub, "path", d="M 328,609 336,606 340,628 330,631 Z", fill="#284999", stroke="#252525", **{"stroke-width": "1.5"})
+element(hub, "path", d="M 312,633 325,627 329,642 315,646 Z", fill="#284999", stroke="#252525", **{"stroke-width": "1.5"})
 
 bird = element(svg, "g", id="cardinal")
-body = element(bird, "g", id="cardinal-body")
-traced = ET.parse(TRACE_OUTPUT).getroot()
-for path in traced:
-    if path.tag.endswith("path"):
-        body.append(path)
+wing_defs = element(bird, "defs")
+wing_clip = element(wing_defs, "clipPath", id="flight-wing-cutout", clipPathUnits="userSpaceOnUse")
+element(wing_clip, "path", d="M 153,499 C 185,450 233,404 292,371 Q 351,341 419,345 L 421,424 Q 352,472 192,515 Z")
+append_trace(element(bird, "g", id="cardinal-body"), TRACE_OUTPUT)
+element(bird, "path", id="cardinal-resting-wing-cover", opacity="0", fill="#E81B2E", d="M 153,499 C 185,450 233,404 292,371 Q 351,341 419,345 L 421,424 Q 352,472 192,515 Z")
+append_trace(element(bird, "g", id="cardinal-landing-feet"), FEET_OUTPUT)
 
-feet = element(bird, "g", id="cardinal-landing-feet")
-for path in ET.parse(FEET_OUTPUT).getroot():
-    if path.tag.endswith("path"):
-        feet.append(path)
-
-wing = element(bird, "g", id="cardinal-flight-wing", opacity="0", stroke="#171414", **{"stroke-linejoin": "round", "stroke-linecap": "round"})
-element(wing, "path", id="flight-wing-silhouette", d="M 273,372 C 308,341 366,321 413,311 C 403,377 377,414 332,436 C 283,451 226,446 182,430 C 223,416 255,392 273,372 Z", fill="#e81b2e", **{"stroke-width": "3.5"})
-element(wing, "path", id="flight-wing-feather-upper", d="M 211,426 C 279,419 343,380 397,331", fill="none", **{"stroke-width": "3"})
-element(wing, "path", id="flight-wing-feather-lower", d="M 229,437 C 297,435 357,399 400,364", fill="none", **{"stroke-width": "3"})
+wing = element(bird, "g", id="cardinal-flight-wing", opacity="0")
+element(wing, "use", href="#cardinal-body", **{"clip-path": "url(#flight-wing-cutout)"})
 
 ET.ElementTree(svg).write(OUTPUT, encoding="utf-8", xml_declaration=True)
-print(f"wrote {OUTPUT} ({OUTPUT.stat().st_size} bytes, {len(bird)} cardinal paths)")
+print(f"wrote {OUTPUT} ({OUTPUT.stat().st_size} bytes)")
