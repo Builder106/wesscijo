@@ -1,5 +1,17 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-17 - Publish the logo entrance #homepage #deployment
+
+Deployed the committed entrance files to the active production WordPress
+theme after confirming its existing files matched the previous repository
+version. Saved copies of the replaced files and cleared Cache Enabler's page
+cache; browser requests had still received old homepage HTML after the files
+changed. Live browser checks showed the full entrance in light and dark modes,
+followed by the settled masthead without page errors. The publication suite
+passed all 12 checks, and the refreshed production smoke suite passed 10
+checks with its retired calendar check skipped. The smoke menu test now waits
+for the entrance to finish before sending keyboard input.
+
 ## 2026-10-16 - Remove the overlapping seal at handoff #homepage #motion
 
 The homepage revealed its static masthead logo while the animated seal was
