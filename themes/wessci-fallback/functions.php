@@ -35,6 +35,15 @@ function wesscijo_assets() {
 		array( 'wessci-fonts' ),
 		(string) filemtime( get_stylesheet_directory() . '/style.css' )
 	);
+	if ( is_front_page() && ! is_search() ) {
+		wp_enqueue_script(
+			'wessci-logo-entrance',
+			get_theme_file_uri( '/assets/logo-entrance.js' ),
+			array(),
+			(string) filemtime( get_stylesheet_directory() . '/assets/logo-entrance.js' ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'wesscijo_assets' );
 

@@ -1,5 +1,124 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-16 - Remove the overlapping seal at handoff #homepage #motion
+
+The homepage revealed its static masthead logo while the animated seal was
+still moving into that same position, creating doubled lettering and circles.
+Keep the masthead logo slot hidden until the entrance stage closes, while its
+space remains reserved in the layout. Applied the rule to both WordPress
+themes and the generated publication stylesheet. A dark-mode browser capture
+showed one seal during the move and the settled masthead afterward; all three
+focused entrance tests passed, including a check of the reveal phase.
+
+## 2026-10-16 - Make the flight legible on reload #homepage #motion
+
+The site reused a fixed animated SVG URL, and its 1.8-second flight could be
+mostly over by the time someone watched a normal reload. The site now derives
+its light and dark flight assets from the approved preview artwork with a
+2.8-second timeline and gives each load a fresh playback URL. The masthead
+move waits until the bird has landed. Cached-reload captures showed the bird
+entering from the left, flying at one second, and approaching the syringe at
+two seconds. Focused browser checks passed for replay, theme selection, and
+the existing fallbacks.
+
+## 2026-10-16 - Match the entrance logo to dark mode #homepage #motion
+
+The animated SVG had a white seal disk and dark lettering even when the
+homepage used its dark theme. Derived a dark flight SVG from the approved
+animation: the seal disk is transparent and its lettering and rules are light,
+while the cardinal and motion stay intact. The entrance now selects this SVG
+for explicit or system dark mode and keeps the light version for light mode.
+Browser checks covered all three theme selections and the existing fallbacks;
+a dark-mode frame showed the seal without the white disk.
+
+## 2026-10-16 - Replay the entrance on reload #homepage #motion
+
+The session flag introduced with the site integration prevented the entrance
+from running after a reload. Removed the read and write of that flag from the
+generated homepage and both WordPress themes. The entrance now runs on each
+homepage load while retaining reduced-motion, skip, and load-failure paths.
+Browser checks passed for two consecutive loads and the fallbacks; the open
+development tab also started the entrance despite its old session flag.
+
+## 2026-10-16 - Guard the entrance against stale styles #homepage #motion
+
+A browser tab still had the older homepage and stylesheet while the new
+entrance script loaded, so its full-size SVG appeared in normal page flow
+above the masthead. The generated homepage now uses content-versioned CSS,
+script, and flight SVG URLs. Both theme templates and the generated homepage
+keep the stage hidden inline until the script confirms the fixed-position
+entrance styles are present. Browser checks cover dark mode and a missing
+stylesheet, and the previously affected browser tab rendered normally after
+reload.
+
+## 2026-10-16 - Add the logo entrance to the site #homepage #motion
+
+The approved flight SVG now opens the homepage with the seal centered, the
+cardinal landing on the syringe, and the completed mark moving into the
+masthead. Added the entrance to the generated public site and both WordPress
+themes. It runs once per browser session and leaves the homepage visible for
+reduced motion, a skipped entrance, or an asset load failure. Focused browser
+checks passed for those paths; PHP syntax passed for both themes. Desktop and
+phone captures confirmed the seal placement and final masthead layout.
+
+## 2026-10-16 - Restore the seal circles #preview #logo
+
+The raster trace had turned the white seal disk and its edge into hundreds of
+partial paths, leaving the outer circle missing in the preview. Replaced that
+layer with a white disk and a continuous named outer rule at the source logo's
+radius. Kept the inner rule and filtered the lower lettering trace to the
+interior of the seal, removing stray arc fragments without changing the
+letterforms. Regenerated the semantic SVG, updated the animated and still
+assets, and replaced the preview recording. Chromium captures showed the full
+circle during flight and in the masthead, with no page errors.
+
+## 2026-10-16 - Match flight wing to source artwork #preview #motion
+
+Replaced the invented flight wing paths with a clipped copy of the cardinal's
+traced resting wing. Its feather marks, red fill, and uneven ink edges now come
+from the same source art as the bird. Glaxnimate generated the revised rotation
+and opacity channels. Restricted the flap angles so the wing
+stays visibly raised during flight instead of flattening into a horizontal
+spike. The copy rotates into the original position before its cover fades,
+returning to the exact resting artwork at landing. Updated the trace generator,
+motion specification, animated and still SVGs, and preview recording. Chromium
+frames showed the moving source feather detail and final resting pose without
+page errors. The motion remains a rigid wing rotation; a fully articulated
+feather fold would need separately drawn source-matched layers.
+
+## 2026-10-15 - Redraw the entrance wing poses #preview #motion
+
+Replaced the single rotating wing shape with vector upstroke, midstroke,
+downstroke, and folded poses. The paths share a shoulder anchor near the source
+logo's resting wing, and the dark edge follows only the wing's outer contour.
+The final pose reaches the resting wing outline before the original feather
+detail appears. Updated the motion specification, animated SVG, and preview
+recording. Chromium rendered the full sequence without page errors. Gemini
+Vision's review found no detached shoulder or duplicate pale wing, but still
+judged the change into the source logo's detailed resting feathers too quick.
+Further improvement would require drawing matching feather detail in the
+flight poses and animating those individual shapes into the source artwork.
+
+## 2026-10-15 - Finish the logo entrance handoff #preview #motion
+
+The animated SVG now has a wider transparent canvas, so the cardinal flies into
+view without being cut off by the seal asset's original square boundary. The
+seal keeps its original on-screen size and still lands in the same masthead
+position. The wing stays raised through the approach, then tucks as the bird
+dips onto the syringe; the syringe gives a small reaction and returns to its
+source pose. The page fades in after the completed logo starts moving. The
+preview recording was replaced with the updated browser capture. Desktop and
+320px browser checks reached the settled masthead; reduced motion skipped the
+entrance, and the mobile page had no horizontal overflow.
+
+## 2026-10-15 - Give the entrance cardinal a flight pose #preview #motion
+
+The first flight looked like the settled bird sliding into place. Added a broad raised wing, covered the resting wing during flight, and tucked the feet until they reach the syringe. The bird now dips into its perch before the original logo pose returns. Shortened the flight to 1.8 seconds and the move into the masthead to 620 ms. The animated SVG was updated locally from the existing Glaxnimate export because the Glaxnimate tool was unavailable in this session; the source SVG, motion specification, and separate still asset remain in the repo. Browser review covered the flight frames, desktop and 320px layouts, and reduced motion.
+
+## 2026-10-15 - Restore source logo fidelity in entrance preview #preview #motion
+
+Rebuilt the seal lettering and cardinal paths from `brand/logo.png` so the entrance uses the supplied logo's shapes and proportions. Kept the Glaxnimate-authored four-channel flight, replaced the syringe artwork in its animated and still SVG exports, and recorded the corrected preview. The syringe section hidden by the cardinal in the raster is reconstructed as named vector parts so it remains complete before the bird arrives. Browser frames confirm the bird crosses into the seal, lands, and moves with the completed logo into the masthead at desktop and 320px widths. Gemini's video audit flagged pop-ins and a hard cut; a 0.25-second frame contact sheet showed continuous flight and masthead movement. The preview vector remains an approximation of the raster at large sizes.
+
 ## 2026-10-15 - Prototype cardinal landing logo #preview #motion
 
 Traced `brand/logo.png` into `brand/logo-semantic.svg` with named seal, cardinal, wing, feet, and syringe groups. Authored a 2.6-second cardinal flight and landing in Glaxnimate. The preview starts with the seal centered alone, pauses briefly after the landing, then moves the completed logo into the masthead as the page appears. Reduced-motion visitors see the settled page immediately. The vector is a preview approximation of the raster logo; no published site assets changed.

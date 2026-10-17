@@ -1,4 +1,5 @@
 import html
+import hashlib
 import json
 from pathlib import Path
 import re
@@ -9,6 +10,10 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / 'content/issue-2026'
 PUBLIC = ROOT / 'public'
 NAME = 'The Wesleyan Science Journal'
+STYLESHEET_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/style.css').read_bytes()).hexdigest()[:12]
+ENTRANCE_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-entrance.js').read_bytes()).hexdigest()[:12]
+FLIGHT_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-flight.svg').read_bytes()).hexdigest()[:12]
+DARK_FLIGHT_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-flight-dark.svg').read_bytes()).hexdigest()[:12]
 FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSf3YVPrAoa6FFr3QyJYtGbWm5aDzRgoVsL6EjiwLnagwW63cA/viewform'
 SECTIONS = {
     'life-science': 'Life Science',
@@ -168,16 +173,36 @@ def header(articles):
 
 def document(title, body, articles, description='', canonical=''):
     page_title = NAME if title == NAME else title + ' | ' + NAME
+    entrance = canonical == '/'
+    entrance_bootstrap = (
+        '<script>(function(){'
+        'if(location.hash||location.search||matchMedia("(prefers-reduced-motion: reduce)").matches||!Element.prototype.animate)return;'
+        'document.documentElement.classList.add("logo-entrance");'
+        'window.logoEntranceWatchdog=setTimeout(function(){'
+        'document.documentElement.classList.remove("logo-entrance","logo-entrance-revealing");},5500);'
+        '})();</script>'
+    ) if entrance else ''
+    entrance_stage = (
+        f'<div class="logo-entrance__stage" id="logo-entrance" style="display:none" data-src="/assets/logo-flight.svg?v={FLIGHT_VERSION}" data-src-dark="/assets/logo-flight-dark.svg?v={DARK_FLIGHT_VERSION}">'
+        '<div class="logo-entrance__backdrop"></div>'
+        '<button class="logo-entrance__skip" type="button">Skip animation</button>'
+        '<div class="logo-entrance__mark"><img class="logo-entrance__flight" width="1478" height="988" '
+        'alt="The Wesleyan Science Journal cardinal landing on a syringe"></div></div>'
+    ) if entrance else ''
+    entrance_script = f'<script src="/assets/logo-entrance.js?v={ENTRANCE_VERSION}" defer></script>' if entrance else ''
+    stylesheet_url = f'/publication.css?v={STYLESHEET_VERSION}' if entrance else '/publication.css'
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta name="color-scheme" content="light dark">'
             '<script>(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);var m=document.querySelector(\'meta[name="color-scheme"]\');if(m)m.content=t;}}catch(e){}})();</script>'
+            + entrance_bootstrap +
             f'<title>{escape(page_title)}</title><meta name="description" content="{escape(description)}">'
             f'<link rel="canonical" href="https://thewesleyansciencejournal.com{canonical}">'
             '<link rel="icon" href="/assets/favicon.png">'
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@600&display=swap">'
-            '<link rel="stylesheet" href="/publication.css">'
-            '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script></head><body>'
+            f'<link rel="stylesheet" href="{stylesheet_url}">'
+            '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script>'
+            + entrance_script + '</head><body>' + entrance_stage
             + header(articles) + '<main class="site-main" id="main" tabindex="-1">' + body + '</main>'
             + footer() + '</body></html>')
 
@@ -455,6 +480,9 @@ def main():
     write_page('/svgs/', 'Animated Vector Gallery', gallery, articles, 'Exhibition of animated SVG division emblems, editorial vignettes, and avian kinematics in The Wesleyan Science Journal.')
     (PUBLIC / '404.html').write_text(document('Page not found', '<div class="search-empty"><img src="/assets/empty-search-lens.svg" class="search-empty__icon" alt="" width="72" height="72" aria-hidden="true"><h1 class="archive-title">Page not found</h1><p><a href="/">Return to the journal</a></p></div>', articles))
     shutil.copyfile(ROOT / 'themes/wesscijo/style.css', PUBLIC / 'publication.css')
+    shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-flight.svg', PUBLIC / 'assets/logo-flight.svg')
+    shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-flight-dark.svg', PUBLIC / 'assets/logo-flight-dark.svg')
+    shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-entrance.js', PUBLIC / 'assets/logo-entrance.js')
     index = [{k: a[k] for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
     (PUBLIC / 'search-index.json').write_text(json.dumps(index, ensure_ascii=False), encoding='utf-8')
     print(f'Rendered {len(articles)} articles, their sections, About, submissions, archives, and search.')

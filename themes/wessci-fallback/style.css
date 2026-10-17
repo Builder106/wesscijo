@@ -192,6 +192,55 @@ h1, h2, h3 {
 .skip-link:focus { left: 0; }
 
 /* ---------- masthead ---------- */
+.logo-entrance__stage { display: none; }
+
+html.logo-entrance { overflow: hidden; }
+html.logo-entrance .logo-entrance__stage {
+	display: block;
+	position: fixed;
+	inset: 0;
+	z-index: 100000;
+}
+html.logo-entrance .skip-link,
+html.logo-entrance .hero,
+html.logo-entrance .site-main,
+html.logo-entrance .colophon { visibility: hidden; }
+html.logo-entrance-revealing .hero,
+html.logo-entrance-revealing .site-main,
+html.logo-entrance-revealing .colophon { visibility: visible; opacity: 0; }
+html.logo-entrance .hero__logo-slot { visibility: hidden; }
+
+.logo-entrance__backdrop { position: absolute; inset: 0; background: var(--color-paper); }
+.logo-entrance__mark {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: min(82vw, 68vh, 440px);
+	aspect-ratio: 1;
+	transform: translate(-50%, -50%);
+}
+.logo-entrance__flight {
+	position: absolute;
+	max-width: none;
+	top: -28.6458%;
+	left: -92.4479%;
+	width: 192.4479%;
+	height: auto;
+}
+.logo-entrance__skip {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+	z-index: 1;
+	padding: 0.5rem 0.75rem;
+	border: 1px solid currentColor;
+	background: var(--color-paper);
+	color: var(--color-ink);
+	font: inherit;
+	opacity: 0;
+}
+.logo-entrance__skip:focus-visible { opacity: 1; }
+
 .hero__band {
 	background: var(--color-paper);
 	padding: clamp(2rem, 3.5vw, 3.5rem) var(--space-6);

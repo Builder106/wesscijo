@@ -16,6 +16,17 @@
 		} catch(e) {}
 	})();
 	</script>
+	<?php if ( is_front_page() && ! is_search() ) : ?>
+	<script>
+	(function() {
+		if (location.hash || location.search || matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate) return;
+		document.documentElement.classList.add('logo-entrance');
+		window.logoEntranceWatchdog = setTimeout(function() {
+			document.documentElement.classList.remove('logo-entrance', 'logo-entrance-revealing');
+		}, 5500);
+	})();
+	</script>
+	<?php endif; ?>
 	<?php if ( ! has_site_icon() ) : ?>
 		<link rel="icon" href="<?php echo esc_url( get_theme_file_uri( '/assets/favicon.png' ) ); ?>">
 	<?php endif; ?>
@@ -23,6 +34,14 @@
 </head>
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+
+<?php if ( is_front_page() && ! is_search() ) : ?>
+<div class="logo-entrance__stage" id="logo-entrance" style="display:none" data-src="<?php echo esc_url( add_query_arg( 'ver', filemtime( get_theme_file_path( '/assets/logo-flight.svg' ) ), get_theme_file_uri( '/assets/logo-flight.svg' ) ) ); ?>" data-src-dark="<?php echo esc_url( add_query_arg( 'ver', filemtime( get_theme_file_path( '/assets/logo-flight-dark.svg' ) ), get_theme_file_uri( '/assets/logo-flight-dark.svg' ) ) ); ?>">
+	<div class="logo-entrance__backdrop"></div>
+	<button class="logo-entrance__skip" type="button">Skip animation</button>
+	<div class="logo-entrance__mark"><img class="logo-entrance__flight" width="1478" height="988" alt="The Wesleyan Science Journal cardinal landing on a syringe"></div>
+</div>
+<?php endif; ?>
 
 <a class="skip-link" href="#main">Skip to content</a>
 
