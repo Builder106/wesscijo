@@ -80,7 +80,7 @@ The issue also includes the Editorial Board letter, division landing pages, site
 
 ## What's in the repo
 
-- `preview/`: Standalone design previews, including the source files for the cardinal entrance animation. The separate Cardinal site concept uses sample articles.
+- `preview/`: Design previews, including the cardinal entrance animation sources and its [MP4 recording](preview/logo-entrance-recording.mp4). The separate Cardinal site concept uses sample articles.
 - `brand/`: Source assets for the official journal seal, which shows a goggled cardinal perched on a syringe.
 - `tests/`: End-to-end browser specs, WordPress Playground blueprints, and syntax checks.
 
