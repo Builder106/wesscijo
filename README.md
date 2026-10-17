@@ -1,10 +1,10 @@
 # WesSciJo
 
-The codebase for [The Wesleyan Science Journal](https://thewesleyansciencejournal.com/), Wesleyan University's student-run science publication. Production runs on WordPress. This repository contains its theme, editorial workflow plugin, a static publication preview, and the source content for the Fall 2026 issue.
+This is the codebase for The Wesleyan Science Journal, Wesleyan University's student-run science publication. The live site runs on WordPress. This repo holds its theme and editorial tools, a static preview, and the source content for the Fall 2026 issue.
 
 ## Live site
 
-The current edition is live at [thewesleyansciencejournal.com](https://thewesleyansciencejournal.com/).
+See the current edition at [thewesleyansciencejournal.com](https://thewesleyansciencejournal.com/).
 
 ### Homepage
 ![The Wesleyan Science Journal homepage](screenshots/live-site/01-homepage.png)
@@ -23,27 +23,27 @@ The current edition is live at [thewesleyansciencejournal.com](https://thewesley
 
 ## How this repo works
 
-WordPress serves the public site and gives the editorial team its publishing workspace. The repository also keeps a static publication build for local previews and content checks.
+WordPress runs the public site and gives editors a place to manage publishing. The repo also includes a static build for previews and content checks.
 
-### 1. The static publication is a preview
-The `public/` directory contains a generated edition of the journal. The standard-library Python renderer (`scripts/render-publication.py`) reads articles and issue notes from `content/issue-2026/` and writes static HTML, CSS, and search data. This build does not update the production WordPress site.
+### Static preview
+The `public/` directory holds a generated edition of the journal. The Python renderer (`scripts/render-publication.py`) uses the standard library to read articles and issue notes from `content/issue-2026/`, then writes static HTML, CSS, and search data. It updates the preview only; it doesn't change the production WordPress site.
 
-### 2. WordPress serves the journal
-The `plugins/wessci-site/` companion plugin adds editorial tools to WordPress:
+### WordPress site
+The `plugins/wessci-site/` plugin adds these editorial tools to WordPress:
 
 - Custom workflow statuses: `in_review`, `copyediting`, and `ready_for_issue`.
 - Article metadata fields for author credentials, figures, captions, licenses, and references.
 - An issue assembly widget that tracks published, ready, and in-progress articles.
 - Masthead management for the editorial roster.
 
-The WordPress themes live in `themes/wesscijo/` (the active theme) and `themes/wessci-fallback/` (a matched backup theme kept in sync for disaster recovery).
+The active theme is in `themes/wesscijo/`. Its backup, `themes/wessci-fallback/`, stays in sync for disaster recovery.
 
-### 3. The sync rule
-Changes made in WordPress do not automatically update the static preview. When an editorial change is approved for the preview, update `content/issue-2026/`, rerender `public/`, and verify the output. Deploying the WordPress theme is a separate step.
+### Keep the preview in sync
+A change in WordPress won't appear in the static preview on its own. Once an editorial change is approved for the preview, update `content/issue-2026/`, rebuild `public/`, and check the result. The WordPress theme is deployed separately.
 
 ## Quick start
 
-Python 3 can build and serve the static preview on a development host:
+To build and serve the static preview:
 
 ```sh
 python3 scripts/render-publication.py
@@ -52,18 +52,18 @@ python3 -m http.server 8000 -d public
 
 Open `http://localhost:8000` in your browser.
 
-### Running automated browser checks
+### Run browser checks
 
-Playwright tests verify article routes, navigation, search filtering, and responsive layouts:
+The Playwright specs cover article routes, navigation, search filtering, and responsive layouts:
 
 ```sh
 PUBLICATION_BASE_URL=http://localhost:8000 npx playwright test tests/editorial-publication.spec.js
 WORDPRESS_PREVIEW_URL=http://localhost:8888 npx playwright test tests/editorial-wordpress.spec.js
 ```
 
-### Syncing the fallback theme
+### Keep the backup theme current
 
-Whenever you update templates or styles in `themes/wesscijo/`, run the promotion script to mirror those changes to `themes/wessci-fallback/`:
+After changing templates or styles in `themes/wesscijo/`, run this script to copy them to `themes/wessci-fallback/`:
 
 ```sh
 bash scripts/promote-to-fallback.sh
@@ -71,19 +71,19 @@ bash scripts/promote-to-fallback.sh
 
 ## Fall 2026 issue contents
 
-The source snapshot in `content/issue-2026/` includes nine articles in the site's two editorial sections:
+The snapshot in `content/issue-2026/` has nine articles across the journal's two sections:
 
 - **Research & Reviews:** *GMOs: Applications and Controversy*; *Hydroxylation Pattern of Bile Salt Governs Mixed Micelle Architecture and Peptide Association*; *Can Quantum Physics Secure Our Votes?*; and *The Math Behind LLMS*.
 - **News, Features & Perspectives:** *The Birds of Wesleyan and How To Find Them*; *Psychology in the Age of TikTok*; *Liberal Arts to Scientific Academia: A Road Less Traveled*; *The ChatGPT Moment for Robotics*; and *Scientific Paradigms: A Case for Science and Technology Studies*.
 
-The issue also includes the Editorial Board letter, division landing pages, full site search, and submission guidelines with the official Google Form intake.
+The issue also includes the Editorial Board letter, division landing pages, site-wide search, and submission guidelines linked to the official Google Form.
 
-## Other folders
+## What's in the repo
 
-- `preview/`: Standalone design previews, including the source preview for the cardinal entrance animation. The separate Cardinal site concept uses sample articles.
-- `brand/`: Source assets for the official journal seal, with a goggled cardinal perched on a syringe.
+- `preview/`: Standalone design previews, including the source files for the cardinal entrance animation. The separate Cardinal site concept uses sample articles.
+- `brand/`: Source assets for the official journal seal, which shows a goggled cardinal perched on a syringe.
 - `tests/`: End-to-end browser specs, WordPress Playground blueprints, and syntax checks.
 
-## Follow-up items
+## Image credits
 
-Some image attributions remain unresolved in `content/issue-2026/source-notes.json`. Keep the supplied credits intact until the editors confirm the missing ones.
+A few image attributions in `content/issue-2026/source-notes.json` still need confirmation. Leave the supplied credits in place until the editors confirm the missing ones.
