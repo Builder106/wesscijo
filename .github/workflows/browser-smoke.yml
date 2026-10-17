@@ -34,6 +34,6 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run live smoke suite
-        run: npm run test:browser
+        run: npm run test:smoke
         env:
           BASE_URL: https://wessci.yinkavaughan.me/
