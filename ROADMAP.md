@@ -1,80 +1,80 @@
-# WesSciJo Website Redesign Roadmap
+# WesSciJo website redesign roadmap
 
 ## Status and scope
 
-The editors' October 5 emails replace the broader redesign brief for this release. Preserve the current site's dropdown navigation, article layout, and About structure. Apply the simpler white and red styling, include the official logo and full name "The Wesleyan Science Journal", and prioritize the current edition and outside submissions. Further design exploration is deferred until an in-person meeting after the edition is released.
+The editors' October 5 emails set the scope for this release and replace the broader redesign brief. Keep the current dropdown navigation, article layout, and About structure. Use simpler white and red styling, show the official logo and full name "The Wesleyan Science Journal", and make the current edition and outside submissions easy to find. Save further design exploration for an in-person meeting after the edition is released.
 
-The release must contain the nine articles on the final Fall 2026 list, labeled thumbnails, inline graphics, and both GMO comic pages. About must include the Editorial Board letter and the requested editorial, graphic design, and web design credits. Submission guidelines must use the approved article content document and the form supplied in Shriya's September 27 email. Remove the Calendar, placeholder stories, and unsolicited About content. Preserve photo credits and authors' references, and verify that each title opens its own article and search works.
+The release must include the nine articles on the final Fall 2026 list, labeled thumbnails, inline graphics, and both GMO comic pages. About must include the Editorial Board letter and the requested editorial, graphic design, and web design credits. Use the approved article content document and the form from Shriya's September 27 email for the submission guidelines. Remove the Calendar, placeholder stories, and unsolicited About content. Keep photo credits and author references. Check that every title opens its own article and that search works.
 
-The owner approved publishing the reviewed release on October 6. The remaining sections below retain the earlier, deferred redesign research; they do not expand this release's scope.
+The owner approved publishing the reviewed release on October 6. The rest of this roadmap records earlier design research that has been deferred. It does not add work to this release.
 
 ## Desired experience
 
-The site should feel like a distinctive student science publication, with enough visual ambition to make its stories memorable and enough clarity to make them easy to read. A first-time visitor should be able to identify the journal, find a story by field or format, understand whether it is research, review, news, feature, perspective, interview, or essay, and continue to the current issue, archive, events, or submission information. Article pages should give scientific figures, captions, credits, and references room to work.
+The site should feel like a student science publication and make its stories easy to read. First-time visitors should be able to identify the journal, find stories by field or format, and tell whether an article is research, a review, news, a feature, a perspective, an interview, or an essay. They should also be able to get to the current issue, archive, events, and submission information. Article pages need room for scientific figures, captions, credits, and references.
 
-Visual continuity with the current site is optional. Continuity of the journal's actual content, editorial taxonomy, accessible reading paths, and working URLs matters. Avoid carrying over a component simply because it already exists.
+The design can change, but keep the journal's content, article categories, accessible reading paths, and working URLs. Don't keep a component just because it's already there.
 
 ## Identity and art direction
 
-The supplied [logo](brand/logo.png) is a circular Wesleyan Science Journal seal. Its central image is a red cardinal wearing lab goggles and perched on a lab instrument, surrounded by black serif lettering on white. Use this as the source for the site's identity, while checking how well the full seal reads in the header, on a phone, and at small sizes. Any simplified mark or redraw needs review against the supplied artwork before use.
+The supplied [logo](brand/logo.png) is a circular Wesleyan Science Journal seal. It shows a red cardinal in lab goggles perched on a lab instrument, surrounded by black serif lettering on white. Use it as the source for the site's identity. Check that the full seal reads in the header, on a phone, and at small sizes. Review any simplified mark or redraw against the supplied artwork before using it.
 
-Use Wesleyan red and black as the dominant site colors. White or a light neutral can provide reading space and contrast; the logo's small accessory colors need not become interface colors. Confirm the production red against the university's current brand guidance before setting final color tokens. Every concept should show the cardinal clearly and tie it to science. Bird forms, feathers, nests, flight paths, and field imagery can recur in section art or transitions, but article graphics must still match their subjects.
+Use Wesleyan red and black as the main site colors. White or a light neutral can provide reading space and contrast. The logo's small accessory colors don't need to become interface colors. Check the production red against the university's current brand guidance before setting final color tokens. Every concept should show the cardinal and connect it to science. Bird forms, feathers, nests, flight paths, and field imagery can appear in section art or transitions. Article graphics must match their subjects.
 
-Explore the proposed 3D bird nest with beakers and test tubes as a signature opening asset. First make a clear storyboard and a 2D composition so the idea can be judged without relying on animation. If the 3D version improves the page, define its source files, still image, mobile crop, loading budget, and reduced-motion state. The full seal should remain legible and identifiable even if the nest becomes the homepage's main illustration.
+Explore the proposed 3D bird nest with beakers and test tubes as a signature opening image. First make a clear storyboard and a 2D composition so the idea can be judged without animation. If the 3D version works better on the page, document its source files, still image, mobile crop, loading budget, and reduced-motion state. Keep the full seal legible even if the nest becomes the homepage's main illustration.
 
 ## Direction selection
 
-Create and compare at least three genuinely different visual routes before committing to theme implementation. Each route must use the red-and-black identity, the cardinal, and a visible connection between birds and science:
+Create and compare at least three distinct visual routes before choosing a theme. Each route must use the red-and-black identity, show the cardinal, and connect birds with science:
 
-1. **Editorial publication:** use the seal and cardinal with strong typography, purposeful image crops, varied story layouts, and a clear issue identity. The current site can inform this route, but its exact band, rule, index, and split lead are optional.
-2. **Science as visual material:** weave bird anatomy, flight, field observation, and approved scientific diagrams or figures into a red-and-black editorial system. Design an image-free state for stories without licensed or approved artwork.
-3. **Distinctive journal world:** give the cardinal a prominent role in a nest of beakers and test tubes, with article subjects branching out from that world. Compare a strong still illustration with a 3D treatment before choosing one.
+1. **Editorial publication:** Use the seal and cardinal, strong typography, thoughtful image crops, varied story layouts, and a clear issue identity. The current site can inform this route, but its exact band, rule, index, and split lead are optional.
+2. **Science as visual material:** Bring bird anatomy, flight, field observation, and approved scientific diagrams or figures into a red-and-black editorial system. Design an image-free state for stories without licensed or approved artwork.
+3. **Distinctive journal world:** Put the cardinal in a nest of beakers and test tubes, with article subjects branching out from it. Compare a still illustration with a 3D version before choosing one.
 
-These are exploration prompts, not three required finished themes. A stronger fourth direction is welcome. Compare the routes using the same real or editor-approved representative stories, including a research article with figures, a news or feature article, and a story without a hero image. Show the homepage, article page, and mobile navigation at desktop and phone widths. Judge each route for visual quality, fidelity to the logo and palette, editorial fit, story differentiation, readability, navigation, accessibility, production effort, and how well it handles missing content. Record the reasons for the selected direction and what the team rejected.
+Treat these as prompts, not three themes that all need to be finished. Consider a fourth route if it is stronger. Compare the routes with the same real or editor-approved stories: a research article with figures, a news or feature article, and a story without a hero image. Show the homepage, article page, and mobile navigation at desktop and phone widths. Compare visual quality, fit with the logo and palette, editorial fit, story differences, readability, navigation, accessibility, production effort, and handling of missing content. Record why the team chose one route and rejected the others.
 
-**Direction gate:** editors and the designer choose a rendered direction after seeing representative pages, not a mood board alone. If none works, revise the strongest route before building it into WordPress.
+**Direction gate:** Editors and the designer choose a route after reviewing rendered pages, not a mood board alone. If none works, revise the strongest route before building it in WordPress.
 
 ## Product and content contract
 
-Before new templates are built, inventory the current routes, post types, categories, URLs, content fields, and plugin-owned data. Confirm which files and Drive documents contain approved publication copy and artwork. Resolve the current homepage issue line and the mismatched Biology cover and Computer Science lead. Confirm the issue model, publication schedule, article credits, and image rights with the editorial team; the source notes contain working dates and differing print-section lengths.
+Before building templates, list the current routes, post types, categories, URLs, content fields, and plugin-owned data. Confirm which files and Drive documents hold approved copy and artwork. Resolve the homepage issue line and the mismatch between the Biology cover and Computer Science lead. Confirm the issue model, publication schedule, article credits, and image rights with the editors. The source notes contain working dates and different print-section lengths.
 
-The content model should support the two main divisions and their article formats, byline and affiliation when supplied, deck or abstract, field, issue, figures, captions and credits, references, related stories, and event details. Keep durable content data independent of a replaceable theme. Preserve post IDs, slugs, and public permalinks during a visual rebuild unless a reviewed migration is needed.
+The content model should support the two divisions and their article formats, plus bylines and affiliations when supplied. It should also support a deck or abstract, field, issue, figures, captions and credits, references, related stories, and event details. Keep publication data separate from the theme. Preserve post IDs, slugs, and public permalinks during a visual rebuild unless the team reviews a migration.
 
-The team's request for graphics within articles and Word-like text wrapping is an authoring requirement. Prototype drag-and-drop placement and text wrapping with actual WordPress editing content before choosing a block or layout approach. A public submission system is a separate product decision: define the intake, permissions, review, spam handling, and editorial owner before exposing a form. Until then, the existing Submit route can explain the approved process.
+The team asked to place graphics within articles and wrap text around them as in Word. Treat both as authoring requirements. Prototype drag-and-drop placement and text wrapping with real WordPress content before choosing a block or layout. A public submission system is a separate product decision. Define its intake, permissions, review, spam handling, and editorial owner before exposing a form. Until then, the Submit page can explain the approved process.
 
-The screenshot labels a literal subject tree as a stretch feature: Chemistry, Technology, and Physics branches would lead to article leaves. Prototype it as an optional browse experience only after the main category and search paths work. Its branches and leaves must be real links, with a plain list or equivalent navigation available to keyboard and small-screen readers.
+The screenshot marks a subject tree as a stretch feature. Its Chemistry, Technology, and Physics branches would lead to article links. Prototype it as an optional way to browse only after the main category and search paths work. Make every branch and article a real link, and provide a plain list or equivalent navigation for keyboard and small-screen readers.
 
 ## Implementation sequence
 
 ### 1. Capture the baseline and choose a direction
 
-- Inventory every public route and its content source. Capture desktop and phone views, including search results, empty states, and an article with media.
-- Build comparable rendered concepts for the direction gate above. Use the journal's own approved material where possible; label any temporary content and art clearly.
-- Decide whether to evolve an existing theme or build a new one from scratch. Choose based on the selected design and the cost of preserving working WordPress behavior.
+- List every public route and its content source. Capture desktop and phone views, including search results, empty states, and an article with media.
+- Build comparable, rendered concepts for the direction review. Use approved journal material where possible, and clearly label temporary text or art.
+- Decide whether to update an existing theme or build a new one. Base the choice on the selected design and the work needed to preserve WordPress behavior.
 
 ### 2. Build the publication system
 
-- Establish the chosen red-and-black visual language across typography, spacing, imagery, figures, captions, controls, and responsive behavior. Make room for both long-form reading and quick story scanning.
-- Build purposeful variants for research, reviews, news, features, and perspectives. Use composition and metadata to distinguish them without making every article layout unique.
-- Make missing images, bios, dates, abstracts, and issue metadata produce deliberate states. Do not invent information to fill a component.
-- Give navigation, search, and issue browsing clear roles. Test any tree or immersive navigation against a simple accessible route to the same content.
+- Apply the red-and-black visual language to type, spacing, images, figures, captions, controls, and responsive layouts. Support both long-form reading and quick scanning.
+- Create layouts for research, reviews, news, features, and perspectives. Use composition and metadata to distinguish them without making every article unique.
+- Design clear states for missing images, bios, dates, abstracts, and issue details. Don't invent information to fill a component.
+- Give navigation, search, and issue browsing distinct roles. Compare any tree or immersive navigation with a simple accessible route to the same content.
 
 ### 3. Complete the reader journeys
 
-- **Home:** identify the publication and current editorial focus, then offer clear paths to read, browse, and explore an issue or archive. Avoid repeated grids that make every story look equally important.
-- **Article:** support readable prose, inline figures, captions, credits, references when relevant, and a useful next-story or section path.
-- **Browse and search:** make divisions, article types, archives, results, and empty states understandable on phone and desktop.
-- **About, Calendar, Submit, and 404:** make each route useful with only approved roster, event, and submission information.
+- **Home:** Identify the publication and current editorial focus. Give readers clear ways to read and browse the issue or archive. Avoid repeated grids that give every story equal weight.
+- **Article:** Support readable prose, inline figures, captions, credits, relevant references, and a useful path to another story or section.
+- **Browse and search:** Make divisions, article types, archives, results, and empty states clear on phones and desktops.
+- **About, Calendar, Submit, and 404:** Make each page useful with approved roster, event, and submission information only.
 
 ### 4. Verify and prepare release
 
-- Compare the new experience with the route inventory so existing article, category, search, About, Calendar, Submit, and 404 journeys remain functional.
-- Check keyboard access, visible focus, heading structure, readable contrast, responsive layouts, image alternatives, and reduced-motion behavior. If motion or 3D is used, retain complete static paths to the same content.
-- Review page weight and image loading with actual media. Verify article and figure credits, image-story pairings, issue metadata, and all public copy with the editors.
-- Run the repository's applicable syntax, style, security, and browser checks during implementation. Treat editorial approval and technical verification as separate release gates.
+- Compare the new site with the route inventory. Keep article, category, search, About, Calendar, Submit, and 404 paths working.
+- Check keyboard access, visible focus, heading order, contrast, responsive layouts, image alternatives, and reduced-motion behavior. If you use motion or 3D, keep every content path available without it.
+- Check page weight and image loading with real media. Confirm article and figure credits, image-story pairings, issue details, and public copy with the editors.
+- Run the relevant syntax, style, security, and browser checks. Keep editorial approval and technical verification as separate release gates.
 
 ## Review criteria
 
-The redesign is ready for editorial review when rendered desktop and phone pages use red and black, show the cardinal clearly, connect birds with science, make the journal's formats and divisions clear, and handle both image-rich and image-poor stories well. Readers must be able to complete the core journeys without relying on visual effects. The team should be able to maintain the chosen system with its real editorial capacity.
+The redesign is ready for editorial review when desktop and phone pages use red and black, show the cardinal, connect birds with science, explain the journal's formats and divisions, and handle stories with and without images. Readers must be able to complete the main tasks without visual effects. The team must be able to maintain the design with its available editorial capacity.
 
-Release requires approved copy and art, accurate issue and event details, working public URLs, and a separate deployment decision. No design document by itself establishes launch readiness.
+Release needs approved copy and art, accurate issue and event details, working public URLs, and a separate deployment decision. This roadmap alone does not approve a launch.
