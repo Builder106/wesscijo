@@ -51,8 +51,12 @@ packet icon back.
 
 The publication browser suite passed 13 of 13, and PHP lint passed for both
 themes. Desktop, 390px, and 320px captures were reviewed in light and dark.
-The WordPress browser suite has not run yet. Nothing has been committed or
-deployed.
+Deployed the theme files to the active production theme after confirming its
+files matched the previous commit; the replaced files were saved first, and
+Cache Enabler's page cache was cleared. Against production, the smoke suite
+passed 10 checks (1 skipped) and the WordPress suite passed 4, including one
+end mark on each of the nine articles. A live browser check confirmed the
+four head poses and the toes on the rule.
 
 ## 2026-10-18 - Academic editorial enhancements for WordPress dashboard #cms #editorial #ux
 
