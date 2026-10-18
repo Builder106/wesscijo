@@ -12,7 +12,7 @@ for (const width of [390, 1440]) {
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(preview);
     await expect(page.locator('h1')).toHaveText('A home forcurious minds.');
-    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(16, 16, 16)');
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(16, 14, 15)');
     await expect(page.locator('.story')).toHaveCount(3);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     await expect(page.locator('.opening-art img')).toBeVisible();

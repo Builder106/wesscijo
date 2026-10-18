@@ -37,6 +37,16 @@ OUT_DIR` on the build host. Copy `OUT_DIR/cardinal.svg` to `public/assets/`
 and both theme `assets/` folders, and `OUT_DIR/cardinal-field.svg` to
 `preview/assets/` and `plugins/wessci-site/admin/images/`.
 
+## 2026-10-17 - Repair browser test fixtures #tests
+
+The local WordPress preview emitted HTTPS links while its test port served
+HTTP. Search navigation and uploaded images therefore failed in the browser.
+The tests now route loopback HTTPS requests to that same HTTP port. Updated
+the Cardinal color check and submission-page text check to match the current
+pages, and made the WordPress viewport checks wait for the homepage entrance
+before using the menu. The full browser suite passed 36 checks and skipped
+five: the retired calendar case and four Playground cases without a URL.
+
 ## 2026-10-17 - Publish the logo entrance #homepage #deployment
 
 Deployed the committed entrance files to the active production WordPress

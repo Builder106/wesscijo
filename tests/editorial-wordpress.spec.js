@@ -1,9 +1,14 @@
 const { test, expect } = require('@playwright/test');
 const { readFileSync } = require('node:fs');
 const path = require('node:path');
+const { bridgeLocalWordPressUrls } = require('./local-wordpress');
 const articles = JSON.parse(readFileSync(path.resolve(__dirname, '../content/issue-2026/articles.json'), 'utf8'));
 const base = process.env.WORDPRESS_PREVIEW_URL || 'http://127.0.0.1:59089';
 const url = route => new URL(route, base).href;
+
+test.beforeEach(async ({ page }) => {
+  await bridgeLocalWordPressUrls(page, base);
+});
 
 test('WordPress contains the nine issue articles with working permalinks and images', async ({ page, request }) => {
   const response = await request.get(url('/wp-json/wp/v2/posts?per_page=100'));
@@ -29,7 +34,7 @@ test('WordPress About, submission pages and search use editorial content', async
   await expect(page.locator('main')).toContainText('Minaal Khwaja');
   await page.goto(url('/submit/'));
   await expect(page.getByRole('link', { name: 'Open the article submission form' })).toHaveAttribute('href', /1FAIpQLSf3YVPrAoa6FFr3QyJYtGbWm5aDzRgoVsL6EjiwLnagwW63cA/);
-  await expect(page.locator('main')).toContainText('Prior to publication');
+  await expect(page.locator('main')).toContainText('View the complete guidelines (PDF)');
   await page.goto(url('/'));
   await expect(page.getByRole('link', { name: 'Calendar', exact: true })).toHaveCount(0);
   await page.getByRole('searchbox').fill('quantum');
@@ -42,6 +47,7 @@ for (const width of [390, 1440]) {
   test(`WordPress preview is readable at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 950 });
     await page.goto(url('/'));
+    await expect(page.locator('#logo-entrance')).toBeHidden({ timeout: 6000 });
     await expect(page.locator('.hero__title')).toHaveText('The Wesleyan Science Journal');
     await expect(page.locator('.hero__logo-slot img')).toHaveCount(2);
     if (width === 390) {

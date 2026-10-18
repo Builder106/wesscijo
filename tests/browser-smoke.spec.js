@@ -1,4 +1,5 @@
 const { test, expect } = require('@playwright/test');
+const { bridgeLocalWordPressUrls } = require('./local-wordpress');
 
 const routes = ['/', '/about/', '/archives/', '/submit/'];
 const archiveRoutes = ['/category/research-reviews/', '/category/news-features-perspectives/'];
@@ -9,6 +10,10 @@ function siteUrl(path) {
 }
 
 test.describe('WesSciJo public site smoke tests', () => {
+  test.beforeEach(async ({ page }) => {
+    await bridgeLocalWordPressUrls(page, siteUrl('/'));
+  });
+
   test('expected routes expose landmarks and metadata', async ({ page }) => {
     for (const route of routes) {
       const response = await page.goto(siteUrl(route));
