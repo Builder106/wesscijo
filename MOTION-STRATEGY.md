@@ -44,10 +44,12 @@ WesSciJo is a student science publication for the Wesleyan community. Its pages 
 | **Navigation disclosure** | Header menu marker | CSS transform (`rotate(45deg)`) | Shows the open state by rotating the marker instead of swapping `+` and `−`. |
 | **Button feedback** | Buttons and submission actions | CSS `:active` transform (`translateY(1px)`) | Confirms a click or tap. |
 | **Search results** | Filtered article cards | CSS `@keyframes` fade and slide | Softens the appearance of cards when the search results change. |
+| **Perched cardinal** | Research & Reviews heading rule | Small script picks a pose; CSS spring transition | The journal's cardinal watches the reader scroll past. It moves only when the reader scrolls. |
+| **Article end mark** | After the last paragraph of each article | Small script picks a pose; CSS spring transition | Marks the end of the article text before its sources. The bird lifts its head as it comes into view. |
 
 ### Lottie and decorative motion
 
-**Decision: defer.** The journal is built for reading. Don't add a Lottie runtime or autoplaying mascot loops; they add page weight and compete with article text. Keep a still version of SVG artwork available. `JOURNAL.md` records the editors' earlier decision against unsolicited decorative logo animation and 3D loops.
+**Decision: no Lottie, no loops.** The journal is built for reading. Don't add a Lottie runtime or autoplaying mascot loops; they add page weight and compete with article text. The owner asked for animated cardinals, so the logo bird appears in two places, and its motion is tied to scrolling: it stops when the reader stops. A scroll timeline made the turn as slow as the reader's scrolling, so a 3 KB script (1.3 KB gzipped, `assets/cardinal-watch.js`) picks the pose from scroll position instead, and a CSS spring plays each snap in 380 ms. The SVG is inlined and has no animation of its own, so the still drawing is the default. `JOURNAL.md` records the editors' earlier decision against unsolicited decorative logo animation and 3D loops.
 
 ---
 
@@ -60,6 +62,8 @@ WesSciJo is a student science publication for the Wesleyan community. Its pages 
 | **Section disclosure marker**<br>Header nav<br>`.panel__summary::after` | Shows whether a navigation section is open. | **Now** | CSS | Rotate the marker from `0deg` to `45deg` over 120 ms when `<details>` opens. | Show a static `+`. Disable animation under `prefers-reduced-motion`. | Uses `.panel__summary::after` in `style.css` and `publication.css`. |
 | **Buttons and download action**<br>Global<br>`.btn`, `.search__submit` | Confirms that a button or download link was pressed. | **Now** | CSS | On hover use `translateY(-1px)`; on activation use `translateY(1px)`, over 120 ms with ease-out. | Keep the hover color change. Remove transforms under `prefers-reduced-motion`. | Uses `.btn`, `.btn--invert`, and `.search__submit`. |
 | **Search results**<br>`/search/`<br>`#search-results .card` | Makes filtered article cards appear less abruptly. | **Now** | CSS | Fade cards in and move them up 6px over 240 ms with ease-out. | Show cards immediately at full opacity. Disable animation under `prefers-reduced-motion`. | Scoped to `#search-results .card` in the stylesheets. |
+| **Perched cardinal**<br>Homepage<br>`.division__bird` | Ties the journal's mascot to its research section without interrupting it. | **Now** | Inline SVG, CSS, small script | As the heading crosses the viewport, the head holds four poses (up at the reader, level, a glance back up, down at the research) and springs to each in 380 ms with a slight overshoot; the tail flicks once per snap. Upward looks pivot at the throat and downward looks at the nape, so the bib and crest stay attached. | The bird stays still in its logo pose. | `assets/cardinal-watch.js` sets the pose with a 3% margin at each boundary; the spring transition runs only under `prefers-reduced-motion: no-preference`. |
+| **Article end mark**<br>`/articles/<slug>/`<br>`.end-mark` | Shows where the article text ends, before Works Cited. | **Now** | Inline SVG, CSS, small script | Hold the head down at `16deg` until the bird is above the bottom fifth of the viewport, then spring it up to level. | The bird stays still in its logo pose. | Inserted by the theme's `the_content` filter and the static renderer. |
 
 ---
 
@@ -93,5 +97,5 @@ Use this reduced-motion rule to shorten or remove animation for readers who requ
 
 - **WCAG 2.2**: The strategy follows Success Criterion 2.2.2 (Pause, Stop, Hide) and 2.3.3 (Animation from Interactions).
 - **Screen readers**: The reading progress indicator uses `pointer-events: none` on a CSS pseudo-element. It doesn't cover text or add a control for screen readers.
-- **No background motion**: Avoid continuous loops, flashing, and bouncing.
+- **No background motion**: Avoid continuous loops, flashing, and bouncing. Scroll-linked motion is fine, because it stops when the reader stops scrolling.
 

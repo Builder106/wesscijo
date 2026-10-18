@@ -13,7 +13,10 @@ NAME = 'The Wesleyan Science Journal'
 STYLESHEET_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/style.css').read_bytes()).hexdigest()[:12]
 ENTRANCE_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-entrance.js').read_bytes()).hexdigest()[:12]
 FLIGHT_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-flight.svg').read_bytes()).hexdigest()[:12]
+WATCH_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/cardinal-watch.js').read_bytes()).hexdigest()[:12]
 DARK_FLIGHT_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-flight-dark.svg').read_bytes()).hexdigest()[:12]
+CARDINAL_SVG = (ROOT / 'themes/wesscijo/assets/cardinal-perch.svg').read_text(encoding='utf-8').strip()
+REFERENCES_HEADING = re.compile(r'<h[2-6][^>]*>\s*(?:<[^>]+>\s*)*(?:works cited|references|sources|bibliography)\b', re.I)
 FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSf3YVPrAoa6FFr3QyJYtGbWm5aDzRgoVsL6EjiwLnagwW63cA/viewform'
 SECTIONS = {
     'life-science': 'Life Science',
@@ -44,6 +47,19 @@ def division_icon(slug):
 
 def escape(value):
     return html.escape(str(value), quote=True)
+
+
+def with_end_mark(body):
+    """End the article text with the cardinal, as the theme's the_content filter does."""
+    heading = REFERENCES_HEADING.search(body)
+    text_end = heading.start() if heading else len(body)
+    for paragraph in reversed(list(re.finditer(r'<p\b[^>]*>(.*?)</p>', body[:text_end], re.I | re.S))):
+        if not html.unescape(re.sub('<[^>]+>', '', paragraph.group(1))).strip():
+            continue
+        inner = re.sub(r'(?:\s|<br\s*/?>|&nbsp;)+$', '', paragraph.group(1), flags=re.I)
+        at = paragraph.start(1) + len(inner)
+        return body[:at] + f'<span class="end-mark">{CARDINAL_SVG}</span>' + body[at:]
+    return body
 
 
 def article_url(article):
@@ -191,6 +207,7 @@ def document(title, body, articles, description='', canonical=''):
     ) if entrance else ''
     entrance_script = f'<script src="/assets/logo-entrance.js?v={ENTRANCE_VERSION}" defer></script>' if entrance else ''
     stylesheet_url = f'/publication.css?v={STYLESHEET_VERSION}' if entrance else '/publication.css'
+    watch_script = f'<script src="/assets/cardinal-watch.js?v={WATCH_VERSION}" defer></script>' if 'class="cardinal"' in body else ''
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta name="color-scheme" content="light dark">'
@@ -202,7 +219,7 @@ def document(title, body, articles, description='', canonical=''):
             '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@600&display=swap">'
             f'<link rel="stylesheet" href="{stylesheet_url}">'
             '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script>'
-            + entrance_script + '</head><body>' + entrance_stage
+            + entrance_script + watch_script + '</head><body>' + entrance_stage
             + header(articles) + '<main class="site-main" id="main" tabindex="-1">' + body + '</main>'
             + footer() + '</body></html>')
 
@@ -316,15 +333,15 @@ def animations_gallery_html():
 
     cardinal_section = (
         '<section class="svg-gallery-section">'
-        '<h2 class="svg-gallery-section__title">Articulated Avian Kinematics Specimen Plate</h2>'
+        '<h2 class="svg-gallery-section__title">The journal cardinal</h2>'
         '<div class="svg-cardinal-showcase">'
         '<div class="svg-cardinal-stage">'
-        '<object type="image/svg+xml" data="/assets/cardinal.svg" width="260" height="330" class="specimen-card__svg" aria-label="Interactive anatomical observation plate of the Northern Cardinal">'
+        '<object type="image/svg+xml" data="/assets/cardinal.svg" width="260" height="330" class="svg-cardinal-stage__svg" aria-label="Animated journal cardinal">'
         '<img src="/assets/cardinal.svg" alt="Northern Cardinal specimen plate" width="260" height="330">'
         '</object></div>'
         '<div class="svg-cardinal-info">'
         '<h3>Field Specimen Plate: Northern Cardinal (<em>Cardinalis cardinalis</em>)</h3>'
-        '<p>Articulated SVGator biological kinematics system mounted in <em>The Birds of Wesleyan and How To Find Them</em>. Interactive hover or touch triggers an alert orientation posture, while autonomous biological cycles operate continuously:</p>'
+        '<p>A study of the journal mascot. The bird turns its head and balances on the syringe; its motion stops when reduced motion is preferred.</p>'
         '<ul class="svg-cardinal-specs">'
         '<li><code>cardinalBreathe</code>: 2.4s respiratory cycle</li>'
         '<li><code>cardinalTailBob</code>: 3.0s counterbalance bob</li>'
@@ -332,7 +349,7 @@ def animations_gallery_html():
         '<li><code>:hover state</code>: Observer alert posture</li>'
         '<li><code>Reduced Motion</code>: Full static cancellation</li>'
         '</ul>'
-        '<p><a class="btn" href="/articles/birds-of-wesleyan/">View within ornithology feature &rarr;</a></p>'
+        '<p><a class="btn" href="/assets/cardinal.svg">Open the artwork &rarr;</a></p>'
         '</div></div></section>'
     )
 
@@ -390,7 +407,8 @@ def main():
     for slug, label in GROUPS.items():
         order_slugs = order.get(slug, [])
         selected = [next(a for a in articles if a['slug'] == s) for s in order_slugs if any(a['slug'] == s for a in articles)]
-        homepage += f'<section class="division"><h2 class="division__title">{division_icon(slug)}<a href="/category/{slug}/">{escape(label)}</a></h2><div class="cards">' + ''.join(card(a, index == 0) for index, a in enumerate(selected)) + '</div></section>'
+        bird = f'<span class="division__bird">{CARDINAL_SVG}</span>' if slug == 'research-reviews' else ''
+        homepage += f'<section class="division"><h2 class="division__title">{division_icon(slug)}<a href="/category/{slug}/">{escape(label)}</a>{bird}</h2><div class="cards">' + ''.join(card(a, index == 0) for index, a in enumerate(selected)) + '</div></section>'
     homepage += ('<section class="submit"><div class="submit__header">'
                  '<img src="/assets/submission-packet.svg" class="submit__icon" alt="" width="44" height="44" aria-hidden="true">'
                  '<h2 class="submit__title">Write for us</h2></div>'
@@ -401,7 +419,7 @@ def main():
         body = ('<div id="reading-progress" class="reading-progress" aria-hidden="true"></div>'
                 f'<article class="article"><h1 class="article__title">{escape(a["title"])}</h1>'
                 f'<p class="byline">{escape(a["byline"])}</p><p class="meta"><a href="/category/{section_slug(a["section"])}/">{escape(a["section"])}</a> / {escape(a["type"])}</p>'
-                + figure(a, 'article__figure', True) + f'<div class="prose">{a["bodyHtml"]}</div></article>')
+                + figure(a, 'article__figure', True) + f'<div class="prose">{with_end_mark(a["bodyHtml"])}</div></article>')
         if related:
             body += '<section class="division"><h2 class="division__title">More from this section</h2><div class="cards">' + ''.join(card(other) for other in related) + '</div></section>'
         write_page(article_url(a), a['title'], body, articles, a['excerpt'])
@@ -480,6 +498,7 @@ def main():
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-flight.svg', PUBLIC / 'assets/logo-flight.svg')
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-flight-dark.svg', PUBLIC / 'assets/logo-flight-dark.svg')
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-entrance.js', PUBLIC / 'assets/logo-entrance.js')
+    shutil.copyfile(ROOT / 'themes/wesscijo/assets/cardinal-watch.js', PUBLIC / 'assets/cardinal-watch.js')
     index = [{k: a[k] for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
     (PUBLIC / 'search-index.json').write_text(json.dumps(index, ensure_ascii=False), encoding='utf-8')
     print(f'Rendered {len(articles)} articles, their sections, About, submissions, archives, and search.')

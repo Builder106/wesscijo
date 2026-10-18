@@ -81,6 +81,9 @@
 				?>
 				<img src="<?php echo esc_url( $div_icon ); ?>" class="division__icon" alt="" width="56" height="56" aria-hidden="true">
 				<?php echo wessci_term_name( $div['term'] ); ?>
+				<?php if ( 'research-reviews' === $div_slug ) : ?>
+					<span class="division__bird"><?php echo wessci_cardinal_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme-owned SVG. ?></span>
+				<?php endif; ?>
 			</h2>
 
 			<div class="cards">

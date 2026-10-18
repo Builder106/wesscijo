@@ -746,6 +746,7 @@ figcaption, .wp-caption-text {
 	border-bottom: var(--rule-slab) solid var(--color-ink);
 	padding-bottom: var(--space-4);
 	margin-bottom: var(--space-8);
+	position: relative;
 }
 
 .division__icon {
@@ -754,6 +755,33 @@ figcaption, .wp-caption-text {
 	flex-shrink: 0;
 	color: var(--color-accent);
 	display: inline-block;
+}
+
+/* The logo cardinal (assets/cardinal-perch.svg, inlined). Its toes grip a
+   line 21% above the bottom of the drawing. */
+.cardinal {
+	display: block;
+	width: 100%;
+	height: auto;
+	overflow: visible;
+	filter: drop-shadow(0 0 0.6px color-mix(in oklch, var(--color-ink) 55%, transparent));
+}
+.cardinal__head, .cardinal__tail { transform-box: view-box; }
+/* Perched on the Research & Reviews rule, toes on the middle of the slab. */
+.division__bird {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: clamp(4.5rem, 10vw, 7rem);
+	translate: 0 calc(21% + var(--rule-slab) / 2);
+	pointer-events: none;
+}
+/* The article end mark: the cardinal perched on the last line of text. */
+.end-mark {
+	display: inline-block;
+	width: 2.25em;
+	margin: -0.75em 0 0 0.35em;
+	vertical-align: -0.44em;
 }
 
 .empty {
@@ -960,34 +988,10 @@ figcaption, .wp-caption-text {
 	color: var(--color-ink-3);
 }
 
-.specimen-card {
-	margin: var(--space-10) auto;
-	max-width: 440px;
-	background: var(--color-paper-alt);
-	border: var(--rule-hair) solid var(--color-rule);
-	border-top: var(--rule-thick) solid var(--color-accent);
-	padding: var(--space-6);
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	text-align: center;
-}
-.specimen-card__media {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	overflow: hidden;
-}
-.specimen-card__svg {
+.svg-cardinal-stage__svg {
 	max-width: 100%;
 	height: auto;
 	display: block;
-}
-.specimen-card__caption {
-	margin-top: var(--space-4);
-	font-size: var(--text-xs);
-	color: var(--color-ink-3);
-	font-style: italic;
 }
 
 .search-empty {
@@ -1427,6 +1431,15 @@ body.admin-bar .reading-progress {
 	.svg-cardinal-stage { padding: var(--space-3); }
 }
 
+/* assets/cardinal-watch.js picks the cardinal's pose from its place in the
+   viewport. Like a real bird, the head snaps to each pose, overshoots a
+   little, and settles: an underdamped spring, about 16% overshoot. */
+@media (prefers-reduced-motion: no-preference) {
+	.division__bird .cardinal__head, .end-mark .cardinal__head {
+		transition: transform 380ms linear(0, 0.062, 0.213, 0.408, 0.61, 0.795, 0.946, 1.055, 1.124, 1.157, 1.162, 1.146, 1.118, 1.086, 1.053, 1.025, 1.002, 0.987, 0.977, 0.974, 0.974, 0.977, 0.982, 0.988, 1);
+	}
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*, *::before, *::after {
 		animation-duration: 0.01ms !important;
@@ -1447,7 +1460,7 @@ body.admin-bar .reading-progress {
 	.btn:hover, .btn:active, .btn--invert:hover, .btn--invert:active, .search__submit:active, .theme-toggle:active { transform: none !important; }
 	.about-panel.is-active, #search-results .card { animation: none !important; }
 	.panel[open] > .panel__summary::after { transform: none !important; }
-	.division__icon, .submit__icon, .submission-hero__icon, .search-empty__icon, .specimen-card__svg {
+	.division__icon, .submit__icon, .submission-hero__icon, .search-empty__icon, .svg-cardinal-stage__svg {
 		animation: none !important;
 		transition: none !important;
 	}

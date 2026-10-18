@@ -23,6 +23,11 @@ test('WordPress contains the nine issue articles with working permalinks and ima
     await page.locator('img').evaluateAll(async images => {
       for (const image of images) { image.loading = 'eager'; await image.decode(); }
     });
+    if (article.slug === 'birds-of-wesleyan') {
+      await expect(page.locator('.specimen-card')).toHaveCount(0);
+      await expect(page.locator('main .prose p:has(> .end-mark)')).toContainText('Happy birding!');
+    }
+    await expect(page.locator('main .prose .end-mark')).toHaveCount(1);
     expect((await page.locator('main .prose').first().innerText()).length).toBeGreaterThan(1000);
   }
 });

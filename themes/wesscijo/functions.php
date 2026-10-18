@@ -44,6 +44,15 @@ function wesscijo_assets() {
 			true
 		);
 	}
+	if ( is_front_page() || is_singular( 'post' ) ) {
+		wp_enqueue_script(
+			'wessci-cardinal-watch',
+			get_theme_file_uri( '/assets/cardinal-watch.js' ),
+			array(),
+			(string) filemtime( get_stylesheet_directory() . '/assets/cardinal-watch.js' ),
+			true
+		);
+	}
 }
 add_action( 'wp_enqueue_scripts', 'wesscijo_assets' );
 
@@ -169,6 +178,33 @@ function wessci_read_time( $post_id ) {
 	$words = count( $m[0] );
 	return max( 1, (int) round( $words / 200 ) );
 }
+
+/** The logo cardinal, inlined so assets/cardinal-watch.js can turn its head. */
+function wessci_cardinal_svg() {
+	static $svg = null;
+	if ( null === $svg ) {
+		$svg = (string) file_get_contents( get_theme_file_path( '/assets/cardinal-perch.svg' ) );
+	}
+	return $svg;
+}
+
+/** End an article's text with the cardinal, before any Works Cited heading. */
+function wessci_article_end_mark( $content ) {
+	if ( ! is_singular( 'post' ) || ! in_the_loop() || ! is_main_query() ) {
+		return $content;
+	}
+	$text_end = preg_match( '/<h[2-6][^>]*>\s*(?:<[^>]+>\s*)*(?:works cited|references|sources|bibliography)\b/i', $content, $heading, PREG_OFFSET_CAPTURE ) ? $heading[0][1] : strlen( $content );
+	preg_match_all( '/<p\b[^>]*>(.*?)<\/p>/is', substr( $content, 0, $text_end ), $paragraphs, PREG_SET_ORDER | PREG_OFFSET_CAPTURE );
+	foreach ( array_reverse( $paragraphs ) as $paragraph ) {
+		if ( ! preg_match( '/[^\s\x{00A0}]/u', html_entity_decode( wp_strip_all_tags( $paragraph[1][0] ), ENT_QUOTES, 'UTF-8' ) ) ) {
+			continue;
+		}
+		$inner = preg_replace( '/(?:\s|<br\s*\/?>|&nbsp;)+$/i', '', $paragraph[1][0] );
+		return substr_replace( $content, '<span class="end-mark">' . wessci_cardinal_svg() . '</span>', $paragraph[1][1] + strlen( $inner ), 0 );
+	}
+	return $content;
+}
+add_filter( 'the_content', 'wessci_article_end_mark', 20 );
 
 function wesscijo_byline( $post_id ) {
 	$authors = get_post_meta( $post_id, '_wessci_authors', true );

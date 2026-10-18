@@ -83,6 +83,48 @@ test('logo entrance reduced motion and missing asset keep the homepage visible',
   await unavailable.close();
 });
 
+test('the logo cardinal perches on the Research rule and closes each article', async ({ browser }) => {
+  const page = await browser.newPage();
+  await page.goto(url('/#main'));
+  await expect(page.locator('.submit__bird, picture.division__bird')).toHaveCount(0);
+  const bird = page.locator('.division__title .division__bird svg.cardinal');
+  await expect(bird).toHaveCount(1);
+  await bird.scrollIntoViewIfNeeded();
+  const perch = await bird.evaluate(svg => {
+    const title = svg.closest('.division__title');
+    const box = svg.getBoundingClientRect();
+    const rule = title.getBoundingClientRect();
+    return { toes: box.top + box.height * 0.79, top: rule.bottom - parseFloat(getComputedStyle(title).borderBottomWidth), bottom: rule.bottom };
+  });
+  expect(perch.toes).toBeGreaterThanOrEqual(perch.top - 1);
+  expect(perch.toes).toBeLessThanOrEqual(perch.bottom + 1);
+
+  const head = bird.locator('.cardinal__head');
+  const turnAt = async fraction => {
+    await bird.evaluate((svg, f) => {
+      const box = svg.getBoundingClientRect();
+      window.scrollBy(0, box.top - window.innerHeight * f);
+    }, fraction);
+    await page.waitForTimeout(600);
+    return head.evaluate(element => getComputedStyle(element).transform);
+  };
+  expect(await turnAt(0.85)).not.toBe(await turnAt(0.15));
+
+  await page.goto(url('/articles/birds-of-wesleyan/'));
+  await expect(page.locator('.specimen-card')).toHaveCount(0);
+  await expect(page.locator('.prose img[alt="Northern Cardinal"]')).toHaveCount(1);
+  await expect(page.locator('.prose .end-mark')).toHaveCount(1);
+  await expect(page.locator('.prose p:has(> .end-mark)')).toContainText('Happy birding!');
+  await page.close();
+
+  const reduced = await browser.newPage({ reducedMotion: 'reduce' });
+  await reduced.goto(url('/#main'));
+  const still = reduced.locator('.division__bird .cardinal__head');
+  await still.scrollIntoViewIfNeeded();
+  expect(await still.evaluate(element => getComputedStyle(element).transform)).toBe('none');
+  await reduced.close();
+});
+
 test('every issue title opens its own complete article', async ({ page }) => {
   await page.goto(url('/archives/'));
   await expect(page.locator('main .card')).toHaveCount(9);
@@ -92,6 +134,7 @@ test('every issue title opens its own complete article', async ({ page }) => {
     await expect(page).toHaveURL(url(`/articles/${article.slug}/`));
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(article.title);
     expect((await page.locator('.prose').innerText()).length).toBeGreaterThan(1000);
+    await expect(page.locator('.prose .end-mark')).toHaveCount(1);
     await page.locator('img').evaluateAll(async images => {
       for (const image of images) {
         image.loading = 'eager';
