@@ -1,5 +1,42 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-17 - Trace the cardinal art from the logo #branding #svg
+
+The specimen plate (`cardinal.svg`) and the nest scene
+(`cardinal-field.svg`) used a flat, outline-free bird that looked nothing
+like the seal's cardinal. A hand-drawn redraw in the logo's style was tried
+first and rejected: it still read as a different, cuter bird. Both assets
+now use the logo bird itself. `brand/trace-cardinal.py` cuts the cardinal
+out of `brand/logo.png`, snaps it to the logo's flat colours, and traces it
+with vtracer, so the goggles, bib, and line work are the original artwork.
+The plate keeps the syringe perch. The nest scene mirrors the bird so it
+faces the glassware and stands on the rim.
+
+Colour snapping is per region. Plumage may only be red or ink, the feet ink
+and charcoal, and the face the goggle and beak colours, with gold and orange
+split on the green channel. Without that, anti-aliased edges became their
+own grey and mauve layers. The pupil behind the goggles needs its own darker
+teal, and the head is traced with a smaller speckle filter so its two
+catchlights survive; otherwise the eye vanishes into the lens. Only the
+shape connected to the body is kept, which drops stray pieces of seal
+lettering that touch the tail.
+
+The plate is cut into three animated parts inside `cardinal-body`: the head
+(at the goggle strap), the tail (at its base), and the torso. The torso
+keeps a band of original art past the neck seam, so a head turn shows the
+same ink line instead of a gap. Because the parts are traced art rather than
+separate drawings, the swings are smaller than before: about 2.5 degrees for
+the head, 3 for the tail, and a 1.012 breathing scale. The crest, blink, and
+chirp animations are gone, since the crest and beak are not separate parts
+and the eye sits behind the goggles. The gallery copy in
+`scripts/render-publication.py` and `public/svgs/index.html` matches.
+
+Each file is about 190 KB, up from 17 KB and 70 KB. To regenerate, run `uv
+run --with vtracer==1.0.0a4 --with pillow python brand/trace-cardinal.py
+OUT_DIR` on the build host. Copy `OUT_DIR/cardinal.svg` to `public/assets/`
+and both theme `assets/` folders, and `OUT_DIR/cardinal-field.svg` to
+`preview/assets/` and `plugins/wessci-site/admin/images/`.
+
 ## 2026-10-17 - Publish the logo entrance #homepage #deployment
 
 Deployed the committed entrance files to the active production WordPress
