@@ -1,5 +1,59 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-18 - Put the cardinal in the page furniture #homepage #motion
+
+The first local preview placed the nest illustration as a large black panel
+between the lead story and the article sections. The Birds of Wesleyan article
+also showed a large goggled cardinal plate above its supplied bird photo. The
+owner rejected that placement. Removed the plate from the static article source,
+preview fixture, and WordPress template, and kept the article's bird photos.
+
+Hand-drawn birds were rejected for not matching the logo, so the cardinal now
+comes from the logo trace. A review of the first logo-path version found four
+problems. The two files cost 128 KB gzipped, because the 1.2-scale trace had up
+to 800 paths and 744 near-duplicate fills. The head and tail moved about one
+pixel at display size but looped forever, against MOTION-STRATEGY.md and WCAG
+2.2.2. The perched bird stood on its own red line about 12px above the section
+rule. The flying bird beside "Write for us" had a straight-cut clipped wing and
+an upright pose, and it repeated the masthead entrance flight.
+
+`brand/trace-cardinal.py` now takes a trace scale. At 0.4 the bird traces
+cleanly, and `brand/build-editorial-cardinals.py` snaps its fills back to the
+logo palette and writes `cardinal-perch.svg`: 36 KB, 11 KB gzipped. The
+templates and the static renderer inline it, so the stylesheet can move the
+head and tail. On the homepage the bird grips the middle of the Research &
+Reviews slab, and its head follows the reader through a scroll timeline. A
+first version turned the head 16 degrees evenly across the whole view range,
+about 1.5 degrees per 100px of scrolling, and the owner could not see it move.
+Snapping between held poses on the scroll timeline was the next step, but a
+slow scroll still produced a slow turn. Scroll position now only picks the
+pose: `assets/cardinal-watch.js` reads where the bird sits in the viewport,
+and a CSS spring (380 ms, about 16% overshoot) snaps the head into each pose
+however fast the reader scrolls. The poses: up at the reader as the bird comes
+into view, level, a glance back up, and down at the research cards. The first
+look-down pose also shifted the head down and back, and the owner saw that it
+looked off: the head sank into the body, the nape bulged, and the bib slid over
+the chest outline. A single pivot cannot serve both directions. Looking up now
+turns on the throat, so the bib stays on the chest; looking down turns on the
+nape with a small forward nudge, so the crest does not hunch. Every pose is
+written as the same translate-rotate-translate list, so the spring blends them
+without jumps. A 3% margin at each boundary
+stops jitter, and the tail flicks once per snap. Turns up to 20 degrees show
+no gap at the neck seam. This also brings the motion to Firefox, which lacks
+scroll timelines.
+
+Every article now ends with the same bird as an end mark after the last
+paragraph of text, before any Works Cited heading. It holds its head down, then
+springs it up as it comes into view. Both birds move only when the reader
+scrolls, and stay still under reduced motion. In dark mode a faint light edge keeps the black
+outline visible. The flying bird is gone, and the submission block has its
+packet icon back.
+
+The publication browser suite passed 13 of 13, and PHP lint passed for both
+themes. Desktop, 390px, and 320px captures were reviewed in light and dark.
+The WordPress browser suite has not run yet. Nothing has been committed or
+deployed.
+
 ## 2026-10-18 - Academic editorial enhancements for WordPress dashboard #cms #editorial #ux
 
 Following live DevTools inspection of the WordPress admin on the production domain, implemented key customizations to align the dashboard with scholarly publishing workflows while strictly preserving WordPress's native shell architecture and Screen Options:
