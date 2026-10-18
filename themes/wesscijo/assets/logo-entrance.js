@@ -2,6 +2,9 @@
   const root = document.documentElement;
   if (!root.classList.contains('logo-entrance')) return;
 
+  // On a slow connection, show the page rather than hold it behind the stage.
+  const FLIGHT_DEADLINE = 1500;
+  const { controller, blob } = window.logoFlight ?? {};
   const stage = document.getElementById('logo-entrance');
   const mark = stage?.querySelector('.logo-entrance__mark');
   const flight = stage?.querySelector('.logo-entrance__flight');
@@ -10,8 +13,8 @@
   const target = document.querySelector('.hero__logo-slot');
   const page = [...document.querySelectorAll('.hero, .site-main, .colophon')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
-  const systemDark = matchMedia('(prefers-color-scheme: dark)');
   let landingTimer;
+  let lateTimer;
   let animations = [];
   let settled = false;
 
@@ -19,7 +22,9 @@
     if (settled) return;
     settled = true;
     clearTimeout(landingTimer);
+    clearTimeout(lateTimer);
     clearTimeout(window.logoEntranceWatchdog);
+    controller?.abort();
     animations.forEach((animation) => animation.cancel());
     root.classList.remove('logo-entrance', 'logo-entrance-revealing');
     motion.removeEventListener('change', onMotionChange);
@@ -35,9 +40,7 @@
     if (event.key === 'Escape') settle();
   }
 
-  const dark = root.dataset.theme === 'dark' || (!root.dataset.theme && systemDark.matches);
-  const source = dark ? stage?.dataset.srcDark : stage?.dataset.src;
-  if (!stage || !mark || !flight || !backdrop || !skip || !target || !source || motion.matches || getComputedStyle(stage).position !== 'fixed') {
+  if (!stage || !mark || !flight || !backdrop || !skip || !target || !blob || motion.matches || getComputedStyle(stage).position !== 'fixed') {
     settle();
     return;
   }
@@ -85,7 +88,14 @@
     landingTimer = setTimeout(moveToMasthead, 3050);
   }, { once: true });
   flight.addEventListener('error', settle, { once: true });
-  const replayUrl = new URL(source, location.href);
-  replayUrl.searchParams.set('replay', Date.now().toString());
-  flight.src = replayUrl.href;
+  lateTimer = setTimeout(settle, FLIGHT_DEADLINE - performance.now());
+  blob.then((file) => {
+    if (settled || performance.now() > FLIGHT_DEADLINE) {
+      settle();
+      return;
+    }
+    clearTimeout(lateTimer);
+    // A fresh object URL restarts the flight on every load while the file itself stays cached.
+    flight.src = URL.createObjectURL(file);
+  }, settle);
 })();

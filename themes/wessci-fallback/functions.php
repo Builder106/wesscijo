@@ -25,7 +25,7 @@ add_action( 'after_setup_theme', 'wesscijo_setup' );
 function wesscijo_assets() {
 	wp_enqueue_style(
 		'wessci-fonts',
-		'https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@600&display=swap',
+		'https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700&family=Cormorant+Garamond:wght@600&display=swap',
 		array(),
 		null
 	);
@@ -41,7 +41,10 @@ function wesscijo_assets() {
 			get_theme_file_uri( '/assets/logo-entrance.js' ),
 			array(),
 			(string) filemtime( get_stylesheet_directory() . '/assets/logo-entrance.js' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 	}
 	if ( is_front_page() || is_singular( 'post' ) ) {
@@ -50,11 +53,30 @@ function wesscijo_assets() {
 			get_theme_file_uri( '/assets/cardinal-watch.js' ),
 			array(),
 			(string) filemtime( get_stylesheet_directory() . '/assets/cardinal-watch.js' ),
-			true
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
 		);
 	}
 }
 add_action( 'wp_enqueue_scripts', 'wesscijo_assets' );
+
+// Font files come from a second origin that is only discovered after the font stylesheet arrives.
+function wesscijo_resource_hints( $urls, $relation_type ) {
+	if ( 'preconnect' === $relation_type ) {
+		$urls[] = array(
+			'href' => 'https://fonts.gstatic.com',
+			'crossorigin',
+		);
+	}
+	return $urls;
+}
+add_filter( 'wp_resource_hints', 'wesscijo_resource_hints', 10, 2 );
+
+// Every supported browser renders emoji natively, so the detection script is dead weight.
+remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
+remove_action( 'wp_enqueue_scripts', 'wp_enqueue_emoji_styles' );
 
 /** Return the configurable masthead title used by the header and footer. */
 function wesscijo_brand_title() {
