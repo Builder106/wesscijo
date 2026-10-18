@@ -1,7 +1,10 @@
 """Trace the logo cardinal into the specimen plate and the nest scene.
 
 Run on the build host with:
-uv run --with vtracer==1.0.0a4 --with pillow python brand/trace-cardinal.py OUT_DIR
+uv run --with vtracer==1.0.0a4 --with pillow python brand/trace-cardinal.py OUT_DIR [SCALE]
+
+SCALE is the work pixels per logo pixel (default 1.2). The homepage and
+article-end birds use 0.4, because they are drawn about 112px wide.
 
 Writes OUT_DIR/cardinal.svg (animated plate) and OUT_DIR/cardinal-field.svg
 (nest scene), plus the intermediate trace inputs for inspection.
@@ -25,7 +28,9 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 # Work area in logo space and the work-pixels-per-logo-pixel factor.
 CROP = (270, 190, 1450, 1290)
-WORK = 1.2
+WORK = float(sys.argv[2]) if len(sys.argv) > 2 else 1.2
+# Filter and band widths below were tuned at 1.2 work pixels per logo pixel.
+RELATIVE = WORK / 1.2
 
 HEAD = [(960, 170), (1450, 170), (1450, 720), (1300, 700), (1200, 640), (1150, 540), (1108, 472), (995, 466), (960, 450)]
 HEAD_CUT = HEAD[3:8]
@@ -88,7 +93,7 @@ is_dark = where(art, lambda p: opaque(p) and max(p[:3]) < 120)
 not_gray_rule = where(art, lambda p: not (90 < p[0] < 215 and abs(p[0] - p[1]) < 18 and abs(p[1] - p[2]) < 18))
 
 # The bird: red plumage plus the ink that hugs it, the goggles and bib, and the dark feet.
-near_red = is_red.filter(ImageFilter.MaxFilter(23))
+near_red = is_red.filter(ImageFilter.MaxFilter(round(11 * RELATIVE) * 2 + 1))
 bird = ImageChops.multiply(ImageChops.multiply(near_red, not_white), not_gray_rule)
 bird = ImageChops.lighter(bird, ImageChops.multiply(poly_mask(size, GOGGLES_AND_BIB), not_white))
 bird = ImageChops.lighter(bird, ImageChops.multiply(poly_mask(size, *FEET), is_dark))
@@ -167,12 +172,12 @@ def layer(mask, name, config=TRACE):
 
 head_mask = ImageChops.multiply(bird, poly_mask(size, HEAD))
 tail_region = poly_mask(size, TAIL)
-tail_band = ImageChops.multiply(band_mask(size, TAIL_CUT, 60), ImageChops.invert(tail_region))
+tail_band = ImageChops.multiply(band_mask(size, TAIL_CUT, 60 * RELATIVE), ImageChops.invert(tail_region))
 tail_mask = ImageChops.multiply(bird, ImageChops.lighter(tail_region, tail_band))
 torso_mask = ImageChops.subtract(ImageChops.subtract(bird, head_mask), ImageChops.multiply(bird, tail_region))
 # The torso keeps the art just past the neck seam, so a small head turn
 # reveals the same ink line rather than a gap.
-neck_band = ImageChops.multiply(band_mask(size, HEAD_CUT, 160), head_mask)
+neck_band = ImageChops.multiply(band_mask(size, HEAD_CUT, 160 * RELATIVE), head_mask)
 
 parts = {
     "cardinal-tail": layer(tail_mask, "tail"),
