@@ -18,7 +18,8 @@ test('logo entrance lands and replays on reload', async ({ page }) => {
   expect(Math.abs(mark.x + mark.width / 2 - viewport.width / 2)).toBeLessThan(1);
   expect(Math.abs(mark.y + mark.height / 2 - viewport.height / 2)).toBeLessThan(1);
   await expect(page.locator('.hero')).toHaveCSS('visibility', 'hidden');
-  expect(await page.locator('.logo-entrance__flight').evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
+  await expect.poll(() => page.locator('.logo-entrance__flight').evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
+  await expect(page.locator('.logo-entrance__flight')).toHaveAttribute('src', /^blob:/);
   const firstFlight = await page.locator('.logo-entrance__flight').getAttribute('src');
   await page.waitForFunction(() => document.documentElement.classList.contains('logo-entrance-revealing'));
   await expect(page.locator('.hero')).toHaveCSS('visibility', 'visible');
@@ -38,21 +39,25 @@ test('logo entrance lands and replays on reload', async ({ page }) => {
 test('logo entrance in dark mode never exposes unstyled artwork', async ({ browser }) => {
   const dark = await browser.newPage();
   await dark.addInitScript(() => localStorage.setItem('theme', 'dark'));
+  const darkFlight = dark.waitForRequest(/\/assets\/logo-flight-dark\.svg/);
   await dark.goto(url('/'), { waitUntil: 'domcontentloaded' });
+  await darkFlight;
   await expect(dark.locator('#logo-entrance')).toBeVisible();
-  await expect(dark.locator('.logo-entrance__flight')).toHaveAttribute('src', /logo-flight-dark\.svg/);
+  await expect(dark.locator('.logo-entrance__flight')).toHaveAttribute('src', /^blob:/);
   await expect(dark.locator('.hero')).toHaveCSS('visibility', 'hidden');
   await dark.close();
 
   const systemDark = await browser.newPage({ colorScheme: 'dark' });
+  const systemDarkFlight = systemDark.waitForRequest(/\/assets\/logo-flight-dark\.svg/);
   await systemDark.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await expect(systemDark.locator('.logo-entrance__flight')).toHaveAttribute('src', /logo-flight-dark\.svg/);
+  await systemDarkFlight;
   await systemDark.close();
 
   const explicitLight = await browser.newPage({ colorScheme: 'dark' });
   await explicitLight.addInitScript(() => localStorage.setItem('theme', 'light'));
+  const lightFlight = explicitLight.waitForRequest(/\/assets\/logo-flight\.svg/);
   await explicitLight.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await expect(explicitLight.locator('.logo-entrance__flight')).toHaveAttribute('src', /\/logo-flight\.svg/);
+  await lightFlight;
   await explicitLight.close();
 
   const missingStyle = await browser.newPage();
@@ -203,7 +208,8 @@ for (const width of [390, 768, 1440]) {
     if (width === 390) {
       expect(await page.locator('.hero__title').evaluate(element => element.getBoundingClientRect().width)).toBeGreaterThan(200);
     }
-    await page.locator('img').evaluateAll(async images => {
+    // The entrance's flight image has no source when the entrance is skipped.
+    await page.locator('img[src], img[srcset]').evaluateAll(async images => {
       for (const image of images) { image.loading = 'eager'; await image.decode(); }
     });
     await page.screenshot({ path: path.join(screenshots, `home-${width}.png`), fullPage: true });

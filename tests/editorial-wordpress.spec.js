@@ -63,7 +63,8 @@ for (const width of [390, 1440]) {
     await summary.press('Enter');
     await expect(page.locator('.panel').first()).toHaveAttribute('open', '');
     await summary.press('Enter');
-    await page.locator('img').evaluateAll(async images => {
+    // The entrance's flight image has no source when the entrance is skipped.
+    await page.locator('img[src], img[srcset]').evaluateAll(async images => {
       for (const image of images) { image.loading = 'eager'; await image.decode(); }
     });
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
