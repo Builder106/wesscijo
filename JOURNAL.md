@@ -1,5 +1,73 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-18 - Stop the homepage entrance from holding the page #homepage #performance #deployment
+
+A DevTools audit measured a 6.3-second mobile LCP (4x CPU, Slow 4G, cold
+cache) and about 1.6 MB per load. Readers saw a blank stage for most of that
+time. The entrance hid the page until the 354 KB flight SVG loaded, waited a
+fixed 3,050 ms, and then faded the page in. The SVG URL carried
+`replay=Date.now()`, so the browser downloaded it again on every visit. On
+slow mobile the 5.5-second watchdog fired before the SVG arrived. The same run
+with reduced motion had a 2.9-second LCP.
+
+Rendering the page under the stage was rejected. The backdrop is opaque, so
+the LCP figure would improve while readers still saw nothing. The head script
+now starts the flight download as soon as it adds the entrance class. The
+entrance plays only if that download finishes within 1.5 seconds of
+navigation; otherwise the page shows at once and the download is aborted.
+Each visit plays the flight from a fresh object URL, so the animation restarts
+from its first frame while the SVG itself stays in the HTTP cache. The 2.8-second
+flight and the masthead move are unchanged. The static renderer emits the same
+bootstrap, because it copies the theme's `logo-entrance.js`.
+
+Other changes:
+
+- The custom logo requests the 150px thumbnail with `sizes="72px"`. It was
+  `full`, so readers downloaded 365-553 KB for a 64-72px image. The dark
+  logo is a 216px WebP of 28 KB, replacing a 453 KB PNG that loaded even in
+  light mode.
+- Fonts request only weights 400, 600, and 700, the ones the theme uses, and
+  the head preconnects to `fonts.gstatic.com`.
+- The emoji detection script is removed, and both theme scripts load with
+  `defer`.
+- The audit flagged the hero logo as unsized, but it already has width and
+  height attributes. The 0.0006 layout shift came from the font swap.
+
+All six cover originals were lossless WebP. WordPress keeps every subsize of
+a lossless original lossless, whatever the quality setting, so an 800px card
+image weighed 198-392 KB. `wp media regenerate` would have rebuilt the 3:2
+subsizes (800x533, 400x267, 1200x800) under the current uncropped 800x600
+sizes and deleted the old files. Each file was therefore re-encoded in place
+as lossy WebP instead: originals at quality 90, subsizes at 86, WordPress's
+WebP default. Names, dimensions, and crops are unchanged, and the
+attachment metadata records the new file sizes. The 800px covers are now
+37-88 KB, and the set fell from about 22 MB to 5 MB. The lossless originals
+are identical to `public/assets/issue-2026/*/cover.webp`. New lossless WebP
+uploads will produce lossless subsizes again, so export covers as lossy WebP
+before uploading.
+
+The production nginx site config, which is not in this repository, now has
+the following changes. Its previous version is saved next to it with the
+suffix `.bak-20261018`.
+
+- HTTP/2 is enabled on the 443 listeners. The setting applies to every site on
+  that socket.
+- Assets with a `?ver=` query are cached for a year; unversioned files keep 7
+  days.
+- The report-only CSP allows `blob:` images for the entrance.
+
+Before deployment, the publication suite passed 13 of 13, and the WordPress
+suite passed 4 of 4 against a Playground preview of the edited theme. Tests
+that read the flight `src` now check which SVG was fetched and that the image
+plays from a blob URL. The decode loops skip images without a source, because
+the flight image has none when the entrance is skipped. After deployment and a
+Cache Enabler purge, the production smoke suite passed 10 checks (1 skipped),
+and the WordPress suite passed 4. In the repeated mobile trace, LCP fell from
+6.26 s to 1.76 s, load fell from 9.9 s to 3.2 s, and the page weighed 270 KB.
+On desktop the page weighed 445 KB instead of 1.84 MB, and the flight SVG
+finished at 605 ms instead of 941 ms on a cold load. The entrance still
+played.
+
 ## 2026-10-18 - Put the cardinal in the page furniture #homepage #motion
 
 The first local preview placed the nest illustration as a large black panel
