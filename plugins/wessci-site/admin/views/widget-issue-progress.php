@@ -111,7 +111,16 @@ $percent = $total > 0 ? (int) round( ( $ready / $total ) * 100 ) : 0;
 	<?php endif; ?>
 <?php endif; ?>
 
+<?php if ( $ready === $total && $total > 0 && empty( $open ) ) : ?>
+	<p class="wessci-preflight-pass">
+		<span class="dashicons dashicons-yes-alt" aria-hidden="true"></span>
+		<strong><?php esc_html_e( 'Pre-flight verified:', 'wessci' ); ?></strong>
+		<?php esc_html_e( 'All manuscripts are formatted and ready for edition release.', 'wessci' ); ?>
+	</p>
+<?php endif; ?>
+
 <div class="wessci-action-bar">
-	<a class="button button-primary" href="<?php echo esc_url( admin_url( 'edit.php?wessci_issue=' . $issue->slug ) ); ?>">Open issue manuscripts</a>
-	<a class="button" href="<?php echo esc_url( admin_url( 'edit-tags.php?taxonomy=wessci_issue' ) ); ?>">Manage issues</a>
+	<a class="button button-primary" href="<?php echo esc_url( admin_url( 'edit.php?wessci_issue=' . $issue->slug ) ); ?>"><?php esc_html_e( 'Open issue manuscripts', 'wessci' ); ?></a>
+	<a class="button" href="<?php echo esc_url( admin_url( 'edit.php?wessci_issue=' . $issue->slug . '&orderby=menu_order&order=ASC' ) ); ?>"><?php esc_html_e( 'TOC Order', 'wessci' ); ?></a>
+	<a class="button" href="<?php echo esc_url( admin_url( 'edit-tags.php?taxonomy=wessci_issue' ) ); ?>"><?php esc_html_e( 'Manage issues', 'wessci' ); ?></a>
 </div>

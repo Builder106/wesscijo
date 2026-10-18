@@ -22,7 +22,7 @@ check( 0 === WesSci_Admin::selected_issue(), 'Reject non-scalar issue input.' );
 function __( $text, $domain ) { return $text; }
 function wp_add_dashboard_widget( ...$args ) { $GLOBALS['widgets'][] = $args; }
 function remove_meta_box( ...$args ) {
-	$allowed = array( 'dashboard_primary', 'dashboard_quick_press' );
+	$allowed = array( 'dashboard_primary', 'dashboard_quick_press', 'dashboard_recent_comments', 'dashboard_site_health', 'fluentsmtp_reports_widget' );
 	if ( ! in_array( $args[0], $allowed, true ) ) {
 		throw new RuntimeException( 'Native widgets must remain available.' );
 	}
@@ -30,8 +30,9 @@ function remove_meta_box( ...$args ) {
 function remove_action( ...$args ) { throw new RuntimeException( 'Native welcome panel must remain available.' ); }
 $GLOBALS['widgets'] = array();
 WesSci_Admin::configure_dashboard_widgets();
-check( 2 === count( $GLOBALS['widgets'] ), 'Add editorial widgets alongside native widgets.' );
+check( 3 === count( $GLOBALS['widgets'] ), 'Add editorial widgets alongside native widgets.' );
 check( 'side' === $GLOBALS['widgets'][1][5], 'Issue assembly belongs in a native side column.' );
+check( 'side' === $GLOBALS['widgets'][2][5], 'Authoring guidelines belongs in a native side column.' );
 $args = WesSci_Admin::manuscript_args( 31 );
 check( 31 === $args['tax_query'][0]['terms'], 'The issue widget must query its own issue.' );
 check( 'Add format, division' === WesSci_Admin::next_step( 'draft', array( 'format', 'division' ), false ), 'Missing details come first.' );

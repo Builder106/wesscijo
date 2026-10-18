@@ -1,5 +1,19 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-18 - Academic editorial enhancements for WordPress dashboard #cms #editorial #ux
+
+Following live DevTools inspection of the WordPress admin on the production domain, implemented key customizations to align the dashboard with scholarly publishing workflows while strictly preserving WordPress's native shell architecture and Screen Options:
+
+1. **Admin Bar Duplicate Brand Removal**: Unregistered the redundant core `wp-logo` node in `cleanup_admin_bar()`, allowing the site name and its custom site icon (cardinal seal) to anchor the top left without visual duplication.
+2. **Editorial Branding & Footers**: Replaced the default WordPress footer copy with custom attribution ("The Wesleyan Science Journal — Student-run undergraduate STEM journal at Wesleyan University") and direct navigation links to the Editorial Board masthead and Volumes & Issues.
+3. **Manuscript Domain Relabeling**: Dynamically relabeled the core `post` post type to "Manuscripts" across admin menus, screen titles, and post creation shortcuts. Corrected the `wessci_event` custom post type labels so the submenu reads "Add Event" instead of WordPress's default "Add Post".
+4. **Authoring & Figure Guidelines Widget**: Registered and styled the native `wessci_dashboard_authoring_guide` widget in the side column, displaying checkable guidance for figure clarity, abstract/deck requirements, student author credentials (e.g. '26), DOIs, and division tagging.
+5. **Review Turnaround Aging**: Added an active turnaround indicator in the manuscript editorial queue that highlights when a paper has been in `in_review` or `copyediting` for longer than 14 days.
+6. **Pre-flight Publishing & TOC Sequencing**: Added a direct Table of Contents ordering shortcut in the Issue Assembly widget alongside a pre-flight verification pass notice confirming when an edition is complete with zero metadata gaps.
+7. **Welcome Panel Editorial Command Center**: Customized the native welcome panel body text via `gettext` to emphasize peer review, guidelines, and volume assembly, wiring the action buttons directly to new manuscript submission, the masthead directory, and issue management.
+
+Tested against PHP syntax checks across all 38 theme and plugin files, the standalone query mock suite in `tests/dashboard-query.php`, and Playwright responsive dashboard tests at 390px and 1440px.
+
 ## 2026-10-17 - Trace the cardinal art from the logo #branding #svg
 
 The specimen plate (`cardinal.svg`) and the nest scene

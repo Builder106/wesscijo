@@ -67,7 +67,18 @@ if ( ! is_wp_error( $issues ) ) : foreach ( $issues as $issue ) : ?>
 							<a href="<?php echo esc_url( get_edit_post_link( $p->ID ) ); ?>"><?php echo esc_html( $next_step ); ?></a>
 							<a class="wessci-secondary" href="<?php echo esc_url( get_preview_post_link( $p->ID ) ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Preview', 'wessci' ); ?></a>
 						</td>
-						<td><?php echo esc_html( get_the_modified_date( 'M j, Y', $p->ID ) ); ?></td>
+						<td>
+							<span><?php echo esc_html( get_the_modified_date( 'M j, Y', $p->ID ) ); ?></span>
+							<?php
+							$mod_time   = get_post_modified_time( 'U', false, $p->ID );
+							$days_since = floor( ( time() - (int) $mod_time ) / DAY_IN_SECONDS );
+							if ( in_array( $p->post_status, array( 'in_review', 'copyediting' ), true ) && $days_since > 14 ) :
+							?>
+								<span class="wessci-aging-badge wessci-aging-alert" title="<?php esc_attr_e( 'Review turnaround exceeds 14 days', 'wessci' ); ?>">
+									<?php printf( esc_html__( '%dd in stage', 'wessci' ), (int) $days_since ); ?>
+								</span>
+							<?php endif; ?>
+						</td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>

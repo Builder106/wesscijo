@@ -20,4 +20,14 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 	filters.forEach(function (filter) { filter.addEventListener('input', applyFilters); });
 	applyFilters();
+
+	const welcomePanel = document.querySelector('#welcome-panel');
+	if (welcomePanel) {
+		const actionLinks = welcomePanel.querySelectorAll('.welcome-panel-column a, .welcome-panel-content a');
+		if (actionLinks.length >= 3) {
+			actionLinks[0].href = 'post-new.php';
+			actionLinks[1].href = 'admin.php?page=wessci-masthead';
+			actionLinks[2].href = 'edit-tags.php?taxonomy=wessci_issue';
+		}
+	}
 });

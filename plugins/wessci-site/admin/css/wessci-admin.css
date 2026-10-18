@@ -409,3 +409,64 @@ html:has(body.wessci-workspace),
 .wessci-workspace .wessci-board-grid p {
   margin-top: 4px;
 }
+
+/* Authoring and figure guidelines checklist */
+.wessci-checklist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.wessci-checklist li {
+  position: relative;
+  padding: 8px 10px 8px 28px;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1px solid var(--wes-border);
+  border-left: 3px solid var(--wes-red);
+  font-size: 13px;
+  line-height: 1.4;
+}
+.wessci-checklist li:before {
+  content: "✓";
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  color: var(--wes-red);
+  font-weight: 700;
+}
+.wessci-checklist strong {
+  color: var(--wes-carbon);
+}
+
+/* Review aging turnaround indicator */
+.wessci-aging-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+.wessci-aging-alert {
+  background: #fff0f2;
+  color: var(--wes-red);
+  border: 1px solid var(--wes-red);
+}
+
+/* Pre-flight verification pass notice */
+.wessci-preflight-pass {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: #eef8ee;
+  color: #1e5e22;
+  border: 1px solid #c2e5c4;
+  border-radius: 3px;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.wessci-preflight-pass .dashicons {
+  color: #2e7d32;
+}
+
