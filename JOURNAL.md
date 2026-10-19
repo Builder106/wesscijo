@@ -1084,3 +1084,9 @@ Review request and publication notice are also connected. A status change schedu
 The author-facing submission, review-invitation, and decision emails should not be sent from WordPress under this plan, because their links lead into wp-admin. The publication notice is the exception, because it links to the public article.
 
 Linux ARM64 verification passed: PHP lint for the plugin, templates, and scripts; the preview render with escaping checks for eight templates; the mail-service test, including the new role labels and digest escaping; a new stub-based notifications test covering triggers, recipients, deduplication, re-arming, published issues, quiet weeks, and the case with no editors; the dashboard query checks; and the six email browser tests at 320, 390, and 1440 pixels in light and dark themes. The triggers have not been run in a real WordPress, and real Gmail and Outlook rendering is still untested. No mail sent and no deployment made.
+
+## 2026-10-19 - Route email replies to the journal group #email #operations
+
+Every journal email went out through FluentSMTP as `yvaughan@wesleyan.edu`, so replies from authors and editors reached one student's inbox. The editors-in-chief now own the `wesscijo@wesleyan.edu` Google Group, so `WesSci_Email` adds `Reply-To: The Wesleyan Science Journal <wesscijo@wesleyan.edu>` to every message. That includes the welcome and password-reset emails from the core WordPress filters. A caller that sets its own Reply-To keeps it, and only one Reply-To is sent. The header name is matched without regard to case.
+
+The sender stays the same. A Google Group has no login of its own, so it can't authenticate SMTP. Moving the sender off a personal account is still a handoff task. `OPERATIONS.md` records the group's roles and settings.

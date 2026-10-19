@@ -1,8 +1,9 @@
 # WesSciJo operations decisions
 
-Updated October 17, 2026, these notes track open decisions about hosting,
-the events calendar, and the shared journal address. The editors have not
-approved a server purchase or site move, a calendar launch, or group changes.
+Updated October 19, 2026, these notes track decisions about hosting, the
+events calendar, and the shared journal address. The editors have approved
+the shared address setup. They have not approved a server purchase or site
+move, or a calendar launch.
 
 ## Hosting decision sheet
 
@@ -47,18 +48,20 @@ For each event, keep the source URL and last-checked date in the working list ev
 
 ## Shared address and group roles
 
-ITS created `wesscijo@wesleyan.edu` as a Google Group and made Yinka an owner. ITS suggested allowing the Wesleyan organization to post and group members to reply. The current group settings and member list have not been checked here. The group is not automatically a shared Gmail mailbox; [Collaborative Inbox features](https://support.google.com/groups/answer/2464926) require the right Workspace setting and conversation history.
+ITS created `wesscijo@wesleyan.edu` as a Google Group. Shriya asked on October 18 that the three editors-in-chief be owners, and the group was set up on October 19, 2026:
 
-| Person | Proposed role | Reason to discuss |
-| --- | --- | --- |
-| Yinka Vaughan | Owner (existing) | Set up and technical handoff. |
-| Aryia Banihashem-Ahmad | Owner | An editor-in-chief should be able to keep control of the journal address after student web staff change. |
-| Shriya Sakalkale | Manager | An editor-in-chief can help manage daily conversations and membership without the ability to delete the group. |
-| Elena Mente | Member initially; Manager if handling intake | Confirm whether she will help triage the shared inbox. |
-| Giancarlo Fedolfi | Member if web support needs the address | Give access for assigned web conversations, not group administration. |
+| Person | Role |
+| --- | --- |
+| Yinka Vaughan | Owner |
+| Aryia Banihashem-Ahmad | Owner |
+| Shriya Sakalkale | Owner |
+| Elena Mente | Owner |
+| Giancarlo Fedolfi | Member (web support) |
 
-This is a draft roster, not an instruction to add people. [Google's role guide](https://support.google.com/a/users/answer/10385278) recommends keeping owner access limited. Owners can delete the group or make other owners; managers can change most settings; members have permissions set by the group. The three editors-in-chief can choose different roles once they decide who will handle submissions and public inquiries.
+Settings: Collaborative Inbox is on, so conversations can be assigned and marked complete. Only invited users can join. Group members can read conversations, and anyone at Wesleyan can post and attach files. Owners and managers can reply as the group by choosing `wesscijo@wesleyan.edu` in the From menu on the Groups website. The default sender is still the author's own address. There is no moderation, and suspected spam is held for moderators. Member addresses are visible only to members. Outside senders cannot post. If the address is published for people outside Wesleyan, that setting needs another look.
 
-Before adding members, confirm whether this address is for internal editorial coordination, public inquiries, or both. Check who can post, view conversations, reply as the group, and manage members. If outside correspondents need to reach it, the ITS suggestion of organization-only posting would need review. If the team wants assignment and completion tracking, confirm that Wesleyan permits Collaborative Inbox and decide who will triage new conversations. [Google's Collaborative Inbox guide](https://support.google.com/a/users/answer/167430) describes those features.
+A test message from a Wesleyan address arrived in Conversations, and the From menu offered the group address. Every email the site sends now sets `Reply-To: wesscijo@wesleyan.edu`, so replies reach the group instead of the inbox of the account that sends through SMTP.
 
-**Decision needed:** The board names at least one continuing owner, the people who will answer messages, and the posting audience. Add members and change settings only after those choices are confirmed.
+Google Groups has no profile photo, so mail shows the letter "W". Groups created by students may need a `-glist` suffix. ITS may need to create the leads, editors, section, and interested-students lists that Shriya asked for.
+
+**Still open:** Link the journal's shared drive to the group as Content manager, and create or request the other lists.
