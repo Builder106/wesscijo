@@ -1055,6 +1055,18 @@ Following editorial feedback:
 2. Ingested updated Approved Article Content PDF from Documents into `public/assets/guidelines.pdf`, `themes/wesscijo/assets/guidelines.pdf`, and `notes/editorial/Approved Article Content.pdf`.
 3. Deployed `guidelines.pdf` into `/var/www/html/assets/guidelines.pdf` and `/var/www/html/wp-content/themes/wesscijo/assets/guidelines.pdf` in the live production WordPress container `wessci-wordpress-1` on `ampere-dev`, resolving the 404 error for the guidelines download link.
 4. Synced theme stylesheets (`themes/wesscijo/style.css`, `public/publication.css`, and `public/publication-extra.css`), flushed WordPress object cache, re-rendered static publication snapshot, and verified 9 of 9 editorial publication tests on `ampere-dev`.
+
 5. Configured WordPress `site_icon` to use the official logo emblem (attachment 74, `cropped-logo.png`), enabling native generation of 32px, 180px, 192px, and 270px icons across the entire site. Added a fallback favicon link in `themes/wesscijo/header.php`, packaged `themes/wesscijo/assets/favicon.png`, and placed `favicon.ico` and `favicon.png` at web root to ensure direct browser requests resolve with HTTP 200.
 6. Unregistered the core WordPress `Quick Draft` widget (`dashboard_quick_press`) from the editorial dashboard. Activated and redesigned the custom `Issue assembly` widget with an issue readiness progress bar, metrics grid (Published / Ready, In Pipeline, Total Articles), academic division distribution pills (Life Sciences, Physical Sciences, Quantitative, STS), and direct issue management shortcuts. Seeded the `Fall 2026` issue term and tagged all nine published manuscripts.
+
+## 2026-10-18 - Author and integrate animated SVGs for remaining masthead divisions #assets #animation #theme
+
+Following editorial inspection of the Our Team masthead on the About page:
+1. Created animated SVG emblems and static reduced-motion companions for the three divisions lacking iconography:
+   - Editorial Board (`division-editorial.svg`): Scholarly 18k-style fountain pen nib with ink capillary transmission pulse, breathing aperture, and write-on manuscript approval flourish.
+   - Graphic Design (`division-graphic-design.svg`): Studio artist's palette with ergonomic thumbhole aperture, four chromatic pigment wells (Ruby, Amber, Cyan, Green), and a fine detailing brush with a glinting ruby paint tip. Redesigned from an earlier abstract Bézier concept for immediate legibility and visual clarity.
+   - Web Design (`division-web-design.svg`): Responsive browser viewport chassis with window traffic lights, lateral bracket breathing (`< / >`), and a blinking terminal cursor.
+2. Updated `$wessci_group_icons` across `themes/wesscijo/template-about.php` and `themes/wessci-fallback/template-about.php` to resolve all 7 division icons.
+3. Updated `scripts/render-publication.py` to map masthead icons and showcase all 7 divisions in the Animated Vector Gallery (`/svgs/`).
+4. Re-rendered static publication snapshot and confirmed clean PHP syntax across all 22 theme templates.
 
