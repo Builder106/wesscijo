@@ -2,8 +2,6 @@
   const root = document.documentElement;
   if (!root.classList.contains('logo-entrance')) return;
 
-  // On a slow connection, show the page rather than hold it behind the stage.
-  const FLIGHT_DEADLINE = 1500;
   const { controller, blob } = window.logoFlight ?? {};
   const stage = document.getElementById('logo-entrance');
   const mark = stage?.querySelector('.logo-entrance__mark');
@@ -14,7 +12,6 @@
   const page = [...document.querySelectorAll('.hero, .site-main, .colophon')];
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   let landingTimer;
-  let lateTimer;
   let animations = [];
   let settled = false;
 
@@ -22,7 +19,6 @@
     if (settled) return;
     settled = true;
     clearTimeout(landingTimer);
-    clearTimeout(lateTimer);
     clearTimeout(window.logoEntranceWatchdog);
     controller?.abort();
     animations.forEach((animation) => animation.cancel());
@@ -46,6 +42,8 @@
   }
 
   stage.style.removeProperty('display');
+  // The watchdog only covers this script failing to run; it must not cut a slow flight short.
+  clearTimeout(window.logoEntranceWatchdog);
 
   const moveToMasthead = () => {
     if (!root.classList.contains('logo-entrance') || motion.matches) {
@@ -88,13 +86,8 @@
     landingTimer = setTimeout(moveToMasthead, 3050);
   }, { once: true });
   flight.addEventListener('error', settle, { once: true });
-  lateTimer = setTimeout(settle, FLIGHT_DEADLINE - performance.now());
   blob.then((file) => {
-    if (settled || performance.now() > FLIGHT_DEADLINE) {
-      settle();
-      return;
-    }
-    clearTimeout(lateTimer);
+    if (settled) return;
     // A fresh object URL restarts the flight on every load while the file itself stays cached.
     flight.src = URL.createObjectURL(file);
   }, settle);
