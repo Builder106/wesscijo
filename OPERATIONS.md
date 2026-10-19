@@ -16,7 +16,7 @@ WordPress handles the entire journal site: public pages, articles, and the edito
 
 These totals exclude tax, backups, and any other add-ons. IONOS lists [Cloud Backup as optional](https://www.ionos.com/servers/vps), starting at $0.065 per GB per month. Its [backup documentation](https://www.ionos.com/help/server-cloud-infrastructure/cloud-backup/overview-backup-package/) says a backup package, agent, schedule, and retention policy must be configured. Extra storage can add charges. IONOS also advertises server images for rollback, but those alone do not establish a scheduled, tested recovery plan.
 
-Aryia mentioned $50 from SBC for the website in an October 2 email. That was an earlier budget figure, not confirmation of a recurring hosting allocation. The proposed two-server base cost exceeds it even before backup and tax. Ask who will pay the provider directly, who owns the account, and what annual amount the board can approve.
+Aryia mentioned $50 from SBC for the website in an October 2 email. That was an earlier budget figure, not confirmation of a recurring hosting allocation. On October 18 Shriya left the server choice to Yinka and asked that the cost details go to Aryia for the board's budget requests. The $50 from WSA will reimburse the domain. The proposed two-server base cost exceeds it even before backup and tax. Ask who will pay the provider directly, who owns the account, and what annual amount the board can approve.
 
 Before choosing a plan, settle these points:
 
@@ -30,7 +30,7 @@ Before choosing a plan, settle these points:
 
 ## Ongoing events calendar
 
-Aryia asked for a calendar that stays current by the next edition. Yinka asked whether November 19 is still the target; the date is awaiting confirmation. The October release removed the public Calendar and its placeholder events. The repo already has a WordPress `wessci_event` type with title, body, image, start/end time, location, and external URL fields, plus a calendar template. That is a useful starting point after the editors agree on scope; it is not a populated calendar.
+Aryia asked for a calendar that stays current by the next edition. Shriya confirmed on October 18 that the next edition publishes November 19, with finished drafts and graphics in the Drive by November 14. The October release removed the public Calendar and its placeholder events. The repo already has a WordPress `wessci_event` type with title, body, image, start/end time, location, and external URL fields, plus a calendar template. That is a useful starting point after the editors agree on scope; it is not a populated calendar.
 
 Proposed first version: list verified, upcoming Wesleyan science events that a journal reader could attend. The editors should choose the departments and student groups to watch, whether off-campus or online events qualify, and whether the calendar includes journal deadlines. Start with a short source list rather than promising every science event on campus.
 
@@ -73,6 +73,12 @@ Plus addresses work: mail to `wesscijo+test@` arrived in the group with the plus
 | `wesscijo+authors@` | Reply-To on the publication notice |
 | `wesscijo@` | Footer ("Contact"), Reply-To on editorial-team emails |
 
-Google Groups has no profile photo, so mail shows the letter "W". Groups created by students may need a `-glist` suffix. ITS may need to create the leads, editors, section, and interested-students lists that Shriya asked for.
+Google Groups has no profile photo, so mail shows the letter "W". Groups created by students may need a `-glist` suffix.
 
-**Still open:** Link the journal's shared drive to the group as Content manager, and create or request the other lists.
+**Mailing lists:** On October 19 the team chose one address with plus tags and shared labels instead of more Google Groups. Tags sort incoming mail, but they can't send to the leads, the editors, or one section. Sending to those groups would need a Google Contacts label or a roster sheet in the shared drive. An interested-students list would still need a sign-up form or its own group.
+
+**Submit page:** The `+submissions` line was added to the live Submit page (post 22) on October 19, after the guidelines PDF button and before the Disclaimer. WordPress keeps the earlier version as a revision.
+
+**Shared drive:** Yinka is a Contributor on The Wesleyan Science Journal shared drive, and Contributors can't add members. Aryia is a Manager. The October 19 update asks her to add `wesscijo@` as Content manager. The drive's 35 members were added one by one, so linking the group changes nobody's access today. It means people added to the group later get the drive automatically.
+
+**Still open:** Aryia adds the group to the shared drive. Check Pending members for requests that came through the old `+join` link. Decide whether the team needs a way to send to leads and sections.
