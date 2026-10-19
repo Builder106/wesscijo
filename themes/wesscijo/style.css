@@ -1301,6 +1301,7 @@ body.admin-bar .reading-progress {
 }
 
 .article__sources { margin-top: var(--space-12); text-align: left; }
+.article__correction, .about-join { margin-top: var(--space-8); text-align: left; }
 
 .prose {
 	max-width: var(--measure);

@@ -145,6 +145,9 @@ $wessci_masthead = array(
 					</div>
 				</section>
 			<?php endforeach; ?>
+			<div class="prose about-join">
+				<p>Want to write, edit, or design for the journal? Email <?php echo wesscijo_contact_link( 'join' ); ?> from your Wesleyan account.</p>
+			</div>
 		</div>
 	</article>
 

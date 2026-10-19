@@ -224,6 +224,16 @@ function wessci_article_end_mark( $content ) {
 }
 add_filter( 'the_content', 'wessci_article_end_mark', 20 );
 
+/**
+ * Mail link to the journal's Google Group. The plus tag sorts mail by topic;
+ * the group only accepts senders with a Wesleyan address.
+ */
+function wesscijo_contact_link( $tag = '', $label = '', $subject = '' ) {
+	$address = 'wesscijo' . ( $tag ? '+' . $tag : '' ) . '@wesleyan.edu';
+	$href    = 'mailto:' . $address . ( $subject ? '?subject=' . rawurlencode( $subject ) : '' );
+	return '<a href="' . esc_url( $href ) . '">' . esc_html( $label ? $label : $address ) . '</a>';
+}
+
 function wesscijo_byline( $post_id ) {
 	$authors = get_post_meta( $post_id, '_wessci_authors', true );
 	if ( ! is_array( $authors ) ) {

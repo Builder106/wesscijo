@@ -7,6 +7,7 @@
 
 		<div class="prose">
 			<p>The page you&#8217;re looking for doesn&#8217;t exist. It may have been moved or removed.</p>
+			<p>If a link brought you here, tell us at <?php echo wesscijo_contact_link( 'web' ); ?> from your Wesleyan account.</p>
 		</div>
 
 		<a class="btn" href="<?php echo esc_url( home_url( '/' ) ); ?>">Back to the homepage</a>

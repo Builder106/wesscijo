@@ -22,6 +22,8 @@
 					<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About Us</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">Archives</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submit</a></li>
+					<li><?php echo wesscijo_contact_link( '', 'Contact' ); ?></li>
+					<li><?php echo wesscijo_contact_link( 'web', 'Report a site problem' ); ?></li>
 				</ul>
 			</div>
 		</nav>
