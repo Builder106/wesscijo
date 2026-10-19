@@ -1,5 +1,34 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-18 - Always play the entrance and self-host the fonts #homepage #performance #decision
+
+The owner rejected skipping the entrance on slow connections, because a
+skipped entrance defeats the reason it was added. The 1.5-second deadline is
+gone. The entrance now waits for the flight SVG however long the download
+takes. Once `logo-entrance.js` runs, it clears the 5.5-second head watchdog,
+which used to be able to cut a slow flight short mid-play. The watchdog now
+only covers the entrance script failing to run. Reduced motion, the skip
+button, Escape, and a failed SVG download still end the entrance at once.
+
+The cost is on slow connections. On mobile at 4x CPU and Slow 4G, the flight
+SVG finished at 3.7 s, so the page appears at about 7.4 s. That figure is
+derived from the 3,050 ms landing timer and the 620 ms move. With the
+deadline, the page appeared at about 2 s. On desktop the SVG is ready
+by 0.8 s and the page appears at about 4.5 s, the length of the entrance.
+
+Libre Franklin and Cormorant Garamond are now served from
+`assets/fonts/`, with their OFL licenses beside them. The files are the
+Google Fonts Latin and Latin Extended subsets. Libre Franklin is one variable
+file per subset that covers 400-700. The theme preloads the two Latin files,
+which removes the render-blocking Google Fonts stylesheet and the second
+origin. Fonts now finish by about 0.6 s on desktop. The static renderer
+emits the same preloads and copies the fonts into `public/assets/fonts/`.
+
+The publication suite passed 13 of 13, and the WordPress suite passed 4 of 4
+against a Playground preview. In that preview the entrance played even
+though the SVG arrived at 11.9 s. After deployment, the production smoke suite
+passed 10 checks (1 skipped), and the WordPress suite passed 4.
+
 ## 2026-10-18 - Stop the homepage entrance from holding the page #homepage #performance #deployment
 
 A DevTools audit measured a 6.3-second mobile LCP (4x CPU, Slow 4G, cold
