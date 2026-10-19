@@ -62,13 +62,13 @@ Settings: Collaborative Inbox is on, so conversations can be assigned and marked
 
 A test message from a Wesleyan address arrived in Conversations, and the From menu offered the group address. Every email the site sends sets a Reply-To on the group, so replies reach the group instead of the inbox of the account that sends through SMTP.
 
-Plus addresses work: mail to `wesscijo+test@` arrived in the group with the plus address still showing. Posting stays limited to the whole organization, so senders outside Wesleyan get a bounce. Every published address is marked "from your Wesleyan account". Shared labels match the tags but are applied by hand.
+Plus addresses work: mail to `wesscijo+test@` arrived in the group with the plus address still showing. Posting stays limited to the whole organization, so senders outside Wesleyan get a bounce. Every published address is marked "from your Wesleyan account". Shared labels match the tags but are applied by hand. Google Groups treats some suffixes as commands rather than topics. Mail to `wesscijo+join@` became a request to join the group, so the join address is `+getinvolved`. Avoid `join`, `subscribe`, `unsubscribe`, `leave`, `owner`, and `subconfirm` when adding tags.
 
 | Address | Where it appears |
 | --- | --- |
 | `wesscijo+submissions@` | Submit page body (WordPress page content) |
 | `wesscijo+corrections@` | Below Sources on every article, with the article title in the subject |
-| `wesscijo+join@` | About page, Team tab |
+| `wesscijo+getinvolved@` | About page, Team tab |
 | `wesscijo+web@` | Footer ("Report a site problem"), 404 page, Reply-To on welcome and password-reset emails |
 | `wesscijo+authors@` | Reply-To on the publication notice |
 | `wesscijo@` | Footer ("Contact"), Reply-To on editorial-team emails |

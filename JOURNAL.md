@@ -1096,3 +1096,7 @@ The sender stays the same. A Google Group has no login of its own, so it can't a
 The group accepts plus addresses, and the team chose to sort mail with tags and shared labels rather than create more Google Groups. Posting stays limited to Wesleyan senders, so every address shown on the site says "from your Wesleyan account".
 
 `wesscijo_contact_link()` in the theme builds each mail link. The footer gets Contact and Report a site problem links. Articles get a corrections line below Sources, with the article title in the subject. The About Team tab gets a join line, and the 404 page gets a broken-link line. `WesSci_Email::reply_to()` maps the publication notice to `+authors` and account emails to `+web`. Every other template replies to the plain address. The Submit page text lives in WordPress, so its `+submissions` line is a content edit, not a theme change. Only the active `wesscijo` theme changed. The fallback theme does not have the links.
+
+## 2026-10-19 - Replace the join address #email #theme #incident
+
+The About page published `wesscijo+join@` for students who want to join the journal. Google Groups treats `+join` as a command. A test message to it produced "Your request to join wesscijo failed because you are already a member" and never reached Conversations. A student using the link would have sent a request to join the editors' inbox. The address is now `wesscijo+getinvolved@`. `OPERATIONS.md` lists the command suffixes to avoid.
