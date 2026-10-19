@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="web-design-svg" viewBox="0 0 40 40" width="40" height="40" fill="none" role="img" aria-label="Web Design responsive browser viewport and code syntax emblem">
+  <defs>
+    <linearGradient id="viewport-glass-grad" x1="5" y1="6" x2="35" y2="34" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0.10"/>
+    </linearGradient>
+  </defs>
+  <style>
+    :root {
+      --ink: #111827;
+      --accent: #a6192e;
+      --amber: #d97706;
+      --green: #10b981;
+      color: var(--ink);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #ede8e5;
+        --accent: #e63946;
+        --amber: #fbbf24;
+        --green: #34d399;
+        color: var(--ink);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      animate, animateTransform { animation: none !important; }
+    }
+  </style>
+
+  <!-- Browser Viewport Chassis Frame -->
+  <rect x="5" y="6" width="30" height="28" rx="3.5" fill="url(#viewport-glass-grad)" stroke="currentColor" stroke-width="1.6"/>
+
+  <!-- Titlebar Divider Line -->
+  <line x1="5" y1="13.5" x2="35" y2="13.5" stroke="currentColor" stroke-width="1.1" stroke-opacity="0.45"/>
+
+  <!-- Window Traffic Lights -->
+  <circle cx="8.8" cy="9.8" r="1.1" fill="var(--accent, #a6192e)"/>
+  <circle cx="12.2" cy="9.8" r="1.1" fill="var(--amber, #d97706)"/>
+  <circle cx="15.6" cy="9.8" r="1.1" fill="var(--green, #10b981)"/>
+
+  <!-- Mini URL Address Bar -->
+  <rect x="19.5" y="8" width="12" height="3.6" rx="1.8" stroke="currentColor" stroke-width="0.75" stroke-opacity="0.3" fill="currentColor" fill-opacity="0.06"/>
+
+  <!-- Subtle Interior Layout Grid Lines (Responsive Wireframe) -->
+  <line x1="12.5" y1="13.5" x2="12.5" y2="34" stroke="currentColor" stroke-width="0.8" stroke-opacity="0.12"/>
+  <line x1="5" y1="23.5" x2="35" y2="23.5" stroke="currentColor" stroke-width="0.8" stroke-opacity="0.08"/>
+
+  <!-- Code Syntax Core (< / >) -->
+  <!-- Left Angle Bracket (<) -->
+  <g id="left-bracket">
+    <path d="M 14,19 L 10,23.5 L 14,28" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <animateTransform attributeName="transform" type="translate" values="0,0; -1.2,0; 0,0" dur="2.0s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
+    </path>
+  </g>
+
+  <!-- Forward Slash (/ Code Division) with Energetic Pulse -->
+  <line x1="18" y1="28.5" x2="22" y2="18.5" stroke="var(--accent, #a6192e)" stroke-width="2.0" stroke-linecap="round">
+    <animate attributeName="stroke" values="var(--accent, #a6192e); var(--amber, #d97706); var(--accent, #a6192e)" dur="2.0s" repeatCount="indefinite"/>
+    <animate attributeName="stroke-width" values="2.0; 2.5; 2.0" dur="2.0s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
+  </line>
+
+  <!-- Right Angle Bracket (>) -->
+  <g id="right-bracket">
+    <path d="M 26,19 L 30,23.5 L 26,28" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <animateTransform attributeName="transform" type="translate" values="0,0; 1.2,0; 0,0" dur="2.0s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.2 1; 0.4 0 0.2 1"/>
+    </path>
+  </g>
+
+  <!-- Blinking Terminal / Editor Cursor -->
+  <rect x="23.5" y="27" width="2.4" height="1.2" fill="var(--accent, #a6192e)">
+    <animate attributeName="opacity" values="1; 0; 1" dur="1.0s" repeatCount="indefinite" calcMode="discrete"/>
+  </rect>
+</svg>
+
