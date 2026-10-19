@@ -221,8 +221,8 @@ def document(title, body, articles, description='', canonical=''):
             f'<title>{escape(page_title)}</title><meta name="description" content="{escape(description)}">'
             f'<link rel="canonical" href="https://thewesleyansciencejournal.com{canonical}">'
             '<link rel="icon" href="/assets/favicon.png">'
-            '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-            '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700&family=Cormorant+Garamond:wght@600&display=swap">'
+            '<link rel="preload" href="/assets/fonts/librefranklin-latin.woff2" as="font" type="font/woff2" crossorigin>'
+            '<link rel="preload" href="/assets/fonts/cormorantgaramond-600-latin.woff2" as="font" type="font/woff2" crossorigin>'
             f'<link rel="stylesheet" href="{stylesheet_url}">'
             '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script>'
             + entrance_script + watch_script + '</head><body>' + entrance_stage
@@ -505,6 +505,7 @@ def main():
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-flight-dark.svg', PUBLIC / 'assets/logo-flight-dark.svg')
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-entrance.js', PUBLIC / 'assets/logo-entrance.js')
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/cardinal-watch.js', PUBLIC / 'assets/cardinal-watch.js')
+    shutil.copytree(ROOT / 'themes/wesscijo/assets/fonts', PUBLIC / 'assets/fonts', dirs_exist_ok=True)
     index = [{k: a[k] for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
     (PUBLIC / 'search-index.json').write_text(json.dumps(index, ensure_ascii=False), encoding='utf-8')
     print(f'Rendered {len(articles)} articles, their sections, About, submissions, archives, and search.')
