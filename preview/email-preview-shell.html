@@ -29,12 +29,21 @@
     <p>Design draft. All names, manuscript details, dates, and destinations below are fictional examples.</p>
     <div class="controls">
       <label>Email <select id="template">
-        <option value="editorial-decision">Editorial decision</option>
-        <option value="reviewer-invitation">Review invitation</option>
-        <option value="submission-confirmation">Submission receipt</option>
-        <option value="publication-notice">Publication notice</option>
-        <option value="account-access">New account</option>
-        <option value="password-reset">Password reset</option>
+        <optgroup label="Authors and reviewers">
+          <option value="editorial-decision">Editorial decision</option>
+          <option value="reviewer-invitation">Review invitation</option>
+          <option value="submission-confirmation">Submission receipt</option>
+          <option value="publication-notice">Publication notice</option>
+        </optgroup>
+        <optgroup label="Editorial team">
+          <option value="review-request">New manuscript for review</option>
+          <option value="queue-digest">Weekly queue</option>
+          <option value="issue-ready">Issue ready</option>
+        </optgroup>
+        <optgroup label="Accounts">
+          <option value="account-access">New account</option>
+          <option value="password-reset">Password reset</option>
+        </optgroup>
       </select></label>
       <label>Width <select id="width"><option value="desktop">Desktop</option><option value="phone">390 px</option><option value="small">320 px</option></select></label>
       <label>Theme <select id="theme"><option value="light">Light</option><option value="dark">Dark</option></select></label>
@@ -56,6 +65,8 @@
       let html = emails[template.value].replace(/https:\/\/example\.org\/wp-content\/plugins\/wessci-site\/admin\/images\/wessci-logo\.png/g, previewLogo);
       if (theme.value === 'dark') {
         html = html.replace('</head>', '<style>.wessci-paper{background:#181617!important;color:#e9e6e7!important}.wessci-text-muted{color:#b9b4b7!important}.wessci-link{color:#ff8b9c!important}.wessci-rule{border-color:#514b4e!important}</style></head>');
+      } else {
+        html = html.replace(/@media \(prefers-color-scheme: dark\) \{[\s\S]*?\n\}/, '');
       }
       if (!images.checked) html = html.replace(/<img\b[^>]*>/g, '');
       frame.srcdoc = html;

@@ -65,6 +65,36 @@ $fixtures = array(
 		'reset_url' => home_url( '/password/demo/' ),
 		'expiration_hours' => 24,
 	),
+	'review-request' => array(
+		'editor_name' => 'Sample editor',
+		'submitter_name' => 'Alex',
+		'format' => 'Research article',
+		'author_roster' => 'Alex, Sam',
+		'submission_date' => 'October 18, 2026',
+		'missing_details' => 'abstract or deck',
+		'edit_url' => admin_url( 'post.php?post=42&action=edit' ),
+		'preview_url' => home_url( '/?p=42&preview=true' ),
+	),
+	'queue-digest' => array(
+		'editor_name' => 'Sample editor',
+		'issue_name' => 'Fall 2026',
+		'overdue' => array(
+			array( 'title' => 'Optogenetic Control of Dopaminergic Neurons in Drosophila', 'edit_url' => admin_url( 'post.php?post=42&action=edit' ), 'stage_label' => 'In review', 'days' => 18 ),
+			array( 'title' => 'Sediment Cores from the Connecticut River', 'edit_url' => admin_url( 'post.php?post=43&action=edit' ), 'stage_label' => 'Copyediting', 'days' => 15 ),
+		),
+		'incomplete' => array(
+			array( 'title' => 'Error Correction in Small Quantum Devices', 'edit_url' => admin_url( 'post.php?post=44&action=edit' ), 'missing' => 'format, abstract or deck' ),
+		),
+		'dashboard_url' => admin_url( 'index.php' ),
+	),
+	'issue-ready' => array(
+		'editor_name' => 'Sample editor',
+		'issue_name' => 'Fall 2026',
+		'total' => 9,
+		'divisions' => array( 'Life Sciences' => 3, 'Physical Sciences' => 2, 'Quantitative & Computational' => 2, 'Science, Technology & Society' => 2 ),
+		'toc_url' => admin_url( 'edit.php?wessci_issue=fall-2026&orderby=menu_order&order=ASC' ),
+		'issue_url' => admin_url( 'edit.php?wessci_issue=fall-2026' ),
+	),
 );
 $emails = array();
 foreach ( $fixtures as $name => $data ) {
@@ -84,4 +114,4 @@ $shell = file_get_contents( __DIR__ . '/../preview/email-preview-shell.html' );
 $json = json_encode( $emails, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR );
 $logo = 'data:image/png;base64,' . base64_encode( file_get_contents( __DIR__ . '/../plugins/wessci-site/admin/images/wessci-logo.png' ) );
 file_put_contents( __DIR__ . '/../preview/email-preview.html', str_replace( array( '__EMAILS__', '__LOGO__' ), array( $json, json_encode( $logo, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR ) ), $shell ) );
-echo "Rendered five templates and password reset. Minimal-data and escaping checks passed. No mail sent.\n";
+echo "Rendered eight templates and password reset. Minimal-data and escaping checks passed. No mail sent.\n";

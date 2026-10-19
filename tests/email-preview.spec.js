@@ -7,6 +7,9 @@ const templates = {
   'reviewer-invitation': 'Invitation to review',
   'submission-confirmation': 'Submission received',
   'publication-notice': 'Your article is published',
+  'review-request': 'New manuscript for review',
+  'queue-digest': 'Manuscripts that need attention',
+  'issue-ready': 'Fall 2026 is ready',
   'account-access': 'Welcome to WesSciJo',
   'password-reset': 'Reset your password',
 };
@@ -44,3 +47,14 @@ for (const width of [320, 390, 1440]) {
     });
   }
 }
+
+test('theme control overrides the system color scheme', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.goto(preview);
+  const background = () => page.frameLocator('#preview-frame').locator('body')
+    .evaluate(body => getComputedStyle(body).backgroundColor);
+  await page.locator('#theme').selectOption('light');
+  await expect.poll(background).toBe('rgb(255, 255, 255)');
+  await page.locator('#theme').selectOption('dark');
+  await expect.poll(background).toBe('rgb(24, 22, 23)');
+});

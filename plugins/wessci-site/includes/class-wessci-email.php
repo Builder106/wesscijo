@@ -178,8 +178,8 @@ class WesSci_Email {
 	 * @return bool
 	 */
 	public static function send_publication_notice( $to, $data = array() ) {
-		$volume  = ! empty( $data['volume_number'] ) ? 'Volume ' . $data['volume_number'] : 'The Wesleyan Science Journal';
-		$subject = 'Article Published in ' . $volume . ' | The Wesleyan Science Journal';
+		$manuscript_title = ! empty( $data['manuscript_title'] ) ? $data['manuscript_title'] : 'Your article';
+		$subject          = 'Published: ' . wp_strip_all_tags( $manuscript_title );
 		return self::send( $to, $subject, 'publication-notice', $data );
 	}
 
@@ -193,6 +193,44 @@ class WesSci_Email {
 	public static function send_account_access( $to, $data = array() ) {
 		$subject = 'Your WesSciJo account';
 		return self::send( $to, $subject, 'account-access', $data );
+	}
+
+	/**
+	 * Tell an editor that a manuscript was submitted for review.
+	 *
+	 * @param string|array $to   Editor email(s).
+	 * @param array        $data Data fields (submitter_name, manuscript_title, division, edit_url, etc.).
+	 * @return bool
+	 */
+	public static function send_review_request( $to, $data = array() ) {
+		$manuscript_title = ! empty( $data['manuscript_title'] ) ? $data['manuscript_title'] : 'New manuscript';
+		$subject          = 'Ready for review: ' . wp_strip_all_tags( $manuscript_title );
+		return self::send( $to, $subject, 'review-request', $data );
+	}
+
+	/**
+	 * Send the weekly list of overdue and incomplete manuscripts.
+	 *
+	 * @param string|array $to   Editor email(s).
+	 * @param array        $data Data fields (issue_name, overdue, incomplete, dashboard_url, etc.).
+	 * @return bool
+	 */
+	public static function send_queue_digest( $to, $data = array() ) {
+		$subject = ! empty( $data['issue_name'] ) ? wp_strip_all_tags( $data['issue_name'] ) . ': manuscripts that need attention' : 'Manuscripts that need attention';
+		return self::send( $to, $subject, 'queue-digest', $data );
+	}
+
+	/**
+	 * Tell the editors-in-chief that every manuscript in an issue is ready.
+	 *
+	 * @param string|array $to   Editor email(s).
+	 * @param array        $data Data fields (issue_name, total, divisions, toc_url, issue_url, etc.).
+	 * @return bool
+	 */
+	public static function send_issue_ready( $to, $data = array() ) {
+		$issue_name = ! empty( $data['issue_name'] ) ? wp_strip_all_tags( $data['issue_name'] ) : 'Issue';
+		$subject    = $issue_name . ' is ready to publish';
+		return self::send( $to, $subject, 'issue-ready', $data );
 	}
 
 	/**
@@ -210,23 +248,12 @@ class WesSci_Email {
 
 		$user_name = $user_data->display_name ? $user_data->display_name : $user_login;
 
-		// Map roles to a friendly editorial title if applicable.
-		$roles = (array) $user_data->roles;
-		$role_label = 'Editorial Contributor';
-		if ( in_array( 'administrator', $roles, true ) ) {
-			$role_label = 'Administrator';
-		} elseif ( in_array( 'editor', $roles, true ) ) {
-			$role_label = 'Section Editor';
-		} elseif ( in_array( 'author', $roles, true ) ) {
-			$role_label = 'Author';
-		}
-
 		$html_message = self::render(
 			'account-access',
 			array(
 				'user_name'        => $user_name,
 				'user_login'       => $user_login,
-				'user_role'        => $role_label,
+				'user_role'        => self::role_label( $user_data->roles ),
 				'reset_url'        => $reset_url,
 				'is_new_user'      => false,
 				'preheader'        => 'Reset your WesSciJo password',
@@ -258,22 +285,12 @@ class WesSci_Email {
 
 		$reset_url = network_site_url( 'wp-login.php?login=' . rawurlencode( $user->user_login ) . "&key=$key&action=rp", 'login' );
 
-		$roles = (array) $user->roles;
-		$role_label = 'Editorial board member';
-		if ( in_array( 'administrator', $roles, true ) ) {
-			$role_label = 'Administrator';
-		} elseif ( in_array( 'editor', $roles, true ) ) {
-			$role_label = 'Section Editor';
-		} elseif ( in_array( 'author', $roles, true ) ) {
-			$role_label = 'Contributing Author';
-		}
-
 		$html_message = self::render(
 			'account-access',
 			array(
 				'user_name'        => $user->display_name ? $user->display_name : $user->user_login,
 				'user_login'       => $user->user_login,
-				'user_role'        => $role_label,
+				'user_role'        => self::role_label( $user->roles ),
 				'reset_url'        => $reset_url,
 				'is_new_user'      => true,
 				'preheader'        => 'Set a password for your WesSciJo account',
@@ -287,5 +304,27 @@ class WesSci_Email {
 		$notification['headers'] = array( 'Content-Type: text/html; charset=UTF-8' );
 
 		return $notification;
+	}
+
+	/**
+	 * Name a user's WordPress role as the journal does. Editors are the
+	 * editors-in-chief; contributors are division leads.
+	 *
+	 * @param array $roles WordPress role slugs.
+	 * @return string
+	 */
+	private static function role_label( $roles ) {
+		$labels = array(
+			'administrator' => 'Administrator',
+			'editor'        => 'Editor-in-Chief',
+			'author'        => 'Author',
+			'contributor'   => 'Division Lead',
+		);
+		foreach ( $labels as $role => $label ) {
+			if ( in_array( $role, (array) $roles, true ) ) {
+				return $label;
+			}
+		}
+		return 'Editorial board member';
 	}
 }

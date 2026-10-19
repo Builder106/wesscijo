@@ -26,12 +26,17 @@ function check_email( $condition, $message ) {
 WesSci_Email::init();
 check_email( isset( $filters['retrieve_password_notification_email'] ) && $filters['retrieve_password_notification_email'][1] === 4, 'Password-reset callback not registered.' );
 check_email( isset( $filters['wp_new_user_notification_email'] ) && $filters['wp_new_user_notification_email'][1] === 3, 'New-account callback not registered.' );
-foreach ( array( 'send_editorial_decision', 'send_reviewer_invitation', 'send_submission_confirmation', 'send_publication_notice', 'send_account_access' ) as $method ) {
+foreach ( array( 'send_editorial_decision', 'send_reviewer_invitation', 'send_submission_confirmation', 'send_publication_notice', 'send_account_access', 'send_review_request', 'send_queue_digest', 'send_issue_ready' ) as $method ) {
 	check_email( WesSci_Email::$method( 'author@example.org', array( 'manuscript_title' => '<b>Sample title</b>' ) ), 'Dispatch failed: ' . $method );
 	check_email( $mail['to'] === 'author@example.org' && strpos( $mail['message'], '</html>' ) !== false, 'Invalid recipient or incomplete mail.' );
 	check_email( in_array( 'Content-Type: text/html; charset=UTF-8', $mail['headers'], true ), 'Missing HTML content type.' );
 	check_email( strpos( $mail['subject'], '<b>' ) === false, 'Unfiltered subject.' );
 }
+WesSci_Email::send_issue_ready( 'editor@example.org', array( 'issue_name' => '<b>Fall</b>' ) );
+check_email( $mail['subject'] === 'Fall is ready to publish', 'Unfiltered issue subject.' );
+$digest = WesSci_Email::render( 'queue-digest', array( 'overdue' => array( array( 'title' => '<script>x</script>', 'edit_url' => 'javascript:alert(1)', 'stage_label' => '<i>In review</i>', 'days' => '18 days' ) ) ) );
+check_email( strpos( $digest, '<script>' ) === false && strpos( $digest, '<i>' ) === false && strpos( $digest, 'javascript:' ) === false && strpos( $digest, 'for 18 days' ) !== false, 'Digest items unsafe or malformed.' );
+check_email( strpos( WesSci_Email::render( 'queue-digest' ), 'Nothing in the queue needs attention this week.' ) !== false, 'Empty digest lost its empty state.' );
 WesSci_Email::send( 'author@example.org', 'Sample', 'editorial-decision', array(), array( 'Reply-To: editor@example.org', 'Content-Type: text/html; charset=UTF-8' ), array( 'sample.pdf' ) );
 check_email( count( $mail['headers'] ) === 2 && $mail['headers'][0] === 'Reply-To: editor@example.org' && $mail['attachments'] === array( 'sample.pdf' ), 'Dispatch changed headers or attachments.' );
 
@@ -41,6 +46,9 @@ $reset = call_user_func( $filters['retrieve_password_notification_email'][0], $o
 check_email( strpos( $reset['message'], 'login=alex%20editor&amp;key=sample-key&amp;action=rp&amp;wp_lang=en_US' ) !== false, 'Password-reset destination lost login, key or locale.' );
 check_email( strpos( $reset['message'], '<script>' ) === false && strpos( $reset['message'], 'Reset password</a>' ) !== false, 'Password-reset content unsafe or missing action.' );
 check_email( $reset['to'] === $original['to'], 'Password reset changed recipient.' );
+check_email( strpos( $reset['message'], 'Role: Editor-in-Chief' ) !== false, 'Editor role not labelled Editor-in-Chief.' );
+$lead = (object) array( 'display_name' => 'Sam', 'user_login' => 'sam', 'user_email' => 'sam@example.org', 'roles' => array( 'contributor' ) );
+check_email( strpos( call_user_func( $filters['wp_new_user_notification_email'][0], $original, $lead, 'WesSciJo' )['message'], 'Role: Division Lead' ) !== false, 'Contributor role not labelled Division Lead.' );
 $welcome = call_user_func( $filters['wp_new_user_notification_email'][0], $original, $user, 'WesSciJo' );
 check_email( strpos( $welcome['message'], 'Set your password</a>' ) !== false && strpos( $welcome['message'], 'key=sample-key' ) !== false, 'New-account email lost password setup.' );
 check_email( strpos( $welcome['message'], '48 hours' ) === false, 'Unsupported expiry claim.' );
