@@ -36,4 +36,4 @@ jobs:
       - name: Run live smoke suite
         run: npm run test:smoke
         env:
-          BASE_URL: https://wessci.yinkavaughan.me/
+          BASE_URL: https://thewesleyansciencejournal.com/

@@ -6,7 +6,7 @@ const archiveRoutes = ['/category/research-reviews/', '/category/news-features-p
 const fixtureRoutes = new Set(['/calendar/']);
 
 function siteUrl(path) {
-  return new URL(path, process.env.BASE_URL || 'https://staging.thewesleyansciencejournal.com/').toString();
+  return new URL(path, process.env.BASE_URL || 'https://thewesleyansciencejournal.com/').toString();
 }
 
 test.describe('WesSciJo public site smoke tests', () => {

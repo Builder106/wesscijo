@@ -1100,3 +1100,9 @@ The group accepts plus addresses, and the team chose to sort mail with tags and 
 ## 2026-10-19 - Replace the join address #email #theme #incident
 
 The About page published `wesscijo+join@` for students who want to join the journal. Google Groups treats `+join` as a command. A test message to it produced "Your request to join wesscijo failed because you are already a member" and never reached Conversations. A student using the link would have sent a request to join the editors' inbox. The address is now `wesscijo+getinvolved@`. `OPERATIONS.md` lists the command suffixes to avoid.
+
+## 2026-10-19 - Point browser smoke workflow to production domain #ci #testing #incident
+
+The scheduled weekly Browser Smoke workflow run failed across all 11 tests with `net::ERR_NAME_NOT_RESOLVED`. Following the October 10 production cutover to `thewesleyansciencejournal.com`, `wessci.yinkavaughan.me` was decommissioned, but `.github/workflows/browser-smoke.yml` still set `BASE_URL: https://wessci.yinkavaughan.me/`. Additionally, the fallback in `tests/browser-smoke.spec.js` targeted `https://staging.thewesleyansciencejournal.com/`, which has no DNS record.
+
+Updated `BASE_URL` in `.github/workflows/browser-smoke.yml` and the default in `tests/browser-smoke.spec.js` to `https://thewesleyansciencejournal.com/`. Verified all 10 active tests pass on ampere-dev (calendar check skipped as expected).
