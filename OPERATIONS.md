@@ -60,7 +60,18 @@ ITS created `wesscijo@wesleyan.edu` as a Google Group. Shriya asked on October 1
 
 Settings: Collaborative Inbox is on, so conversations can be assigned and marked complete. Only invited users can join. Group members can read conversations, and anyone at Wesleyan can post and attach files. Owners and managers can reply as the group by choosing `wesscijo@wesleyan.edu` in the From menu on the Groups website. The default sender is still the author's own address. There is no moderation, and suspected spam is held for moderators. Member addresses are visible only to members. Outside senders cannot post. If the address is published for people outside Wesleyan, that setting needs another look.
 
-A test message from a Wesleyan address arrived in Conversations, and the From menu offered the group address. Every email the site sends now sets `Reply-To: wesscijo@wesleyan.edu`, so replies reach the group instead of the inbox of the account that sends through SMTP.
+A test message from a Wesleyan address arrived in Conversations, and the From menu offered the group address. Every email the site sends sets a Reply-To on the group, so replies reach the group instead of the inbox of the account that sends through SMTP.
+
+Plus addresses work: mail to `wesscijo+test@` arrived in the group with the plus address still showing. Posting stays limited to the whole organization, so senders outside Wesleyan get a bounce. Every published address is marked "from your Wesleyan account". Shared labels match the tags but are applied by hand.
+
+| Address | Where it appears |
+| --- | --- |
+| `wesscijo+submissions@` | Submit page body (WordPress page content) |
+| `wesscijo+corrections@` | Below Sources on every article, with the article title in the subject |
+| `wesscijo+join@` | About page, Team tab |
+| `wesscijo+web@` | Footer ("Report a site problem"), 404 page, Reply-To on welcome and password-reset emails |
+| `wesscijo+authors@` | Reply-To on the publication notice |
+| `wesscijo@` | Footer ("Contact"), Reply-To on editorial-team emails |
 
 Google Groups has no profile photo, so mail shows the letter "W". Groups created by students may need a `-glist` suffix. ITS may need to create the leads, editors, section, and interested-students lists that Shriya asked for.
 

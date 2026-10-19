@@ -1090,3 +1090,9 @@ Linux ARM64 verification passed: PHP lint for the plugin, templates, and scripts
 Every journal email went out through FluentSMTP as `yvaughan@wesleyan.edu`, so replies from authors and editors reached one student's inbox. The editors-in-chief now own the `wesscijo@wesleyan.edu` Google Group, so `WesSci_Email` adds `Reply-To: The Wesleyan Science Journal <wesscijo@wesleyan.edu>` to every message. That includes the welcome and password-reset emails from the core WordPress filters. A caller that sets its own Reply-To keeps it, and only one Reply-To is sent. The header name is matched without regard to case.
 
 The sender stays the same. A Google Group has no login of its own, so it can't authenticate SMTP. Moving the sender off a personal account is still a handoff task. `OPERATIONS.md` records the group's roles and settings.
+
+## 2026-10-19 - Publish topic addresses on the journal group #email #theme #operations
+
+The group accepts plus addresses, and the team chose to sort mail with tags and shared labels rather than create more Google Groups. Posting stays limited to Wesleyan senders, so every address shown on the site says "from your Wesleyan account".
+
+`wesscijo_contact_link()` in the theme builds each mail link. The footer gets Contact and Report a site problem links. Articles get a corrections line below Sources, with the article title in the subject. The About Team tab gets a join line, and the 404 page gets a broken-link line. `WesSci_Email::reply_to()` maps the publication notice to `+authors` and account emails to `+web`. Every other template replies to the plain address. The Submit page text lives in WordPress, so its `+submissions` line is a content edit, not a theme change. Only the active `wesscijo` theme changed. The fallback theme does not have the links.
