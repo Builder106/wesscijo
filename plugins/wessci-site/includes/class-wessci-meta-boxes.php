@@ -106,9 +106,11 @@ class WesSci_Meta_Boxes {
 						<input type="text" name="wessci_authors[<?php echo (int) $index; ?>][year]" value="<?php echo esc_attr( $author['year'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'Class Year (e.g. \'26)', 'wessci' ); ?>" style="flex: 1; max-width: 130px;">
 						<input type="text" name="wessci_authors[<?php echo (int) $index; ?>][dept]" value="<?php echo esc_attr( $author['dept'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'Department / Major (e.g. MB&B)', 'wessci' ); ?>" style="flex: 2;">
 						<input type="text" name="wessci_authors[<?php echo (int) $index; ?>][affiliation]" value="<?php echo esc_attr( $author['affiliation'] ?? 'Wesleyan University' ); ?>" placeholder="<?php esc_attr_e( 'Institution', 'wessci' ); ?>" style="flex: 2;">
+						<input type="email" name="wessci_authors[<?php echo (int) $index; ?>][email]" value="<?php echo esc_attr( $author['email'] ?? '' ); ?>" placeholder="<?php esc_attr_e( 'Email', 'wessci' ); ?>" aria-label="<?php esc_attr_e( 'Author email', 'wessci' ); ?>" style="flex: 2;">
 					</div>
 				<?php endforeach; ?>
 			</div>
+			<p class="description"><?php esc_html_e( 'Emails stay private. Authors with an email get a note when the manuscript is published.', 'wessci' ); ?></p>
 		</div>
 		<?php
 	}
@@ -216,6 +218,7 @@ class WesSci_Meta_Boxes {
 					'year'        => sanitize_text_field( wp_unslash( $author['year'] ?? '' ) ),
 					'dept'        => sanitize_text_field( wp_unslash( $author['dept'] ?? '' ) ),
 					'affiliation' => sanitize_text_field( wp_unslash( $author['affiliation'] ?? '' ) ),
+					'email'       => sanitize_email( wp_unslash( $author['email'] ?? '' ) ),
 				);
 			}
 			update_post_meta( $post_id, '_wessci_authors', $clean_authors );
