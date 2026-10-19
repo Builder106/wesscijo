@@ -1067,6 +1067,6 @@ Following editorial inspection of the Our Team masthead on the About page:
    - Graphic Design (`division-graphic-design.svg`): Studio artist's palette with ergonomic thumbhole aperture, four chromatic pigment wells (Ruby, Amber, Cyan, Green), and a fine detailing brush with a glinting ruby paint tip. Redesigned from an earlier abstract Bézier concept for immediate legibility and visual clarity.
    - Web Design (`division-web-design.svg`): Responsive browser viewport chassis with window traffic lights, lateral bracket breathing (`< / >`), and a blinking terminal cursor.
 2. Updated `$wessci_group_icons` across `themes/wesscijo/template-about.php` and `themes/wessci-fallback/template-about.php` to resolve all 7 division icons.
-3. Updated `scripts/render-publication.py` to map masthead icons and showcase all 7 divisions in the Animated Vector Gallery (`/svgs/`).
+3. Removed the temporary animated vector showcase route (`/svgs/`) from `scripts/render-publication.py` and deleted `public/svgs/` per direction, keeping division emblems focused in the masthead.
 4. Re-rendered static publication snapshot and confirmed clean PHP syntax across all 22 theme templates.
 
