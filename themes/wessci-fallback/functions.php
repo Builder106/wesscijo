@@ -24,15 +24,9 @@ add_action( 'after_setup_theme', 'wesscijo_setup' );
 
 function wesscijo_assets() {
 	wp_enqueue_style(
-		'wessci-fonts',
-		'https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@400;600;700&family=Cormorant+Garamond:wght@600&display=swap',
-		array(),
-		null
-	);
-	wp_enqueue_style(
 		'wessci-fallback',
 		get_stylesheet_uri(),
-		array( 'wessci-fonts' ),
+		array(),
 		(string) filemtime( get_stylesheet_directory() . '/style.css' )
 	);
 	if ( is_front_page() && ! is_search() ) {
@@ -62,17 +56,19 @@ function wesscijo_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'wesscijo_assets' );
 
-// Font files come from a second origin that is only discovered after the font stylesheet arrives.
-function wesscijo_resource_hints( $urls, $relation_type ) {
-	if ( 'preconnect' === $relation_type ) {
-		$urls[] = array(
-			'href' => 'https://fonts.gstatic.com',
-			'crossorigin',
+// The masthead and body text need these files on every page, but the stylesheet would only reveal them after it loads.
+function wesscijo_preload_fonts( $resources ) {
+	foreach ( array( 'librefranklin-latin.woff2', 'cormorantgaramond-600-latin.woff2' ) as $file ) {
+		$resources[] = array(
+			'href'        => get_theme_file_uri( '/assets/fonts/' . $file ),
+			'as'          => 'font',
+			'type'        => 'font/woff2',
+			'crossorigin' => 'anonymous',
 		);
 	}
-	return $urls;
+	return $resources;
 }
-add_filter( 'wp_resource_hints', 'wesscijo_resource_hints', 10, 2 );
+add_filter( 'wp_preload_resources', 'wesscijo_preload_fonts' );
 
 // Every supported browser renders emoji natively, so the detection script is dead weight.
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
