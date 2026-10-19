@@ -15,6 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WesSci_Email {
 
 	/**
+	 * Replies go to the journal's Google Group, not to whoever owns the SMTP account.
+	 */
+	const REPLY_TO = 'Reply-To: The Wesleyan Science Journal <wesscijo@wesleyan.edu>';
+
+	/**
 	 * Template directory path.
 	 *
 	 * @var string
@@ -115,17 +120,18 @@ class WesSci_Email {
 
 		$html_message = self::render( $template, $data );
 
-		// Set HTML content type.
-		$has_content_type = false;
-		foreach ( $headers as $header ) {
-			if ( false !== stripos( $header, 'Content-Type:' ) ) {
-				$has_content_type = true;
-				break;
-			}
-		}
-
-		if ( ! $has_content_type ) {
+		// Add the HTML content type and journal Reply-To unless the caller set its own.
+		$names = array_map(
+			function ( $header ) {
+				return strtolower( trim( strtok( $header, ':' ) ) );
+			},
+			$headers
+		);
+		if ( ! in_array( 'content-type', $names, true ) ) {
 			$headers[] = 'Content-Type: text/html; charset=UTF-8';
+		}
+		if ( ! in_array( 'reply-to', $names, true ) ) {
+			$headers[] = self::REPLY_TO;
 		}
 
 		return wp_mail( $to, $subject, $html_message, $headers, $attachments );
@@ -264,7 +270,7 @@ class WesSci_Email {
 
 		$defaults['message'] = $html_message;
 		$defaults['subject'] = 'Password Reset | The Wesleyan Science Journal';
-		$defaults['headers'] = array( 'Content-Type: text/html; charset=UTF-8' );
+		$defaults['headers'] = array( 'Content-Type: text/html; charset=UTF-8', self::REPLY_TO );
 
 		return $defaults;
 	}
@@ -301,7 +307,7 @@ class WesSci_Email {
 
 		$notification['message'] = $html_message;
 		$notification['subject'] = 'Welcome to WesSciJo';
-		$notification['headers'] = array( 'Content-Type: text/html; charset=UTF-8' );
+		$notification['headers'] = array( 'Content-Type: text/html; charset=UTF-8', self::REPLY_TO );
 
 		return $notification;
 	}
