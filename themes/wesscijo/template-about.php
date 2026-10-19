@@ -117,10 +117,13 @@ $wessci_masthead = array(
 		<div class="about-panel" id="panel-team" role="tabpanel" aria-labelledby="tab-btn-team">
 			<?php
 			$wessci_group_icons = array(
+				'Editorial Board'                        => get_theme_file_uri( '/assets/division-editorial.svg' ),
 				'Life Science'                           => get_theme_file_uri( '/assets/division-life-science.svg' ),
 				'Physical Science'                       => get_theme_file_uri( '/assets/division-physical-science.svg' ),
 				'Quantitative and Computational Science' => get_theme_file_uri( '/assets/division-quantitative.svg' ),
 				'Science, Technology and Society'        => get_theme_file_uri( '/assets/division-perspectives.svg' ),
+				'Graphic Design'                         => get_theme_file_uri( '/assets/division-graphic-design.svg' ),
+				'Web Design'                             => get_theme_file_uri( '/assets/division-web-design.svg' ),
 			);
 			?>
 			<?php foreach ( $wessci_masthead as $wessci_group ) : ?>

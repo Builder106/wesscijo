@@ -241,10 +241,13 @@ def masthead():
     groups = re.split(r"'section'\s*=>\s*'", source)[1:]
     result = ''
     icon_map = {
+        'Editorial Board': '/assets/division-editorial.svg',
         'Life Science': '/assets/division-life-science.svg',
         'Physical Science': '/assets/division-physical-science.svg',
         'Quantitative and Computational Science': '/assets/division-quantitative.svg',
         'Science, Technology and Society': '/assets/division-perspectives.svg',
+        'Graphic Design': '/assets/division-graphic-design.svg',
+        'Web Design': '/assets/division-web-design.svg',
     }
     for group in groups:
         label = group.split("'", 1)[0]
@@ -260,6 +263,15 @@ def masthead():
 
 def animations_gallery_html():
     divisions = [
+        {
+            'title': 'Editorial Board',
+            'desc': 'Scholarly fountain pen nib with dynamic ink capillary pulse, breathing aperture, and calligraphic proofing flourish.',
+            'animated': '/assets/division-editorial.svg',
+            'static': '/assets/division-editorial-static.svg',
+            'meta': 'SMIL 2.4s loop • 2.6 KB / 1.1 KB',
+            'link': '/about/#masthead',
+            'label': 'Editorial Masthead',
+        },
         {
             'title': 'Life Science',
             'desc': 'Dual-strand rotating DNA double helix with 3D horizontal perspective oscillation and sequential nucleotide transmission pulses.',
@@ -295,6 +307,24 @@ def animations_gallery_html():
             'meta': 'SMIL 1.2s loop • 2.6 KB / 1.0 KB',
             'link': '/category/news-features-perspectives/',
             'label': 'Perspectives Section',
+        },
+        {
+            'title': 'Graphic Design',
+            'desc': 'Artist palette with thumbhole aperture, sequential chromatic pigment wells, and fine detailing brush with ruby tip glint.',
+            'animated': '/assets/division-graphic-design.svg',
+            'static': '/assets/division-graphic-design-static.svg',
+            'meta': 'SMIL 2.4s loop • 2.6 KB / 1.3 KB',
+            'link': '/about/#masthead',
+            'label': 'Design Masthead',
+        },
+        {
+            'title': 'Web Design',
+            'desc': 'Responsive browser viewport with breathing code syntax brackets, glinting division slash, and live editor prompt cursor.',
+            'animated': '/assets/division-web-design.svg',
+            'static': '/assets/division-web-design-static.svg',
+            'meta': 'SMIL 2.0s loop • 2.2 KB / 920 B',
+            'link': '/about/#masthead',
+            'label': 'Web Masthead',
         },
     ]
 
@@ -505,6 +535,8 @@ def main():
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-flight-dark.svg', PUBLIC / 'assets/logo-flight-dark.svg')
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-entrance.js', PUBLIC / 'assets/logo-entrance.js')
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/cardinal-watch.js', PUBLIC / 'assets/cardinal-watch.js')
+    for svg_file in (ROOT / 'themes/wesscijo/assets').glob('division-*.svg'):
+        shutil.copyfile(svg_file, PUBLIC / 'assets' / svg_file.name)
     shutil.copytree(ROOT / 'themes/wesscijo/assets/fonts', PUBLIC / 'assets/fonts', dirs_exist_ok=True)
     index = [{k: a[k] for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
     (PUBLIC / 'search-index.json').write_text(json.dumps(index, ensure_ascii=False), encoding='utf-8')
