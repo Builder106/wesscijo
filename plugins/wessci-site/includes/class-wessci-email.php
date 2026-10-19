@@ -15,9 +15,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 class WesSci_Email {
 
 	/**
-	 * Replies go to the journal's Google Group, not to whoever owns the SMTP account.
+	 * Plus tags that sort replies in the journal's Google Group by template.
+	 * Templates not listed reply to the plain group address.
 	 */
-	const REPLY_TO = 'Reply-To: The Wesleyan Science Journal <wesscijo@wesleyan.edu>';
+	const REPLY_TAGS = array(
+		'publication-notice' => 'authors',
+		'account-access'     => 'web',
+	);
+
+	/**
+	 * Replies go to the journal's Google Group, not to whoever owns the SMTP account.
+	 *
+	 * @param string $template Template slug.
+	 * @return string Reply-To header.
+	 */
+	public static function reply_to( $template = '' ) {
+		$tag = self::REPLY_TAGS[ $template ] ?? '';
+		return 'Reply-To: The Wesleyan Science Journal <wesscijo' . ( $tag ? '+' . $tag : '' ) . '@wesleyan.edu>';
+	}
 
 	/**
 	 * Template directory path.
@@ -131,7 +146,7 @@ class WesSci_Email {
 			$headers[] = 'Content-Type: text/html; charset=UTF-8';
 		}
 		if ( ! in_array( 'reply-to', $names, true ) ) {
-			$headers[] = self::REPLY_TO;
+			$headers[] = self::reply_to( $template );
 		}
 
 		return wp_mail( $to, $subject, $html_message, $headers, $attachments );
@@ -270,7 +285,7 @@ class WesSci_Email {
 
 		$defaults['message'] = $html_message;
 		$defaults['subject'] = 'Password Reset | The Wesleyan Science Journal';
-		$defaults['headers'] = array( 'Content-Type: text/html; charset=UTF-8', self::REPLY_TO );
+		$defaults['headers'] = array( 'Content-Type: text/html; charset=UTF-8', self::reply_to( 'account-access' ) );
 
 		return $defaults;
 	}
@@ -307,7 +322,7 @@ class WesSci_Email {
 
 		$notification['message'] = $html_message;
 		$notification['subject'] = 'Welcome to WesSciJo';
-		$notification['headers'] = array( 'Content-Type: text/html; charset=UTF-8', self::REPLY_TO );
+		$notification['headers'] = array( 'Content-Type: text/html; charset=UTF-8', self::reply_to( 'account-access' ) );
 
 		return $notification;
 	}

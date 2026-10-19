@@ -30,8 +30,18 @@ foreach ( array( 'send_editorial_decision', 'send_reviewer_invitation', 'send_su
 	check_email( WesSci_Email::$method( 'author@example.org', array( 'manuscript_title' => '<b>Sample title</b>' ) ), 'Dispatch failed: ' . $method );
 	check_email( $mail['to'] === 'author@example.org' && strpos( $mail['message'], '</html>' ) !== false, 'Invalid recipient or incomplete mail.' );
 	check_email( in_array( 'Content-Type: text/html; charset=UTF-8', $mail['headers'], true ), 'Missing HTML content type.' );
-	check_email( in_array( WesSci_Email::REPLY_TO, $mail['headers'], true ) && 2 === count( $mail['headers'] ), 'Missing journal Reply-To or extra headers.' );
+	check_email( 2 === count( $mail['headers'] ) && 0 === strpos( $mail['headers'][1], 'Reply-To: The Wesleyan Science Journal <wesscijo' ), 'Missing journal Reply-To or extra headers.' );
 	check_email( strpos( $mail['subject'], '<b>' ) === false, 'Unfiltered subject.' );
+}
+$replies = array(
+	'send_publication_notice' => 'wesscijo+authors@wesleyan.edu',
+	'send_account_access'     => 'wesscijo+web@wesleyan.edu',
+	'send_issue_ready'        => 'wesscijo@wesleyan.edu',
+	'send_editorial_decision' => 'wesscijo@wesleyan.edu',
+);
+foreach ( $replies as $method => $address ) {
+	WesSci_Email::$method( 'author@example.org' );
+	check_email( 'Reply-To: The Wesleyan Science Journal <' . $address . '>' === $mail['headers'][1], 'Wrong Reply-To for ' . $method );
 }
 WesSci_Email::send_issue_ready( 'editor@example.org', array( 'issue_name' => '<b>Fall</b>' ) );
 check_email( $mail['subject'] === 'Fall is ready to publish', 'Unfiltered issue subject.' );
@@ -49,14 +59,14 @@ $reset = call_user_func( $filters['retrieve_password_notification_email'][0], $o
 check_email( strpos( $reset['message'], 'login=alex%20editor&amp;key=sample-key&amp;action=rp&amp;wp_lang=en_US' ) !== false, 'Password-reset destination lost login, key or locale.' );
 check_email( strpos( $reset['message'], '<script>' ) === false && strpos( $reset['message'], 'Reset password</a>' ) !== false, 'Password-reset content unsafe or missing action.' );
 check_email( $reset['to'] === $original['to'], 'Password reset changed recipient.' );
-check_email( in_array( WesSci_Email::REPLY_TO, $reset['headers'], true ), 'Password reset lost the journal Reply-To.' );
+check_email( in_array( 'Reply-To: The Wesleyan Science Journal <wesscijo+web@wesleyan.edu>', $reset['headers'], true ), 'Password reset lost the journal Reply-To.' );
 check_email( strpos( $reset['message'], 'Role: Editor-in-Chief' ) !== false, 'Editor role not labelled Editor-in-Chief.' );
 $lead = (object) array( 'display_name' => 'Sam', 'user_login' => 'sam', 'user_email' => 'sam@example.org', 'roles' => array( 'contributor' ) );
 check_email( strpos( call_user_func( $filters['wp_new_user_notification_email'][0], $original, $lead, 'WesSciJo' )['message'], 'Role: Division Lead' ) !== false, 'Contributor role not labelled Division Lead.' );
 $welcome = call_user_func( $filters['wp_new_user_notification_email'][0], $original, $user, 'WesSciJo' );
 check_email( strpos( $welcome['message'], 'Set your password</a>' ) !== false && strpos( $welcome['message'], 'key=sample-key' ) !== false, 'New-account email lost password setup.' );
 check_email( strpos( $welcome['message'], '48 hours' ) === false, 'Unsupported expiry claim.' );
-check_email( in_array( WesSci_Email::REPLY_TO, $welcome['headers'], true ), 'Welcome email lost the journal Reply-To.' );
+check_email( in_array( 'Reply-To: The Wesleyan Science Journal <wesscijo+web@wesleyan.edu>', $welcome['headers'], true ), 'Welcome email lost the journal Reply-To.' );
 $key_error = true;
 check_email( call_user_func( $filters['wp_new_user_notification_email'][0], $original, $user, 'WesSciJo' ) === $original, 'Password-key error did not retain original notification.' );
 echo "Mail dispatch and both notification callbacks passed. No mail sent.\n";
