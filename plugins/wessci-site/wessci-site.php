@@ -246,5 +246,3 @@ function wessci_site_filter_robots( $robots ) {
 	return $robots;
 }
 add_filter( 'wp_robots', 'wessci_site_filter_robots' );
-
-// No favicon is fabricated here. WordPress will emit an approved Site Icon when configured.
