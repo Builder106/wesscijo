@@ -98,4 +98,3 @@ Use this reduced-motion rule to shorten or remove animation for readers who requ
 - **WCAG 2.2**: The strategy follows Success Criterion 2.2.2 (Pause, Stop, Hide) and 2.3.3 (Animation from Interactions).
 - **Screen readers**: The reading progress indicator uses `pointer-events: none` on a CSS pseudo-element. It doesn't cover text or add a control for screen readers.
 - **No background motion**: Avoid continuous loops, flashing, and bouncing. Scroll-linked motion is fine, because it stops when the reader stops scrolling.
-

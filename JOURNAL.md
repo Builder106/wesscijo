@@ -903,7 +903,7 @@ Restored full-fidelity cardinal artwork for dark mode logo assets (`public/asset
    - Merged production `main` into `feat/animated-svgs` to inherit the dark-mode header logo pair (`logo.png`, `logo-dark.png`) and masthead layout refinements.
    - Updated `scripts/render-publication.py` to seamlessly output dual-logo headers alongside division icons.
    - Regenerated all static publication HTML pages and search indices.
-4. Pre-Push Verification Gate on ampere-dev:
+3. Pre-Push Verification Gate on ampere-dev:
    - Ran PHP syntax check (`find themes/ -type f -name "*.php" -exec php -l {} +`): 11 of 11 files passed cleanly with zero syntax errors.
    - Ran Stylelint (`npx --yes stylelint "themes/**/*.css"`): 0 errors, 0 warnings.
    - Ran Playwright publication test suite (`tests/editorial-publication.spec.js`): All 9 tests passed across responsive viewports (390px, 768px, 1440px), search handling, article content integrity, and tri-state theme switching.
@@ -966,7 +966,6 @@ Following editorial review of the publication site, removed the `/animations/` p
    - Deployed to live container `wessci-wordpress-1`, verified syntax and end-to-end rendering across all 5 templates.
    - Dispatched live branded editorial decision test email via FluentSMTP to `yvaughan@wesleyan.edu`, confirming delivery and logging with status `sent`.
    - Compiled an interactive preview suite in `preview/email-preview.html` with desktop/mobile viewports and client background switches.
-
 
 ## 2026-10-10 - Simplify transactional emails
 
@@ -1069,7 +1068,6 @@ Following editorial inspection of the Our Team masthead on the About page:
 2. Updated `$wessci_group_icons` across `themes/wesscijo/template-about.php` and `themes/wessci-fallback/template-about.php` to resolve all 7 division icons.
 3. Removed the temporary animated vector showcase route (`/svgs/`) from `scripts/render-publication.py` and deleted `public/svgs/` per direction, keeping division emblems focused in the masthead.
 4. Re-rendered static publication snapshot and confirmed clean PHP syntax across all 22 theme templates.
-
 
 ## 2026-10-18 - Design editorial-team emails for the dashboard #email #dashboard
 
