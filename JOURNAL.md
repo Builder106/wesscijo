@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-27 - Cover plugin code in CI #ci #decision
+
+CI now lints PHP across themes, plugins, scripts, and tests. It runs three existing PHP behavior checks, adds first-party plugin CSS to Stylelint, and audits the locked Playwright dependencies. The scheduled browser smoke still checks the live site.
+
 ## 2026-10-18 - Always play the entrance and self-host the fonts #homepage #performance #decision
 
 The owner rejected skipping the entrance on slow connections, because a
