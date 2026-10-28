@@ -19,6 +19,7 @@ function wesscijo_setup() {
 	);
 	add_image_size( 'wessci-lead', 800, 500, true );
 	add_image_size( 'wessci-card', 800, 500, true );
+	add_image_size( 'wessci-wide', 1200, 750, true );
 }
 add_action( 'after_setup_theme', 'wesscijo_setup' );
 

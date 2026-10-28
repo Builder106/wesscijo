@@ -97,7 +97,17 @@
 						<?php if ( has_post_thumbnail() ) : ?>
 							<figure class="card__figure">
 								<a class="card__media" href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true">
-									<?php the_post_thumbnail( 'wessci-card', array( 'alt' => '', 'loading' => 'lazy', 'sizes' => '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw' ) ); ?>
+									<?php
+									$is_wide = 1 === $index;
+									the_post_thumbnail(
+										$is_wide ? 'wessci-wide' : 'wessci-card',
+										array(
+											'alt'     => '',
+											'loading' => 'lazy',
+											'sizes'   => $is_wide ? '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 600px' : '(max-width: 720px) 100vw, (max-width: 1080px) 50vw, 25vw',
+										)
+									);
+									?>
 								</a>
 							</figure>
 						<?php endif; ?>
