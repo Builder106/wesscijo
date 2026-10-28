@@ -16,33 +16,6 @@
 		} catch(e) {}
 	})();
 	</script>
-	<?php
-	if ( is_front_page() && ! is_search() ) :
-		$flight_url = static function ( $file ) {
-			return add_query_arg( 'ver', filemtime( get_theme_file_path( $file ) ), get_theme_file_uri( $file ) );
-		};
-		?>
-	<script>
-	(function() {
-		if (location.hash || location.search || matchMedia('(prefers-reduced-motion: reduce)').matches || !Element.prototype.animate) return;
-		document.documentElement.classList.add('logo-entrance');
-		window.logoEntranceWatchdog = setTimeout(function() {
-			document.documentElement.classList.remove('logo-entrance', 'logo-entrance-revealing');
-		}, 5500);
-		// Start the flight download now; the entrance script runs only after the whole document parses.
-		var theme = document.documentElement.dataset.theme;
-		var dark = theme === 'dark' || (!theme && matchMedia('(prefers-color-scheme: dark)').matches);
-		var controller = new AbortController();
-		window.logoFlight = {
-			controller: controller,
-			blob: fetch(dark ? <?php echo wp_json_encode( $flight_url( '/assets/logo-flight-dark.svg' ) ); ?> : <?php echo wp_json_encode( $flight_url( '/assets/logo-flight.svg' ) ); ?>, { signal: controller.signal }).then(function(response) {
-				if (!response.ok) throw new Error(response.statusText);
-				return response.blob();
-			})
-		};
-	})();
-	</script>
-	<?php endif; ?>
 	<?php if ( ! has_site_icon() ) : ?>
 		<link rel="icon" href="<?php echo esc_url( get_theme_file_uri( '/assets/favicon.png' ) ); ?>">
 	<?php endif; ?>
@@ -51,21 +24,13 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
-<?php if ( is_front_page() && ! is_search() ) : ?>
-<div class="logo-entrance__stage" id="logo-entrance" style="display:none">
-	<div class="logo-entrance__backdrop"></div>
-	<button class="logo-entrance__skip" type="button">Skip animation</button>
-	<div class="logo-entrance__mark"><img class="logo-entrance__flight" width="1478" height="988" alt="The Wesleyan Science Journal cardinal landing on a syringe"></div>
-</div>
-<?php endif; ?>
-
 <a class="skip-link" href="#main">Skip to content</a>
 
 <header class="hero">
 	<div class="hero__band">
 		<?php
 		$custom_logo_id      = (int) get_theme_mod( 'custom_logo' );
-		$custom_logo         = $custom_logo_id && wp_attachment_is_image( $custom_logo_id ) ? wp_get_attachment_image( $custom_logo_id, 'thumbnail', false, array( 'alt' => '', 'class' => 'hero__logo hero__logo--light', 'sizes' => '72px' ) ) : '';
+		$custom_logo         = $custom_logo_id && wp_attachment_is_image( $custom_logo_id ) ? wp_get_attachment_image( $custom_logo_id, 'medium', false, array( 'alt' => '', 'class' => 'hero__logo hero__logo--light', 'sizes' => '96px' ) ) : '';
 		$logo_position       = get_theme_mod( 'wessci_logo_position', 'left' );
 		$brand_class         = 'hero__brand';
 		$brand_title         = wesscijo_brand_title();
