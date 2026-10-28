@@ -1,5 +1,21 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-28 - Move News and Reviews and open calendar intake #publication #calendar #decision
+
+The News category now belongs to Research & Reviews and is labeled News and
+Reviews. WordPress keeps its category slug and redirects the old archive path.
+The static preview keeps a canonical link at the former path.
+
+The event editor records a department or group and an event source URL. The
+calendar lists dated future events only. Wesleyan organizers can email the
+editors with event details. Keep Calendar out of navigation until there are
+verified events and a named editor.
+
+Both themes request a larger masthead logo and use hard-cropped 16:10 lead,
+article, and card images. The static renderer follows the new News grouping
+and no longer loads the entrance animation. This supersedes the October 18
+decision to keep that animation.
+
 ## 2026-10-27 - Cover plugin code in CI #ci #decision
 
 CI now lints PHP across themes, plugins, scripts, and tests. It runs three existing PHP behavior checks, adds first-party plugin CSS to Stylelint, and audits the locked Playwright dependencies. The scheduled browser smoke still checks the live site.
