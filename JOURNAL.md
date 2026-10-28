@@ -1,5 +1,22 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-28 - Fill four-article divisions on the homepage #layout #media #deployment
+
+With every card at 16:10, the wide first card became about 570 px tall and a
+division of four articles left its fourth card alone in a second row. On
+desktop the wide card now runs down the left and the other three stack beside
+it as small horizontal cards. A two-article division splits the row in half.
+Tablet and phone layouts are unchanged.
+
+The wide card also gets its own 1200 by 750 crop, so it no longer stretches
+the 800 px card size. The theme files were deployed to production after the
+PHP lint, the three PHP tests, and Stylelint passed, and the new crops were
+built for the 11 existing images. The previous live files are saved in a
+recovery directory. The owner reviewed the live homepage and approved it.
+
+The static preview in `public/` still uses the old grid. Regenerate it before
+the next preview review.
+
 ## 2026-10-28 - Deploy News and Reviews and rebuild thumbnails #deployment #media #publication
 
 The theme, fallback theme, and site plugin files from the News and Reviews
