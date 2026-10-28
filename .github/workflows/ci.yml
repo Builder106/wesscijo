@@ -38,6 +38,9 @@ jobs:
       - name: Test email notifications
         run: php tests/email-notifications.php
 
+      - name: Test event sync
+        run: php tests/event-sync.php
+
   css-lint:
     name: CSS Validation & Stylelint
     runs-on: ubuntu-24.04
