@@ -1,5 +1,15 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-28 - Deploy the event import and fix the site timezone #calendar #deployment
+
+The event importer from `6afe334` is live in the production container. The live `wessci-site.php` matched the previous commit exactly before the copy, and the old file is kept next to it with a `.bak-20261028` suffix. PHP lint passed in the container and the new class matched the repo by checksum.
+
+A manual run created 11 drafts (IDs 83 to 93): the weekly Space Night, Kids' Night at the Observatory, the Small Town Universe screening, and three Justice Lab sessions. The two canceled Space Nights were skipped. A second run kept the count at 11. No event is published, and the twice-daily cron job is registered.
+
+The site timezone was UTC, so Space Night would have shown as 12:00 AM the next day on the Calendar and in the editor. It is now America/New_York, and draft 83 reads October 28, 8:00 pm EDT. The setting is site-wide, so other post dates display in Eastern time too. Only that one event was checked afterward.
+
+Not checked: that an editor's change to a draft survives the next sync in production, and the public Calendar page with published events. Editors still need to review and publish the drafts.
+
 ## 2026-10-28 - Import calendar events from the Wesleyan feed #calendar #decision
 
 The Calendar listed only events typed in by hand. events.wesleyan.edu runs LiveWhale, which serves public JSON at `/live/json/events/` with `tag/`, `start_date/`, `end_date/`, and `response_fields/` filters. Departments are tags there; the groups are administrative (Academic Events, Center for the Arts, and so on). Each occurrence of a recurring event has its own ID, and canceled events carry `is_canceled`.
