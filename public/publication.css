@@ -227,54 +227,6 @@ h1, h2, h3 {
 .skip-link:focus { left: 0; }
 
 /* ---------- masthead ---------- */
-.logo-entrance__stage { display: none; }
-
-html.logo-entrance { overflow: hidden; }
-html.logo-entrance .logo-entrance__stage {
-	display: block;
-	position: fixed;
-	inset: 0;
-	z-index: 100000;
-}
-html.logo-entrance .skip-link,
-html.logo-entrance .hero,
-html.logo-entrance .site-main,
-html.logo-entrance .colophon { visibility: hidden; }
-html.logo-entrance-revealing .hero,
-html.logo-entrance-revealing .site-main,
-html.logo-entrance-revealing .colophon { visibility: visible; opacity: 0; }
-html.logo-entrance .hero__logo-slot { visibility: hidden; }
-
-.logo-entrance__backdrop { position: absolute; inset: 0; background: var(--color-paper); }
-.logo-entrance__mark {
-	position: fixed;
-	top: 50%;
-	left: 50%;
-	width: min(82vw, 68vh, 440px);
-	aspect-ratio: 1;
-	transform: translate(-50%, -50%);
-}
-.logo-entrance__flight {
-	position: absolute;
-	max-width: none;
-	top: -28.6458%;
-	left: -92.4479%;
-	width: 192.4479%;
-	height: auto;
-}
-.logo-entrance__skip {
-	position: absolute;
-	top: 1rem;
-	left: 1rem;
-	z-index: 1;
-	padding: 0.5rem 0.75rem;
-	border: 1px solid currentColor;
-	background: var(--color-paper);
-	color: var(--color-ink);
-	font: inherit;
-	opacity: 0;
-}
-.logo-entrance__skip:focus-visible { opacity: 1; }
 
 .hero__band {
 	background: var(--color-paper);
@@ -297,15 +249,15 @@ html.logo-entrance .hero__logo-slot { visibility: hidden; }
 
 .hero__logo-slot {
 	flex: 0 1 auto;
-	max-inline-size: min(12rem, 30vw);
-	max-block-size: 4rem;
+	max-inline-size: min(14rem, 30vw);
+	max-block-size: 6rem;
 }
 
 .hero__logo-slot img,
 .hero__logo {
 	width: auto;
 	max-width: 100%;
-	max-height: 4rem;
+	max-height: 6rem;
 	object-fit: contain;
 }
 
@@ -710,8 +662,8 @@ form.search { display: flex; align-items: stretch; }
 
 .lead__excerpt { font-size: var(--text-lg); color: var(--color-ink-2); max-width: var(--measure); }
 
-.lead__figure { margin: 0; }
-.lead__figure img { width: 100%; height: auto; }
+.lead__figure { margin: 0; aspect-ratio: 16 / 10; overflow: hidden; }
+.lead__figure img { width: 100%; height: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
 
 figcaption, .wp-caption-text {
 	margin-top: var(--space-2);
@@ -960,8 +912,8 @@ figcaption, .wp-caption-text {
 .card--wide { grid-column: span 6; }
 .card__figure { margin: 0; }
 
-.card__media { display: block; overflow: hidden; border-bottom: var(--rule-thick) solid var(--color-ink); }
-.card__media img { width: 100%; height: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: transform var(--dur-mid) var(--ease-out); }
+.card__media { display: block; aspect-ratio: 16 / 10; overflow: hidden; border-bottom: var(--rule-thick) solid var(--color-ink); }
+.card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--dur-mid) var(--ease-out); }
 .card:hover .card__media img { transform: scale(1.04); }
 
 .card__type {
@@ -1287,10 +1239,13 @@ body.admin-bar .reading-progress {
 
 .article .meta { justify-content: center; margin-bottom: var(--space-8); }
 
+.calendar-contact { max-width: var(--measure); margin-block: var(--space-4); color: var(--color-ink-2); }
+
 .article__figure { margin: 0 0 var(--space-12); border-top: var(--rule-slab) solid var(--color-ink); padding-top: var(--space-8); }
 .article__figure img {
 	width: 100%;
-	height: auto;
+	aspect-ratio: 16 / 10;
+	object-fit: cover;
 }
 .article__figure figcaption {
 	text-align: right;
@@ -1301,6 +1256,7 @@ body.admin-bar .reading-progress {
 }
 
 .article__sources { margin-top: var(--space-12); text-align: left; }
+.article__correction, .about-join { margin-top: var(--space-8); text-align: left; }
 
 .prose {
 	max-width: var(--measure);
@@ -1456,7 +1412,7 @@ body.admin-bar .reading-progress {
 		text-align: left;
 	}
 	.hero__brand { flex-direction: row; gap: var(--space-4); }
-	.hero__logo-slot { flex: 0 0 4.5rem; max-inline-size: 4.5rem; max-block-size: none; }
+	.hero__logo-slot { flex: 0 0 6rem; max-inline-size: 6rem; max-block-size: none; }
 	.hero__logo-slot img { width: 100%; max-height: none; }
 }
 

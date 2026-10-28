@@ -11,10 +11,7 @@ CONTENT = ROOT / 'content/issue-2026'
 PUBLIC = ROOT / 'public'
 NAME = 'The Wesleyan Science Journal'
 STYLESHEET_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/style.css').read_bytes()).hexdigest()[:12]
-ENTRANCE_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-entrance.js').read_bytes()).hexdigest()[:12]
-FLIGHT_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-flight.svg').read_bytes()).hexdigest()[:12]
 WATCH_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/cardinal-watch.js').read_bytes()).hexdigest()[:12]
-DARK_FLIGHT_VERSION = hashlib.sha256((ROOT / 'themes/wesscijo/assets/logo-flight-dark.svg').read_bytes()).hexdigest()[:12]
 CARDINAL_SVG = (ROOT / 'themes/wesscijo/assets/cardinal-perch.svg').read_text(encoding='utf-8').strip()
 REFERENCES_HEADING = re.compile(r'<h[2-6][^>]*>\s*(?:<[^>]+>\s*)*(?:works cited|references|sources|bibliography)\b', re.I)
 FORM = 'https://docs.google.com/forms/d/e/1FAIpQLSf3YVPrAoa6FFr3QyJYtGbWm5aDzRgoVsL6EjiwLnagwW63cA/viewform'
@@ -78,8 +75,14 @@ def type_slug(name):
     return re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')
 
 
+def article_type(article):
+    return 'News and Reviews' if article['type'].lower() in {'news', 'news and reviews'} else article['type']
+
+
 def group_slug(article):
     if article['slug'] in {'bile-salt-mixed-micelles', 'gmos-applications-and-controversy', 'math-behind-llms', 'quantum-voting'}:
+        return 'research-reviews'
+    if article_type(article) == 'News and Reviews':
         return 'research-reviews'
     return 'news-features-perspectives'
 
@@ -102,7 +105,7 @@ def figure(article, classname, eager=False):
 def card(article, wide=False, level=3):
     classname = 'card card--wide' if wide else 'card'
     return (f'<article class="{classname}">{figure(article, "card__figure")}'
-            f'<span class="card__type">{escape(article["type"])}</span>'
+            f'<span class="card__type">{escape(article_type(article))}</span>'
             f'<h{level} class="card__title"><a href="{article_url(article)}">{escape(article["title"])}</a></h{level}>'
             f'<p class="card__excerpt">{escape(article["excerpt"])}</p></article>')
 
@@ -121,13 +124,13 @@ def footer():
         '<ul class="index-group__list">'
         '<li><a href="/category/research-reviews/journal-articles/">Journal Articles</a></li>'
         '<li><a href="/category/research-reviews/literature-reviews/">Literature Reviews</a></li>'
+        '<li><a href="/category/research-reviews/news-and-reviews/">News and Reviews</a></li>'
         '</ul>'
         '</div>'
         '<div class="index-group">'
         '<span class="index-group__title">News, Features &amp; Perspectives</span>'
         '<ul class="index-group__list">'
         '<li><a href="/category/news-features-perspectives/features/">Features</a></li>'
-        '<li><a href="/category/news-features-perspectives/news/">News</a></li>'
         '<li><a href="/category/news-features-perspectives/op-ed/">Op/Ed</a></li>'
         '</ul>'
         '</div>'
@@ -151,7 +154,7 @@ def footer():
 def header(articles):
     menus = []
     for slug, label in GROUPS.items():
-        types = sorted({a['type'] for a in articles if group_slug(a) == slug} | ({'News'} if slug == 'news-features-perspectives' else set()))
+        types = sorted({article_type(a) for a in articles if group_slug(a) == slug} | ({'News and Reviews'} if slug == 'research-reviews' else set()))
         children = ''.join(f'<li><a class="panel__link" href="/category/{slug}/{type_slug(t)}/">{escape(t)}</a></li>' for t in types)
         menus.append(f'<li class="hero__nav-item"><details class="panel" name="sections">'
                      f'<summary class="panel__summary hero__nav-link">{escape(label)}</summary>'
@@ -189,35 +192,12 @@ def header(articles):
 
 def document(title, body, articles, description='', canonical=''):
     page_title = NAME if title == NAME else title + ' | ' + NAME
-    entrance = canonical == '/'
-    entrance_bootstrap = (
-        '<script>(function(){'
-        'if(location.hash||location.search||matchMedia("(prefers-reduced-motion: reduce)").matches||!Element.prototype.animate)return;'
-        'document.documentElement.classList.add("logo-entrance");'
-        'window.logoEntranceWatchdog=setTimeout(function(){'
-        'document.documentElement.classList.remove("logo-entrance","logo-entrance-revealing");},5500);'
-        'var theme=document.documentElement.dataset.theme;'
-        'var dark=theme==="dark"||(!theme&&matchMedia("(prefers-color-scheme: dark)").matches);'
-        'var controller=new AbortController();'
-        f'window.logoFlight={{controller:controller,blob:fetch(dark?"/assets/logo-flight-dark.svg?v={DARK_FLIGHT_VERSION}":"/assets/logo-flight.svg?v={FLIGHT_VERSION}",{{signal:controller.signal}})'
-        '.then(function(response){if(!response.ok)throw new Error(response.statusText);return response.blob();})};'
-        '})();</script>'
-    ) if entrance else ''
-    entrance_stage = (
-        '<div class="logo-entrance__stage" id="logo-entrance" style="display:none">'
-        '<div class="logo-entrance__backdrop"></div>'
-        '<button class="logo-entrance__skip" type="button">Skip animation</button>'
-        '<div class="logo-entrance__mark"><img class="logo-entrance__flight" width="1478" height="988" '
-        'alt="The Wesleyan Science Journal cardinal landing on a syringe"></div></div>'
-    ) if entrance else ''
-    entrance_script = f'<script src="/assets/logo-entrance.js?v={ENTRANCE_VERSION}" defer></script>' if entrance else ''
-    stylesheet_url = f'/publication.css?v={STYLESHEET_VERSION}' if entrance else '/publication.css'
+    stylesheet_url = f'/publication.css?v={STYLESHEET_VERSION}'
     watch_script = f'<script src="/assets/cardinal-watch.js?v={WATCH_VERSION}" defer></script>' if 'class="cardinal"' in body else ''
     return ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<meta name="color-scheme" content="light dark">'
             '<script>(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light"){document.documentElement.setAttribute("data-theme",t);var m=document.querySelector(\'meta[name="color-scheme"]\');if(m)m.content=t;}}catch(e){}})();</script>'
-            + entrance_bootstrap +
             f'<title>{escape(page_title)}</title><meta name="description" content="{escape(description)}">'
             f'<link rel="canonical" href="https://thewesleyansciencejournal.com{canonical}">'
             '<link rel="icon" href="/assets/favicon.png">'
@@ -225,15 +205,15 @@ def document(title, body, articles, description='', canonical=''):
             '<link rel="preload" href="/assets/fonts/cormorantgaramond-600-latin.woff2" as="font" type="font/woff2" crossorigin>'
             f'<link rel="stylesheet" href="{stylesheet_url}">'
             '<link rel="stylesheet" href="/publication-extra.css"><script src="/publication.js" defer></script>'
-            + entrance_script + watch_script + '</head><body>' + entrance_stage
+            + watch_script + '</head><body>'
             + header(articles) + '<main class="site-main" id="main" tabindex="-1">' + body + '</main>'
             + footer() + '</body></html>')
 
 
-def write_page(route, title, body, articles, description=''):
+def write_page(route, title, body, articles, description='', canonical=None):
     path = PUBLIC / route.strip('/') / 'index.html'
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(document(title, body, articles, description, route), encoding='utf-8')
+    path.write_text(document(title, body, articles, description, canonical or route), encoding='utf-8')
 
 
 def masthead():
@@ -289,7 +269,7 @@ def main():
         ],
     }
     homepage += (f'<article class="lead"><div class="lead__text">'
-                 f'<a class="tag" href="/category/news-features-perspectives/features/">{escape(lead["type"])}</a>'
+                 f'<a class="tag" href="/category/{group_slug(lead)}/{type_slug(article_type(lead))}/">{escape(article_type(lead))}</a>'
                  f'<h1 class="lead__title"><a href="{article_url(lead)}">{escape(lead["title"])}</a></h1>'
                  f'<p class="lead__excerpt">{escape(lead["excerpt"])}</p><p class="byline">{escape(lead["byline"])}</p>'
                  f'<p class="meta"><time datetime="2026-10-06T04:16:47+00:00">6 October 2026</time>'
@@ -298,6 +278,8 @@ def main():
     for slug, label in GROUPS.items():
         order_slugs = order.get(slug, [])
         selected = [next(a for a in articles if a['slug'] == s) for s in order_slugs if any(a['slug'] == s for a in articles)]
+        selected_slugs = {article['slug'] for article in selected}
+        selected.extend(a for a in articles if group_slug(a) == slug and a['slug'] not in selected_slugs)
         bird = f'<span class="division__bird">{CARDINAL_SVG}</span>' if slug == 'research-reviews' else ''
         homepage += f'<section class="division"><h2 class="division__title">{division_icon(slug)}<a href="/category/{slug}/">{escape(label)}</a>{bird}</h2><div class="cards">' + ''.join(card(a, index == 0) for index, a in enumerate(selected)) + '</div></section>'
     homepage += ('<section class="submit"><div class="submit__header">'
@@ -309,7 +291,7 @@ def main():
         related = [other for other in articles if other['section'] == a['section'] and other != a]
         body = ('<div id="reading-progress" class="reading-progress" aria-hidden="true"></div>'
                 f'<article class="article"><h1 class="article__title">{escape(a["title"])}</h1>'
-                f'<p class="byline">{escape(a["byline"])}</p><p class="meta"><a href="/category/{section_slug(a["section"])}/">{escape(a["section"])}</a> / {escape(a["type"])}</p>'
+                 f'<p class="byline">{escape(a["byline"])}</p><p class="meta"><a href="/category/{section_slug(a["section"])}/">{escape(a["section"])}</a> / {escape(article_type(a))}</p>'
                 + figure(a, 'article__figure', True) + f'<div class="prose">{with_end_mark(a["bodyHtml"])}</div></article>')
         if related:
             body += '<section class="division"><h2 class="division__title">More from this section</h2><div class="cards">' + ''.join(card(other) for other in related) + '</div></section>'
@@ -322,16 +304,30 @@ def main():
     for slug, label in GROUPS.items():
         selected = [a for a in articles if group_slug(a) == slug]
         write_page(f'/category/{slug}/', label, f'<h1 class="archive-title">{division_icon(slug)}{escape(label)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected) + '</div>', articles)
-        kinds = sorted({a['type'] for a in selected} | ({'News'} if slug == 'news-features-perspectives' else set()))
+        kinds = sorted({article_type(a) for a in selected} | ({'News and Reviews'} if slug == 'research-reviews' else set()))
         for kind in kinds:
-            kind_selected = [a for a in selected if a['type'] == kind]
+            kind_selected = [a for a in selected if article_type(a) == kind]
             content = f'<h1 class="archive-title">{escape(kind)}</h1>'
             if kind_selected:
                 content += '<div class="cards">' + ''.join(card(a, level=2) for a in kind_selected) + '</div>'
             else:
-                content += '<p class="empty">News articles coming soon.</p>'
+                content += '<p class="empty">No articles are listed yet.</p>'
             write_page(f'/category/{slug}/{type_slug(kind)}/', kind, content, articles)
+    write_page(
+        '/category/news-features-perspectives/news/',
+        'News and Reviews',
+        '<h1 class="archive-title">News and Reviews</h1><p>This category has moved to <a href="/category/research-reviews/news-and-reviews/">Research &amp; Reviews</a>.</p>',
+        articles,
+        canonical='/category/research-reviews/news-and-reviews/',
+    )
     write_page('/archives/', 'Archives', '<h1 class="archive-title">Archives</h1><h2>Fall 2026</h2><div class="cards">' + ''.join(card(a) for a in articles) + '</div>', articles)
+    calendar = (
+        '<article class="article"><h1 class="article__title">Calendar</h1>'
+        '<p class="calendar-contact">Wesleyan organizers can suggest a science event by emailing the editors. Include the department or group, date, location, and an official event link.</p>'
+        '<p><a class="btn" href="mailto:wesscijo@wesleyan.edu?subject=Calendar%20event%20suggestion">Email the editors</a></p>'
+        '<p class="empty">No upcoming events are listed yet. Email the editors to suggest one.</p></article>'
+    )
+    write_page('/calendar/', 'Calendar', calendar, articles, 'Suggest a Wesleyan science event for the journal calendar.')
     letter = (CONTENT / 'letter.html').read_text()
     about_html = (
         '<article class="article"><h1 class="article__title">About Us</h1>'
@@ -384,14 +380,11 @@ def main():
     write_page('/search/', 'Search', '<h1 class="archive-title" id="search-title">Search the journal</h1><p id="search-status" role="status"></p><div class="cards" id="search-results"></div><noscript><p>Enable JavaScript to search, or <a href="/archives/">browse all articles</a>.</p></noscript>', articles)
     (PUBLIC / '404.html').write_text(document('Page not found', '<div class="search-empty"><img src="/assets/empty-search-lens.svg" class="search-empty__icon" alt="" width="72" height="72" aria-hidden="true"><h1 class="archive-title">Page not found</h1><p><a href="/">Return to the journal</a></p></div>', articles))
     shutil.copyfile(ROOT / 'themes/wesscijo/style.css', PUBLIC / 'publication.css')
-    shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-flight.svg', PUBLIC / 'assets/logo-flight.svg')
-    shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-flight-dark.svg', PUBLIC / 'assets/logo-flight-dark.svg')
-    shutil.copyfile(ROOT / 'themes/wesscijo/assets/logo-entrance.js', PUBLIC / 'assets/logo-entrance.js')
     shutil.copyfile(ROOT / 'themes/wesscijo/assets/cardinal-watch.js', PUBLIC / 'assets/cardinal-watch.js')
     for svg_file in (ROOT / 'themes/wesscijo/assets').glob('division-*.svg'):
         shutil.copyfile(svg_file, PUBLIC / 'assets' / svg_file.name)
     shutil.copytree(ROOT / 'themes/wesscijo/assets/fonts', PUBLIC / 'assets/fonts', dirs_exist_ok=True)
-    index = [{k: a[k] for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
+    index = [{k: (article_type(a) if k == 'type' else a[k]) for k in ('slug', 'title', 'byline', 'section', 'type', 'excerpt', 'thumbnail')} | {'text': html.unescape(re.sub('<[^>]+>', ' ', a['bodyHtml']))} for a in articles]
     (PUBLIC / 'search-index.json').write_text(json.dumps(index, ensure_ascii=False), encoding='utf-8')
     print(f'Rendered {len(articles)} articles, their sections, About, submissions, archives, and search.')
 

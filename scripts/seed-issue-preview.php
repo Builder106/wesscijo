@@ -59,9 +59,11 @@ foreach ( array( 'research-reviews' => 'Research & Reviews', 'news-features-pers
 }
 
 foreach ( $articles as $article ) {
-	$group = in_array( $article['slug'], array( 'bile-salt-mixed-micelles', 'gmos-applications-and-controversy', 'math-behind-llms', 'quantum-voting' ), true ) ? 'research-reviews' : 'news-features-perspectives';
-	$slug = $group . '-' . sanitize_title( $article['type'] );
-	$term = wp_insert_term( $article['type'], 'category', array( 'slug' => $slug, 'parent' => $groups[ $group ] ) );
+	$is_news = in_array( strtolower( $article['type'] ), array( 'news', 'news and reviews' ), true );
+	$group = $is_news || in_array( $article['slug'], array( 'bile-salt-mixed-micelles', 'gmos-applications-and-controversy', 'math-behind-llms', 'quantum-voting' ), true ) ? 'research-reviews' : 'news-features-perspectives';
+	$type = $is_news ? 'News and Reviews' : $article['type'];
+	$slug = $group . '-' . sanitize_title( $type );
+	$term = wp_insert_term( $type, 'category', array( 'slug' => $slug, 'parent' => $groups[ $group ] ) );
 	$type_id = is_wp_error( $term ) ? (int) get_term_by( 'slug', $slug, 'category' )->term_id : $term['term_id'];
 	$id = wp_insert_post(
 		wp_slash( array(

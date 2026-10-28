@@ -1,7 +1,7 @@
 .hero__band { background: var(--color-paper); border-bottom-width: 3px; }
 .hero__brand { max-width: 1200px; }
 .hero__title { color: var(--color-accent); font-size: clamp(2rem, 4.8vw, 4.2rem); font-weight: 500; text-align: left; line-height: 1.1; }
-.hero__logo-slot { max-block-size: none; flex: 0 0 clamp(5rem, 10vw, 8rem); }
+.hero__logo-slot { max-block-size: 6rem; flex: 0 0 clamp(6rem, 10vw, 8rem); }
 .hero__logo-slot img { max-height: none; width: 100%; }
 .hero__index { column-gap: 1.5rem; row-gap: .75rem; padding-block: 1rem; }
 .hero__nav-list { gap: 1rem; }
@@ -15,10 +15,13 @@
 .lead__title, .article__title, .archive-title { line-height: 1.12; letter-spacing: -.02em; }
 .lead__title { font-size: clamp(2rem, 3.5vw, 3.25rem); }
 .lead__excerpt { font-size: 1.05rem; margin-block: 1.25rem; }
-.lead__figure img, .article__figure img, .card__figure img { height: auto; width: 100%; object-fit: contain; }
-.lead__figure { margin: 0; }
+.lead__figure img, .article__figure img, .card__figure img { aspect-ratio: 16 / 10; height: auto; width: 100%; object-fit: cover; }
+.lead__figure { margin: 0; aspect-ratio: 16 / 10; overflow: hidden; }
+.lead__figure img { height: 100%; }
+.card__media { aspect-ratio: 16 / 10; }
+.card__media img { height: 100%; }
 .card__figure { margin: 0 0 1rem; }
-.card__figure img { max-height: 22rem; }
+.card__figure img { max-height: none; }
 .card__title { font-size: 1.65rem; line-height: 1.2; }
 .card__title a { text-decoration: none; }
 .card__title a:hover { color: var(--color-accent); text-decoration: underline; }
@@ -64,7 +67,7 @@ figcaption { margin-block: .5rem; font-size: .82rem; line-height: 1.5; color: va
   .hero__band { padding: 1.5rem; }
   .hero__brand { flex-direction: row; align-items: center; gap: 1rem; }
   .hero__title { flex: 1; max-width: none; margin: 0; font-size: 1.6rem; }
-  .hero__logo-slot { flex: 0 0 4.5rem; max-inline-size: 4.5rem; max-block-size: none; }
+  .hero__logo-slot { flex: 0 0 6rem; max-inline-size: 6rem; max-block-size: none; }
   .hero__logo-slot img { max-height: none; }
   .hero__nav-list { align-items: start; gap: .4rem 1rem; width: 100%; }
   .panel__list { position: static; box-shadow: none; min-width: 0; width: 100%; }

@@ -8,84 +8,15 @@ const url = route => new URL(route, base).href;
 const screenshots = path.resolve(__dirname, '../artifacts/editorial-review');
 mkdirSync(screenshots, { recursive: true });
 
-test('logo entrance lands and replays on reload', async ({ page }) => {
+test('homepage shows the masthead without a logo entrance', async ({ page }) => {
   const errors = [];
   page.on('pageerror', error => errors.push(error.message));
   await page.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await expect(page.locator('#logo-entrance')).toBeVisible();
-  const mark = await page.locator('.logo-entrance__mark').boundingBox();
-  const viewport = page.viewportSize();
-  expect(Math.abs(mark.x + mark.width / 2 - viewport.width / 2)).toBeLessThan(1);
-  expect(Math.abs(mark.y + mark.height / 2 - viewport.height / 2)).toBeLessThan(1);
-  await expect(page.locator('.hero')).toHaveCSS('visibility', 'hidden');
-  await expect.poll(() => page.locator('.logo-entrance__flight').evaluate(image => image.naturalWidth)).toBeGreaterThan(0);
-  await expect(page.locator('.logo-entrance__flight')).toHaveAttribute('src', /^blob:/);
-  const firstFlight = await page.locator('.logo-entrance__flight').getAttribute('src');
-  await page.waitForFunction(() => document.documentElement.classList.contains('logo-entrance-revealing'));
-  await expect(page.locator('.hero')).toHaveCSS('visibility', 'visible');
-  await expect(page.locator('.hero__logo-slot')).toHaveCSS('visibility', 'hidden');
-  await expect(page.locator('#logo-entrance')).toBeHidden({ timeout: 6000 });
+  await expect(page.locator('#logo-entrance')).toHaveCount(0);
   await expect(page.locator('.hero')).toBeVisible();
-  await page.evaluate(() => sessionStorage.setItem('wessci-entrance-seen', '1'));
-  await page.reload();
-  await expect(page.locator('#logo-entrance')).toBeVisible();
-  await expect(page.locator('.logo-entrance__flight')).not.toHaveAttribute('src', firstFlight);
-  await expect(page.locator('.hero')).toHaveCSS('visibility', 'hidden');
-  await expect(page.locator('#logo-entrance')).toBeHidden({ timeout: 6000 });
-  await expect(page.locator('.hero')).toBeVisible();
+  const entranceAssets = await page.evaluate(() => performance.getEntriesByType('resource').some(resource => /logo-entrance|logo-flight/.test(resource.name)));
+  expect(entranceAssets).toBe(false);
   expect(errors).toEqual([]);
-});
-
-test('logo entrance in dark mode never exposes unstyled artwork', async ({ browser }) => {
-  const dark = await browser.newPage();
-  await dark.addInitScript(() => localStorage.setItem('theme', 'dark'));
-  const darkFlight = dark.waitForRequest(/\/assets\/logo-flight-dark\.svg/);
-  await dark.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await darkFlight;
-  await expect(dark.locator('#logo-entrance')).toBeVisible();
-  await expect(dark.locator('.logo-entrance__flight')).toHaveAttribute('src', /^blob:/);
-  await expect(dark.locator('.hero')).toHaveCSS('visibility', 'hidden');
-  await dark.close();
-
-  const systemDark = await browser.newPage({ colorScheme: 'dark' });
-  const systemDarkFlight = systemDark.waitForRequest(/\/assets\/logo-flight-dark\.svg/);
-  await systemDark.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await systemDarkFlight;
-  await systemDark.close();
-
-  const explicitLight = await browser.newPage({ colorScheme: 'dark' });
-  await explicitLight.addInitScript(() => localStorage.setItem('theme', 'light'));
-  const lightFlight = explicitLight.waitForRequest(/\/assets\/logo-flight\.svg/);
-  await explicitLight.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await lightFlight;
-  await explicitLight.close();
-
-  const missingStyle = await browser.newPage();
-  await missingStyle.route('**/publication.css*', route => route.abort());
-  await missingStyle.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await expect(missingStyle.locator('#logo-entrance')).toBeHidden();
-  await expect(missingStyle.locator('.hero')).toBeVisible();
-  await missingStyle.close();
-});
-
-test('logo entrance reduced motion and missing asset keep the homepage visible', async ({ browser }) => {
-  const reduced = await browser.newPage({ reducedMotion: 'reduce' });
-  await reduced.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await expect(reduced.locator('#logo-entrance')).toBeHidden();
-  await expect(reduced.locator('.hero')).toBeVisible();
-  await reduced.close();
-
-  const unavailable = await browser.newPage();
-  let blockedFlight = false;
-  await unavailable.route('**/assets/logo-flight.svg*', route => {
-    blockedFlight = true;
-    return route.abort();
-  });
-  await unavailable.goto(url('/'), { waitUntil: 'domcontentloaded' });
-  await expect(unavailable.locator('#logo-entrance')).toBeHidden({ timeout: 6000 });
-  await expect(unavailable.locator('.hero')).toBeVisible();
-  expect(blockedFlight).toBe(true);
-  await unavailable.close();
 });
 
 test('the logo cardinal perches on the Research rule and closes each article', async ({ browser }) => {
@@ -196,7 +127,7 @@ for (const width of [390, 768, 1440]) {
     const errors = [];
     page.on('pageerror', error => errors.push(error.message));
     await page.goto(url('/'));
-    await expect(page.locator('#logo-entrance')).toBeHidden({ timeout: 6000 });
+    await expect(page.locator('#logo-entrance')).toHaveCount(0);
     await expect(page.locator('.hero__title')).toHaveText('The Wesleyan Science Journal');
     await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(255, 255, 255)');
     const menu = page.locator('.panel').first();
@@ -208,7 +139,6 @@ for (const width of [390, 768, 1440]) {
     if (width === 390) {
       expect(await page.locator('.hero__title').evaluate(element => element.getBoundingClientRect().width)).toBeGreaterThan(200);
     }
-    // The entrance's flight image has no source when the entrance is skipped.
     await page.locator('img[src], img[srcset]').evaluateAll(async images => {
       for (const image of images) { image.loading = 'eager'; await image.decode(); }
     });

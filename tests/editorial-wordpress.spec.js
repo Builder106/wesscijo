@@ -52,7 +52,7 @@ for (const width of [390, 1440]) {
   test(`WordPress preview is readable at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 950 });
     await page.goto(url('/'));
-    await expect(page.locator('#logo-entrance')).toBeHidden({ timeout: 6000 });
+    await expect(page.locator('#logo-entrance')).toHaveCount(0);
     await expect(page.locator('.hero__title')).toHaveText('The Wesleyan Science Journal');
     await expect(page.locator('.hero__logo-slot img')).toHaveCount(2);
     if (width === 390) {
@@ -63,7 +63,6 @@ for (const width of [390, 1440]) {
     await summary.press('Enter');
     await expect(page.locator('.panel').first()).toHaveAttribute('open', '');
     await summary.press('Enter');
-    // The entrance's flight image has no source when the entrance is skipped.
     await page.locator('img[src], img[srcset]').evaluateAll(async images => {
       for (const image of images) { image.loading = 'eager'; await image.decode(); }
     });
