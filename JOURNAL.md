@@ -1,5 +1,20 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-28 - Import calendar events from the Wesleyan feed #calendar #decision
+
+The Calendar listed only events typed in by hand. events.wesleyan.edu runs LiveWhale, which serves public JSON at `/live/json/events/` with `tag/`, `start_date/`, `end_date/`, and `response_fields/` filters. Departments are tags there; the groups are administrative (Academic Events, Center for the Arts, and so on). Each occurrence of a recurring event has its own ID, and canceled events carry `is_canceled`.
+
+`WesSci_Event_Sync` pulls three tags into the existing Events post type: Astronomy, Planetary Science, and College of the Environment. It runs twice a day through WP-Cron (`wp cron event run wessci_event_sync` runs it now). Choices:
+
+- Imports arrive as drafts, because the roadmap lists approved event information only. An editor publishes each one.
+- A field an editor changes is recorded on save and kept on later syncs. Other fields still follow the feed.
+- A trashed event is not imported again. A canceled event, or an upcoming one the feed stops listing, goes back to draft. Past events are left alone.
+- A failed fetch changes nothing.
+
+Only the tag feed is covered. Chemistry, Physics, and Earth and Environmental Science colloquia are hand-edited static pages with no feed, so those events are added by hand in the Events screen. Scraping them was rejected because it breaks whenever a page layout changes. Only two science tags exist on the calendar today (18 upcoming events, mostly Space Night), so add tags to `WesSci_Event_Sync::TAGS` as departments start using them.
+
+Linux ARM64 verification passed: PHP lint for the three changed files, the new `tests/event-sync.php` (fake post store and canned feed pages: pagination, de-duplication across tags, drafts, editor overrides, trash, cancellation, retirement, failed fetches, off-host next link, unsafe URL), and the existing notifications test. Not checked: a run inside WordPress, the live feed through the class, and the admin screens. Nothing was deployed or committed.
+
 ## 2026-10-28 - Fill four-article divisions on the homepage #layout #media #deployment
 
 With every card at 16:10, the wide first card became about 570 px tall and a
