@@ -13,14 +13,17 @@ require_once dirname( __FILE__ ) . '/includes/class-wessci-editorial.php';
 require_once dirname( __FILE__ ) . '/includes/class-wessci-meta-boxes.php';
 require_once dirname( __FILE__ ) . '/includes/class-wessci-email.php';
 require_once dirname( __FILE__ ) . '/includes/class-wessci-notifications.php';
+require_once dirname( __FILE__ ) . '/includes/class-wessci-event-sync.php';
 // Notifications use the queue helpers during cron and block-editor saves, outside wp-admin.
 require_once dirname( __FILE__ ) . '/admin/class-wessci-admin.php';
 WesSci_Editorial::init();
 WesSci_Meta_Boxes::init();
 WesSci_Email::init();
 WesSci_Notifications::init();
+WesSci_Event_Sync::init();
 register_deactivation_hook( __FILE__, function () {
 	wp_clear_scheduled_hook( WesSci_Notifications::DIGEST_HOOK );
+	wp_clear_scheduled_hook( WesSci_Event_Sync::HOOK );
 } );
 
 if ( is_admin() ) {
