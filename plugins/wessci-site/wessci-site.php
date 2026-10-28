@@ -55,6 +55,120 @@ function wessci_site_register_event_cpt() {
 }
 add_action( 'init', 'wessci_site_register_event_cpt' );
 
+function wessci_site_migrate_news_category() {
+	if ( get_option( 'wessci_news_category_migrated' ) ) {
+		return;
+	}
+
+	$research = get_term_by( 'slug', 'research-reviews', 'category' );
+	$features = get_term_by( 'slug', 'news-features-perspectives', 'category' );
+	if ( ! $research ) {
+		return;
+	}
+
+	$news = false;
+	foreach ( array( $research, $features ) as $parent ) {
+		if ( ! $parent ) {
+			continue;
+		}
+		$children = get_terms(
+			array(
+				'taxonomy'   => 'category',
+				'parent'     => $parent->term_id,
+				'hide_empty' => false,
+			)
+		);
+		if ( is_wp_error( $children ) ) {
+			continue;
+		}
+		foreach ( $children as $child ) {
+			$child_name = html_entity_decode( $child->name, ENT_QUOTES, 'UTF-8' );
+			if ( in_array( $child->slug, array( 'news', 'news-and-reviews' ), true ) || in_array( strtolower( $child_name ), array( 'news', 'news and reviews' ), true ) ) {
+				$news = $child;
+				break 2;
+			}
+		}
+	}
+
+	if ( $news ) {
+		$updated = wp_update_term(
+			$news->term_id,
+			'category',
+			array(
+				'name'   => 'News and Reviews',
+				'parent' => $research->term_id,
+			)
+		);
+		if ( is_wp_error( $updated ) ) {
+			return;
+		}
+		if ( $features && (int) $news->parent === (int) $features->term_id ) {
+			update_option( 'wessci_news_legacy_category_slug', $news->slug, false );
+		}
+	} else {
+		$created = wp_insert_term(
+			'News and Reviews',
+			'category',
+			array(
+				'slug'   => 'news-and-reviews',
+				'parent' => $research->term_id,
+			)
+		);
+		if ( is_wp_error( $created ) ) {
+			return;
+		}
+	}
+
+	update_option( 'wessci_news_category_migrated', 1, false );
+}
+add_action( 'init', 'wessci_site_migrate_news_category', 20 );
+
+function wessci_site_redirect_legacy_news_category() {
+	$legacy_slug = get_option( 'wessci_news_legacy_category_slug' );
+	$research    = get_term_by( 'slug', 'research-reviews', 'category' );
+	$features    = get_term_by( 'slug', 'news-features-perspectives', 'category' );
+	if ( ! $legacy_slug || ! $research || ! $features ) {
+		return;
+	}
+	$news_terms = get_terms(
+		array(
+			'taxonomy'   => 'category',
+			'parent'     => $research->term_id,
+			'hide_empty' => false,
+		)
+	);
+	if ( is_wp_error( $news_terms ) ) {
+		return;
+	}
+	$news = false;
+	foreach ( $news_terms as $term ) {
+		if ( 'News and Reviews' === $term->name ) {
+			$news = $term;
+			break;
+		}
+	}
+	if ( ! $news ) {
+		return;
+	}
+
+	$category_base = trim( get_option( 'category_base' ) ?: 'category', '/' );
+	$home_path     = untrailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
+	$category_path = $category_base ? '/' . $category_base : '';
+	$old_path      = $home_path . $category_path . '/' . $features->slug . '/' . $legacy_slug;
+	$request_uri   = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
+	$request_path  = untrailingslashit( (string) wp_parse_url( $request_uri, PHP_URL_PATH ) );
+	if ( $request_path !== $old_path ) {
+		return;
+	}
+
+	$target = get_term_link( $news );
+	if ( ! is_wp_error( $target ) ) {
+		wp_safe_redirect( $target, 301 );
+		exit;
+	}
+}
+add_action( 'template_redirect', 'wessci_site_redirect_legacy_news_category' );
+
 function wessci_site_add_event_meta_box() {
 	add_meta_box( 'wessci-event-details', 'Event details', 'wessci_site_render_event_meta_box', 'wessci_event', 'side' );
 }
@@ -64,10 +178,11 @@ function wessci_site_render_event_meta_box( $post ) {
 	wp_nonce_field( 'wessci_event_details', 'wessci_event_nonce' );
 	$timezone = wp_timezone();
 	$fields   = array(
-		'start'    => array( 'label' => 'Start', 'type' => 'datetime-local' ),
-		'end'      => array( 'label' => 'End', 'type' => 'datetime-local' ),
-		'location' => array( 'label' => 'Location', 'type' => 'text' ),
-		'url'      => array( 'label' => 'External URL', 'type' => 'url' ),
+		'start'      => array( 'label' => 'Start', 'type' => 'datetime-local' ),
+		'end'        => array( 'label' => 'End', 'type' => 'datetime-local' ),
+		'department' => array( 'label' => 'Department or group', 'type' => 'text' ),
+		'location'   => array( 'label' => 'Location', 'type' => 'text' ),
+		'url'        => array( 'label' => 'Event source URL', 'type' => 'url' ),
 	);
 
 	foreach ( $fields as $key => $field ) {
@@ -100,10 +215,11 @@ function wessci_site_save_event_meta( $post_id ) {
 		$end = '';
 	}
 	$values = array(
-		'_wessci_event_start'    => $start,
-		'_wessci_event_end'      => $end,
-		'_wessci_event_location' => isset( $_POST['wessci_event_location'] ) ? sanitize_text_field( wp_unslash( $_POST['wessci_event_location'] ) ) : '',
-		'_wessci_event_url'      => isset( $_POST['wessci_event_url'] ) ? esc_url_raw( wp_unslash( $_POST['wessci_event_url'] ) ) : '',
+		'_wessci_event_start'      => $start,
+		'_wessci_event_end'        => $end,
+		'_wessci_event_department' => isset( $_POST['wessci_event_department'] ) ? sanitize_text_field( wp_unslash( $_POST['wessci_event_department'] ) ) : '',
+		'_wessci_event_location'   => isset( $_POST['wessci_event_location'] ) ? sanitize_text_field( wp_unslash( $_POST['wessci_event_location'] ) ) : '',
+		'_wessci_event_url'        => isset( $_POST['wessci_event_url'] ) ? esc_url_raw( wp_unslash( $_POST['wessci_event_url'] ) ) : '',
 	);
 	foreach ( $values as $key => $value ) {
 		'' === $value ? delete_post_meta( $post_id, $key ) : update_post_meta( $post_id, $key, $value );
@@ -125,7 +241,7 @@ function wessci_site_get_upcoming_events() {
 	$now    = new DateTimeImmutable( 'now', new DateTimeZone( 'UTC' ) );
 	$events = array_filter( $events, function ( $event ) use ( $now ) {
 		$start = wessci_site_get_event_datetime( $event->ID, 'start' );
-		return ! $start || $start->getTimestamp() >= $now->getTimestamp();
+		return $start && $start->getTimestamp() >= $now->getTimestamp();
 	} );
 	usort( $events, function ( $left, $right ) {
 		$left_start  = wessci_site_get_event_datetime( $left->ID, 'start' );

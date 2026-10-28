@@ -17,8 +17,8 @@ function wesscijo_setup() {
 			'flex-width'  => true,
 		)
 	);
-	add_image_size( 'wessci-lead', 800, 600, false );
-	add_image_size( 'wessci-card', 800, 600, false );
+	add_image_size( 'wessci-lead', 800, 500, true );
+	add_image_size( 'wessci-card', 800, 500, true );
 }
 add_action( 'after_setup_theme', 'wesscijo_setup' );
 
@@ -29,18 +29,6 @@ function wesscijo_assets() {
 		array(),
 		(string) filemtime( get_stylesheet_directory() . '/style.css' )
 	);
-	if ( is_front_page() && ! is_search() ) {
-		wp_enqueue_script(
-			'wessci-logo-entrance',
-			get_theme_file_uri( '/assets/logo-entrance.js' ),
-			array(),
-			(string) filemtime( get_stylesheet_directory() . '/assets/logo-entrance.js' ),
-			array(
-				'in_footer' => true,
-				'strategy'  => 'defer',
-			)
-		);
-	}
 	if ( is_front_page() || is_singular( 'post' ) ) {
 		wp_enqueue_script(
 			'wessci-cardinal-watch',

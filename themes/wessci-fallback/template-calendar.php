@@ -2,8 +2,7 @@
 /**
  * Template Name: Calendar
  *
- * Assign this to a "Calendar" page in wp-admin. Lists upcoming wessci_event
- * posts while retaining undated fixture events until real dates are supplied.
+ * Assign this to a "Calendar" page in wp-admin. Lists dated upcoming events.
  */
 get_header();
 ?>
@@ -12,6 +11,8 @@ get_header();
 
 	<article class="article">
 		<h1 class="article__title"><?php the_title(); ?></h1>
+		<p class="calendar-contact">Wesleyan organizers can suggest a science event by emailing the editors. Include the department or group, date, location, and an official event link.</p>
+		<p><a class="btn" href="mailto:wesscijo@wesleyan.edu?subject=Calendar%20event%20suggestion">Email the editors</a></p>
 
 		<?php if ( have_posts() ) : ?>
 			<?php
@@ -49,6 +50,9 @@ get_header();
 						<h3 class="card__title">
 							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 						</h3>
+						<?php if ( get_post_meta( $event->ID, '_wessci_event_department', true ) ) : ?>
+							<p class="card__type"><?php echo esc_html( get_post_meta( $event->ID, '_wessci_event_department', true ) ); ?></p>
+						<?php endif; ?>
 						<?php if ( $start ) : ?>
 							<p class="meta">
 								<time datetime="<?php echo esc_attr( $start->format( DATE_ATOM ) ); ?>"><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $start->getTimestamp() ) ); ?></time>
@@ -73,7 +77,7 @@ get_header();
 				?>
 			</div>
 		<?php else : ?>
-			<p class="empty">No upcoming events yet — check back soon.</p>
+			<p class="empty">No upcoming events are listed yet. Email the editors to suggest one.</p>
 		<?php endif; ?>
 	</section>
 

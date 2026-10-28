@@ -40,8 +40,8 @@
 
 			<?php the_posts_pagination(); ?>
 		<?php else : ?>
-			<?php if ( is_category( array( 'news', 'news-features-perspectives-news' ) ) || ( $queried instanceof WP_Term && ( in_array( $queried->slug, array( 'news', 'news-features-perspectives-news' ), true ) || 'News' === $queried->name ) ) ) : ?>
-				<p class="empty">News articles coming soon.</p>
+			<?php if ( is_category( array( 'news', 'news-and-reviews', 'news-features-perspectives-news' ) ) || ( $queried instanceof WP_Term && ( in_array( $queried->slug, array( 'news', 'news-and-reviews', 'news-features-perspectives-news' ), true ) || in_array( $queried->name, array( 'News', 'News and Reviews' ), true ) ) ) ) : ?>
+				<p class="empty">No News and Reviews articles are listed yet.</p>
 			<?php else : ?>
 				<p class="empty">No articles found.</p>
 			<?php endif; ?>
