@@ -1,5 +1,25 @@
 # JOURNAL - WesSciJo
 
+## 2026-10-28 - Deploy News and Reviews and rebuild thumbnails #deployment #media #publication
+
+The theme, fallback theme, and site plugin files from the News and Reviews
+commits are on the production WordPress container, and each one matches the
+repository. The category move to Research & Reviews has run. The old archive
+path returns a 301 to the new one, and the homepage and Research & Reviews
+archive return 200. The WordPress object cache and the page cache were
+cleared.
+
+The image sizes changed from 800 by 600 to a hard 800 by 500 crop, but
+WordPress only builds sizes at upload. Existing card crops were 800 by 533 or
+600 by 600. After copying the uploads folder to a recovery directory, all 11
+images were regenerated, and each article cover now has an 800 by 500 card.
+The 512 pixel site icon stays at 512 by 500 because its source is narrower
+than the crop.
+
+Not checked: a browser pass over the live pages. The Calendar page returns
+404 and stays out of navigation until there are verified events and a named
+editor.
+
 ## 2026-10-28 - Move News and Reviews and open calendar intake #publication #calendar #decision
 
 The News category now belongs to Research & Reviews and is labeled News and
