@@ -32,7 +32,6 @@ table { border-collapse: collapse; }
 img { border: 0; -ms-interpolation-mode: bicubic; }
 @media screen and (max-width: 480px) {
  .wessci-pad { padding-left: 20px !important; padding-right: 20px !important; }
- .wessci-masthead { font-size: 20px !important; line-height: 25px !important; }
 }
 @media (prefers-color-scheme: dark) {
  .wessci-paper { background-color: #181617 !important; color: #e9e6e7 !important; }
@@ -50,12 +49,12 @@ img { border: 0; -ms-interpolation-mode: bicubic; }
 <tr><td align="center">
 <!--[if mso]><table role="presentation" width="620" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="width: 100%; max-width: 620px; table-layout: fixed;">
-<tr><td class="wessci-pad" style="padding: 36px 28px 0;">
+<tr><td class="wessci-pad" bgcolor="#070304" style="background-color: #070304; padding: 24px 28px; border-bottom: 4px solid #e9192d;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
 <tr>
-<td width="56" valign="middle" style="width: 56px;"><img src="<?php echo esc_url( $logo_url ); ?>" width="44" height="44" alt="" style="display: block; width: 44px; height: 44px;"></td>
+<td width="76" valign="middle" style="width: 76px;"><img src="<?php echo esc_url( $logo_url ); ?>" width="60" height="60" alt="" style="display: block; width: 60px; height: 60px;"></td>
 <td valign="middle" style="font-family: Georgia, 'Times New Roman', serif;">
-<a class="wessci-link wessci-masthead" href="<?php echo esc_url( $site_url ); ?>" style="color: #a80f29; font-size: 22px; line-height: 28px; text-decoration: none;">The Wesleyan<br>Science Journal</a>
+<a href="<?php echo esc_url( $site_url ); ?>" class="wessci-masthead" style="color: #ffffff; font-size: 24px; line-height: 30px; text-decoration: none;">The Wesleyan<br>Science Journal</a>
 </td></tr></table>
 </td></tr>
-<tr><td class="wessci-pad wessci-paper" style="padding: 32px 28px 28px; font-family: Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 27px; color: #262123; overflow-wrap: break-word; word-wrap: break-word;">
+<tr><td class="wessci-pad wessci-paper" style="padding: 36px 28px 32px; font-family: Georgia, 'Times New Roman', serif; font-size: 17px; line-height: 27px; color: #262123; overflow-wrap: break-word; word-wrap: break-word;">

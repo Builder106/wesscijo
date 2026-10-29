@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $portal_url = ! empty( $portal_url ) ? $portal_url : admin_url();
 ?>
-<h1 style="margin: 0 0 24px; font-size: 27px; line-height: 34px; font-weight: normal;">Submission received</h1>
+<h1 style="margin: 0 0 24px; font-size: 32px; line-height: 38px; font-weight: normal; letter-spacing: -0.01em;">Submission received</h1>
 <p style="margin: 0 0 18px;">Dear <?php echo esc_html( ! empty( $author_name ) ? $author_name : 'Author' ); ?>,</p>
 <p style="margin: 0 0 18px;">Thank you for submitting <em><?php echo esc_html( ! empty( $manuscript_title ) ? $manuscript_title : 'your manuscript' ); ?></em> to The Wesleyan Science Journal. We have received your submission.</p>
 <p style="margin: 0 0 24px;">The editors will review it and contact you about next steps.</p>
@@ -30,7 +30,7 @@ $portal_url = ! empty( $portal_url ) ? $portal_url : admin_url();
 <?php if ( ! empty( $author_roster ) ) : ?>Authors: <?php echo esc_html( $author_roster ); ?><br><?php endif; ?>
 <?php if ( ! empty( $submission_date ) ) : ?>Received: <?php echo esc_html( $submission_date ); ?><?php endif; ?>
 </p>
-<p style="margin: 8px 0 18px;"><a class="wessci-link" href="<?php echo esc_url( $portal_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;">View submission</a></p>
+<?php echo WesSci_Email::button( $portal_url, 'View submission' ); ?>
 <?php if ( ! empty( $manuscript_id ) ) : ?>
 <p style="margin: 0 0 24px;">Please include <?php echo esc_html( $manuscript_id ); ?> when contacting us about this submission.</p>
 <?php endif; ?>

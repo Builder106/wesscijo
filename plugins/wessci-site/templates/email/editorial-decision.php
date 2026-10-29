@@ -27,7 +27,7 @@ $decision_label = ! empty( $decision_label ) ? $decision_label : 'Editorial deci
 $action_button_text = ! empty( $action_button_text ) ? $action_button_text : 'View manuscript';
 $action_url = ! empty( $action_url ) ? $action_url : admin_url( 'admin.php?page=wessci-manuscript' );
 ?>
-<h1 style="margin: 0 0 24px; font-family: Georgia, 'Times New Roman', serif; font-size: 27px; line-height: 34px; font-weight: normal;"><?php echo esc_html( $decision_label ); ?></h1>
+<h1 style="margin: 0 0 24px; font-family: Georgia, 'Times New Roman', serif; font-size: 32px; line-height: 38px; font-weight: normal; letter-spacing: -0.01em;"><?php echo esc_html( $decision_label ); ?></h1>
 <p style="margin: 0 0 18px;">Dear <?php echo esc_html( ! empty( $author_name ) ? $author_name : 'Author' ); ?>,</p>
 <p style="margin: 0 0 18px;">We have reviewed your manuscript, <em><?php echo esc_html( ! empty( $manuscript_title ) ? $manuscript_title : 'Untitled manuscript' ); ?></em>.</p>
 <?php if ( ! empty( $decision_note ) ) : ?>
@@ -40,7 +40,7 @@ $action_url = ! empty( $action_url ) ? $action_url : admin_url( 'admin.php?page=
 <h2 style="margin: 26px 0 8px; font-size: 17px; line-height: 27px;">Editor's comments</h2>
 <p style="margin: 0 0 18px;"><?php echo nl2br( esc_html( $editor_comments ) ); ?></p>
 <?php endif; ?>
-<p style="margin: 8px 0 18px;"><a class="wessci-link" href="<?php echo esc_url( $action_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;"><?php echo esc_html( $action_button_text ); ?></a></p>
+<?php echo WesSci_Email::button( $action_url, $action_button_text ); ?>
 <p style="margin: 0 0 24px;">If you have questions or need more time, contact your division editor.</p>
 <p style="margin: 0 0 24px;">Sincerely,<br><?php echo esc_html( ! empty( $editor_name ) ? $editor_name : 'The Editorial Board' ); ?><br><?php echo esc_html( ! empty( $editor_title ) ? $editor_title : 'The Wesleyan Science Journal' ); ?></p>
 <?php if ( ! empty( $manuscript_id ) || ! empty( $division ) ) : ?>

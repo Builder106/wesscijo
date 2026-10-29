@@ -23,7 +23,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<h1 style="margin: 0 0 24px; font-size: 27px; line-height: 34px; font-weight: normal;">Invitation to review</h1>
+<h1 style="margin: 0 0 24px; font-size: 32px; line-height: 38px; font-weight: normal; letter-spacing: -0.01em;">Invitation to review</h1>
 <p style="margin: 0 0 18px;">Dear <?php echo esc_html( ! empty( $reviewer_name ) ? $reviewer_name : 'Colleague' ); ?>,</p>
 <p style="margin: 0 0 18px;">Would you be available to review <em><?php echo esc_html( ! empty( $manuscript_title ) ? $manuscript_title : 'a manuscript' ); ?></em> for The Wesleyan Science Journal?</p>
 <?php if ( ! empty( $division ) || ! empty( $format ) || ! empty( $manuscript_id ) ) : ?>
@@ -41,7 +41,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 <p style="margin: 0 0 18px;"><?php echo nl2br( esc_html( $abstract ) ); ?></p>
 <?php endif; ?>
 <?php if ( ! empty( $accept_url ) ) : ?>
-<p style="margin: 8px 0;"><a class="wessci-link" href="<?php echo esc_url( $accept_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;">Accept invitation</a></p>
+<?php echo WesSci_Email::button( $accept_url, 'Accept invitation' ); ?>
 <?php endif; ?>
 <?php if ( ! empty( $decline_url ) ) : ?>
 <p style="margin: 0 0 18px;"><a class="wessci-link" href="<?php echo esc_url( $decline_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;">Decline invitation</a></p>

@@ -24,6 +24,20 @@ class WesSci_Email {
 	);
 
 	/**
+	 * Primary action as a bulletproof button.
+	 *
+	 * @param string $url   Destination.
+	 * @param string $label Button text.
+	 * @return string HTML.
+	 */
+	public static function button( $url, $label ) {
+		return '<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin: 8px 0 18px;"><tr>'
+			. '<td bgcolor="#b3112a" style="background-color: #b3112a;">'
+			. '<a href="' . esc_url( $url ) . '" style="display: inline-block; padding: 13px 26px; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 20px; font-weight: bold; color: #ffffff; text-decoration: none;">'
+			. esc_html( $label ) . '</a></td></tr></table>';
+	}
+
+	/**
 	 * Replies go to the journal's Google Group, not to whoever owns the SMTP account.
 	 *
 	 * @param string $template Template slug.

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $reset_url = ! empty( $reset_url ) ? $reset_url : wp_login_url();
 $heading_text = ! empty( $is_new_user ) ? 'Welcome to WesSciJo' : 'Reset your password';
 ?>
-<h1 style="margin: 0 0 24px; font-size: 27px; line-height: 34px; font-weight: normal;"><?php echo esc_html( $heading_text ); ?></h1>
+<h1 style="margin: 0 0 24px; font-size: 32px; line-height: 38px; font-weight: normal; letter-spacing: -0.01em;"><?php echo esc_html( $heading_text ); ?></h1>
 <p style="margin: 0 0 18px;">Dear <?php echo esc_html( ! empty( $user_name ) ? $user_name : 'Colleague' ); ?>,</p>
 <?php if ( ! empty( $is_new_user ) ) : ?>
 <p style="margin: 0 0 18px;">Your account for The Wesleyan Science Journal is ready. Set a password to sign in.</p>
@@ -33,7 +33,7 @@ $heading_text = ! empty( $is_new_user ) ? 'Welcome to WesSciJo' : 'Reset your pa
 <?php if ( ! empty( $user_role ) ) : ?>Role: <?php echo esc_html( $user_role ); ?><?php endif; ?>
 </p>
 <?php endif; ?>
-<p style="margin: 8px 0 18px;"><a class="wessci-link" href="<?php echo esc_url( $reset_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;"><?php echo ! empty( $is_new_user ) ? 'Set your password' : 'Reset password'; ?></a></p>
+<?php echo WesSci_Email::button( $reset_url, ! empty( $is_new_user ) ? 'Set your password' : 'Reset password' ); ?>
 <?php if ( ! empty( $expiration_hours ) ) : ?>
 <p style="margin: 0 0 18px;">This link expires in <?php echo esc_html( (int) $expiration_hours ); ?> hours.</p>
 <?php endif; ?>

@@ -22,7 +22,7 @@ $dashboard_url = ! empty( $dashboard_url ) ? $dashboard_url : admin_url( 'index.
 $scope         = ! empty( $issue_name ) ? $issue_name : 'the queue';
 $footer_note   = ! empty( $footer_note ) ? $footer_note : 'Sent weekly from the WesSciJo editorial dashboard.';
 ?>
-<h1 style="margin: 0 0 24px; font-size: 27px; line-height: 34px; font-weight: normal;">Manuscripts that need attention</h1>
+<h1 style="margin: 0 0 24px; font-size: 32px; line-height: 38px; font-weight: normal; letter-spacing: -0.01em;">Manuscripts that need attention</h1>
 <p style="margin: 0 0 18px;">Dear <?php echo esc_html( ! empty( $editor_name ) ? $editor_name : 'Editor' ); ?>,</p>
 <?php if ( ! $overdue && ! $incomplete ) : ?>
 <p style="margin: 0 0 18px;">Nothing in <?php echo esc_html( $scope ); ?> needs attention this week.</p>
@@ -43,5 +43,5 @@ $footer_note   = ! empty( $footer_note ) ? $footer_note : 'Sent weekly from the 
 <span class="wessci-text-muted" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; line-height: 20px; color: #625b5f;">Needs <?php echo esc_html( $item['missing'] ?? 'details' ); ?></span></p>
 <?php endforeach; ?>
 <?php endif; ?>
-<p style="margin: 8px 0 18px;"><a class="wessci-link" href="<?php echo esc_url( $dashboard_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;">Open the dashboard</a></p>
+<?php echo WesSci_Email::button( $dashboard_url, 'Open the dashboard' ); ?>
 <p style="margin: 16px 0 0;">The Wesleyan Science Journal</p>

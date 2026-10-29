@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $edit_url    = ! empty( $edit_url ) ? $edit_url : admin_url( 'edit.php?post_status=pending' );
 $footer_note = ! empty( $footer_note ) ? $footer_note : 'Sent from the WesSciJo editorial dashboard.';
 ?>
-<h1 style="margin: 0 0 24px; font-size: 27px; line-height: 34px; font-weight: normal;">New manuscript for review</h1>
+<h1 style="margin: 0 0 24px; font-size: 32px; line-height: 38px; font-weight: normal; letter-spacing: -0.01em;">New manuscript for review</h1>
 <p style="margin: 0 0 18px;">Dear <?php echo esc_html( ! empty( $editor_name ) ? $editor_name : 'Editor' ); ?>,</p>
 <p style="margin: 0 0 18px;"><?php echo esc_html( ! empty( $submitter_name ) ? $submitter_name : 'An author' ); ?> submitted <em><?php echo esc_html( ! empty( $manuscript_title ) ? $manuscript_title : 'a manuscript' ); ?></em> for review.</p>
 <?php if ( ! empty( $division ) || ! empty( $format ) || ! empty( $author_roster ) || ! empty( $submission_date ) ) : ?>
@@ -38,7 +38,7 @@ $footer_note = ! empty( $footer_note ) ? $footer_note : 'Sent from the WesSciJo 
 <?php if ( ! empty( $missing_details ) ) : ?>
 <p style="margin: 0 0 18px;">Before review starts, it still needs: <?php echo esc_html( $missing_details ); ?>.</p>
 <?php endif; ?>
-<p style="margin: 8px 0;"><a class="wessci-link" href="<?php echo esc_url( $edit_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;">Start review</a></p>
+<?php echo WesSci_Email::button( $edit_url, 'Start review' ); ?>
 <?php if ( ! empty( $preview_url ) ) : ?>
 <p style="margin: 0 0 18px;"><a class="wessci-link" href="<?php echo esc_url( $preview_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;">Preview manuscript</a></p>
 <?php endif; ?>

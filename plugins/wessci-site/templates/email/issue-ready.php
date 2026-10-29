@@ -23,7 +23,7 @@ $divisions   = ! empty( $divisions ) && is_array( $divisions ) ? array_filter( $
 $issue_url   = ! empty( $issue_url ) ? $issue_url : admin_url( 'edit.php' );
 $footer_note = ! empty( $footer_note ) ? $footer_note : 'Sent from the WesSciJo editorial dashboard.';
 ?>
-<h1 style="margin: 0 0 24px; font-size: 27px; line-height: 34px; font-weight: normal;"><?php echo esc_html( $issue_name ); ?> is ready</h1>
+<h1 style="margin: 0 0 24px; font-size: 32px; line-height: 38px; font-weight: normal; letter-spacing: -0.01em;"><?php echo esc_html( $issue_name ); ?> is ready</h1>
 <p style="margin: 0 0 18px;">Dear <?php echo esc_html( ! empty( $editor_name ) ? $editor_name : 'Editor' ); ?>,</p>
 <p style="margin: 0 0 18px;">All <?php echo (int) $total; ?> <?php echo 1 === $total ? 'manuscript' : 'manuscripts'; ?> in <?php echo esc_html( $issue_name ); ?> are ready, and none are missing details.</p>
 <?php if ( $divisions ) : ?>
@@ -33,7 +33,7 @@ $footer_note = ! empty( $footer_note ) ? $footer_note : 'Sent from the WesSciJo 
 <?php endif; ?>
 <p style="margin: 0 0 18px;">Check the table of contents order, then publish the manuscripts when the edition is released.</p>
 <?php if ( ! empty( $toc_url ) ) : ?>
-<p style="margin: 8px 0;"><a class="wessci-link" href="<?php echo esc_url( $toc_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;">Check the table of contents</a></p>
+<?php echo WesSci_Email::button( $toc_url, 'Check the table of contents' ); ?>
 <?php endif; ?>
 <p style="margin: 0 0 18px;"><a class="wessci-link" href="<?php echo esc_url( $issue_url ); ?>" style="display: inline-block; padding: 8px 0; font-family: Arial, Helvetica, sans-serif; font-size: 15px; line-height: 28px; color: #a80f29; text-decoration: underline;">Open issue manuscripts</a></p>
 <p style="margin: 16px 0 0;">The Wesleyan Science Journal</p>
