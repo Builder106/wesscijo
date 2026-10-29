@@ -64,6 +64,112 @@ class WesSci_Email {
 		// Hook core WordPress notification emails into the WesSciJo design system.
 		add_filter( 'retrieve_password_notification_email', array( __CLASS__, 'filter_password_reset_email' ), 10, 4 );
 		add_filter( 'wp_new_user_notification_email', array( __CLASS__, 'filter_new_user_email' ), 10, 3 );
+
+		// Wrap every other plain-text message (core, plugin and theme notices).
+		add_filter( 'wp_mail', array( __CLASS__, 'filter_plain_mail' ), 10, 1 );
+		add_filter( 'phpmailer_init', array( __CLASS__, 'keep_plain_alternative' ), 10, 1 );
+	}
+
+	/**
+	 * Plain-text original of the message being wrapped, for the text part.
+	 *
+	 * @var string|null
+	 */
+	private static $plain_text = null;
+
+	/**
+	 * Wrap a plain-text message in the system-message template.
+	 * Messages that already declare an HTML content type pass through untouched.
+	 *
+	 * @param array $args wp_mail arguments (to, subject, message, headers, attachments).
+	 * @return array
+	 */
+	public static function filter_plain_mail( $args ) {
+		$headers = $args['headers'] ?? array();
+		if ( ! is_array( $headers ) ) {
+			$headers = array_filter( explode( "\n", str_replace( "\r\n", "\n", (string) $headers ) ) );
+		}
+		foreach ( $headers as $header ) {
+			if ( 0 === stripos( trim( $header ), 'content-type:' ) && false !== stripos( $header, 'text/html' ) ) {
+				return $args;
+			}
+		}
+
+		$text    = (string) ( $args['message'] ?? '' );
+		$subject = (string) ( $args['subject'] ?? '' );
+		$heading = trim( preg_replace( '/^\[[^\]]+\]\s*/', '', $subject ) );
+
+		$args['message'] = self::render(
+			'system-message',
+			array(
+				'heading'     => $heading,
+				'body_text'   => $text,
+				'email_title' => $subject,
+				'preheader'   => $heading . ' | The Wesleyan Science Journal',
+			)
+		);
+
+		$names = array_map(
+			function ( $header ) {
+				return strtolower( trim( strtok( $header, ':' ) ) );
+			},
+			$headers
+		);
+		$headers[] = 'Content-Type: text/html; charset=UTF-8';
+		if ( ! in_array( 'reply-to', $names, true ) ) {
+			$headers[] = self::reply_to( 'system-message' );
+		}
+		$args['headers'] = $headers;
+
+		self::$plain_text = $text;
+		return $args;
+	}
+
+	/**
+	 * Send the original text as the plain-text part of a wrapped message.
+	 *
+	 * @param object $phpmailer PHPMailer instance.
+	 */
+	public static function keep_plain_alternative( $phpmailer ) {
+		if ( null !== self::$plain_text && 'text/html' === $phpmailer->ContentType ) {
+			$phpmailer->AltBody = self::$plain_text;
+		}
+		self::$plain_text = null;
+	}
+
+	/**
+	 * Turn plain text into escaped paragraphs with clickable links.
+	 *
+	 * @param string $text Plain text; blank lines separate paragraphs.
+	 * @return string HTML.
+	 */
+	public static function paragraphs( $text ) {
+		$text = trim( str_replace( "\r\n", "\n", (string) $text ) );
+		if ( '' === $text ) {
+			return '';
+		}
+		$html = '';
+		foreach ( preg_split( '/\n{2,}/', $text ) as $block ) {
+			$parts = preg_split( '~(https?://[^\s<>"]+)~', $block, -1, PREG_SPLIT_DELIM_CAPTURE );
+			$out   = '';
+			foreach ( $parts as $index => $part ) {
+				if ( 1 === $index % 2 ) {
+					$trail = '';
+					if ( preg_match( '/[.,;:!?)]+$/', $part, $m ) ) {
+						$trail = $m[0];
+						$part  = substr( $part, 0, -strlen( $trail ) );
+					}
+					$url  = esc_url( $part );
+					$out .= $url
+						? '<a class="wessci-link" href="' . $url . '" style="color: #a80f29; text-decoration: underline;">' . esc_html( $part ) . '</a>' . esc_html( $trail )
+						: esc_html( $part . $trail );
+				} else {
+					$out .= esc_html( $part );
+				}
+			}
+			$html .= '<p style="margin: 0 0 18px;">' . str_replace( "\n", '<br>', $out ) . "</p>\n";
+		}
+		return $html;
 	}
 
 	/**

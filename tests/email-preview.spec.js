@@ -10,6 +10,7 @@ const templates = {
   'review-request': 'New manuscript for review',
   'queue-digest': 'Manuscripts that need attention',
   'issue-ready': 'Fall 2026 is ready',
+  'system-message': 'Your site has updated to WordPress 7.1.4',
   'account-access': 'Welcome to WesSciJo',
   'password-reset': 'Reset your password',
 };

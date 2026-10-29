@@ -25,6 +25,7 @@ function check_email( $condition, $message ) {
 
 WesSci_Email::init();
 check_email( isset( $filters['retrieve_password_notification_email'] ) && $filters['retrieve_password_notification_email'][1] === 4, 'Password-reset callback not registered.' );
+check_email( isset( $filters['wp_mail'] ) && 1 === $filters['wp_mail'][1], 'Plain-mail wrapper not registered.' );
 check_email( isset( $filters['wp_new_user_notification_email'] ) && $filters['wp_new_user_notification_email'][1] === 3, 'New-account callback not registered.' );
 foreach ( array( 'send_editorial_decision', 'send_reviewer_invitation', 'send_submission_confirmation', 'send_publication_notice', 'send_account_access', 'send_review_request', 'send_queue_digest', 'send_issue_ready' ) as $method ) {
 	check_email( WesSci_Email::$method( 'author@example.org', array( 'manuscript_title' => '<b>Sample title</b>' ) ), 'Dispatch failed: ' . $method );
@@ -70,3 +71,21 @@ check_email( in_array( 'Reply-To: The Wesleyan Science Journal <wesscijo+web@wes
 $key_error = true;
 check_email( call_user_func( $filters['wp_new_user_notification_email'][0], $original, $user, 'WesSciJo' ) === $original, 'Password-key error did not retain original notification.' );
 echo "Mail dispatch and both notification callbacks passed. No mail sent.\n";
+
+$wrap = $filters['wp_mail'][0];
+$plain = call_user_func( $wrap, array( 'to' => 'a@example.org', 'subject' => '[The Wesleyan Science Journal] Update <b>done</b>', 'message' => "See https://example.org/a?x=1&y=2.\n\n<script>alert(1)</script>\nline two", 'headers' => '', 'attachments' => array() ) );
+check_email( strpos( $plain['message'], '<h1' ) !== false && strpos( $plain['message'], '>Update &lt;b&gt;done&lt;/b&gt;</h1>' ) !== false, 'Subject prefix not stripped or heading not escaped.' );
+check_email( strpos( $plain['message'], '<script>' ) === false && strpos( $plain['message'], 'line two' ) !== false && strpos( $plain['message'], '<br>' ) !== false, 'Plain-text body unsafe or lost line breaks.' );
+check_email( strpos( $plain['message'], 'href="https://example.org/a?x=1&amp;y=2"' ) !== false && strpos( $plain['message'], '</a>.</p>' ) !== false, 'Link not wrapped or trailing period swallowed.' );
+check_email( in_array( 'Content-Type: text/html; charset=UTF-8', $plain['headers'], true ) && count( $plain['headers'] ) === 2 && 0 === strpos( $plain['headers'][1], 'Reply-To:' ), 'Wrapped mail headers wrong.' );
+$mailer = (object) array( 'ContentType' => 'text/html', 'AltBody' => '' );
+call_user_func( $filters['phpmailer_init'][0], $mailer );
+check_email( strpos( $mailer->AltBody, 'line two' ) !== false && strpos( $mailer->AltBody, '<h1' ) === false, 'Plain-text part missing or HTML.' );
+$mailer->AltBody = '';
+call_user_func( $filters['phpmailer_init'][0], $mailer );
+check_email( '' === $mailer->AltBody, 'Plain-text part reused for a later message.' );
+$html_mail = array( 'to' => 'a@example.org', 'subject' => 'S', 'message' => '<p>Hi</p>', 'headers' => array( 'Content-Type: text/html; charset=UTF-8' ), 'attachments' => array() );
+check_email( call_user_func( $wrap, $html_mail ) === $html_mail, 'HTML mail was wrapped twice.' );
+$own = call_user_func( $wrap, array( 'to' => 'a@example.org', 'subject' => 'S', 'message' => 'Hi', 'headers' => "reply-to: x@example.org\r\n", 'attachments' => array() ) );
+check_email( 2 === count( $own['headers'] ), 'Wrapped mail replaced the caller Reply-To.' );
+echo "Plain-text mail wrapping passed. No mail sent.\n";

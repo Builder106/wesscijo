@@ -87,6 +87,10 @@ $fixtures = array(
 		),
 		'dashboard_url' => admin_url( 'index.php' ),
 	),
+	'system-message' => array(
+		'heading' => 'Your site has updated to WordPress 7.1.4',
+		'body_text' => "Howdy! Your site at https://example.org has been updated automatically to WordPress 7.1.4.\n\nNo further action is needed on your part. For more on version 7.1.4, see the About WordPress screen:\nhttps://example.org/wp-admin/about.php\n\nIf you experience any issues or need support, the volunteers in the WordPress.org support forums may be able to help.\nhttps://wordpress.org/support/forums/\n\nThe WordPress Team",
+	),
 	'issue-ready' => array(
 		'editor_name' => 'Sample editor',
 		'issue_name' => 'Fall 2026',
@@ -114,4 +118,4 @@ $shell = file_get_contents( __DIR__ . '/../preview/email-preview-shell.html' );
 $json = json_encode( $emails, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR );
 $logo = 'data:image/png;base64,' . base64_encode( file_get_contents( __DIR__ . '/../plugins/wessci-site/admin/images/wessci-logo.png' ) );
 file_put_contents( __DIR__ . '/../preview/email-preview.html', str_replace( array( '__EMAILS__', '__LOGO__' ), array( $json, json_encode( $logo, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR ) ), $shell ) );
-echo "Rendered eight templates and password reset. Minimal-data and escaping checks passed. No mail sent.\n";
+echo "Rendered nine templates and password reset. Minimal-data and escaping checks passed. No mail sent.\n";
