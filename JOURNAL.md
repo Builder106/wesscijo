@@ -1,15 +1,5 @@
 # JOURNAL - WesSciJo
 
-## 2026-10-28 - Deploy the event import and fix the site timezone #calendar #deployment
-
-The event importer from `6afe334` is live in the production container. The live `wessci-site.php` matched the previous commit exactly before the copy, and the old file is kept next to it with a `.bak-20261028` suffix. PHP lint passed in the container and the new class matched the repo by checksum.
-
-A manual run created 11 drafts (IDs 83 to 93): the weekly Space Night, Kids' Night at the Observatory, the Small Town Universe screening, and three Justice Lab sessions. The two canceled Space Nights were skipped. A second run kept the count at 11. No event is published, and the twice-daily cron job is registered.
-
-The site timezone was UTC, so Space Night would have shown as 12:00 AM the next day on the Calendar and in the editor. It is now America/New_York, and draft 83 reads October 28, 8:00 pm EDT. The setting is site-wide, so other post dates display in Eastern time too. Only that one event was checked afterward.
-
-Not checked: that an editor's change to a draft survives the next sync in production, and the public Calendar page with published events. Editors still need to review and publish the drafts.
-
 ## 2026-10-28 - Import calendar events from the Wesleyan feed #calendar #decision
 
 The Calendar listed only events typed in by hand. events.wesleyan.edu runs LiveWhale, which serves public JSON at `/live/json/events/` with `tag/`, `start_date/`, `end_date/`, and `response_fields/` filters. Departments are tags there; the groups are administrative (Academic Events, Center for the Arts, and so on). Each occurrence of a recurring event has its own ID, and canceled events carry `is_canceled`.
@@ -24,6 +14,18 @@ The Calendar listed only events typed in by hand. events.wesleyan.edu runs LiveW
 Only the tag feed is covered. Chemistry, Physics, and Earth and Environmental Science colloquia are hand-edited static pages with no feed, so those events are added by hand in the Events screen. Scraping them was rejected because it breaks whenever a page layout changes. Only two science tags exist on the calendar today (18 upcoming events, mostly Space Night), so add tags to `WesSci_Event_Sync::TAGS` as departments start using them.
 
 Linux ARM64 verification passed: PHP lint for the three changed files, the new `tests/event-sync.php` (fake post store and canned feed pages: pagination, de-duplication across tags, drafts, editor overrides, trash, cancellation, retirement, failed fetches, off-host next link, unsafe URL), and the existing notifications test. Not checked: a run inside WordPress, the live feed through the class, and the admin screens. Nothing was deployed or committed.
+
+## 2026-10-28 - Restyle the emails and wrap WordPress notices #email #branding
+
+The emails were a white letter with a small seal. They now open on a black band with the seal logo and the wordmark in live text, over a red rule, and close on a black footer with a red top rule. The body stays white (dark grey in dark mode) so the text keeps its contrast. Primary actions are square red buttons with white text (white on #b3112a is about 6.9:1). Secondary actions such as Decline and Preview stay plain links.
+
+An animated cardinal masthead was built with Glaxnimate and then dropped: an animated GIF is more than an email header needs, and Outlook for Windows shows only the first frame. The plain logo replaced it.
+
+WordPress core, plugin and theme notices went out as unstyled plain text, such as the automatic-update notice. `WesSci_Email::filter_plain_mail()` now hooks `wp_mail`. A message without an HTML content type is rendered through the new `system-message` template: the subject without its `[Site]` prefix is the heading, and the body becomes escaped paragraphs with clickable links. Trailing punctuation stays outside the link. The original text is kept as the plain-text part through `phpmailer_init`, and the journal Reply-To is added unless the caller set one. HTML messages, including every template above and FluentSMTP's own test, pass through untouched. The wrapper is generic, so a notice with its own structure becomes plain paragraphs until it gets its own template.
+
+Linux ARM64 verification passed: PHP lint for the plugin, templates, and scripts; the preview render with escaping checks for nine templates; the mail-service test, including new checks for the wrapper (prefix, escaping, links, headers, HTML pass-through, caller Reply-To, text part); the notifications test; and the seven email browser tests at 320, 390, and 1440 pixels in light and dark themes with images on and off. The preview has a new "WordPress notice" entry built from the update notice.
+
+Not checked: real Gmail, Outlook, and Apple Mail rendering, and Gmail's dark mode. The wrapper has not run in a real WordPress, so which core emails reach it is untested. Nothing was sent and nothing deployed. Mail still goes out as the SMTP account, not the Google Group address.
 
 ## 2026-10-28 - Fill four-article divisions on the homepage #layout #media #deployment
 
