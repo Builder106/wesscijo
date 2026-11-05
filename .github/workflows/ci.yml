@@ -19,7 +19,7 @@ permissions:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
 
 jobs:
   php-lint:
@@ -60,6 +60,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 20
+          cache: npm
 
       - name: Lint CSS
         run: npx --yes stylelint "themes/**/*.css" "plugins/wessci-site/admin/css/**/*.css" --formatter compact --max-warnings 0
@@ -77,6 +78,7 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 20
+          cache: npm
 
       - name: Audit locked Node dependencies
         run: npm audit --audit-level=high
