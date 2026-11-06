@@ -330,7 +330,12 @@ function wessci_site_metadata() {
 		return;
 	}
 	echo '<meta name="description" content="' . esc_attr( $description ) . '">' . "\n";
-	foreach ( array( 'og:title' => $title, 'og:description' => $description, 'og:url' => $url, 'og:type' => is_singular( 'post' ) ? 'article' : 'website', 'twitter:card' => 'summary' ) as $property => $content ) {
+	$image = is_singular() && has_post_thumbnail() ? get_the_post_thumbnail_url( null, 'large' ) : '';
+	$card  = $image ? 'summary_large_image' : 'summary';
+	if ( ! $image ) {
+		$image = plugins_url( 'assets/social-logo.png', __FILE__ );
+	}
+	foreach ( array( 'og:title' => $title, 'og:description' => $description, 'og:url' => $url, 'og:image' => $image, 'og:type' => is_singular( 'post' ) ? 'article' : 'website', 'twitter:card' => $card, 'twitter:image' => $image ) as $property => $content ) {
 		$attribute = 0 === strpos( $property, 'twitter:' ) ? 'name' : 'property';
 		echo '<meta ' . $attribute . '="' . esc_attr( $property ) . '" content="' . esc_attr( $content ) . '">' . "\n";
 	}
