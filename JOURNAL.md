@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-06 - Add a share image to page metadata #decision
+
+The site plugin emitted `og:title`, `og:description` and `og:url` but no image, so shared links had no picture. It now adds `og:image` and `twitter:image`. A post with a featured image uses it at `large` size with the `summary_large_image` card. Every other page uses the journal logo, shipped as `plugins/wessci-site/assets/social-logo.png`, with the existing square `summary` card. The weekly live smoke run is not extended to check the image: it would fail until the plugin is deployed, and deploys are manual.
+
 ## 2026-10-28 - Import calendar events from the Wesleyan feed #calendar #decision
 
 The Calendar listed only events typed in by hand. events.wesleyan.edu runs LiveWhale, which serves public JSON at `/live/json/events/` with `tag/`, `start_date/`, `end_date/`, and `response_fields/` filters. Departments are tags there; the groups are administrative (Academic Events, Center for the Arts, and so on). Each occurrence of a recurring event has its own ID, and canceled events carry `is_canceled`.
