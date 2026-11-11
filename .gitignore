@@ -25,3 +25,8 @@ test-results/
 /artifacts/
 .vercel
 .env*
+
+# Backups and database dumps
+backups/
+*.sql
+*.sql.gz
