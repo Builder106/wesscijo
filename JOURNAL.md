@@ -1189,6 +1189,6 @@ The About page published `wesscijo+join@` for students who want to join the jour
 
 ## 2026-10-19 - Point browser smoke workflow to production domain #ci #testing #incident
 
-The scheduled weekly Browser Smoke workflow run failed across all 11 tests with `net::ERR_NAME_NOT_RESOLVED`. Following the October 10 production cutover to `thewesleyansciencejournal.com`, `wessci.yinkavaughan.me` was decommissioned, but `.github/workflows/browser-smoke.yml` still set `BASE_URL: https://wessci.yinkavaughan.me/`. Additionally, the fallback in `tests/browser-smoke.spec.js` targeted `https://staging.thewesleyansciencejournal.com/`, which has no DNS record.
+The scheduled weekly Browser Smoke run failed all 11 tests with `net::ERR_NAME_NOT_RESOLVED`. After the October 10 production cutover to `thewesleyansciencejournal.com`, `wessci.yinkavaughan.me` was decommissioned, but `.github/workflows/browser-smoke.yml` still set `BASE_URL: https://wessci.yinkavaughan.me/`. The fallback in `tests/browser-smoke.spec.js` also pointed to `https://staging.thewesleyansciencejournal.com/`, which has no DNS record.
 
 Updated `BASE_URL` in `.github/workflows/browser-smoke.yml` and the default in `tests/browser-smoke.spec.js` to `https://thewesleyansciencejournal.com/`. Verified all 10 active tests pass on ampere-dev (calendar check skipped as expected).
