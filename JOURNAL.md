@@ -1,5 +1,21 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-17 - Winter site notes, correction, and the move to IONOS #deployment #editorial #infrastructure
+
+Production is no longer on ampere-dev. The public site runs on an IONOS VPS, with the same `wessci-wordpress-1` container layout. Earlier entries that say "production container" mean the old host. The ampere-dev WordPress is a stale copy.
+
+The editors sent a list of changes for the Winter issue. Done today:
+
+1. Corrected the Van Vleck sentence in Scientific Paradigms after a physics professor wrote in. Kuhn's mentor was John Hasbrouck Van Vleck. The observatory honors his grandfather, John Monroe Van Vleck. The post was edited in WordPress, so it kept a revision, and the repo copy changed in the same commit.
+2. Moved the News category from Research & Reviews to News, Features & Perspectives and renamed it News and Views. This reverses the October 28 move. The plugin migration now runs once under a new option, `wessci_news_views_migrated`, and the category slug is `news-and-views`. The old archive paths redirect to the new one. The editors read the two requests as one section; if they meant two, this needs a second look.
+3. Capped the article cover at 900px wide. The theme had no cap, so the cover was 845px tall and the text began more than two screens down. The preview stylesheet already had the cap. The fallback theme got the same line, but not through the promote script, which would also sync unrelated drift.
+4. Added a date line to the Editorial Board letter: "Written for the Fall 2026 edition, October 2026".
+5. Added a Join Us page with the three Spring 2027 application forms (editor, graphic designer, social media and promotional manager), plus nav and footer links. "Spring 2027" is my reading of "the upcoming semester".
+
+Deployed to IONOS: the six theme files, the plugin file, the About page text, and the new page. Originals are in `/root/wessci-backups/20261117-news-join` on the host. Cache Enabler was cleared. The public URLs, the three old category redirects, the nav, and the cover size were checked in a browser. The IONOS plugin file is older than the repo's: it lacks the November 6 social preview change, and `assets/social-logo.png` is not on that server. I patched only the News and Views block into the live file, so that change is still undeployed.
+
+Checked on Linux ARM64: PHP lint, the four PHP tests, stylelint, and 13 of 13 publication browser tests, including two new ones. Not run: the WordPress browser suite and the production smoke suite.
+
 ## 2026-11-06 - Add a share image to page metadata #decision
 
 The site plugin emitted `og:title`, `og:description` and `og:url` but no image, so shared links had no picture. It now adds `og:image` and `twitter:image`. A post with a featured image uses it at `large` size with the `summary_large_image` card. Every other page uses the journal logo, shipped as `plugins/wessci-site/assets/social-logo.png`, with the existing square `summary` card. The weekly live smoke run is not extended to check the image: it would fail until the plugin is deployed, and deploys are manual.
