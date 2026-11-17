@@ -76,13 +76,11 @@ def type_slug(name):
 
 
 def article_type(article):
-    return 'News and Reviews' if article['type'].lower() in {'news', 'news and reviews'} else article['type']
+    return 'News and Views' if article['type'].lower() in {'news', 'news and reviews', 'news and views'} else article['type']
 
 
 def group_slug(article):
     if article['slug'] in {'bile-salt-mixed-micelles', 'gmos-applications-and-controversy', 'math-behind-llms', 'quantum-voting'}:
-        return 'research-reviews'
-    if article_type(article) == 'News and Reviews':
         return 'research-reviews'
     return 'news-features-perspectives'
 
@@ -124,7 +122,6 @@ def footer():
         '<ul class="index-group__list">'
         '<li><a href="/category/research-reviews/journal-articles/">Journal Articles</a></li>'
         '<li><a href="/category/research-reviews/literature-reviews/">Literature Reviews</a></li>'
-        '<li><a href="/category/research-reviews/news-and-reviews/">News and Reviews</a></li>'
         '</ul>'
         '</div>'
         '<div class="index-group">'
@@ -132,6 +129,7 @@ def footer():
         '<ul class="index-group__list">'
         '<li><a href="/category/news-features-perspectives/features/">Features</a></li>'
         '<li><a href="/category/news-features-perspectives/op-ed/">Op/Ed</a></li>'
+        '<li><a href="/category/news-features-perspectives/news-and-views/">News and Views</a></li>'
         '</ul>'
         '</div>'
         '<div class="index-group">'
@@ -140,6 +138,7 @@ def footer():
         '<li><a href="/about/">About Us</a></li>'
         '<li><a href="/archives/">Archives</a></li>'
         '<li><a href="/submit/">Submit</a></li>'
+        '<li><a href="/join/">Join Us</a></li>'
         '</ul>'
         '</div>'
         '</nav>'
@@ -154,7 +153,7 @@ def footer():
 def header(articles):
     menus = []
     for slug, label in GROUPS.items():
-        types = sorted({article_type(a) for a in articles if group_slug(a) == slug} | ({'News and Reviews'} if slug == 'research-reviews' else set()))
+        types = sorted({article_type(a) for a in articles if group_slug(a) == slug} | ({'News and Views'} if slug == 'news-features-perspectives' else set()))
         children = ''.join(f'<li><a class="panel__link" href="/category/{slug}/{type_slug(t)}/">{escape(t)}</a></li>' for t in types)
         menus.append(f'<li class="hero__nav-item"><details class="panel" name="sections">'
                      f'<summary class="panel__summary hero__nav-link">{escape(label)}</summary>'
@@ -169,7 +168,8 @@ def header(articles):
             '<li><a class="hero__nav-link" href="/">Home</a></li>' + ''.join(menus) +
             '<li><a class="hero__nav-link" href="/archives/">Archives</a></li>'
             '<li><a class="hero__nav-link" href="/about/">About Us</a></li>'
-            '<li><a class="hero__nav-link" href="/submit/">Submit</a></li></ul>'
+            '<li><a class="hero__nav-link" href="/submit/">Submit</a></li>'
+            '<li><a class="hero__nav-link" href="/join/">Join Us</a></li></ul>'
             '<div class="hero__controls"><search><form class="search" action="/search/" method="get">'
             '<label class="u-visually-hidden" for="q">Search the journal</label>'
             '<input class="search__input" id="q" name="q" type="search" placeholder="Search">'
@@ -304,7 +304,7 @@ def main():
     for slug, label in GROUPS.items():
         selected = [a for a in articles if group_slug(a) == slug]
         write_page(f'/category/{slug}/', label, f'<h1 class="archive-title">{division_icon(slug)}{escape(label)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected) + '</div>', articles)
-        kinds = sorted({article_type(a) for a in selected} | ({'News and Reviews'} if slug == 'research-reviews' else set()))
+        kinds = sorted({article_type(a) for a in selected} | ({'News and Views'} if slug == 'news-features-perspectives' else set()))
         for kind in kinds:
             kind_selected = [a for a in selected if article_type(a) == kind]
             content = f'<h1 class="archive-title">{escape(kind)}</h1>'
@@ -313,13 +313,14 @@ def main():
             else:
                 content += '<p class="empty">No articles are listed yet.</p>'
             write_page(f'/category/{slug}/{type_slug(kind)}/', kind, content, articles)
-    write_page(
-        '/category/news-features-perspectives/news/',
-        'News and Reviews',
-        '<h1 class="archive-title">News and Reviews</h1><p>This category has moved to <a href="/category/research-reviews/news-and-reviews/">Research &amp; Reviews</a>.</p>',
-        articles,
-        canonical='/category/research-reviews/news-and-reviews/',
-    )
+    for legacy in ('/category/research-reviews/news-and-reviews/', '/category/news-features-perspectives/news/'):
+        write_page(
+            legacy,
+            'News and Views',
+            '<h1 class="archive-title">News and Views</h1><p>This category has moved to <a href="/category/news-features-perspectives/news-and-views/">News, Features &amp; Perspectives</a>.</p>',
+            articles,
+            canonical='/category/news-features-perspectives/news-and-views/',
+        )
     write_page('/archives/', 'Archives', '<h1 class="archive-title">Archives</h1><h2>Fall 2026</h2><div class="cards">' + ''.join(card(a) for a in articles) + '</div>', articles)
     calendar = (
         '<article class="article"><h1 class="article__title">Calendar</h1>'
@@ -377,6 +378,8 @@ def main():
         '<div class="prose">' + guidelines + '</div></article>'
     )
     write_page('/submit/', 'Submission guidelines', submit_content, articles)
+    join = (CONTENT / 'join.html').read_text()
+    write_page('/join/', 'Join the Journal', '<article class="article"><h1 class="article__title">Join the Journal</h1><div class="prose">' + join + '</div></article>', articles)
     write_page('/search/', 'Search', '<h1 class="archive-title" id="search-title">Search the journal</h1><p id="search-status" role="status"></p><div class="cards" id="search-results"></div><noscript><p>Enable JavaScript to search, or <a href="/archives/">browse all articles</a>.</p></noscript>', articles)
     (PUBLIC / '404.html').write_text(document('Page not found', '<div class="search-empty"><img src="/assets/empty-search-lens.svg" class="search-empty__icon" alt="" width="72" height="72" aria-hidden="true"><h1 class="archive-title">Page not found</h1><p><a href="/">Return to the journal</a></p></div>', articles))
     shutil.copyfile(ROOT / 'themes/wesscijo/style.css', PUBLIC / 'publication.css')

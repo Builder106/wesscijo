@@ -204,3 +204,21 @@ test('theme toggle cycles between system, light, and dark', async ({ page }) => 
   expect(await page.evaluate(() => localStorage.getItem('theme'))).toBeNull();
 });
 
+
+test('the letter is dated and the join page links the three application forms', async ({ page }) => {
+  await page.goto(url('/about/'));
+  await expect(page.locator('#editorial-letter')).toContainText('Written for the Fall 2026 edition');
+  await page.goto(url('/join/'));
+  await expect(page.getByRole('link', { name: 'Apply to be an editor' })).toHaveAttribute('href', /1FAIpQLSdjE4zOYYWPZD9LfjTmP_UDPe15v76WcFJpPxpPg1DquAQwSA/);
+  await expect(page.getByRole('link', { name: 'Apply to be a graphic designer' })).toHaveAttribute('href', 'https://forms.gle/JinzbFbwK7EAfuT7A');
+  await expect(page.getByRole('link', { name: /social media and promotional manager/ })).toHaveAttribute('href', 'https://forms.gle/RWV97jZkD91D2NBu8');
+  await expect(page.getByRole('navigation', { name: 'Sections' }).getByRole('link', { name: 'Join Us' })).toBeVisible();
+});
+
+test('News and Views belongs to News, Features & Perspectives', async ({ page }) => {
+  await page.goto(url('/category/news-features-perspectives/news-and-views/'));
+  await expect(page.getByRole('heading', { level: 1, name: 'News and Views' })).toBeVisible();
+  await page.goto(url('/category/research-reviews/news-and-reviews/'));
+  await expect(page.locator('main')).toContainText('This category has moved');
+  await expect(page.locator('main')).not.toContainText('News and Reviews');
+});
