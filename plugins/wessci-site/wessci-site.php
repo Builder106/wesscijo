@@ -59,34 +59,31 @@ function wessci_site_register_event_cpt() {
 add_action( 'init', 'wessci_site_register_event_cpt' );
 
 function wessci_site_migrate_news_category() {
-	if ( get_option( 'wessci_news_category_migrated' ) ) {
+	if ( get_option( 'wessci_news_views_migrated' ) ) {
 		return;
 	}
 
-	$research = get_term_by( 'slug', 'research-reviews', 'category' );
 	$features = get_term_by( 'slug', 'news-features-perspectives', 'category' );
-	if ( ! $research ) {
+	if ( ! $features ) {
 		return;
 	}
 
 	$news = false;
-	foreach ( array( $research, $features ) as $parent ) {
-		if ( ! $parent ) {
-			continue;
-		}
-		$children = get_terms(
+	foreach ( array( 'research-reviews', 'news-features-perspectives' ) as $parent_slug ) {
+		$parent   = get_term_by( 'slug', $parent_slug, 'category' );
+		$children = $parent ? get_terms(
 			array(
 				'taxonomy'   => 'category',
 				'parent'     => $parent->term_id,
 				'hide_empty' => false,
 			)
-		);
+		) : array();
 		if ( is_wp_error( $children ) ) {
 			continue;
 		}
 		foreach ( $children as $child ) {
-			$child_name = html_entity_decode( $child->name, ENT_QUOTES, 'UTF-8' );
-			if ( in_array( $child->slug, array( 'news', 'news-and-reviews' ), true ) || in_array( strtolower( $child_name ), array( 'news', 'news and reviews' ), true ) ) {
+			$child_name = strtolower( html_entity_decode( $child->name, ENT_QUOTES, 'UTF-8' ) );
+			if ( in_array( $child->slug, array( 'news', 'news-and-reviews', 'news-and-views', 'news-features-perspectives-news' ), true ) || in_array( $child_name, array( 'news', 'news and reviews', 'news and views' ), true ) ) {
 				$news = $child;
 				break 2;
 			}
@@ -94,73 +91,46 @@ function wessci_site_migrate_news_category() {
 	}
 
 	if ( $news ) {
-		$updated = wp_update_term(
+		$result = wp_update_term(
 			$news->term_id,
 			'category',
 			array(
-				'name'   => 'News and Reviews',
-				'parent' => $research->term_id,
+				'name'   => 'News and Views',
+				'slug'   => 'news-and-views',
+				'parent' => $features->term_id,
 			)
 		);
-		if ( is_wp_error( $updated ) ) {
-			return;
-		}
-		if ( $features && (int) $news->parent === (int) $features->term_id ) {
-			update_option( 'wessci_news_legacy_category_slug', $news->slug, false );
-		}
 	} else {
-		$created = wp_insert_term(
-			'News and Reviews',
+		$result = wp_insert_term(
+			'News and Views',
 			'category',
 			array(
-				'slug'   => 'news-and-reviews',
-				'parent' => $research->term_id,
+				'slug'   => 'news-and-views',
+				'parent' => $features->term_id,
 			)
 		);
-		if ( is_wp_error( $created ) ) {
-			return;
-		}
+	}
+	if ( is_wp_error( $result ) ) {
+		return;
 	}
 
-	update_option( 'wessci_news_category_migrated', 1, false );
+	update_option( 'wessci_news_views_migrated', 1, false );
 }
 add_action( 'init', 'wessci_site_migrate_news_category', 20 );
 
+/** Send the News category's earlier archive paths to its current one. */
 function wessci_site_redirect_legacy_news_category() {
-	$legacy_slug = get_option( 'wessci_news_legacy_category_slug' );
-	$research    = get_term_by( 'slug', 'research-reviews', 'category' );
-	$features    = get_term_by( 'slug', 'news-features-perspectives', 'category' );
-	if ( ! $legacy_slug || ! $research || ! $features ) {
-		return;
-	}
-	$news_terms = get_terms(
-		array(
-			'taxonomy'   => 'category',
-			'parent'     => $research->term_id,
-			'hide_empty' => false,
-		)
-	);
-	if ( is_wp_error( $news_terms ) ) {
-		return;
-	}
-	$news = false;
-	foreach ( $news_terms as $term ) {
-		if ( 'News and Reviews' === $term->name ) {
-			$news = $term;
-			break;
-		}
-	}
+	$news = get_term_by( 'slug', 'news-and-views', 'category' );
 	if ( ! $news ) {
 		return;
 	}
 
 	$category_base = trim( get_option( 'category_base' ) ?: 'category', '/' );
 	$home_path     = untrailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
-	$category_path = $category_base ? '/' . $category_base : '';
-	$old_path      = $home_path . $category_path . '/' . $features->slug . '/' . $legacy_slug;
+	$pattern       = '#^' . preg_quote( $home_path . '/' . $category_base, '#' ) . '/(research-reviews|news-features-perspectives)/(news-features-perspectives-news|news-and-reviews|news)$#';
 	$request_uri   = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
 	$request_path  = untrailingslashit( (string) wp_parse_url( $request_uri, PHP_URL_PATH ) );
-	if ( $request_path !== $old_path ) {
+	if ( ! preg_match( $pattern, $request_path ) ) {
 		return;
 	}
 
