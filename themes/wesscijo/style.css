@@ -1260,7 +1260,7 @@ body.admin-bar .reading-progress {
 
 .calendar-contact { max-width: var(--measure); margin-block: var(--space-4); color: var(--color-ink-2); }
 
-.article__figure { margin: 0 0 var(--space-12); border-top: var(--rule-slab) solid var(--color-ink); padding-top: var(--space-8); }
+.article__figure { margin: 0 auto var(--space-12); max-width: 900px; border-top: var(--rule-slab) solid var(--color-ink); padding-top: var(--space-8); }
 .article__figure img {
 	width: 100%;
 	aspect-ratio: 16 / 10;
