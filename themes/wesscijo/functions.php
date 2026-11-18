@@ -136,6 +136,15 @@ function wesscijo_search_query( $query ) {
 add_action( 'pre_get_posts', 'wesscijo_search_query' );
 
 /**
+ * Calendar page URL once the page is published, else an empty string, so the
+ * nav and footer links appear when the page goes live and not before.
+ */
+function wesscijo_calendar_url() {
+	$page = get_page_by_path( 'calendar' );
+	return $page && 'publish' === $page->post_status ? get_permalink( $page ) : '';
+}
+
+/**
  * Newest issue that has at least one published article, so the homepage
  * switches by itself when the first article of a new issue goes live.
  */
