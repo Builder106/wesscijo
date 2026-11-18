@@ -76,10 +76,15 @@ def type_slug(name):
 
 
 def article_type(article):
-    return 'News and Views' if article['type'].lower() in {'news', 'news and reviews', 'news and views'} else article['type']
+    kind = article['type'].lower()
+    if kind in {'news and reviews', 'news and views'}:
+        return 'News and Views'
+    return 'News' if kind == 'news' else article['type']
 
 
 def group_slug(article):
+    if article_type(article) == 'News and Views':
+        return 'research-reviews'
     if article['slug'] in {'bile-salt-mixed-micelles', 'gmos-applications-and-controversy', 'math-behind-llms', 'quantum-voting'}:
         return 'research-reviews'
     return 'news-features-perspectives'
@@ -122,6 +127,7 @@ def footer():
         '<ul class="index-group__list">'
         '<li><a href="/category/research-reviews/journal-articles/">Journal Articles</a></li>'
         '<li><a href="/category/research-reviews/literature-reviews/">Literature Reviews</a></li>'
+        '<li><a href="/category/research-reviews/news-and-views/">News and Views</a></li>'
         '</ul>'
         '</div>'
         '<div class="index-group">'
@@ -129,7 +135,7 @@ def footer():
         '<ul class="index-group__list">'
         '<li><a href="/category/news-features-perspectives/features/">Features</a></li>'
         '<li><a href="/category/news-features-perspectives/op-ed/">Op/Ed</a></li>'
-        '<li><a href="/category/news-features-perspectives/news-and-views/">News and Views</a></li>'
+        '<li><a href="/category/news-features-perspectives/news/">News</a></li>'
         '</ul>'
         '</div>'
         '<div class="index-group">'
@@ -153,7 +159,7 @@ def footer():
 def header(articles):
     menus = []
     for slug, label in GROUPS.items():
-        types = sorted({article_type(a) for a in articles if group_slug(a) == slug} | ({'News and Views'} if slug == 'news-features-perspectives' else set()))
+        types = sorted({article_type(a) for a in articles if group_slug(a) == slug} | ({'News and Views'} if slug == 'research-reviews' else {'News'}))
         children = ''.join(f'<li><a class="panel__link" href="/category/{slug}/{type_slug(t)}/">{escape(t)}</a></li>' for t in types)
         menus.append(f'<li class="hero__nav-item"><details class="panel" name="sections">'
                      f'<summary class="panel__summary hero__nav-link">{escape(label)}</summary>'
@@ -304,7 +310,7 @@ def main():
     for slug, label in GROUPS.items():
         selected = [a for a in articles if group_slug(a) == slug]
         write_page(f'/category/{slug}/', label, f'<h1 class="archive-title">{division_icon(slug)}{escape(label)}</h1><div class="cards">' + ''.join(card(a, level=2) for a in selected) + '</div>', articles)
-        kinds = sorted({article_type(a) for a in selected} | ({'News and Views'} if slug == 'news-features-perspectives' else set()))
+        kinds = sorted({article_type(a) for a in selected} | ({'News and Views'} if slug == 'research-reviews' else {'News'}))
         for kind in kinds:
             kind_selected = [a for a in selected if article_type(a) == kind]
             content = f'<h1 class="archive-title">{escape(kind)}</h1>'
@@ -313,14 +319,13 @@ def main():
             else:
                 content += '<p class="empty">No articles are listed yet.</p>'
             write_page(f'/category/{slug}/{type_slug(kind)}/', kind, content, articles)
-    for legacy in ('/category/research-reviews/news-and-reviews/', '/category/news-features-perspectives/news/'):
-        write_page(
-            legacy,
-            'News and Views',
-            '<h1 class="archive-title">News and Views</h1><p>This category has moved to <a href="/category/news-features-perspectives/news-and-views/">News, Features &amp; Perspectives</a>.</p>',
-            articles,
-            canonical='/category/news-features-perspectives/news-and-views/',
-        )
+    write_page(
+        '/category/research-reviews/news-and-reviews/',
+        'News and Views',
+        '<h1 class="archive-title">News and Views</h1><p>This category is now <a href="/category/research-reviews/news-and-views/">News and Views</a> in Research &amp; Reviews.</p>',
+        articles,
+        canonical='/category/research-reviews/news-and-views/',
+    )
     write_page('/archives/', 'Archives', '<h1 class="archive-title">Archives</h1><h2>Fall 2026</h2><div class="cards">' + ''.join(card(a) for a in articles) + '</div>', articles)
     calendar = (
         '<article class="article"><h1 class="article__title">Calendar</h1>'
