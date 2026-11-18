@@ -3,13 +3,19 @@
 <main class="site-main" id="main" tabindex="-1">
 
 	<?php
+	$issue_id  = wessci_current_issue_id();
+	$issue_tax = $issue_id ? array( array( 'taxonomy' => 'wessci_issue', 'field' => 'term_id', 'terms' => $issue_id ) ) : array();
 	$lead_args = array(
 		'posts_per_page'      => 1,
 		'ignore_sticky_posts' => true,
+		'tax_query'           => $issue_tax,
 	);
 	$sticky    = get_option( 'sticky_posts' );
 	if ( $sticky ) {
-		$lead_args['post__in'] = $sticky;
+		$stuck = get_posts( array( 'post__in' => $sticky, 'posts_per_page' => 1, 'fields' => 'ids', 'ignore_sticky_posts' => true, 'tax_query' => $issue_tax ) );
+		if ( $stuck ) {
+			$lead_args['post__in'] = $stuck;
+		}
 	}
 	$lead_q  = new WP_Query( $lead_args );
 	$lead_id = 0;
@@ -64,6 +70,7 @@
 				'cat'            => $div['term']->term_id,
 				'posts_per_page' => 4,
 				'post__not_in'   => array( $lead_id ),
+				'tax_query'      => $issue_tax,
 			)
 		);
 		if ( ! $q->have_posts() ) {

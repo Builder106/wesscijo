@@ -136,6 +136,24 @@ function wesscijo_search_query( $query ) {
 add_action( 'pre_get_posts', 'wesscijo_search_query' );
 
 /**
+ * Newest issue that has at least one published article, so the homepage
+ * switches by itself when the first article of a new issue goes live.
+ */
+function wessci_current_issue_id() {
+	$issues = get_terms(
+		array(
+			'taxonomy'   => 'wessci_issue',
+			'hide_empty' => true,
+			'orderby'    => 'id',
+			'order'      => 'DESC',
+			'number'     => 1,
+			'fields'     => 'ids',
+		)
+	);
+	return is_array( $issues ) && $issues ? (int) $issues[0] : 0;
+}
+
+/**
  * The journal's two top-level divisions, each with its article types.
  * Returns [ term, children[] ] so nav and section heads share one source.
  */
