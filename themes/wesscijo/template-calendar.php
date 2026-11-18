@@ -20,8 +20,10 @@ $wessci_today = wp_date( 'Y-m-d' );
 
 <main class="site-main" id="main" tabindex="-1">
 
+	<?php echo file_get_contents( get_theme_file_path( '/assets/instruments.svg' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme-owned SVG sprite. ?>
 	<div class="calendar">
 		<header class="calendar__head">
+			<div class="calendar__intro">
 			<h1 class="calendar__title"><?php the_title(); ?></h1>
 			<p class="calendar__lede">Upcoming science events at Wesleyan, listed by day.</p>
 			<?php if ( count( $wessci_months ) > 1 ) : ?>
@@ -33,6 +35,10 @@ $wessci_today = wp_date( 'Y-m-d' );
 					</ul>
 				</nav>
 			<?php endif; ?>
+			</div>
+			<figure class="calendar__scope">
+				<?php echo wesscijo_refractor_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme-owned SVG. ?>
+			</figure>
 		</header>
 
 		<?php if ( have_posts() ) : ?>
@@ -83,6 +89,7 @@ $wessci_today = wp_date( 'Y-m-d' );
 								$summary    = wp_trim_words( wp_strip_all_tags( str_replace( '<', ' <', $event->post_content ) ), 26 );
 								?>
 								<li class="event">
+									<?php echo wesscijo_instrument_icon( wesscijo_event_instrument( $department . ' ' . get_the_title() . ' ' . $event->post_content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from a fixed list. ?>
 									<p class="event__time">
 										<time datetime="<?php echo esc_attr( $start->format( DATE_ATOM ) ); ?>"><?php echo esc_html( wp_date( 'g:i A', $start->getTimestamp() ) ); ?></time>
 										<?php if ( $end && $end->format( 'Y-m-d' ) === $start->format( 'Y-m-d' ) ) : ?>

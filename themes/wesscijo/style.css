@@ -1445,7 +1445,7 @@ body.admin-bar .reading-progress {
    viewport. Like a real bird, the head snaps to each pose, overshoots a
    little, and settles: an underdamped spring, about 16% overshoot. */
 @media (prefers-reduced-motion: no-preference) {
-	.division__bird .cardinal__head, .end-mark .cardinal__head {
+	.division__bird .cardinal__head, .end-mark .cardinal__head, .refractor__bird .cardinal__head {
 		transition: transform 380ms linear(0, 0.062, 0.213, 0.408, 0.61, 0.795, 0.946, 1.055, 1.124, 1.157, 1.162, 1.146, 1.118, 1.086, 1.053, 1.025, 1.002, 0.987, 0.977, 0.974, 0.974, 0.977, 0.982, 0.988, 1);
 	}
 }
@@ -1588,4 +1588,58 @@ body.admin-bar .reading-progress {
 	.event__time { display: flex; gap: var(--space-2); padding-top: 0; }
 	.event__until { display: inline; }
 	.event__link { grid-column: 1; padding-top: 0; }
+}
+
+/* Calendar header: the Van Vleck refractor with the cardinal on its tube. */
+.calendar__head { grid-template-columns: minmax(0, 1fr) minmax(16rem, 32rem); align-items: end; column-gap: var(--space-8); }
+.calendar__scope { margin: 0; color: var(--color-ink); }
+.refractor { display: block; width: 100%; height: auto; overflow: visible; }
+.refractor .acc, .instrument-sprite .acc { fill: var(--color-accent); }
+.refractor .acc-stroke, .instrument-sprite .acc-stroke { stroke: var(--color-accent); }
+.refractor__tube { transform-box: view-box; transform-origin: 215px 150px; rotate: -22deg; }
+.refractor__bird .cardinal { width: 140px; height: 130.7px; filter: none; }
+@media (prefers-reduced-motion: no-preference) {
+	.refractor__tube { animation: refractor-track 14s ease-in-out infinite alternate; }
+}
+@keyframes refractor-track { to { rotate: -20.5deg; } }
+
+/* Each event carries the instrument of its field. */
+.instrument-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+.instrument { width: 2.5rem; height: 2.5rem; color: var(--color-ink); }
+.event { grid-template-columns: 2.5rem 7rem minmax(0, 1fr) auto; }
+.event .instrument { align-self: start; }
+
+/* The date column reads like an instrument scale: a graduated rule with a
+   red needle that rides down with each day's sticky date. */
+.day { position: relative; }
+.day::before {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	left: 6.9rem;
+	width: 0.45rem;
+	border-left: var(--rule-hair) solid var(--color-ink-3);
+	background: repeating-linear-gradient(to bottom, var(--color-ink-3) 0 1px, transparent 1px 0.5rem);
+	opacity: 0.6;
+}
+.day__date::after {
+	content: "";
+	position: absolute;
+	left: calc(100% + 0.4rem);
+	top: 2.6rem;
+	width: 1.1rem;
+	height: 3px;
+	background: var(--color-accent);
+}
+@media (max-width: 1024px) {
+	.calendar__head { grid-template-columns: 1fr; }
+	.calendar__scope { max-width: 26rem; }
+	.event { grid-template-columns: 2.5rem 6.5rem minmax(0, 1fr); }
+	.event__link { grid-column: 3; }
+}
+@media (max-width: 720px) {
+	.day::before, .day__date::after { display: none; }
+	.event { grid-template-columns: 2.25rem minmax(0, 1fr); column-gap: var(--space-3); }
+	.event .instrument { grid-row: 1 / span 3; width: 2.25rem; height: 2.25rem; }
+	.event__time, .event__body, .event__link { grid-column: 2; }
 }

@@ -30,7 +30,7 @@ function wesscijo_assets() {
 		array(),
 		(string) filemtime( get_stylesheet_directory() . '/style.css' )
 	);
-	if ( is_front_page() || is_singular( 'post' ) ) {
+	if ( is_front_page() || is_singular( 'post' ) || is_page_template( 'template-calendar.php' ) ) {
 		wp_enqueue_script(
 			'wessci-cardinal-watch',
 			get_theme_file_uri( '/assets/cardinal-watch.js' ),
@@ -220,6 +220,47 @@ function wessci_cardinal_svg() {
 		$svg = (string) file_get_contents( get_theme_file_path( '/assets/cardinal-perch.svg' ) );
 	}
 	return $svg;
+}
+
+/**
+ * The Van Vleck refractor drawing with the logo cardinal (traced from
+ * brand/logo.png, micropipette in its feet) perched on the tube. cardinal-watch.js turns the bird's head on scroll.
+ */
+function wesscijo_refractor_svg() {
+	$bird = (string) file_get_contents( get_theme_file_path( '/assets/cardinal-logo.svg' ) );
+	$bird = preg_replace( '/^<svg /', '<svg x="204.3" y="28.3" width="140" height="130.7" ', $bird, 1 );
+	$svg  = (string) file_get_contents( get_theme_file_path( '/assets/observatory-refractor.svg' ) );
+	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(18 300 136)">' . $bird . '</g>', $svg );
+}
+
+/**
+ * Pick the instrument drawn beside a calendar event from its department,
+ * title and description. The first matching field wins; the notebook is the
+ * fallback for talks, career events and anything else.
+ */
+function wesscijo_event_instrument( $text ) {
+	$text = strtolower( $text );
+	$map  = array(
+		'telescope'  => array( 'astronom', 'observatory', 'space night', 'planetary' ),
+		'plotter'    => array( 'comput', 'quantitative', 'statistic', 'data science', 'mathemat' ),
+		'flask'      => array( 'chemi' ),
+		'pendulum'   => array( 'physic' ),
+		'compass'    => array( 'environment', 'earth and', 'climate', 'sustainab', 'ecolog' ),
+		'microscope' => array( 'biolog', 'mb&b', 'molecul', 'neuro', 'optometr', 'medic', 'health' ),
+	);
+	foreach ( $map as $name => $words ) {
+		foreach ( $words as $word ) {
+			if ( false !== strpos( $text, $word ) ) {
+				return $name;
+			}
+		}
+	}
+	return 'notebook';
+}
+
+/** One instrument glyph from assets/instruments.svg, which the page inlines once. */
+function wesscijo_instrument_icon( $name ) {
+	return '<svg class="instrument instrument--' . esc_attr( $name ) . '" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><use href="#inst-' . esc_attr( $name ) . '"></use></svg>';
 }
 
 /** End an article's text with the cardinal, before any Works Cited heading. */
