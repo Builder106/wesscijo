@@ -4,7 +4,7 @@
 
 The first almanac layout still read as a generic list. The page now opens on a line drawing of the Van Vleck refractor (`assets/observatory-refractor.svg`) with the cardinal perched on the tube, and the tube tracks slowly unless reduced motion is on. Each event carries an instrument for its field (`assets/instruments.svg`: telescope, microscope, flask, pendulum, compass, plotter, notebook), picked by `wesscijo_event_instrument()` from department, title and description. The date column is a graduated scale with a red needle on each sticky date.
 
-The cardinal on the calendar is a new trace of `brand/logo.png` (`assets/cardinal-logo.svg`, scripts in the git-ignored `artifacts/cardinal-trace/`), because the old `cardinal-perch.svg` trace had muddy goggles, a stray flare, seams and stepped toes. It keeps the head, torso and tail groups in the old coordinates, so `cardinal-watch.js` turns its head, and it includes the logo's micropipette. The homepage and article birds still use `cardinal-perch.svg` until the editors decide whether the pipette belongs there.
+`assets/cardinal-perch.svg` is now a new trace of `brand/logo.png` (scripts in the git-ignored `artifacts/cardinal-trace/`), because the old trace had muddy goggles, a stray flare, seams and stepped toes. It keeps the head, torso and tail groups in the old coordinates, so `cardinal-watch.js` still turns its head, and it includes the logo's micropipette. The same bird appears on the calendar refractor, the homepage section rules and the article end mark.
 
 ## 2026-11-18 - Gate the calendar behind the Winter publish #events #deployment #decision
 
