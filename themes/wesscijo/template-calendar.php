@@ -36,8 +36,9 @@ get_header();
 		<?php if ( ! empty( $wessci_events ) ) : ?>
 			<div class="cards">
 				<?php
-				foreach ( $wessci_events as $event ) :
-					setup_postdata( $event );
+				foreach ( $wessci_events as $post ) :
+					setup_postdata( $post );
+					$event = $post;
 					$start = wessci_site_get_event_datetime( $event->ID, 'start' );
 					$end   = wessci_site_get_event_datetime( $event->ID, 'end' );
 					?>
@@ -58,7 +59,7 @@ get_header();
 								<time datetime="<?php echo esc_attr( $start->format( DATE_ATOM ) ); ?>"><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $start->getTimestamp() ) ); ?></time>
 								<?php if ( $end ) : ?>
 									<span aria-hidden="true">–</span>
-									<time datetime="<?php echo esc_attr( $end->format( DATE_ATOM ) ); ?>"><?php echo esc_html( wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $end->getTimestamp() ) ); ?></time>
+									<time datetime="<?php echo esc_attr( $end->format( DATE_ATOM ) ); ?>"><?php echo esc_html( wp_date( $end->format( 'Y-m-d' ) === $start->format( 'Y-m-d' ) ? get_option( 'time_format' ) : get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $end->getTimestamp() ) ); ?></time>
 								<?php endif; ?>
 							</p>
 						<?php endif; ?>
