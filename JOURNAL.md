@@ -1,5 +1,11 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-18 - Gate the calendar behind the Winter publish #events #deployment #decision
+
+Giancarlo sent a WesWAVES (EventPrime) export on Oct 29: 29 events as JSON plus an ics copy, no live feed, no venue field. Added `WesSci_Event_Sync::import_weswaves()`, run once per export with `scripts/import-weswaves-events.php <file>`. It imports upcoming events as drafts under `weswaves:<id>`, skips an event whose title and New York day match one from another source, and never retires anything because a snapshot cannot say what was removed. Cards link to WesWAVES with "Event details on WesWAVES".
+
+The Calendar page exists as a draft (post 135, Calendar template). The header and footer link to it through `wesscijo_calendar_url()`, which returns a URL only when the page is published. `artifacts/winter/publish.php` publishes the page and the upcoming draft events with the issue. WesWAVES drafts stay held unless `WESWAVES_OK=1`, because Anika Dane's answer on showing and crediting the events has not been seen. Nine WesWAVES drafts were imported live; the 11 LiveWhale drafts are unchanged.
+
 ## 2026-11-18 - Split News from News and Views #editorial #deployment #decision
 
 This corrects the November 17 reading of the editors' notes. They wanted two sections, not one. News is a tab in News, Features & Perspectives. News and Views is a separate tab in Research & Reviews, and it is the former News and Reviews under its new name. The November 17 move of News and Views into News, Features & Perspectives was wrong, and it was live for about a day with no articles in it.
