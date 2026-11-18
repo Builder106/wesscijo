@@ -59,85 +59,93 @@ function wessci_site_register_event_cpt() {
 add_action( 'init', 'wessci_site_register_event_cpt' );
 
 function wessci_site_migrate_news_category() {
-	if ( get_option( 'wessci_news_views_migrated' ) ) {
+	if ( get_option( 'wessci_news_split_migrated' ) ) {
 		return;
 	}
 
+	$research = get_term_by( 'slug', 'research-reviews', 'category' );
 	$features = get_term_by( 'slug', 'news-features-perspectives', 'category' );
-	if ( ! $features ) {
+	if ( ! $research || ! $features ) {
 		return;
 	}
 
-	$news = false;
-	foreach ( array( 'research-reviews', 'news-features-perspectives' ) as $parent_slug ) {
-		$parent   = get_term_by( 'slug', $parent_slug, 'category' );
-		$children = $parent ? get_terms(
+	// News and Views lives in Research & Reviews. Reuse an earlier News category when one exists.
+	$views = false;
+	foreach ( array( $research, $features ) as $parent ) {
+		$children = get_terms(
 			array(
 				'taxonomy'   => 'category',
 				'parent'     => $parent->term_id,
 				'hide_empty' => false,
 			)
-		) : array();
+		);
 		if ( is_wp_error( $children ) ) {
 			continue;
 		}
 		foreach ( $children as $child ) {
-			$child_name = strtolower( html_entity_decode( $child->name, ENT_QUOTES, 'UTF-8' ) );
-			if ( in_array( $child->slug, array( 'news', 'news-and-reviews', 'news-and-views', 'news-features-perspectives-news' ), true ) || in_array( $child_name, array( 'news', 'news and reviews', 'news and views' ), true ) ) {
-				$news = $child;
+			if ( in_array( $child->slug, array( 'news-and-views', 'news-and-reviews', 'news-features-perspectives-news' ), true ) ) {
+				$views = $child;
 				break 2;
 			}
 		}
 	}
-
-	if ( $news ) {
-		$result = wp_update_term(
-			$news->term_id,
+	if ( $views ) {
+		$views_result = wp_update_term(
+			$views->term_id,
 			'category',
 			array(
 				'name'   => 'News and Views',
 				'slug'   => 'news-and-views',
-				'parent' => $features->term_id,
+				'parent' => $research->term_id,
 			)
 		);
 	} else {
-		$result = wp_insert_term(
-			'News and Views',
-			'category',
-			array(
-				'slug'   => 'news-and-views',
-				'parent' => $features->term_id,
-			)
-		);
+		$views_result = wp_insert_term( 'News and Views', 'category', array( 'slug' => 'news-and-views', 'parent' => $research->term_id ) );
 	}
-	if ( is_wp_error( $result ) ) {
+	if ( is_wp_error( $views_result ) ) {
 		return;
 	}
 
-	update_option( 'wessci_news_views_migrated', 1, false );
+	// News is its own category in News, Features & Perspectives.
+	$news = get_term_by( 'slug', 'news', 'category' );
+	if ( ! $news ) {
+		$news_result = wp_insert_term( 'News', 'category', array( 'slug' => 'news', 'parent' => $features->term_id ) );
+		if ( is_wp_error( $news_result ) ) {
+			return;
+		}
+	}
+
+	update_option( 'wessci_news_split_migrated', 1, false );
 }
 add_action( 'init', 'wessci_site_migrate_news_category', 20 );
 
-/** Send the News category's earlier archive paths to its current one. */
+/** Send the News categories' earlier archive paths to where they live now. */
 function wessci_site_redirect_legacy_news_category() {
-	$news = get_term_by( 'slug', 'news-and-views', 'category' );
-	if ( ! $news ) {
-		return;
-	}
-
 	$category_base = trim( get_option( 'category_base' ) ?: 'category', '/' );
 	$home_path     = untrailingslashit( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ) );
-	$pattern       = '#^' . preg_quote( $home_path . '/' . $category_base, '#' ) . '/(research-reviews|news-features-perspectives)/(news-features-perspectives-news|news-and-reviews|news)$#';
+	$base          = preg_quote( $home_path . '/' . $category_base, '#' );
 	$request_uri   = isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '/';
 	$request_path  = untrailingslashit( (string) wp_parse_url( $request_uri, PHP_URL_PATH ) );
-	if ( ! preg_match( $pattern, $request_path ) ) {
-		return;
-	}
 
-	$target = get_term_link( $news );
-	if ( ! is_wp_error( $target ) ) {
-		wp_safe_redirect( $target, 301 );
-		exit;
+	$moves = array(
+		'#^' . $base . '/(research-reviews|news-features-perspectives)/(news-and-reviews|news-and-views)$#' => 'news-and-views',
+		'#^' . $base . '/research-reviews/news-features-perspectives-news$#'                                   => 'news-and-views',
+		'#^' . $base . '/news-features-perspectives/news-features-perspectives-news$#'                         => 'news',
+	);
+	foreach ( $moves as $pattern => $slug ) {
+		if ( ! preg_match( $pattern, $request_path ) ) {
+			continue;
+		}
+		$term = get_term_by( 'slug', $slug, 'category' );
+		if ( ! $term ) {
+			return;
+		}
+		$target = get_term_link( $term );
+		if ( ! is_wp_error( $target ) && untrailingslashit( (string) wp_parse_url( $target, PHP_URL_PATH ) ) !== $request_path ) {
+			wp_safe_redirect( $target, 301 );
+			exit;
+		}
+		return;
 	}
 }
 add_action( 'template_redirect', 'wessci_site_redirect_legacy_news_category' );

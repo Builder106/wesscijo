@@ -40,8 +40,8 @@
 
 			<?php the_posts_pagination(); ?>
 		<?php else : ?>
-			<?php if ( is_category( array( 'news', 'news-and-reviews', 'news-and-views', 'news-features-perspectives-news' ) ) || ( $queried instanceof WP_Term && ( in_array( $queried->slug, array( 'news', 'news-and-reviews', 'news-and-views', 'news-features-perspectives-news' ), true ) || in_array( $queried->name, array( 'News', 'News and Reviews', 'News and Views' ), true ) ) ) ) : ?>
-				<p class="empty">No News and Views articles are listed yet.</p>
+			<?php if ( $queried instanceof WP_Term && in_array( $queried->slug, array( 'news', 'news-and-views' ), true ) ) : ?>
+				<p class="empty">No <?php echo wessci_term_name( $queried ); ?> articles are listed yet.</p>
 			<?php else : ?>
 				<p class="empty">No articles found.</p>
 			<?php endif; ?>
