@@ -1,5 +1,22 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-17 - Import the Winter 2026 articles as drafts #editorial #deployment
+
+Ten Winter articles are on the IONOS site as drafts under a new `winter-2026` issue term. None is public, and drafts do not trigger the plugin's editor emails. The list was the Article Brainstorming doc in the shared drive, which Shriya calls the Winter 2026 Article List. Only items marked "(ready for site)" were imported. Calvin's interview with Prof. Yoon was not imported, per the hold. The outside submission is not published.
+
+Each draft has the Fall fields: division and type categories, `_wessci_division`, `_wessci_format`, `_wessci_abstract`, authors, and a WebP cover captioned with the designer's name. Covers and figures live under `uploads/issue/winter-2026/<slug>/`. Body text is the authors' wording. The conversion only changed structure: bold lines became headings, comment marks and tracking parameters were removed, and an unlabeled reference list got a "References" heading. Google Docs were read through the signed-in browser, and Feyza's was a `.docx`.
+
+Open editorial points:
+
+1. Hamza's and Zesun's docs have no title line. Zesun's title comes from the file name. Hamza's title, "Machine Learning in Computational Drug Discovery", is a working title I wrote.
+2. Call of the Void is listed as "Feature/Lit Review" and was imported as a Literature Review.
+3. Ella's article type is undecided, so it sits under News and Views for now.
+4. Tessa's cover is the first figure in her doc, so it is not repeated in the body.
+5. Tessa's doc kept her working notes after "Tab 2". They were left out.
+6. The Singer cover is a photo with no credit in the doc. Its caption names Prof. Singer only.
+
+The importer's first test run created one article twice. The duplicate and its cover were deleted, and the shared cover file was restored. The importer's existence check now queries the posts table. The scripts live in the git-ignored `artifacts/winter/`.
+
 ## 2026-11-17 - Winter site notes, correction, and the move to IONOS #deployment #editorial #infrastructure
 
 Production is no longer on ampere-dev. The public site runs on an IONOS VPS, with the same `wessci-wordpress-1` container layout. Earlier entries that say "production container" mean the old host. The ampere-dev WordPress is a stale copy.
