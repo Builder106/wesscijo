@@ -1,5 +1,15 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-18 - Split News from News and Views #editorial #deployment #decision
+
+This corrects the November 17 reading of the editors' notes. They wanted two sections, not one. News is a tab in News, Features & Perspectives. News and Views is a separate tab in Research & Reviews, and it is the former News and Reviews under its new name. The November 17 move of News and Views into News, Features & Perspectives was wrong, and it was live for about a day with no articles in it.
+
+The plugin's one-time migration now runs under `wessci_news_split_migrated`. It puts `news-and-views` under Research & Reviews, creates `news` under News, Features & Perspectives, and reuses an earlier News term when one exists. Old archive paths redirect: the former News and Reviews and `news-features-perspectives-news` paths go to News and Views, and the old News path under News, Features & Perspectives goes to News. Both themes, the preview renderer and the seed script follow the same split.
+
+The Winter drafts were re-filed from the editors' list and Shriya's answer on Ella's piece: Claire, Aniana and Ella are News, and Gaby is News and Views. The Join page now italicizes the whole name, "The Wesleyan Science Journal".
+
+Deployed to IONOS with backups in `/root/wessci-backups/20261118-news-split`. The live checks were the four category URLs, four redirects, the menus, and the Join page. Checked on Linux ARM64: PHP lint, the four PHP tests, stylelint, and 13 of 13 publication browser tests. The two new tests were updated for the split. Not run: the WordPress browser suite.
+
 ## 2026-11-17 - Scope the homepage to the current issue and deploy share images #theme #deployment #infrastructure
 
 The homepage chose its lead and each section's four cards by date across all issues, and Birds of Wesleyan was sticky. Publishing Winter would have mixed the two issues and kept Birds on top. `wessci_current_issue_id()` now returns the newest issue with a published article, and the lead and section queries filter on it. A sticky post only counts when it belongs to that issue. Fall stays current until the first Winter article is published, so the deploy changed nothing visible. A draft-based check showed the Winter sections. The lead will be the newest Winter article unless one is made sticky. The Archives page is hand-written content, so the Winter list is added by hand at publish time. Both themes changed.
