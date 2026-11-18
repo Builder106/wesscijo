@@ -151,4 +151,39 @@ run_sync( array( feed_page( array( feed_event( 5, array( 'url' => 'javascript:al
 check_event( 3 === count( $requests ), 'Next link left the events host.' );
 check_event( 'livewhale:5' === $meta[103]['_wessci_event_source_id'] && ! isset( $meta[103]['_wessci_event_url'] ), 'Unsafe event URL was stored.' );
 
+function wave_event( $id, $when, array $over = array() ) {
+	$start = strtotime( $when . ' UTC' );
+	return $over + array(
+		'id'                 => $id,
+		'title'              => 'Physics Colloquium: A &amp; B',
+		'desc'               => '<p>Room 1</p><script>x</script>',
+		'em_start_date_time' => (string) $start,
+		'em_end_date_time'   => (string) ( $start + 3600 ),
+		'link'               => 'https://weswaves.com/all-events/?event=' . $id,
+		'event_type'         => 'NSM Lecture',
+		'organizer_object'   => array( array( 'name' => 'Physics Department' ) ),
+	);
+}
+
+$wave = WesSci_Event_Sync::map_weswaves_event( wave_event( 1335, '2099-12-01 17:00:00' ) );
+check_event( 'weswaves:1335' === $wave['source_id'] && $wave['active'], 'WesWAVES source ID wrong.' );
+check_event( 'Physics Colloquium: A & B' === $wave['fields']['title'] && false === strpos( $wave['fields']['content'], '<script>' ), 'WesWAVES title or description not cleaned.' );
+check_event( '2099-12-01 17:00:00' === $wave['fields']['start'] && '2099-12-01 18:00:00' === $wave['fields']['end'], 'WesWAVES timestamps not kept as UTC.' );
+check_event( 'Physics Department' === $wave['fields']['department'] && 'https://weswaves.com/all-events/?event=1335' === $wave['fields']['url'], 'WesWAVES department or link wrong.' );
+check_event( 'NSM Lecture' === WesSci_Event_Sync::map_weswaves_event( wave_event( 5, '2099-12-01 17:00:00', array( 'organizer_object' => array() ) ) )['fields']['department'], 'Department should fall back to the event type.' );
+check_event( null === WesSci_Event_Sync::map_weswaves_event( wave_event( 6, '2099-12-01 17:00:00', array( 'em_start_date_time' => '' ) ) ), 'WesWAVES event without a start was mapped.' );
+
+$known = count( $posts );
+$wave_batch = array(
+	wave_event( 10, '2099-12-01 17:00:00' ),
+	wave_event( 11, '2000-01-01 17:00:00' ),
+	wave_event( 12, '2099-11-04 23:00:00', array( 'title' => 'SPACE NIGHT &amp; Stars!' ) ),
+	wave_event( 13, '2099-12-02 17:00:00', array( 'em_start_date_time' => '' ) ),
+);
+$counts = WesSci_Event_Sync::import_weswaves( $wave_batch, '2099-01-01 00:00:00' );
+check_event( array( 'imported' => 1, 'skipped_past' => 1, 'skipped_duplicate' => 1, 'skipped_invalid' => 1 ) === $counts, 'WesWAVES import counts wrong.' );
+check_event( $known + 1 === count( $posts ) && 'draft' === $posts[ $known + 100 ]['post_status'] && 'weswaves:10' === $meta[ $known + 100 ]['_wessci_event_source_id'], 'WesWAVES event should arrive as one draft.' );
+WesSci_Event_Sync::import_weswaves( $wave_batch, '2099-01-01 00:00:00' );
+check_event( $known + 1 === count( $posts ), 'Re-importing created duplicates.' );
+
 echo "Event sync checks passed.\n";

@@ -141,6 +141,101 @@ class WesSci_Event_Sync {
 		);
 	}
 
+	/**
+	 * Convert one WesWAVES (EventPrime) export event to the plugin's event fields.
+	 * The export has no venue field, so the location stays in the description.
+	 *
+	 * @return array|null Null when the event has no ID or no valid start.
+	 */
+	public static function map_weswaves_event( array $event ) {
+		$start = isset( $event['em_start_date_time'] ) && ctype_digit( (string) $event['em_start_date_time'] ) ? gmdate( 'Y-m-d H:i:s', (int) $event['em_start_date_time'] ) : '';
+		if ( empty( $event['id'] ) || '' === $start ) {
+			return null;
+		}
+		$end = isset( $event['em_end_date_time'] ) && ctype_digit( (string) $event['em_end_date_time'] ) ? gmdate( 'Y-m-d H:i:s', (int) $event['em_end_date_time'] ) : '';
+		if ( $end && $end < $start ) {
+			$end = '';
+		}
+		$organizer  = isset( $event['organizer_object'][0]['name'] ) ? (string) $event['organizer_object'][0]['name'] : '';
+		$department = sanitize_text_field( '' !== $organizer ? $organizer : ( isset( $event['event_type'] ) ? (string) $event['event_type'] : '' ) );
+		$title      = isset( $event['title'] ) ? wp_strip_all_tags( html_entity_decode( $event['title'], ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) : '';
+		return array(
+			'source_id' => 'weswaves:' . (int) $event['id'],
+			'active'    => true,
+			'fields'    => array(
+				'title'      => trim( $title ),
+				'content'    => isset( $event['desc'] ) ? trim( wp_kses_post( $event['desc'] ) ) : '',
+				'start'      => $start,
+				'end'        => $end,
+				'department' => $department,
+				'location'   => '',
+				'url'        => isset( $event['link'] ) ? esc_url_raw( $event['link'] ) : '',
+			),
+		);
+	}
+
+	/**
+	 * Import upcoming events from a WesWAVES export as drafts. There is no live
+	 * feed, so nothing is retired. An event already imported from another source
+	 * (same title on the same New York day) is skipped.
+	 *
+	 * @return array Counts: imported, skipped_past, skipped_duplicate, skipped_invalid.
+	 */
+	public static function import_weswaves( array $events, $now = null ) {
+		$now    = null === $now ? gmdate( 'Y-m-d H:i:s' ) : $now;
+		$counts = array( 'imported' => 0, 'skipped_past' => 0, 'skipped_duplicate' => 0, 'skipped_invalid' => 0 );
+		self::$syncing = true;
+		foreach ( $events as $event ) {
+			$item = is_array( $event ) ? self::map_weswaves_event( $event ) : null;
+			if ( ! $item ) {
+				$counts['skipped_invalid']++;
+				continue;
+			}
+			if ( $item['fields']['start'] < $now ) {
+				$counts['skipped_past']++;
+				continue;
+			}
+			if ( self::duplicate_elsewhere( $item ) ) {
+				$counts['skipped_duplicate']++;
+				continue;
+			}
+			self::upsert( $item );
+			$counts['imported']++;
+		}
+		self::$syncing = false;
+		return $counts;
+	}
+
+	private static function duplicate_elsewhere( array $item ) {
+		$key = self::duplicate_key( $item['fields']['title'], $item['fields']['start'] );
+		$ids = get_posts( array(
+			'post_type'      => 'wessci_event',
+			'post_status'    => array( 'publish', 'draft', 'pending', 'future', 'private' ),
+			'meta_key'       => self::SOURCE_KEY,
+			'posts_per_page' => -1,
+			'fields'         => 'ids',
+		) );
+		foreach ( $ids as $id ) {
+			if ( get_post_meta( $id, self::SOURCE_KEY, true ) === $item['source_id'] ) {
+				continue;
+			}
+			if ( self::duplicate_key( get_post_field( 'post_title', $id ), (string) get_post_meta( $id, '_wessci_event_start', true ) ) === $key ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static function duplicate_key( $title, $utc_start ) {
+		$title = strtolower( preg_replace( '/[^a-z0-9]+/i', '', html_entity_decode( (string) $title, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
+		try {
+			$day = ( new DateTimeImmutable( $utc_start, new DateTimeZone( 'UTC' ) ) )->setTimezone( new DateTimeZone( 'America/New_York' ) )->format( 'Y-m-d' );
+		} catch ( Exception $error ) {
+			$day = $utc_start;
+		}
+		return $title . '|' . $day;
+	}
+
 	private static function to_utc( $iso ) {
 		if ( ! is_string( $iso ) || '' === $iso ) {
 			return '';

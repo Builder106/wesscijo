@@ -68,7 +68,7 @@ get_header();
 						<p class="card__excerpt"><?php echo esc_html( get_the_excerpt() ); ?></p>
 						<?php $url = get_post_meta( $event->ID, '_wessci_event_url', true ); ?>
 						<?php if ( $url ) : ?>
-							<a href="<?php echo esc_url( $url ); ?>" rel="noopener noreferrer">Event details</a>
+							<a href="<?php echo esc_url( $url ); ?>" rel="noopener noreferrer">Event details<?php echo 'weswaves.com' === wp_parse_url( $url, PHP_URL_HOST ) ? ' on WesWAVES' : ''; ?></a>
 						<?php endif; ?>
 					</article>
 					<?php
