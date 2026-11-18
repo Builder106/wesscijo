@@ -1,5 +1,13 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-17 - Scope the homepage to the current issue and deploy share images #theme #deployment #infrastructure
+
+The homepage chose its lead and each section's four cards by date across all issues, and Birds of Wesleyan was sticky. Publishing Winter would have mixed the two issues and kept Birds on top. `wessci_current_issue_id()` now returns the newest issue with a published article, and the lead and section queries filter on it. A sticky post only counts when it belongs to that issue. Fall stays current until the first Winter article is published, so the deploy changed nothing visible. A draft-based check showed the Winter sections. The lead will be the newest Winter article unless one is made sticky. The Archives page is hand-written content, so the Winter list is added by hand at publish time. Both themes changed.
+
+The share image block and `assets/social-logo.png` are now on the IONOS plugin. Home and other pages use the logo with the small Twitter card. Articles with a cover use it with the large card. The file hashes match the repo.
+
+The rest of the IONOS plugin is still older than the repo. The admin dashboard widgets and email templates differ, including the editor notification emails, and the server has a `widget-vercel-deploy.php` that the repo dropped. That drift is untouched. Syncing it would turn on emails to the editors, so it needs a decision first. Backups of replaced files are under `/root/wessci-backups/20261117-home-issue` and `/root/wessci-backups/20261117-og` on the host.
+
 ## 2026-11-17 - Import the Winter 2026 articles as drafts #editorial #deployment
 
 Ten Winter articles are on the IONOS site as drafts under a new `winter-2026` issue term. None is public, and drafts do not trigger the plugin's editor emails. The list was the Article Brainstorming doc in the shared drive, which Shriya calls the Winter 2026 Article List. Only items marked "(ready for site)" were imported. Calvin's interview with Prof. Yoon was not imported, per the hold. The outside submission is not published.
@@ -29,7 +37,7 @@ The editors sent a list of changes for the Winter issue. Done today:
 4. Added a date line to the Editorial Board letter: "Written for the Fall 2026 edition, October 2026".
 5. Added a Join Us page with the three Spring 2027 application forms (editor, graphic designer, social media and promotional manager), plus nav and footer links. "Spring 2027" is my reading of "the upcoming semester".
 
-Deployed to IONOS: the six theme files, the plugin file, the About page text, and the new page. Originals are in `/root/wessci-backups/20261117-news-join` on the host. Cache Enabler was cleared. The public URLs, the three old category redirects, the nav, and the cover size were checked in a browser. The IONOS plugin file is older than the repo's: it lacks the November 6 social preview change, and `assets/social-logo.png` is not on that server. I patched only the News and Views block into the live file, so that change is still undeployed.
+Deployed to IONOS: the six theme files, the plugin file, the About page text, and the new page. Originals are in `/root/wessci-backups/20261117-news-join` on the host. Cache Enabler was cleared. The public URLs, the three old category redirects, the nav, and the cover size were checked in a browser. The IONOS plugin file was older than the repo's and lacked the November 6 social preview change. I patched in the News and Views block first. The social preview block and its logo were deployed later the same day (see the next entry).
 
 Checked on Linux ARM64: PHP lint, the four PHP tests, stylelint, and 13 of 13 publication browser tests, including two new ones. Not run: the WordPress browser suite and the production smoke suite.
 
