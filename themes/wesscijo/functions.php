@@ -223,12 +223,10 @@ function wessci_cardinal_svg() {
 }
 
 /**
- * The Van Vleck refractor drawing with the logo cardinal (traced from
- * brand/logo.png, micropipette in its feet) perched on the tube. cardinal-watch.js turns the bird's head on scroll.
+ * The Van Vleck refractor drawing with the logo cardinal perched on the tube. cardinal-watch.js turns the bird's head on scroll.
  */
 function wesscijo_refractor_svg() {
-	$bird = (string) file_get_contents( get_theme_file_path( '/assets/cardinal-logo.svg' ) );
-	$bird = preg_replace( '/^<svg /', '<svg x="204.3" y="28.3" width="140" height="130.7" ', $bird, 1 );
+	$bird = preg_replace( '/^<svg /', '<svg x="204.3" y="28.3" width="140" height="130.7" ', wessci_cardinal_svg(), 1 );
 	$svg  = (string) file_get_contents( get_theme_file_path( '/assets/observatory-refractor.svg' ) );
 	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(18 300 136)">' . $bird . '</g>', $svg );
 }
