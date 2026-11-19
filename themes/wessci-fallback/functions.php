@@ -30,6 +30,18 @@ function wesscijo_assets() {
 		array(),
 		(string) filemtime( get_stylesheet_directory() . '/style.css' )
 	);
+	if ( is_page_template( 'template-calendar.php' ) ) {
+		wp_enqueue_script(
+			'wesscijo-calendar-aim',
+			get_theme_file_uri( '/assets/calendar-aim.js' ),
+			array(),
+			(string) filemtime( get_stylesheet_directory() . '/assets/calendar-aim.js' ),
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+	}
 	if ( is_front_page() || is_singular( 'post' ) ) {
 		wp_enqueue_script(
 			'wessci-cardinal-watch',
@@ -136,6 +148,15 @@ function wesscijo_search_query( $query ) {
 add_action( 'pre_get_posts', 'wesscijo_search_query' );
 
 /**
+ * Calendar page URL once the page is published, else an empty string, so the
+ * nav and footer links appear when the page goes live and not before.
+ */
+function wesscijo_calendar_url() {
+	$page = get_page_by_path( 'calendar' );
+	return $page && 'publish' === $page->post_status ? get_permalink( $page ) : '';
+}
+
+/**
  * Newest issue that has at least one published article, so the homepage
  * switches by itself when the first article of a new issue goes live.
  */
@@ -213,6 +234,83 @@ function wessci_cardinal_svg() {
 	return $svg;
 }
 
+/**
+ * The Van Vleck refractor drawing with the logo cardinal perched on the tube.
+ * Each entry of $sky is one upcoming day drawn as a star; the tube points at
+ * the first. assets/calendar-aim.js swings the tube to other stars and turns
+ * the bird's head toward the aimed one.
+ *
+ * @param array $sky Days with angle, x, y, day, label, title, when, anchor.
+ */
+function wesscijo_refractor_svg( array $sky = array() ) {
+	$angle = $sky ? (float) $sky[0]['angle'] : 22.0;
+	$bird  = preg_replace( '/^<svg /', '<svg x="204.3" y="28.3" width="140" height="130.7" ', wessci_cardinal_svg(), 1 );
+	$stars = '';
+	foreach ( $sky as $i => $star ) {
+		$stars .= sprintf(
+			'<a class="refractor__star%1$s" href="#%2$s" data-day="%3$s" data-angle="%4$s" data-date="%5$s" data-title="%6$s" data-when="%7$s" aria-label="%8$s"><rect class="refractor__hit" x="%13$s" y="%14$s" width="70" height="30" /><path transform="translate(%9$s %10$s)" d="M0 -7 L1.8 -1.8 L7 0 L1.8 1.8 L0 7 L-1.8 1.8 L-7 0 L-1.8 -1.8 Z" /><text x="%11$s" y="%12$s" text-anchor="end">%5$s</text></a>',
+			0 === $i ? ' is-aimed' : '',
+			esc_attr( $star['anchor'] ),
+			esc_attr( $star['day'] ),
+			esc_attr( $star['angle'] ),
+			esc_html( $star['label'] ),
+			esc_attr( $star['title'] ),
+			esc_attr( $star['when'] ),
+			esc_attr( $star['title'] . ', ' . $star['label'] ),
+			esc_attr( round( $star['x'], 1 ) ),
+			esc_attr( round( $star['y'], 1 ) ),
+			esc_attr( round( $star['x'] - 11, 1 ) ),
+			esc_attr( round( $star['y'] + 4, 1 ) ),
+			esc_attr( round( $star['x'] - 56, 1 ) ),
+			esc_attr( round( $star['y'] - 15, 1 ) )
+		);
+	}
+	$svg = (string) file_get_contents( get_theme_file_path( '/assets/observatory-refractor.svg' ) );
+	$svg = str_replace( 'rotate(-22 215 150)', 'rotate(' . ( -$angle ) . ' 215 150)', $svg );
+	// A faint altitude scale through the stars, ticked every 2 degrees from 10 to 42.
+	$scale = '';
+	for ( $deg = 10; $deg <= 42; $deg += 2 ) {
+		$r1     = 0 === $deg % 10 ? 250 : 254;
+		$rad    = deg2rad( $deg );
+		$scale .= sprintf( 'M%.1f %.1f L%.1f %.1f ', 215 + $r1 * cos( $rad ), 150 - $r1 * sin( $rad ), 215 + 258 * cos( $rad ), 150 - 258 * sin( $rad ) );
+	}
+	$a0   = deg2rad( 10 );
+	$a1   = deg2rad( 42 );
+	$arc  = sprintf( '<path class="refractor__scale" d="M%.1f %.1f A258 258 0 0 0 %.1f %.1f %s" />', 215 + 258 * cos( $a0 ), 150 - 258 * sin( $a0 ), 215 + 258 * cos( $a1 ), 150 - 258 * sin( $a1 ), trim( $scale ) );
+	$svg  = str_replace( '<!--SKY-->', '<g class="refractor__sky">' . $arc . $stars . '</g>', $svg );
+	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(' . ( $angle * 0.5 + 2 ) . ' 300 136)">' . $bird . '</g>', $svg );
+}
+
+/**
+ * Pick the instrument drawn beside a calendar event from its department,
+ * title and description. The first matching field wins; the notebook is the
+ * fallback for talks, career events and anything else.
+ */
+function wesscijo_event_instrument( $text ) {
+	$text = strtolower( $text );
+	$map  = array(
+		'telescope'  => array( 'astronom', 'observatory', 'space night', 'planetary' ),
+		'plotter'    => array( 'comput', 'quantitative', 'statistic', 'data science', 'mathemat' ),
+		'flask'      => array( 'chemi' ),
+		'pendulum'   => array( 'physic' ),
+		'compass'    => array( 'environment', 'earth and', 'climate', 'sustainab', 'ecolog' ),
+		'microscope' => array( 'biolog', 'mb&b', 'molecul', 'neuro', 'optometr', 'medic', 'health' ),
+	);
+	foreach ( $map as $name => $words ) {
+		foreach ( $words as $word ) {
+			if ( false !== strpos( $text, $word ) ) {
+				return $name;
+			}
+		}
+	}
+	return 'notebook';
+}
+
+/** One instrument glyph from assets/instruments.svg, which the page inlines once. */
+function wesscijo_instrument_icon( $name ) {
+	return '<svg class="instrument instrument--' . esc_attr( $name ) . '" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><use href="#inst-' . esc_attr( $name ) . '"></use></svg>';
+}
+
 /** End an article's text with the cardinal, before any Works Cited heading. */
 function wessci_article_end_mark( $content ) {
 	if ( ! is_singular( 'post' ) || ! in_the_loop() || ! is_main_query() ) {
@@ -230,6 +328,16 @@ function wessci_article_end_mark( $content ) {
 	return $content;
 }
 add_filter( 'the_content', 'wessci_article_end_mark', 20 );
+
+/**
+ * Mail link to the journal's Google Group. The plus tag sorts mail by topic;
+ * the group only accepts senders with a Wesleyan address.
+ */
+function wesscijo_contact_link( $tag = '', $label = '', $subject = '' ) {
+	$address = 'wesscijo' . ( $tag ? '+' . $tag : '' ) . '@wesleyan.edu';
+	$href    = 'mailto:' . $address . ( $subject ? '?subject=' . rawurlencode( $subject ) : '' );
+	return '<a href="' . esc_url( $href ) . '">' . esc_html( $label ? $label : $address ) . '</a>';
+}
 
 function wesscijo_byline( $post_id ) {
 	$authors = get_post_meta( $post_id, '_wessci_authors', true );

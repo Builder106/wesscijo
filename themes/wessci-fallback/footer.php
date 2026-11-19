@@ -21,7 +21,13 @@
 				<ul class="index-group__list">
 					<li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About Us</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/archives/' ) ); ?>">Archives</a></li>
+					<?php if ( wesscijo_calendar_url() ) : ?>
+						<li><a href="<?php echo esc_url( wesscijo_calendar_url() ); ?>">Calendar</a></li>
+					<?php endif; ?>
 					<li><a href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submit</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/join/' ) ); ?>">Join Us</a></li>
+					<li><?php echo wesscijo_contact_link( '', 'Contact' ); ?></li>
+					<li><?php echo wesscijo_contact_link( 'web', 'Report a site problem' ); ?></li>
 				</ul>
 			</div>
 		</nav>

@@ -52,6 +52,9 @@
 					<?php echo wp_kses_post( wpautop( make_clickable( esc_html( $references ) ) ) ); ?>
 				</section>
 			<?php endif; ?>
+			<div class="prose article__correction">
+				<p>Spotted an error? Email <?php echo wesscijo_contact_link( 'corrections', '', 'Correction: ' . wp_strip_all_tags( html_entity_decode( get_the_title(), ENT_QUOTES, 'UTF-8' ) ) ); ?> from your Wesleyan account.</p>
+			</div>
 		</article>
 
 		<?php if ( $division ) : ?>

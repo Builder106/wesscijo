@@ -80,7 +80,11 @@
 					</ul>
 				</details>
 			</li>
+			<?php if ( wesscijo_calendar_url() ) : ?>
+				<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( wesscijo_calendar_url() ); ?>">Calendar</a></li>
+			<?php endif; ?>
 			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/submit/' ) ); ?>">Submit</a></li>
+			<li class="hero__nav-item"><a class="hero__nav-link" href="<?php echo esc_url( home_url( '/join/' ) ); ?>">Join Us</a></li>
 		</ul>
 
 		<div class="hero__controls">
