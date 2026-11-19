@@ -1599,8 +1599,10 @@ body.admin-bar .reading-progress {
 .refractor__bird .cardinal { width: 140px; height: 130.7px; filter: none; }
 .calendar__scope { position: relative; }
 .refractor__scale { fill: none; stroke: var(--color-ink-3); stroke-width: 1; opacity: 0.45; }
+.refractor__hit { fill: transparent; }
+.refractor__star { cursor: pointer; }
 .refractor__star path { fill: var(--color-ink-3); transition: fill var(--dur-fast) var(--ease-out); }
-.refractor__star text { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; fill: var(--color-ink-2); }
+.refractor__star text { font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: 0.04em; fill: var(--color-ink-2); }
 .refractor__star.is-aimed path { fill: var(--color-accent); }
 .refractor__star.is-aimed text { fill: var(--color-accent); font-weight: 700; }
 .refractor__star:hover path { fill: var(--color-accent); }
@@ -1650,9 +1652,11 @@ body.admin-bar .reading-progress {
 }
 .eyepiece__title:hover { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
 .eyepiece__when { font-size: var(--text-xs); color: var(--color-ink-2); }
-.calendar__hint { display: none; font-size: var(--text-sm); color: var(--color-ink-3); }
+.calendar__hint { font-size: var(--text-sm); color: var(--color-ink-3); }
+.calendar__hint--pointer { display: none; }
 @media (hover: hover) and (pointer: fine) {
-	.calendar__hint { display: block; }
+	.calendar__hint--pointer { display: block; }
+	.calendar__hint--touch { display: none; }
 }
 
 /* Each event carries the instrument of its field. */
@@ -1694,6 +1698,7 @@ body.admin-bar .reading-progress {
 @media (max-width: 720px) {
 	.day::before, .day__date::after { display: none; }
 	.calendar__scope { grid-template-columns: 1fr; justify-items: center; }
+	.calendar__scope .refractor { width: calc(100% + 2rem); max-width: none; margin-inline: -1rem; }
 	.eyepiece { position: static; order: 1; margin-top: var(--space-2); width: 13rem; }
 	.event { grid-template-columns: 2.25rem minmax(0, 1fr); column-gap: var(--space-3); }
 	.event .instrument { grid-row: 1 / span 3; width: 2.25rem; height: 2.25rem; }

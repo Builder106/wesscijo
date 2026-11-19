@@ -1,7 +1,9 @@
-/* The calendar telescope points at one upcoming day. Hovering or focusing an
-   event (or its star) swings the tube to that day's star on a light spring;
-   the cardinal rides the tube and stays upright, and the eyepiece shows what
-   the telescope is looking at. Under reduced motion the tube jumps. */
+/* The calendar telescope points at one upcoming day. Tapping or clicking a
+   star, or hovering or focusing an event, swings the tube to that day's star
+   on a light spring; the cardinal rides the tube and stays upright, and the
+   eyepiece shows what the telescope is looking at (its title links to the
+   event). Without this script a star is a plain link to its event. Under
+   reduced motion the tube jumps. */
 (function () {
 	var fig = document.querySelector('.calendar__scope');
 	var tube = fig && fig.querySelector('.refractor__tube');
@@ -47,6 +49,7 @@
 		}
 		stars.forEach(function (s) {
 			s.classList.toggle('is-aimed', s === star);
+			s.setAttribute('aria-pressed', s === star ? 'true' : 'false');
 		});
 		aimed = star;
 		if (eye) {
@@ -86,5 +89,20 @@
 		el.addEventListener('focusin', function () { aim(day); });
 	}
 	Array.prototype.forEach.call(document.querySelectorAll('.event[data-day]'), hook);
-	stars.forEach(hook);
+	stars.forEach(function (star) {
+		hook(star);
+		star.setAttribute('role', 'button');
+		star.setAttribute('aria-pressed', star === aimed ? 'true' : 'false');
+		star.setAttribute('aria-label', 'Aim the telescope at ' + star.getAttribute('aria-label'));
+		star.addEventListener('click', function (event) {
+			event.preventDefault();
+			aim(star.getAttribute('data-day'));
+		});
+		star.addEventListener('keydown', function (event) {
+			if (event.key === ' ') {
+				event.preventDefault();
+				aim(star.getAttribute('data-day'));
+			}
+		});
+	});
 })();

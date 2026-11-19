@@ -17,11 +17,12 @@ foreach ( $wessci_events as $wessci_event ) {
 }
 $wessci_today = wp_date( 'Y-m-d' );
 
-// The next seven event days become stars above the telescope, nearest day lowest.
+// The next five event days become stars above the telescope, nearest day lowest.
+// Five keeps each star a 24px tap target on a phone.
 $wessci_sky = array();
 foreach ( $wessci_months as $wessci_days ) {
 	foreach ( $wessci_days as $wessci_day => $wessci_list ) {
-		if ( count( $wessci_sky ) < 7 ) {
+		if ( count( $wessci_sky ) < 5 ) {
 			$wessci_first = $wessci_list[0];
 			$wessci_s     = wessci_site_get_event_datetime( $wessci_first->ID, 'start' );
 			$wessci_sky[] = array(
@@ -39,8 +40,8 @@ foreach ( $wessci_sky as $wessci_i => &$wessci_star ) {
 	// 12 to 40 degrees keeps the back of the tube above the floor at every aim.
 	$wessci_star['angle'] = round( $wessci_n > 1 ? 12 + $wessci_i * 28 / ( $wessci_n - 1 ) : 22, 2 );
 	$wessci_rad           = deg2rad( $wessci_star['angle'] );
-	$wessci_star['x']     = 215 + 240 * cos( $wessci_rad );
-	$wessci_star['y']     = 150 - 240 * sin( $wessci_rad );
+	$wessci_star['x']     = 215 + 262 * cos( $wessci_rad );
+	$wessci_star['y']     = 150 - 262 * sin( $wessci_rad );
 }
 unset( $wessci_star );
 ?>
@@ -54,7 +55,8 @@ unset( $wessci_star );
 			<h1 class="calendar__title"><?php the_title(); ?></h1>
 			<p class="calendar__lede">Upcoming science events at Wesleyan, listed by day.</p>
 			<?php if ( $wessci_sky ) : ?>
-				<p class="calendar__hint">Point at an event to aim the telescope at its night.</p>
+				<p class="calendar__hint calendar__hint--pointer">Point at an event, or click a star, to aim the telescope at its night.</p>
+				<p class="calendar__hint calendar__hint--touch">Tap a star to aim the telescope at its night.</p>
 			<?php endif; ?>
 			<?php if ( count( $wessci_months ) > 1 ) : ?>
 				<nav class="calendar__months" aria-label="Jump to a month">

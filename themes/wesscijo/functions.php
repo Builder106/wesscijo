@@ -248,7 +248,7 @@ function wesscijo_refractor_svg( array $sky = array() ) {
 	$stars = '';
 	foreach ( $sky as $i => $star ) {
 		$stars .= sprintf(
-			'<a class="refractor__star%1$s" href="#%2$s" data-day="%3$s" data-angle="%4$s" data-date="%5$s" data-title="%6$s" data-when="%7$s" aria-label="%8$s"><path transform="translate(%9$s %10$s)" d="M0 -7 L1.8 -1.8 L7 0 L1.8 1.8 L0 7 L-1.8 1.8 L-7 0 L-1.8 -1.8 Z" /><text x="%11$s" y="%12$s">%5$s</text></a>',
+			'<a class="refractor__star%1$s" href="#%2$s" data-day="%3$s" data-angle="%4$s" data-date="%5$s" data-title="%6$s" data-when="%7$s" aria-label="%8$s"><rect class="refractor__hit" x="%13$s" y="%14$s" width="70" height="30" /><path transform="translate(%9$s %10$s)" d="M0 -7 L1.8 -1.8 L7 0 L1.8 1.8 L0 7 L-1.8 1.8 L-7 0 L-1.8 -1.8 Z" /><text x="%11$s" y="%12$s" text-anchor="end">%5$s</text></a>',
 			0 === $i ? ' is-aimed' : '',
 			esc_attr( $star['anchor'] ),
 			esc_attr( $star['day'] ),
@@ -259,8 +259,10 @@ function wesscijo_refractor_svg( array $sky = array() ) {
 			esc_attr( $star['title'] . ', ' . $star['label'] ),
 			esc_attr( round( $star['x'], 1 ) ),
 			esc_attr( round( $star['y'], 1 ) ),
-			esc_attr( round( $star['x'] + 10, 1 ) ),
-			esc_attr( round( $star['y'] + 4, 1 ) )
+			esc_attr( round( $star['x'] - 11, 1 ) ),
+			esc_attr( round( $star['y'] + 4, 1 ) ),
+			esc_attr( round( $star['x'] - 56, 1 ) ),
+			esc_attr( round( $star['y'] - 15, 1 ) )
 		);
 	}
 	$svg = (string) file_get_contents( get_theme_file_path( '/assets/observatory-refractor.svg' ) );
@@ -268,13 +270,13 @@ function wesscijo_refractor_svg( array $sky = array() ) {
 	// A faint altitude scale through the stars, ticked every 2 degrees from 10 to 42.
 	$scale = '';
 	for ( $deg = 10; $deg <= 42; $deg += 2 ) {
-		$r1     = 0 === $deg % 10 ? 228 : 232;
+		$r1     = 0 === $deg % 10 ? 250 : 254;
 		$rad    = deg2rad( $deg );
-		$scale .= sprintf( 'M%.1f %.1f L%.1f %.1f ', 215 + $r1 * cos( $rad ), 150 - $r1 * sin( $rad ), 215 + 236 * cos( $rad ), 150 - 236 * sin( $rad ) );
+		$scale .= sprintf( 'M%.1f %.1f L%.1f %.1f ', 215 + $r1 * cos( $rad ), 150 - $r1 * sin( $rad ), 215 + 258 * cos( $rad ), 150 - 258 * sin( $rad ) );
 	}
 	$a0   = deg2rad( 10 );
 	$a1   = deg2rad( 42 );
-	$arc  = sprintf( '<path class="refractor__scale" d="M%.1f %.1f A236 236 0 0 0 %.1f %.1f %s" />', 215 + 236 * cos( $a0 ), 150 - 236 * sin( $a0 ), 215 + 236 * cos( $a1 ), 150 - 236 * sin( $a1 ), trim( $scale ) );
+	$arc  = sprintf( '<path class="refractor__scale" d="M%.1f %.1f A258 258 0 0 0 %.1f %.1f %s" />', 215 + 258 * cos( $a0 ), 150 - 258 * sin( $a0 ), 215 + 258 * cos( $a1 ), 150 - 258 * sin( $a1 ), trim( $scale ) );
 	$svg  = str_replace( '<!--SKY-->', '<g class="refractor__sky">' . $arc . $stars . '</g>', $svg );
 	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(' . ( $angle - 4 ) . ' 300 136)">' . $bird . '</g>', $svg );
 }
