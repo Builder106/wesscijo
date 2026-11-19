@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-18 - Aim the calendar telescope at upcoming days #theme #design
+
+The refractor now carries information. The next seven event days are stars on an arc above the tube, the nearest lowest, and the tube points at the next one. Hovering or focusing an event, or its star, swings the tube to that day on an underdamped spring (`assets/calendar-aim.js`, SVG transform attributes so no CSS transform-origin guesswork), and the cardinal counter-rotates so it rides the tube upright. A reticle "eyepiece" beside the telescope shows the aimed day, title and time. Without JavaScript the next event is aimed and shown; under reduced motion the tube jumps. Stars are real links to the event rows, so the SVG is a labelled group, not aria-hidden.
+
 ## 2026-11-18 - Calendar as an observatory log #theme #design #decision
 
 The first almanac layout still read as a generic list. The page now opens on a line drawing of the Van Vleck refractor (`assets/observatory-refractor.svg`) with the cardinal perched on the tube, and the tube tracks slowly unless reduced motion is on. Each event carries an instrument for its field (`assets/instruments.svg`: telescope, microscope, flask, pendulum, compass, plotter, notebook), picked by `wesscijo_event_instrument()` from department, title and description. The date column is a graduated scale with a red needle on each sticky date.
