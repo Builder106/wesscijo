@@ -107,11 +107,14 @@
 		}, 350);
 	}
 
-	// First press aims at the star; a press on the star already aimed goes to
-	// its event in the list and moves focus there.
+	// A press aims at the star; a second press on the same star goes to its
+	// event and moves focus there. Hover and focus only preview the aim, so
+	// they never arm a star: the first real press always aims.
+	var armed = null;
 	function activate(star) {
-		if (star !== aimed) {
+		if (armed !== star || aimed !== star) {
 			aim(star.getAttribute('data-day'));
+			armed = star;
 			return;
 		}
 		var row = document.getElementById(star.getAttribute('href').slice(1));
