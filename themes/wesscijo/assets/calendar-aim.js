@@ -74,6 +74,9 @@
 			s.setAttribute('aria-pressed', s === star ? 'true' : 'false');
 		});
 		aimed = star;
+		if (knobs && knobs.length) {
+			syncKnobs();
+		}
 		if (eye) {
 			eye.querySelector('.eyepiece__date').textContent = star.getAttribute('data-date');
 			eye.querySelector('.eyepiece__title').textContent = star.getAttribute('data-title');
@@ -126,6 +129,29 @@
 		if (link) {
 			link.focus({ preventScroll: true });
 		}
+	}
+
+	// The eyepiece knobs step through the nights; 44px controls that do what
+	// the small stars do, for phones and anyone who prefers buttons.
+	var knobs = eye ? Array.prototype.slice.call(eye.querySelectorAll('.eyepiece__knob')) : [];
+	function syncKnobs() {
+		var i = stars.indexOf(aimed);
+		knobs.forEach(function (k) {
+			var step = parseInt(k.getAttribute('data-step'), 10);
+			k.disabled = i + step < 0 || i + step >= stars.length;
+		});
+	}
+	if (knobs.length && stars.length > 1) {
+		eye.querySelector('.eyepiece__knobs').hidden = false;
+		knobs.forEach(function (k) {
+			k.addEventListener('click', function () {
+				var next = stars[stars.indexOf(aimed) + parseInt(k.getAttribute('data-step'), 10)];
+				if (next) {
+					aim(next.getAttribute('data-day'));
+				}
+			});
+		});
+		syncKnobs();
 	}
 
 	function hook(el) {

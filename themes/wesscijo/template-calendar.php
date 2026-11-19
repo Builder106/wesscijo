@@ -75,6 +75,10 @@ unset( $wessci_star );
 						<span class="eyepiece__date"><?php echo esc_html( $wessci_sky[0]['label'] ); ?></span>
 						<a class="eyepiece__title" href="#<?php echo esc_attr( $wessci_sky[0]['anchor'] ); ?>"><?php echo esc_html( $wessci_sky[0]['title'] ); ?></a>
 						<span class="eyepiece__when"><?php echo esc_html( $wessci_sky[0]['when'] ); ?></span>
+						<span class="eyepiece__knobs" hidden>
+							<button type="button" class="eyepiece__knob" data-step="-1" aria-label="Aim at the earlier night"><span aria-hidden="true">&lsaquo;</span></button>
+							<button type="button" class="eyepiece__knob" data-step="1" aria-label="Aim at the later night"><span aria-hidden="true">&rsaquo;</span></button>
+						</span>
 					</figcaption>
 				<?php endif; ?>
 			</figure>
