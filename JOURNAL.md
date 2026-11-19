@@ -1,5 +1,9 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-19 - Refine the calendar telescope #theme #design
+
+The cardinal on the refractor now leans half as far as the tube, so the pipette stays along the tube at steep aims, and it tilts its head toward the aimed star (4 to 10 degrees; more shows body-layer slivers behind the crest). The calendar no longer loads `cardinal-watch.js`, since the bird's gaze follows the aim, not the scroll. Pressing the star that is already aimed goes to its event and focuses the title, so the date has its own way in. A mouse click no longer draws the browser focus box; keyboard focus gets a red ring on the star. Work was rehearsed on a staging copy of the theme inside the WordPress container (`artifacts/calendar-preview/refresh.py --staging`), which keeps unreleased edits off the live theme.
+
 ## 2026-11-18 - Aim the calendar telescope at upcoming days #theme #design
 
 The refractor now carries information. The next seven event days are stars on an arc above the tube, the nearest lowest, and the tube points at the next one. Hovering or focusing an event, or its star, swings the tube to that day on an underdamped spring (`assets/calendar-aim.js`, SVG transform attributes so no CSS transform-origin guesswork), and the cardinal counter-rotates so it rides the tube upright. A reticle "eyepiece" beside the telescope shows the aimed day, title and time. Without JavaScript the next event is aimed and shown; under reduced motion the tube jumps. Stars are real links to the event rows, so the SVG is a labelled group, not aria-hidden.
