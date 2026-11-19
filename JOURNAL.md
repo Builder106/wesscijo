@@ -1,5 +1,13 @@
 # JOURNAL - WesSciJo
 
+## 2026-11-19 - Publish Winter 2026, then turn on page caching #deployment #infrastructure #decision
+
+The scheduled job (`/etc/cron.d/wessci-publish`, 13:00 UTC) published the ten Winter articles, pinned Ella's lanternfly article as the lead, added the Winter list to Archives and published the Calendar page with its five LiveWhale events. WesWAVES events stay drafts until Anika Dane's answer on crediting them is confirmed.
+
+Afterwards: `wessci-fallback` was refreshed from `wesscijo` with `scripts/promote-to-fallback.sh` and deployed. `wp-config.php` now sets `WP_DEFAULT_THEME` to `wessci-fallback`, so WordPress falls back to it if the active theme goes missing, and `WP_CACHE` to true, so Cache Enabler serves pages to visitors (backup in `/root/wessci-backups/20261119-wpconfig`). `/calendar/` is excluded from the page cache (`excluded_page_paths` is `/^\/calendar\//`) because its aimed event depends on the current time. Saving any post clears the cache, which I checked with a no-op save. Cache Enabler skips requests whose `Accept` header lacks `text/html`, so test it with `-H "Accept: text/html"`; plain curl never fills the cache.
+
+Left alone: five theme SVGs on the server (`cardinal.svg`, the two division-editorial and two division-web-design files) differ from the repo's newer versions, so the live About page may still show older emblems. A stale 127.0.0.1 cache directory from October is harmless.
+
 ## 2026-11-19 - Refine the calendar telescope #theme #design
 
 The cardinal on the refractor now leans half as far as the tube, so the pipette stays along the tube at steep aims, and it tilts its head toward the aimed star (4 to 10 degrees; more shows body-layer slivers behind the crest). The calendar no longer loads `cardinal-watch.js`, since the bird's gaze follows the aim, not the scroll. Pressing the star that is already aimed goes to its event and focuses the title, so the date has its own way in. A mouse click no longer draws the browser focus box; keyboard focus gets a red ring on the star. Work was rehearsed on a staging copy of the theme inside the WordPress container (`artifacts/calendar-preview/refresh.py --staging`), which keeps unreleased edits off the live theme.
