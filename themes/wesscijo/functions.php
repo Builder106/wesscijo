@@ -42,7 +42,7 @@ function wesscijo_assets() {
 			)
 		);
 	}
-	if ( is_front_page() || is_singular( 'post' ) || is_page_template( 'template-calendar.php' ) ) {
+	if ( is_front_page() || is_singular( 'post' ) ) {
 		wp_enqueue_script(
 			'wessci-cardinal-watch',
 			get_theme_file_uri( '/assets/cardinal-watch.js' ),
@@ -237,8 +237,8 @@ function wessci_cardinal_svg() {
 /**
  * The Van Vleck refractor drawing with the logo cardinal perched on the tube.
  * Each entry of $sky is one upcoming day drawn as a star; the tube points at
- * the first. assets/calendar-aim.js swings the tube to other stars, and
- * cardinal-watch.js turns the bird's head on scroll.
+ * the first. assets/calendar-aim.js swings the tube to other stars and turns
+ * the bird's head toward the aimed one.
  *
  * @param array $sky Days with angle, x, y, day, label, title, when, anchor.
  */
@@ -278,7 +278,7 @@ function wesscijo_refractor_svg( array $sky = array() ) {
 	$a1   = deg2rad( 42 );
 	$arc  = sprintf( '<path class="refractor__scale" d="M%.1f %.1f A258 258 0 0 0 %.1f %.1f %s" />', 215 + 258 * cos( $a0 ), 150 - 258 * sin( $a0 ), 215 + 258 * cos( $a1 ), 150 - 258 * sin( $a1 ), trim( $scale ) );
 	$svg  = str_replace( '<!--SKY-->', '<g class="refractor__sky">' . $arc . $stars . '</g>', $svg );
-	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(' . ( $angle - 4 ) . ' 300 136)">' . $bird . '</g>', $svg );
+	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(' . ( $angle * 0.5 + 2 ) . ' 300 136)">' . $bird . '</g>', $svg );
 }
 
 /**

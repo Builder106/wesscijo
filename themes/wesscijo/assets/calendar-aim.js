@@ -11,6 +11,8 @@
 		return;
 	}
 	var bird = fig.querySelector('.refractor__bird');
+	var head = bird && bird.querySelector('.cardinal__head');
+	var tail = bird && bird.querySelector('.cardinal__tail');
 	var eye = fig.querySelector('.eyepiece');
 	var stars = Array.prototype.slice.call(fig.querySelectorAll('.refractor__star'));
 	var motion = window.matchMedia('(prefers-reduced-motion: no-preference)');
@@ -21,10 +23,30 @@
 	var start = 0;
 	var frame = 0;
 
+	// The bird leans half as far as the tube, so the pipette in its feet stays
+	// close to the tube at steep aims without the bird tipping over.
 	function draw(a) {
 		tube.setAttribute('transform', 'rotate(' + (-a) + ' 215 150)');
 		if (bird) {
-			bird.setAttribute('transform', 'rotate(' + (a - 4) + ' 300 136)');
+			bird.setAttribute('transform', 'rotate(' + (a * 0.5 + 2) + ' 300 136)');
+		}
+	}
+
+	// Tilt the head up toward the aimed star, turning on the throat like
+	// cardinal-watch.js does (pivot in drawing units from the head's origin).
+	var THROAT = [18, 48];
+	function look(a, flick) {
+		if (!head || !motion.matches) {
+			return;
+		}
+		// -4 to -10 degrees: past about 10 the body layer shows behind the crest.
+		var turn = -4 - (a - 12) * 0.2;
+		head.style.transform = 'translate(' + THROAT[0] + 'px, ' + THROAT[1] + 'px) rotate(' + turn + 'deg) translate(' + -THROAT[0] + 'px, ' + -THROAT[1] + 'px)';
+		if (flick && tail && tail.animate) {
+			tail.animate(
+				[{ transform: 'rotate(0deg)' }, { transform: 'rotate(-7deg)', offset: 0.35 }, { transform: 'rotate(0deg)' }],
+				{ duration: 420, easing: 'ease-out' }
+			);
 		}
 	}
 
@@ -59,6 +81,7 @@
 			eye.querySelector('.eyepiece__when').textContent = star.getAttribute('data-when');
 		}
 		target = parseFloat(star.getAttribute('data-angle'));
+		look(target, true);
 		if (!motion.matches) {
 			angle = target;
 			draw(angle);
@@ -74,6 +97,7 @@
 	// Opening move: the tube starts low and sweeps up to the next event.
 	if (motion.matches && aimed) {
 		target = angle;
+		window.setTimeout(function () { look(target, false); }, 900);
 		from = 4;
 		angle = 4;
 		draw(angle);
@@ -81,6 +105,24 @@
 			start = performance.now();
 			frame = window.requestAnimationFrame(step);
 		}, 350);
+	}
+
+	// First press aims at the star; a press on the star already aimed goes to
+	// its event in the list and moves focus there.
+	function activate(star) {
+		if (star !== aimed) {
+			aim(star.getAttribute('data-day'));
+			return;
+		}
+		var row = document.getElementById(star.getAttribute('href').slice(1));
+		if (!row) {
+			return;
+		}
+		row.scrollIntoView({ behavior: motion.matches ? 'smooth' : 'auto', block: 'start' });
+		var link = row.querySelector('.event__title a');
+		if (link) {
+			link.focus({ preventScroll: true });
+		}
 	}
 
 	function hook(el) {
@@ -93,15 +135,15 @@
 		hook(star);
 		star.setAttribute('role', 'button');
 		star.setAttribute('aria-pressed', star === aimed ? 'true' : 'false');
-		star.setAttribute('aria-label', 'Aim the telescope at ' + star.getAttribute('aria-label'));
+		star.setAttribute('aria-label', 'Aim the telescope at ' + star.getAttribute('aria-label') + '. Press again to go to the event.');
 		star.addEventListener('click', function (event) {
 			event.preventDefault();
-			aim(star.getAttribute('data-day'));
+			activate(star);
 		});
 		star.addEventListener('keydown', function (event) {
 			if (event.key === ' ') {
 				event.preventDefault();
-				aim(star.getAttribute('data-day'));
+				activate(star);
 			}
 		});
 	});

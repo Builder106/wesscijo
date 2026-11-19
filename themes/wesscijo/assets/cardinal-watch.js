@@ -27,7 +27,7 @@
 	// How far past a boundary the bird must be before it turns, so it never jitters.
 	var MARGIN = 0.03;
 
-	var birds = Array.prototype.map.call(document.querySelectorAll('.division__bird, .end-mark, .refractor__bird'), function (holder) {
+	var birds = Array.prototype.map.call(document.querySelectorAll('.division__bird, .end-mark'), function (holder) {
 		return {
 			head: holder.querySelector('.cardinal__head'),
 			tail: holder.querySelector('.cardinal__tail'),

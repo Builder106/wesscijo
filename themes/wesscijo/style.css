@@ -1606,7 +1606,8 @@ body.admin-bar .reading-progress {
 .refractor__star.is-aimed path { fill: var(--color-accent); }
 .refractor__star.is-aimed text { fill: var(--color-accent); font-weight: 700; }
 .refractor__star:hover path { fill: var(--color-accent); }
-.refractor__star:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
+.refractor__star:focus { outline: none; }
+.refractor__star:focus-visible .refractor__hit { stroke: var(--color-focus); stroke-width: 2; rx: 4; }
 @media (prefers-reduced-motion: no-preference) {
 	.refractor__star:not(.is-aimed) path { animation: star-twinkle 3.4s ease-in-out infinite alternate; }
 	.refractor__star:nth-child(2n) path { animation-delay: -1.3s; }

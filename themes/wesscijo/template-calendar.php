@@ -55,8 +55,8 @@ unset( $wessci_star );
 			<h1 class="calendar__title"><?php the_title(); ?></h1>
 			<p class="calendar__lede">Upcoming science events at Wesleyan, listed by day.</p>
 			<?php if ( $wessci_sky ) : ?>
-				<p class="calendar__hint calendar__hint--pointer">Point at an event, or click a star, to aim the telescope at its night.</p>
-				<p class="calendar__hint calendar__hint--touch">Tap a star to aim the telescope at its night.</p>
+				<p class="calendar__hint calendar__hint--pointer">Point at an event, or click a star, to aim the telescope at its night. Click the star again to go to the event.</p>
+				<p class="calendar__hint calendar__hint--touch">Tap a star to aim the telescope at its night, and tap it again to go to the event.</p>
 			<?php endif; ?>
 			<?php if ( count( $wessci_months ) > 1 ) : ?>
 				<nav class="calendar__months" aria-label="Jump to a month">
