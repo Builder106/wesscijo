@@ -1598,6 +1598,7 @@ body.admin-bar .reading-progress {
 .refractor .acc-stroke, .instrument-sprite .acc-stroke { stroke: var(--color-accent); }
 .refractor__bird .cardinal { width: 140px; height: 130.7px; filter: none; }
 .calendar__scope { position: relative; }
+.refractor__scale { fill: none; stroke: var(--color-ink-3); stroke-width: 1; opacity: 0.45; }
 .refractor__star path { fill: var(--color-ink-3); transition: fill var(--dur-fast) var(--ease-out); }
 .refractor__star text { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; fill: var(--color-ink-2); }
 .refractor__star.is-aimed path { fill: var(--color-accent); }
@@ -1620,9 +1621,9 @@ body.admin-bar .reading-progress {
 	place-content: center;
 	justify-items: center;
 	gap: var(--space-2);
-	width: 12rem;
+	width: 13rem;
 	aspect-ratio: 1;
-	padding: var(--space-6);
+	padding: var(--space-8);
 	border: var(--rule-thick) solid var(--color-ink);
 	border-radius: 50%;
 	background:
@@ -1634,10 +1635,11 @@ body.admin-bar .reading-progress {
 }
 .eyepiece__date { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; line-height: 1; color: var(--color-accent); }
 .eyepiece__title {
+	max-height: calc(1.2em * 3);
 	font-family: var(--font-display);
-	font-size: 1.05rem;
+	font-size: 1rem;
 	font-weight: 700;
-	line-height: 1.15;
+	line-height: 1.2;
 	color: var(--color-ink);
 	text-decoration: none;
 	display: -webkit-box;
@@ -1648,6 +1650,10 @@ body.admin-bar .reading-progress {
 }
 .eyepiece__title:hover { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
 .eyepiece__when { font-size: var(--text-xs); color: var(--color-ink-2); }
+.calendar__hint { display: none; font-size: var(--text-sm); color: var(--color-ink-3); }
+@media (hover: hover) and (pointer: fine) {
+	.calendar__hint { display: block; }
+}
 
 /* Each event carries the instrument of its field. */
 .instrument-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }

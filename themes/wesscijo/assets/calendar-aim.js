@@ -68,6 +68,18 @@
 		}
 	}
 
+	// Opening move: the tube starts low and sweeps up to the next event.
+	if (motion.matches && aimed) {
+		target = angle;
+		from = 4;
+		angle = 4;
+		draw(angle);
+		window.setTimeout(function () {
+			start = performance.now();
+			frame = window.requestAnimationFrame(step);
+		}, 350);
+	}
+
 	function hook(el) {
 		var day = el.getAttribute('data-day');
 		el.addEventListener('pointerenter', function () { aim(day); });

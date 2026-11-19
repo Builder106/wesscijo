@@ -265,7 +265,17 @@ function wesscijo_refractor_svg( array $sky = array() ) {
 	}
 	$svg = (string) file_get_contents( get_theme_file_path( '/assets/observatory-refractor.svg' ) );
 	$svg = str_replace( 'rotate(-22 215 150)', 'rotate(' . ( -$angle ) . ' 215 150)', $svg );
-	$svg = str_replace( '<!--SKY-->', '<g class="refractor__sky">' . $stars . '</g>', $svg );
+	// A faint altitude scale through the stars, ticked every 2 degrees from 10 to 42.
+	$scale = '';
+	for ( $deg = 10; $deg <= 42; $deg += 2 ) {
+		$r1     = 0 === $deg % 10 ? 228 : 232;
+		$rad    = deg2rad( $deg );
+		$scale .= sprintf( 'M%.1f %.1f L%.1f %.1f ', 215 + $r1 * cos( $rad ), 150 - $r1 * sin( $rad ), 215 + 236 * cos( $rad ), 150 - 236 * sin( $rad ) );
+	}
+	$a0   = deg2rad( 10 );
+	$a1   = deg2rad( 42 );
+	$arc  = sprintf( '<path class="refractor__scale" d="M%.1f %.1f A236 236 0 0 0 %.1f %.1f %s" />', 215 + 236 * cos( $a0 ), 150 - 236 * sin( $a0 ), 215 + 236 * cos( $a1 ), 150 - 236 * sin( $a1 ), trim( $scale ) );
+	$svg  = str_replace( '<!--SKY-->', '<g class="refractor__sky">' . $arc . $stars . '</g>', $svg );
 	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(' . ( $angle - 4 ) . ' 300 136)">' . $bird . '</g>', $svg );
 }
 

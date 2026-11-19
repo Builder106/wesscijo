@@ -24,12 +24,11 @@ foreach ( $wessci_months as $wessci_days ) {
 		if ( count( $wessci_sky ) < 7 ) {
 			$wessci_first = $wessci_list[0];
 			$wessci_s     = wessci_site_get_event_datetime( $wessci_first->ID, 'start' );
-			$wessci_where = get_post_meta( $wessci_first->ID, '_wessci_event_location', true );
 			$wessci_sky[] = array(
 				'day'    => $wessci_day,
 				'label'  => wp_date( 'M j', $wessci_s->getTimestamp() ),
 				'title'  => html_entity_decode( get_the_title( $wessci_first ), ENT_QUOTES, 'UTF-8' ),
-				'when'   => wp_date( 'l, g:i A', $wessci_s->getTimestamp() ) . ( $wessci_where ? ', ' . $wessci_where : '' ),
+				'when'   => wp_date( 'l, g:i A', $wessci_s->getTimestamp() ),
 				'anchor' => 'event-' . $wessci_first->ID,
 			);
 		}
@@ -37,10 +36,11 @@ foreach ( $wessci_months as $wessci_days ) {
 }
 $wessci_n = count( $wessci_sky );
 foreach ( $wessci_sky as $wessci_i => &$wessci_star ) {
-	$wessci_star['angle'] = round( $wessci_n > 1 ? 18 + $wessci_i * 46 / ( $wessci_n - 1 ) : 26, 2 );
+	// 12 to 40 degrees keeps the back of the tube above the floor at every aim.
+	$wessci_star['angle'] = round( $wessci_n > 1 ? 12 + $wessci_i * 28 / ( $wessci_n - 1 ) : 22, 2 );
 	$wessci_rad           = deg2rad( $wessci_star['angle'] );
-	$wessci_star['x']     = 215 + 235 * cos( $wessci_rad );
-	$wessci_star['y']     = 150 - 235 * sin( $wessci_rad );
+	$wessci_star['x']     = 215 + 240 * cos( $wessci_rad );
+	$wessci_star['y']     = 150 - 240 * sin( $wessci_rad );
 }
 unset( $wessci_star );
 ?>
@@ -53,6 +53,9 @@ unset( $wessci_star );
 			<div class="calendar__intro">
 			<h1 class="calendar__title"><?php the_title(); ?></h1>
 			<p class="calendar__lede">Upcoming science events at Wesleyan, listed by day.</p>
+			<?php if ( $wessci_sky ) : ?>
+				<p class="calendar__hint">Point at an event to aim the telescope at its night.</p>
+			<?php endif; ?>
 			<?php if ( count( $wessci_months ) > 1 ) : ?>
 				<nav class="calendar__months" aria-label="Jump to a month">
 					<ul>
