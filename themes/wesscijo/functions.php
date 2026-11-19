@@ -30,6 +30,18 @@ function wesscijo_assets() {
 		array(),
 		(string) filemtime( get_stylesheet_directory() . '/style.css' )
 	);
+	if ( is_page_template( 'template-calendar.php' ) ) {
+		wp_enqueue_script(
+			'wesscijo-calendar-aim',
+			get_theme_file_uri( '/assets/calendar-aim.js' ),
+			array(),
+			(string) filemtime( get_stylesheet_directory() . '/assets/calendar-aim.js' ),
+			array(
+				'in_footer' => true,
+				'strategy'  => 'defer',
+			)
+		);
+	}
 	if ( is_front_page() || is_singular( 'post' ) || is_page_template( 'template-calendar.php' ) ) {
 		wp_enqueue_script(
 			'wessci-cardinal-watch',
@@ -223,12 +235,38 @@ function wessci_cardinal_svg() {
 }
 
 /**
- * The Van Vleck refractor drawing with the logo cardinal perched on the tube. cardinal-watch.js turns the bird's head on scroll.
+ * The Van Vleck refractor drawing with the logo cardinal perched on the tube.
+ * Each entry of $sky is one upcoming day drawn as a star; the tube points at
+ * the first. assets/calendar-aim.js swings the tube to other stars, and
+ * cardinal-watch.js turns the bird's head on scroll.
+ *
+ * @param array $sky Days with angle, x, y, day, label, title, when, anchor.
  */
-function wesscijo_refractor_svg() {
-	$bird = preg_replace( '/^<svg /', '<svg x="204.3" y="28.3" width="140" height="130.7" ', wessci_cardinal_svg(), 1 );
-	$svg  = (string) file_get_contents( get_theme_file_path( '/assets/observatory-refractor.svg' ) );
-	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(18 300 136)">' . $bird . '</g>', $svg );
+function wesscijo_refractor_svg( array $sky = array() ) {
+	$angle = $sky ? (float) $sky[0]['angle'] : 22.0;
+	$bird  = preg_replace( '/^<svg /', '<svg x="204.3" y="28.3" width="140" height="130.7" ', wessci_cardinal_svg(), 1 );
+	$stars = '';
+	foreach ( $sky as $i => $star ) {
+		$stars .= sprintf(
+			'<a class="refractor__star%1$s" href="#%2$s" data-day="%3$s" data-angle="%4$s" data-date="%5$s" data-title="%6$s" data-when="%7$s" aria-label="%8$s"><path transform="translate(%9$s %10$s)" d="M0 -7 L1.8 -1.8 L7 0 L1.8 1.8 L0 7 L-1.8 1.8 L-7 0 L-1.8 -1.8 Z" /><text x="%11$s" y="%12$s">%5$s</text></a>',
+			0 === $i ? ' is-aimed' : '',
+			esc_attr( $star['anchor'] ),
+			esc_attr( $star['day'] ),
+			esc_attr( $star['angle'] ),
+			esc_html( $star['label'] ),
+			esc_attr( $star['title'] ),
+			esc_attr( $star['when'] ),
+			esc_attr( $star['title'] . ', ' . $star['label'] ),
+			esc_attr( round( $star['x'], 1 ) ),
+			esc_attr( round( $star['y'], 1 ) ),
+			esc_attr( round( $star['x'] + 10, 1 ) ),
+			esc_attr( round( $star['y'] + 4, 1 ) )
+		);
+	}
+	$svg = (string) file_get_contents( get_theme_file_path( '/assets/observatory-refractor.svg' ) );
+	$svg = str_replace( 'rotate(-22 215 150)', 'rotate(' . ( -$angle ) . ' 215 150)', $svg );
+	$svg = str_replace( '<!--SKY-->', '<g class="refractor__sky">' . $stars . '</g>', $svg );
+	return str_replace( '<!--BIRD-->', '<g class="refractor__bird" transform="rotate(' . ( $angle - 4 ) . ' 300 136)">' . $bird . '</g>', $svg );
 }
 
 /**

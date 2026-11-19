@@ -1596,12 +1596,58 @@ body.admin-bar .reading-progress {
 .refractor { display: block; width: 100%; height: auto; overflow: visible; }
 .refractor .acc, .instrument-sprite .acc { fill: var(--color-accent); }
 .refractor .acc-stroke, .instrument-sprite .acc-stroke { stroke: var(--color-accent); }
-.refractor__tube { transform-box: view-box; transform-origin: 215px 150px; rotate: -22deg; }
 .refractor__bird .cardinal { width: 140px; height: 130.7px; filter: none; }
+.calendar__scope { position: relative; }
+.refractor__star path { fill: var(--color-ink-3); transition: fill var(--dur-fast) var(--ease-out); }
+.refractor__star text { font-family: var(--font-body); font-size: 11px; font-weight: 600; letter-spacing: 0.04em; fill: var(--color-ink-2); }
+.refractor__star.is-aimed path { fill: var(--color-accent); }
+.refractor__star.is-aimed text { fill: var(--color-accent); font-weight: 700; }
+.refractor__star:hover path { fill: var(--color-accent); }
+.refractor__star:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; }
 @media (prefers-reduced-motion: no-preference) {
-	.refractor__tube { animation: refractor-track 14s ease-in-out infinite alternate; }
+	.refractor__star:not(.is-aimed) path { animation: star-twinkle 3.4s ease-in-out infinite alternate; }
+	.refractor__star:nth-child(2n) path { animation-delay: -1.3s; }
+	.refractor__star:nth-child(3n) path { animation-delay: -2.2s; }
 }
-@keyframes refractor-track { to { rotate: -20.5deg; } }
+@keyframes star-twinkle { to { fill-opacity: 0.35; } }
+
+/* The eyepiece: what the telescope is pointed at, inside a reticle. */
+.eyepiece {
+	position: absolute;
+	top: 8%;
+	right: calc(100% + var(--space-8));
+	display: grid;
+	place-content: center;
+	justify-items: center;
+	gap: var(--space-2);
+	width: 12rem;
+	aspect-ratio: 1;
+	padding: var(--space-6);
+	border: var(--rule-thick) solid var(--color-ink);
+	border-radius: 50%;
+	background:
+		linear-gradient(var(--color-rule), var(--color-rule)) center / 1px 100% no-repeat,
+		linear-gradient(var(--color-rule), var(--color-rule)) center / 100% 1px no-repeat,
+		var(--color-paper-alt);
+	box-shadow: inset 0 0 0 0.4rem var(--color-paper), inset 0 0 0 calc(0.4rem + 1px) var(--color-rule);
+	text-align: center;
+}
+.eyepiece__date { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; line-height: 1; color: var(--color-accent); }
+.eyepiece__title {
+	font-family: var(--font-display);
+	font-size: 1.05rem;
+	font-weight: 700;
+	line-height: 1.15;
+	color: var(--color-ink);
+	text-decoration: none;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 3;
+	line-clamp: 3;
+	overflow: hidden;
+}
+.eyepiece__title:hover { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; }
+.eyepiece__when { font-size: var(--text-xs); color: var(--color-ink-2); }
 
 /* Each event carries the instrument of its field. */
 .instrument-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
@@ -1633,12 +1679,16 @@ body.admin-bar .reading-progress {
 }
 @media (max-width: 1024px) {
 	.calendar__head { grid-template-columns: 1fr; }
-	.calendar__scope { max-width: 26rem; }
+	.calendar__scope { max-width: 30rem; }
+	.calendar__scope { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-6); }
+	.eyepiece { position: static; order: -1; width: 11rem; padding: var(--space-4); }
 	.event { grid-template-columns: 2.5rem 6.5rem minmax(0, 1fr); }
 	.event__link { grid-column: 3; }
 }
 @media (max-width: 720px) {
 	.day::before, .day__date::after { display: none; }
+	.calendar__scope { grid-template-columns: 1fr; justify-items: center; }
+	.eyepiece { position: static; order: 1; margin-top: var(--space-2); width: 13rem; }
 	.event { grid-template-columns: 2.25rem minmax(0, 1fr); column-gap: var(--space-3); }
 	.event .instrument { grid-row: 1 / span 3; width: 2.25rem; height: 2.25rem; }
 	.event__time, .event__body, .event__link { grid-column: 2; }

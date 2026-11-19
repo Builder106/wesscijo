@@ -16,6 +16,33 @@ foreach ( $wessci_events as $wessci_event ) {
 	}
 }
 $wessci_today = wp_date( 'Y-m-d' );
+
+// The next seven event days become stars above the telescope, nearest day lowest.
+$wessci_sky = array();
+foreach ( $wessci_months as $wessci_days ) {
+	foreach ( $wessci_days as $wessci_day => $wessci_list ) {
+		if ( count( $wessci_sky ) < 7 ) {
+			$wessci_first = $wessci_list[0];
+			$wessci_s     = wessci_site_get_event_datetime( $wessci_first->ID, 'start' );
+			$wessci_where = get_post_meta( $wessci_first->ID, '_wessci_event_location', true );
+			$wessci_sky[] = array(
+				'day'    => $wessci_day,
+				'label'  => wp_date( 'M j', $wessci_s->getTimestamp() ),
+				'title'  => html_entity_decode( get_the_title( $wessci_first ), ENT_QUOTES, 'UTF-8' ),
+				'when'   => wp_date( 'l, g:i A', $wessci_s->getTimestamp() ) . ( $wessci_where ? ', ' . $wessci_where : '' ),
+				'anchor' => 'event-' . $wessci_first->ID,
+			);
+		}
+	}
+}
+$wessci_n = count( $wessci_sky );
+foreach ( $wessci_sky as $wessci_i => &$wessci_star ) {
+	$wessci_star['angle'] = round( $wessci_n > 1 ? 18 + $wessci_i * 46 / ( $wessci_n - 1 ) : 26, 2 );
+	$wessci_rad           = deg2rad( $wessci_star['angle'] );
+	$wessci_star['x']     = 215 + 235 * cos( $wessci_rad );
+	$wessci_star['y']     = 150 - 235 * sin( $wessci_rad );
+}
+unset( $wessci_star );
 ?>
 
 <main class="site-main" id="main" tabindex="-1">
@@ -37,7 +64,14 @@ $wessci_today = wp_date( 'Y-m-d' );
 			<?php endif; ?>
 			</div>
 			<figure class="calendar__scope">
-				<?php echo wesscijo_refractor_svg(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme-owned SVG. ?>
+				<?php echo wesscijo_refractor_svg( $wessci_sky ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- theme-owned SVG, values escaped inside. ?>
+				<?php if ( $wessci_sky ) : ?>
+					<figcaption class="eyepiece" aria-live="polite">
+						<span class="eyepiece__date"><?php echo esc_html( $wessci_sky[0]['label'] ); ?></span>
+						<a class="eyepiece__title" href="#<?php echo esc_attr( $wessci_sky[0]['anchor'] ); ?>"><?php echo esc_html( $wessci_sky[0]['title'] ); ?></a>
+						<span class="eyepiece__when"><?php echo esc_html( $wessci_sky[0]['when'] ); ?></span>
+					</figcaption>
+				<?php endif; ?>
 			</figure>
 		</header>
 
@@ -88,7 +122,7 @@ $wessci_today = wp_date( 'Y-m-d' );
 								$url        = get_post_meta( $event->ID, '_wessci_event_url', true );
 								$summary    = wp_trim_words( wp_strip_all_tags( str_replace( '<', ' <', $event->post_content ) ), 26 );
 								?>
-								<li class="event">
+								<li class="event" id="event-<?php echo esc_attr( $event->ID ); ?>" data-day="<?php echo esc_attr( $wessci_day ); ?>">
 									<?php echo wesscijo_instrument_icon( wesscijo_event_instrument( $department . ' ' . get_the_title() . ' ' . $event->post_content ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from a fixed list. ?>
 									<p class="event__time">
 										<time datetime="<?php echo esc_attr( $start->format( DATE_ATOM ) ); ?>"><?php echo esc_html( wp_date( 'g:i A', $start->getTimestamp() ) ); ?></time>
